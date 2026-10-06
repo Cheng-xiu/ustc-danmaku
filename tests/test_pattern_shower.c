@@ -313,7 +313,7 @@ static void print_coverage(const char *tag, int32_t wave, const WaveGeom *g, con
     size_t n_safe = 0u;
 
     geom_mean_min_max(g, &mean, &lo, &hi);
-    printf("      %s wave %d: 发数=%u, x 覆盖 [%.1f, %.1f] (中心 %.1f), "
+    printf("      %s wave %d: 发数=%u, 弹 x 范围 [%.1f, %.1f] (范围中点 %.1f, 非连续覆盖), "
            "缝隙 [%.1f, %.1f] 净宽 %.1f px (弹体半径已排除)\n",
            tag, (int)wave, (unsigned)g->count, (double)lo, (double)hi, (double)mean,
            (double)gap->lo, (double)gap->hi, (double)gap->width);
@@ -391,28 +391,33 @@ static void test_plan_fields(const DemoConfig *cfg)
         float x_hi = cfg->field_w - margin;
         float free_span = (x_hi - x_lo) - plan.corridor_width;
         float pitch = free_span / (float)plan.shots_per_wave;
-        float step = plan.corridor_width * 0.5f;
+        float step = pitch; /* 实现约定: 每波缝隙中心平移恰好一个弹间距 */
         float dir = (plan.gap_angle_deg >= 0.0f) ? 1.0f : -1.0f;
-        float c_min;
-        float c_max;
+        int32_t waves = plan.wave_count;
+        int32_t shots = plan.shots_per_wave;
+        /* c_0 = X_LO + nLeft * p + W/2, nLeft ∈ [1+(w-1), shots-1-(w-1)] */
+        float c_min = x_lo + (float)(1 + (waves - 1)) * pitch + plan.corridor_width * 0.5f;
+        float c_max = x_lo + (float)(shots - 1 - (waves - 1)) * pitch + plan.corridor_width * 0.5f;
+        float idx = (plan.wave_offset - x_lo - plan.corridor_width * 0.5f) / pitch;
+        int32_t idx_round = (int32_t)(idx + 0.5f);
 
-        if (pitch > step) {
-            step = pitch;
-        }
-        c_min = x_lo + plan.corridor_width * 0.5f + pitch * 0.5f;
-        c_max = x_hi - plan.corridor_width * 0.5f - pitch * 0.5f;
-        check(plan.wave_offset >= c_min - 1e-3f && plan.wave_offset <= c_max - 1e-3f,
-              "wave_offset(起始扫描 x)落在合法中心区间内");
+        check(plan.wave_offset >= c_min - 1e-3f && plan.wave_offset <= c_max + 1e-3f,
+              "wave_offset(起始缝隙中心 x)落在合法区间内");
+        check(fabsf(idx - (float)idx_round) < 1e-3f,
+              "wave_offset 落在间距 p 的整数栅格上(缝隙中心 == X_LO + nLeft*p + W/2)");
         printf("      margin=%.1f pitch=%.3f step=%.1f c 合法区间=[%.1f, %.1f] "
-               "wave_offset=%.1f\n",
+               "wave_offset=%.1f (nLeft=%d)\n",
                (double)margin, (double)pitch, (double)step, (double)c_min, (double)c_max,
-               (double)plan.wave_offset);
+               (double)plan.wave_offset, (int)idx_round);
         for (int32_t i = 0; i < plan.wave_count; ++i) {
             float c = plan.wave_offset + dir * (float)i * step;
+            int32_t n_left = (int32_t)(((c - x_lo - plan.corridor_width * 0.5f) / pitch) + 0.5f);
             bool in_band = (c - plan.corridor_width * 0.5f >= x_lo - 1e-3f) &&
                            (c + plan.corridor_width * 0.5f <= x_hi + 1e-3f);
+            bool two_sides = (n_left >= 1) && (n_left <= shots - 1);
 
             check(in_band, "每波缝隙区间都在可用落点带内");
+            check(two_sides, "每波缝隙两侧都至少有一发弹(不是贴边角落)");
         }
     }
 
@@ -633,6 +638,34 @@ static void test_wave_boundaries(const DemoConfig *cfg)
     check(emit_at(&plan, cfg, (uint32_t)(start + (int32_t)plan.active_ticks + 1), NULL) == false,
           "超出 active_ticks 返回 false");
     check(emit_at(&plan, cfg, (uint32_t)(start + 25), NULL) == false, "非波次 tick 返回 false");
+
+    /* 超出 active_ticks 的守卫必须独立于"是否是波次 tick"生效。
+     * 默认配置的 5 个波次时刻(0/24/48/72/96)全在 active_ticks(300) 之内,
+     * 因此这条守卫在默认配置下不会被触发, 必须手工构造边界才可测。
+     * 契约(与实现文件头一致): "超出"(elapsed > active_ticks) 返回 false;
+     * elapsed == active_ticks 不算超出, 但只有恰为波次 tick 时才生成。 */
+    {
+        AttackPlan tight = plan;
+        ProjectileSpawnBuffer buf;
+
+        /* active_ticks 恰好等于第 1 波时刻 24: elapsed == 24 不算超出 => 生成 */
+        tight.active_ticks = 24;
+        spawn_buffer_init(&buf);
+        check(pattern_shower_emit(&tight, cfg, (uint32_t)(start + 24), &buf) == true,
+              "elapsed == active_ticks 且恰为波次 tick 时仍生成(不算超出)");
+        check_u32(buf.count, (uint32_t)tight.shots_per_wave, "该波按计划发满");
+        spawn_buffer_init(&buf);
+        check(pattern_shower_emit(&tight, cfg, (uint32_t)(start + 25), &buf) == false,
+              "elapsed > active_ticks 立即返回 false");
+        check_u32(buf.count, 0u, "超出后不生成任何弹");
+        spawn_buffer_init(&buf);
+        check(pattern_shower_emit(&tight, cfg, (uint32_t)(start + 48), &buf) == false,
+              "第 2 波(48)已超出 active_ticks(24), 被拒绝而不继续生成");
+        check_u32(buf.count, 0u, "被拒绝的波次未生成任何弹");
+        spawn_buffer_init(&buf);
+        check(pattern_shower_emit(&tight, cfg, (uint32_t)(start + 96), &buf) == false,
+              "最后一个波次(96)同样被拒绝");
+    }
     item_end("3) 波次边界");
 }
 
@@ -672,13 +705,24 @@ static void test_corridor(const DemoConfig *cfg)
     for (int32_t i = 0; i < plan.wave_count; ++i) {
         WaveGeom g;
         ClearGap gap;
+        float margin = cfg->boss_bullet_radius * 2.0f;
+        float pitch = ((cfg->field_w - margin) - margin - plan.corridor_width) /
+                      (float)plan.shots_per_wave;
+        float dir = (plan.gap_angle_deg >= 0.0f) ? 1.0f : -1.0f;
+        float c_expected = plan.wave_offset + dir * (float)i * pitch;
 
         check(emit_at(&plan, cfg, (uint32_t)wave_tick_abs(&plan, i), &g), "该波生成成功");
         gap = max_clear_gap(&g, cfg->boss_bullet_radius, 0.0f, cfg->field_w);
         check(gap.width >= plan.corridor_width, "该波最大无弹区间净宽 >= corridor_width(120 px)");
         check(gap.hi > gap.lo, "该波无弹区间宽度为正");
-        printf("      wave %d: 最大无弹区间 [%.1f, %.1f] 净宽 %.1f px (要求 >= %.1f)\n", (int)i,
-               (double)gap.lo, (double)gap.hi, (double)gap.width, (double)plan.corridor_width);
+        /* 精确结论(见实现文件头第 2、4 条): 缝隙中心 == c_i, 净空档 == W + p - 2r */
+        check_near(0.5f * (gap.lo + gap.hi), c_expected, 0.05f,
+                   "该波缝隙净空档中心 == c_i(缝隙中心沿扫描方向平移)");
+        check_near(gap.width, plan.corridor_width + pitch - 2.0f * cfg->boss_bullet_radius,
+                   0.05f, "该波缝隙净空档 == W + p - 2r(精确值)");
+        printf("      wave %d: 缝隙 [%.2f, %.2f] 净宽 %.2f px (c_i=%.2f), 要求净宽 >= %.1f\n",
+               (int)i, (double)gap.lo, (double)gap.hi, (double)gap.width, (double)c_expected,
+               (double)plan.corridor_width);
     }
     /* 没有一发弹体落在缝隙内 */
     {
@@ -730,12 +774,21 @@ static void test_corridor_reachable(const DemoConfig *cfg)
             float lo = (gap[i - 1].lo > gap[i].lo) ? gap[i - 1].lo : gap[i].lo;
             float hi = (gap[i - 1].hi < gap[i].hi) ? gap[i - 1].hi : gap[i].hi;
             float overlap = hi - lo;
+            float margin = cfg->boss_bullet_radius * 2.0f;
+            float free_span = ((cfg->field_w - margin) - margin) - plan.corridor_width;
+            float pitch = free_span / (float)plan.shots_per_wave;
+            /* 精确下界(见 core/pattern_shower.c 文件头第 4 条):
+             * 每波净空档 = W + p - 2r; 扫描步长 step = p; 交集 = W - 2r。 */
+            float expected_overlap = plan.corridor_width - 2.0f * cfg->boss_bullet_radius;
 
             check(overlap > 0.0f, "相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)");
-            check(overlap >= 0.5f * plan.corridor_width - 0.5f,
-                  "交集宽度 >= corridor_width/2(平移步长受限, 扫描不突变)");
-            printf("        wave %d ∩ wave %d = [%.1f, %.1f] 宽 %.1f px\n", (int)(i - 1), (int)i,
-                   (double)lo, (double)hi, (double)overlap);
+            check(overlap >= expected_overlap - 0.5f,
+                  "交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)");
+            printf("        wave %d ∩ wave %d = [%.1f, %.1f] 宽 %.1f px "
+                   "(下界 %.1f = W %.0f - 2r %.0f; 弹间距 p=%.2f)\n",
+                   (int)(i - 1), (int)i, (double)lo, (double)hi, (double)overlap,
+                   (double)expected_overlap, (double)plan.corridor_width,
+                   (double)(2.0f * cfg->boss_bullet_radius), (double)pitch);
         }
     }
     item_end("6) 缝隙可达");
@@ -755,6 +808,8 @@ static void test_scan_shift(const DemoConfig *cfg)
     for (seed = 1u; seed <= 4u; ++seed) {
         WaveGeom g[8];
         float mean[8];
+        ClearGap gap[8];
+        float gap_center[8];
         float dummy_lo;
         float dummy_hi;
         float dir;
@@ -764,18 +819,27 @@ static void test_scan_shift(const DemoConfig *cfg)
         for (int32_t i = 0; i < plan.wave_count; ++i) {
             emit_at(&plan, cfg, (uint32_t)wave_tick_abs(&plan, i), &g[i]);
             geom_mean_min_max(&g[i], &mean[i], &dummy_lo, &dummy_hi);
+            gap[i] = max_clear_gap(&g[i], cfg->boss_bullet_radius, 0.0f, cfg->field_w);
+            gap_center[i] = 0.5f * (gap[i].lo + gap[i].hi);
         }
         for (int32_t i = 1; i < plan.wave_count; ++i) {
             float delta = mean[i] - mean[i - 1];
+            float gap_delta = gap_center[i] - gap_center[i - 1];
 
-            check(fabsf(delta) > 1e-3f, "相邻波 x 中心不同(确实在扫描)");
-            check((delta > 0.0f) == (dir > 0.0f),
-                  "相邻波 x 中心平移方向与 gap_angle_deg 编码的扫描方向一致");
+            /* 验收项 7 的原文要求: 相邻波弹的 x 中心不同(确实在扫描) */
+            check(fabsf(delta) > 1e-3f, "相邻波弹的 x 中心不同(确实在扫描)");
             check(memcmp(g[i].x_sorted, g[i - 1].x_sorted, sizeof(float) * g[i].count) != 0,
                   "相邻波 x 集合确实不同");
-            printf("      seed=%u wave %d->%d: 中心 %.2f -> %.2f (Δ=%.2f, 方向 %s)\n",
-                   (unsigned)seed, (int)(i - 1), (int)i, (double)mean[i - 1],
-                   (double)mean[i], (double)delta, (dir > 0.0f) ? "+x" : "-x");
+            /* 扫描方向由缝隙中心承载(它是"安全通道"的位置, 也是渲染预警要画的东西):
+             * 缝隙中心必须沿 gap_angle_deg 编码的方向平移。 */
+            check(fabsf(gap_delta) > 1e-3f, "相邻波缝隙中心不同");
+            check((gap_delta > 0.0f) == (dir > 0.0f),
+                  "相邻波缝隙中心平移方向与 gap_angle_deg 编码的扫描方向一致");
+            printf("      seed=%u wave %d->%d: 弹 x 中心 %.2f -> %.2f (Δ=%.2f), "
+                   "缝隙中心 %.2f -> %.2f (Δ=%.2f, 方向 %s)\n",
+                   (unsigned)seed, (int)(i - 1), (int)i, (double)mean[i - 1], (double)mean[i],
+                   (double)delta, (double)gap_center[i - 1], (double)gap_center[i],
+                   (double)gap_delta, (dir > 0.0f) ? "+x" : "-x");
         }
     }
     item_end("7) 扫描平移");
@@ -1067,6 +1131,18 @@ static void test_invalid(const DemoConfig *cfg)
     /* 缝隙过宽 => 自由段放不下弹 */
     EXPECT_REJECT(bad.patterns[DEMO_PATTERN_SHOWER].corridor_width = 900.0f,
                   "corridor_width 太大, 自由段放不下弹");
+    /* 弹间距过大 => 相邻波缝隙交集 (W - 2r) - p 会 <= 0 */
+    EXPECT_REJECT(bad.patterns[DEMO_PATTERN_SHOWER].shots_per_wave = 2,
+                  "shots_per_wave 过小导致 p >= W - 2r(相邻波缝隙会失去交集)");
+    /* 缝隙两侧在扫描全程都要有弹: shots < 2 * wave_count */
+    EXPECT_REJECT(bad.patterns[DEMO_PATTERN_SHOWER].shots_per_wave = 8,
+                  "shots_per_wave < 2*wave_count(扫描全程保不住两侧的弹)");
+    /* 净空档必须为正: W <= 2r */
+    EXPECT_REJECT(bad.boss_bullet_radius = 70.0f,
+                  "corridor_width <= 2*boss_bullet_radius(净空档非正, 缝隙形同虚设)");
+    EXPECT_REJECT(bad.patterns[DEMO_PATTERN_SHOWER].shots_per_wave =
+                      (int32_t)DEMO_MAX_ACTIVE_PLAN_PROJECTILES + 1,
+                  "shots_per_wave 超出计划缓冲上限");
 #undef EXPECT_REJECT
 
     /* request 侧非法 */
@@ -1241,25 +1317,43 @@ static void test_scenario_evidence(const DemoConfig *cfg)
               "同一波在聚拢/分散场景下弹幕 x 完全相同");
     }
 
-    /* 多目标压制证据: 逐波统计学生 x 落在覆盖带 / 缝隙 */
+    /* 多目标压制证据: 按真实接触判定(|弹心 - 学生心| <= r + student_radius)逐波统计。
+     * 这才是"压制"的可核对定义; 单纯比较 x 是否落在缝隙区间会把缝隙边缘的擦碰漏掉。 */
     for (i = 0; i < plan_c.wave_count; ++i) {
+        int32_t wave_threat = 0;
+
         emit_at(&plan_c, cfg, (uint32_t)wave_tick_abs(&plan_c, i), &g);
         gap = max_clear_gap(&g, cfg->boss_bullet_radius, 0.0f, cfg->field_w);
         for (s = 0u; s < clustered.student_count; ++s) {
+            bool threatened = false;
+            uint32_t k;
+
             if (!clustered.student_alive[s]) {
                 continue;
             }
-            if (clustered.student_x[s] >= gap.lo && clustered.student_x[s] <= gap.hi) {
-                safe_total += 1;
-            } else {
+            for (k = 0u; k < g.count; ++k) {
+                float reach = cfg->boss_bullet_radius + clustered.student_radius;
+
+                if (fabsf(g.x_sorted[k] - clustered.student_x[s]) <= reach) {
+                    threatened = true;
+                }
+            }
+            if (threatened) {
                 covered_total += 1;
+                wave_threat += 1;
+            } else {
+                safe_total += 1;
             }
         }
+        printf("        聚拢 wave %d: 被本波弹接触判定的学生数 = %d / %u\n", (int)i,
+               (int)wave_threat, (unsigned)clustered.student_count);
     }
-    printf("    聚拢场景 5 波合计: 被覆盖带覆盖的学生-x 计数=%d, 落在缝隙内的计数=%d\n",
-           (int)covered_total, (int)safe_total);
-    check(covered_total > 0, "聚拢场景存在被覆盖带覆盖的学生 x(有压制压力)");
-    check(safe_total >= 0, "缝隙始终存在(可达, 不是全屏无缝密弹)");
+    printf("    聚拢场景 5 波合计: 被接触判定的学生-x 计数=%d, 安全的计数=%d (共 %d 次判定)\n",
+           (int)covered_total, (int)safe_total, (int)(covered_total + safe_total));
+    check(covered_total > 0, "聚拢场景存在被弹接触判定的学生(有压制压力, 不是空放)");
+    check(safe_total > 0, "聚拢场景也存在安全时刻(缝隙可达, 不是全屏无缝密弹)");
+    check(covered_total + safe_total == 5 * (int32_t)clustered.student_count,
+          "逐波判定次数 == 波数 x 学生数(没有学生被漏统计)");
     item_end("12) 学生聚拢/分散证据");
 }
 

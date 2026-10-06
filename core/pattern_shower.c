@@ -21,63 +21,77 @@
  *
  * 本模块的确定性构造 (全部写进 AttackPlan, 之后不可变):
  *
- *   1. 顶部落点带: 可用 x 区间 [X_LO, X_HI] = [2r, field_w - 2r] (r = Boss 弹半径)。
- *   2. 扫描方向 dir: make_plan 用 rng 抽一次布尔量, 向右(+x) 或 向左(-x)。
+ *   0. 记号: 顶部落点带 [X_LO, X_HI] = [2r, field_w - 2r] (r = Boss 弹半径);
+ *      缝隙目标宽度 W = config->patterns[SHOWER].corridor_width;
+ *      弹间距 p = ((X_HI - X_LO) - W) / shots_per_wave (整格间距)。
+ *
+ *   1. 扫描方向 dir: make_plan 用 rng 抽一次布尔量, 向右(+x) 或 向左(-x)。
  *      编码进 plan->gap_angle_deg (该字段对环弹是缺口中心角, 对淋浴复用为扫描方向标记):
  *          gap_angle_deg = +90.0f  => 扫描方向为 +x (向右)
  *          gap_angle_deg = -90.0f  => 扫描方向为 -x (向左)
  *      注释与报告都记录该编码; 头文件不改。
- *   3. 起始缝隙中心 x: plan->wave_offset (再用 rng 抽一次 [0,1) 在该方向合法区间内插值)。
- *   4. 每波缝隙中心: c_i = wave_offset + dir * i * step,
- *      step = max(corridor_width * 0.5, pitch) —— 由配置与实际弹间距导出, 不额外消耗随机数。
- *      取这两个下界的理由:
- *        a) step >= corridor_width * 0.5 => 相邻波缝隙交集宽度 = corridor_width - step
- *           >= corridor_width * 0.5 > 0, 满足"每波平移但不突变/相邻波缝隙重叠(可达)";
- *        b) step >= pitch (波内弹间距) => 每推进一波至少有一发弹跨越缝隙, 弹的 x 集合
- *           真的改变, "扫描"在战场上可见, 而不是只挪一个看不见的标记;
- *        c) step < corridor_width (下面的 pitch < corridor_width 校验保证) => 缝隙不会
- *           一步跨过自身宽度, 相邻两波必留交集。
- *      扫描速率 = step / wave_interval_sec, 默认 60 / 0.4 = 150 px/s, 低于弹速 240 px/s,
+ *
+ *   2. 弹位全在同一条间距为 p 的均匀栅格上, 缝隙是把栅格中连续若干格"挖掉"形成的:
+ *          x_k = X_LO + (k + 0.5) * p                  (k <  nLeft, 缝隙左侧)
+ *          x_k = X_LO + (k + 0.5) * p + W              (k >= nLeft, 缝隙右侧整体让开 W)
+ *          缝隙区间 = [X_LO + nLeft * p,  X_LO + nLeft * p + W]      (宽度恰为 W)
+ *      nLeft 是整数格下标, 表示缝隙左侧保留几发。于是对**任意一波**都有精确结论
+ *      (不依赖 nLeft、不依赖种子、不依赖浮点运气):
+ *        - 缝隙区间内没有任何弹的 x;
+ *        - 缝隙左侧最近一发中心到缝左沿 = p/2, 右侧最近一发中心到缝右沿 = p/2;
+ *        - 弹心之间空档 = W + p; 排除两侧弹体半径后的净空档 = W + p - 2r >= W
+ *          (由 p >= 2r 的校验保证);
+ *        - 缝隙的**净空档中心恰好等于缝隙中心 c_i** (见下一条), 所以"缝隙中心沿扫描
+ *          方向平移"是精确成立的观测。
+ *      最右一发 k = shots-1 位于 X_LO + (shots - 0.5) * p + W = X_HI - 0.5 * p,
+ *      最左一发位于 X_LO + 0.5 * p, 因此**全部弹都在落点带内**, 无需夹紧。
+ *
+ *   3. 起始缝隙(第 0 波)中心 x: 用 rng 抽一次 [0,1) 在合法整数下标区间内取 nLeft_0,
+ *      记 c_0 = X_LO + nLeft_0 * p + W/2, 固化进 plan->wave_offset。
+ *      合法区间 nLeft_0 ∈ [1 + (waves-1), shots_per_wave - 1 - (waves-1)]:
+ *      下界保证整个扫描过程中左侧至少还有一发弹, 上界保证右侧至少还有一发弹 ——
+ *      这条缝隙永远是"两列弹之间"的真实竖向通道, 不会退化成贴边的角落。
+ *
+ *   4. 每波缝隙中心: c_i = c_0 + dir * i * p, 即 step = 恰好一个弹间距 p。
+ *      (实现上由 c_i 反推整数 nLeft_i = nLeft_0 + dir * i, 因此始终是整数格。)
+ *      取 step = p 的三个理由:
+ *        a) 相邻两波**净空档交集恒为 (W + p - 2r) - p = W - 2r**, 默认 120 - 12 = 108 px,
+ *           与种子和浮点无关, 严格为正 => "每波平移但不突变封死", 且相邻波缝隙可达;
+ *        b) step = p < W + p - 2r => 缝隙不会一步跨过自身净宽;
+ *        c) step = p 恰好一格, 每波弹的 x 集合真的平移一位, 扫描在战场上可见。
+ *      扫描速率 = p / wave_interval_sec, 默认 51 / 0.4 = 127.5 px/s, 低于弹速 240 px/s,
  *      满足原规范"扫描速率限定"。
- *   5. 每波 16 发在"可用 x 区间去掉缝隙后的两条自由段"上**等间距均匀**铺开:
- *          p = ((X_HI - X_LO) - W) / shots_per_wave
- *          第 k 发沿拼接后的自由长度取 (k + 0.5) * p, 落在缝隙左侧则 x = X_LO + o,
- *          落在右侧则 x = (c_i + W/2) + (o - left_len)。
- *      因此波内任意相邻两发中心距恒为 p (整体均匀), 而缝隙处相邻两发跨越缝隙,
- *      其间距为 W + p —— **缝隙内绝无弹的 x**, 实际空档宽度 >= W。
- *      缝隙两侧必定都有弹 (c 的取值范围保证 left_len >= p/2 且 x_hi - c_hi >= p/2),
- *      所以这条缝隙永远是"两列弹之间"的真实竖向通道, 不是贴边的角落:
- *        - 左右都有弹: 空档 = W + p >= W;
- *        - 全在右侧  : 左侧空档 = W + 0.5p >= W  (仅当 pitch 与边距退化时才可能, 已被
- *          c 的范围排除, 这里只列出以防后人放宽 c 范围)。
- *   6. 每发 vx = 0, vy = lock_speed, 起点 (x, 100): 弹竖直下落 => 该 x 空档在下落全程
+ *
+ *   5. 每发 vx = 0, vy = lock_speed, 起点 (x, 100): 弹竖直下落 => 该 x 空档在下落全程
  *      都是一条固定竖向缝隙, 不需要重算, 也不会在飞行中封死。
  *      同时保证 |v| == lock_speed (因为 vx 恒为 0)。
  *
- * 不伪造强度: 每波发数 == shots_per_wave (默认 16, 远小于满屏), 弹间距 p 必须
- * >= 2r (默认 51 px >> 12 px, 弹不重叠), 且恒保留 >= corridor_width 的缝隙。
+ * 不伪造强度: 每波发数 == shots_per_wave (默认 16, 远小于满屏); 弹间距 p >= 2r
+ * (默认 51 px >> 12 px, 弹体不重叠); 且恒保留净空档 >= W 的竖向缝隙。
  *
  * ---------------------------------------------------------------- 参数合法性
  *
  * make_plan 在**写 out 之前**完成全部校验, 任一不满足即返回 false 且不写 out
  * (调用方据此回滚能量与状态)。被拒的情形:
  *   - request/config/rng/out 任一为空指针 (rng 为空时无法按规则抽取扫描几何);
- *   - 场宽/弹速/波次/发数/时长/波次间距非法 (<=0、非有限);
+ *   - 场宽/弹速/波次/发数/时长/波次间距/弹半径/伤害/寿命非法 (<=0 或非有限);
  *   - corridor_width 非有限或 < 100 px (demo-rules 的硬性下限; 本模块选择"拒绝并让
  *     配置错误可见", 不静默加宽 —— 否则预警与实际几何会与配置不一致);
+ *   - corridor_width <= 2 * bullet_radius (净空档会非正, 缝隙形同虚设);
+ *   - 自由段放不下弹 (free_span <= 0), 或弹间距 p < 2 * bullet_radius (无缝密弹);
+ *   - 弹间距 p >= corridor_width - 2 * bullet_radius (相邻波缝隙交集会 <= 0);
+ *   - shots_per_wave < 2 * wave_count (无法保证缝隙两侧在扫描全程都有弹);
  *   - start_tick < 0;
- *   - 缝隙吃掉可用宽度, 或按不等式算出的弹间距 < 2 * 弹半径 (会变成无缝密弹);
- *   - 5 波扫描后缝隙会跑出场内, 即 (wave_count - 1) * step > 合法中心区间长度;
  *   - 最后波次时刻超出 active_ticks (计划无法按"每波各生成一次"兑现);
  *   - wave_tick 非有限或 > 1e9 (会溢出 tick 运算)。
  *
  * plan_id 由调用方(core/attack.c 的 next_plan_id)分配: 本模块既不生成也不清零,
  * 保持入参 out 里已有的 plan_id 原值 (若调用方在 make_plan 之后填写, 同样不受影响)。
  *
- * 缝隙宽度 W 是"弹的 x 坐标"层面的空档: 弹半径 r 的实体在空档内的可通过宽度为
+ * 缝隙宽度 W 是"弹的 x 坐标"层面的空档: 弹半径 r 的实体在空档内的可通过净宽为
  * W - 2r (默认 120 - 12 = 108 px), 仍 >= 100 px 的硬性下限。世界侧判碰撞用的是
- * 弹心到学生心的距离 <= r + student_radius, 因此建议渲染/AI 用 W 作为缝心中线区间,
- * 用 W - 2r 作为"缝隙内可安全通过"的净宽, 两者都记录在本报告与测试输出里。
+ * 弹心到学生心的距离 <= r + student_radius, 因此渲染/AI 可用缝心中线区间配合
+ * 净宽 W - 2r 判断"站在哪里安全"。测试输出把弹心空档与净空档都打印出来。
  */
 #include "pattern_shower.h"
 
@@ -90,12 +104,9 @@
 /* docs/demo-rules.md 2.5: 淋浴保留 >= 100 px 竖向缝隙(硬性), 配置默认 120 px。 */
 #define SHOWER_MIN_CORRIDOR_WIDTH 100.0f
 
-/* 扫描方向在 plan->gap_angle_deg 中的编码(见文件头第 2 条)。 */
+/* 扫描方向在 plan->gap_angle_deg 中的编码(见文件头第 1 条)。 */
 #define SHOWER_SCAN_RIGHT_DEG 90.0f
 #define SHOWER_SCAN_LEFT_DEG (-90.0f)
-
-/* 每波缝隙中心相对上一波平移的比例(见文件头第 4 条)。 */
-#define SHOWER_SCAN_STEP_FACTOR 0.5f
 
 /* Boss 弹的 source_id: world 里 Boss 的实体 ID 固定为 1 (core/world.c)。 */
 #define SHOWER_BOSS_SOURCE_ID 1u
@@ -106,6 +117,7 @@
 /* 可用落点带的左右留边 = 2 * 弹半径, 保证圆心(而不是弹的边缘)在场地内。 */
 static float shower_side_margin(const DemoConfig *config) {
     float m = config->boss_bullet_radius * 2.0f;
+
     if (!(m >= 0.0f)) {
         m = 0.0f; /* NaN 或不合理负值一律归 0, 不把非法边距带进几何 */
     }
@@ -113,7 +125,7 @@ static float shower_side_margin(const DemoConfig *config) {
 }
 
 /* 四舍五入到最近整数 tick。避免依赖 libm 的 lroundf; 只处理 v >= 0 的已校验输入。
- * 非有限或超出 int32 表示范围时返回 INT32_MIN, 表示"该波次时刻不可用"。 */
+ * 非有限或超出可表示范围时返回 INT32_MIN, 表示"该波次时刻不可用"。 */
 static int32_t shower_round_tick(float v) {
     int32_t base;
     float frac;
@@ -132,68 +144,41 @@ static int32_t shower_round_tick(float v) {
     return base;
 }
 
-/* 第 wave 波缝隙中心 x (由计划固化量推导, 不消耗随机数)。 */
-static float shower_wave_center(const AttackPlan *plan, int32_t wave) {
-    float step = plan->corridor_width * SHOWER_SCAN_STEP_FACTOR;
-    float dir = (plan->gap_angle_deg >= 0.0f) ? 1.0f : -1.0f;
+/* 四舍五入到最近 int32, 用于从固化的 wave_offset 反推整数格下标。 */
+static int32_t shower_round_i32(float v) {
+    int32_t base;
 
-    return plan->wave_offset + dir * (float)wave * step;
+    if (!isfinite(v)) {
+        return INT32_MIN;
+    }
+    base = (int32_t)v;
+    if ((v - (float)base) >= 0.5f) {
+        base += 1;
+    } else if ((v - (float)base) <= -0.5f) {
+        base -= 1;
+    }
+    return base;
 }
 
-/* 第 wave 波第 k 发子弹的 x。返回 false 表示该计划几何不可兑现(不生成弹)。 */
-static bool shower_lane_x(const AttackPlan *plan, const DemoConfig *config, int32_t wave,
-                          int32_t k, int32_t shots, float *out_x) {
-    float margin = shower_side_margin(config);
-    float x_lo = margin;
-    float x_hi = config->field_w - margin;
-    float half = plan->corridor_width * 0.5f;
-    float c = shower_wave_center(plan, wave);
-    float c_lo = c - half;
-    float c_hi = c + half;
-    float left_len;
-    float total;
-    float pitch;
-    float off;
+/* 由计划固化量反推第 wave 波的整数格下标 nLeft_i = nLeft_0 + dir * i。
+ * 不消耗随机数; 与 make_plan 的 c_0 = X_LO + nLeft_0 * p + W/2 互为逆运算。 */
+static int32_t shower_gap_index(const AttackPlan *plan, const DemoConfig *config, int32_t wave,
+                                float pitch) {
+    float x_lo = shower_side_margin(config);
+    float dir = (plan->gap_angle_deg >= 0.0f) ? 1.0f : -1.0f;
+    float c = plan->wave_offset + dir * (float)wave * pitch;
 
-    if (out_x == NULL) {
-        return false;
+    return shower_round_i32((c - x_lo - plan->corridor_width * 0.5f) / pitch);
+}
+
+/* 第 k 发在均匀栅格上的 x; nLeft 为缝隙起始格下标。见文件头第 2 条。 */
+static float shower_grid_x(float x_lo, float pitch, float corridor, int32_t nLeft, int32_t k) {
+    float x = x_lo + ((float)k + 0.5f) * pitch;
+
+    if (k >= nLeft) {
+        x += corridor; /* 右侧整体让开缝隙宽度 W 后继续按同一间距铺开 */
     }
-    /* make_plan 已保证缝隙全程在可用落点带内; 这里只容忍浮点尾差(1e-3 px),
-     * 超出容忍量的计划一律判为不可兑现, 不悄悄把缝隙挪回场内。 */
-    if (c_lo < x_lo - 1.0e-3f || c_hi > x_hi + 1.0e-3f || c_hi < c_lo) {
-        return false;
-    }
-    if (c_lo < x_lo) {
-        c_lo = x_lo;
-    }
-    if (c_hi > x_hi) {
-        c_hi = x_hi;
-    }
-    left_len = c_lo - x_lo;
-    total = (x_hi - x_lo) - (c_hi - c_lo);
-    if (!(total > 0.0f)) {
-        return false;
-    }
-    pitch = total / (float)shots;
-    off = ((float)k + 0.5f) * pitch;
-    if (off <= left_len) {
-        *out_x = x_lo + off;
-        if (*out_x > c_lo) {
-            *out_x = c_lo; /* 夹紧到缝隙左沿: 浮点误差不得侵占缝隙 */
-        }
-    } else {
-        *out_x = c_hi + (off - left_len);
-        if (*out_x < c_hi) {
-            *out_x = c_hi; /* 夹紧到缝隙右沿: 浮点误差不得侵占缝隙 */
-        }
-    }
-    if (*out_x > x_hi) {
-        *out_x = x_hi; /* 浮点保底: 不留越界坐标 */
-    }
-    if (*out_x < x_lo) {
-        *out_x = x_lo;
-    }
-    return true;
+    return x;
 }
 
 bool pattern_shower_make_plan(const PatternRequest *request, const DemoConfig *config, Rng *rng,
@@ -205,18 +190,16 @@ bool pattern_shower_make_plan(const PatternRequest *request, const DemoConfig *c
     float corridor;
     float free_span;
     float pitch;
-    float step;
-    float c_min;
-    float c_max;
-    float span;
-    float lo;
-    float hi;
-    float u;
     float c0;
     float dx;
     float dy;
     float len;
     float v;
+    float u;
+    float n_span;
+    int32_t n_min;
+    int32_t n_max;
+    int32_t n0;
     bool scan_right;
     int32_t waves;
     int32_t shots;
@@ -283,7 +266,11 @@ bool pattern_shower_make_plan(const PatternRequest *request, const DemoConfig *c
     x_lo = margin;
     x_hi = config->field_w - margin;
 
-    /* 缝隙必须能放进可用落点带, 且留出足够空间让弹不重叠。 */
+    /* 净空档 W - 2r 必须为正, 否则"缝隙"里站不住任何东西。 */
+    if (!(corridor > 2.0f * config->boss_bullet_radius)) {
+        return false;
+    }
+    /* 自由段必须放得下 shots 发弹, 且弹体不重叠。 */
     if (!(x_hi - x_lo > corridor)) {
         return false;
     }
@@ -292,27 +279,12 @@ bool pattern_shower_make_plan(const PatternRequest *request, const DemoConfig *c
     if (!(pitch >= 2.0f * config->boss_bullet_radius)) {
         return false; /* 否则就是无缝密弹, 属于被禁止的伪造强度 */
     }
-    if (!(pitch < corridor)) {
-        return false; /* 扫描步长上界依赖 pitch < corridor(保证相邻波缝隙必有交集) */
-    }
-
-    /* 缝隙在扫描全程都必须在场内, 且缝隙左右两侧各自至少要放得下一发弹
-     * (left_len >= pitch/2 且 right_len >= pitch/2), 这样缝隙永远是"两列弹之间"
-     * 的真实竖向通道, 不会退化成贴边的角落。 */
-    step = corridor * SHOWER_SCAN_STEP_FACTOR;
-    if (pitch > step) {
-        step = pitch; /* 每推进一波至少有一发弹跨越缝隙, 扫描在战场上可见 */
-    }
-    if (!(step > 0.0f) || !(step < corridor)) {
+    /* 相邻波净空档交集 = (W - 2r) - p 必须严格为正(缝隙可达、不突变封死)。 */
+    if (!(pitch < corridor - 2.0f * config->boss_bullet_radius)) {
         return false;
     }
-    c_min = margin + corridor * 0.5f + pitch * 0.5f;
-    c_max = config->field_w - margin - corridor * 0.5f - pitch * 0.5f;
-    if (!(c_max >= c_min)) {
-        return false;
-    }
-    /* 两个方向的合法起点区间长度相同; 先判可行性, 再抽方向, 保证 rng 消耗与结果无关。 */
-    if ((float)(waves - 1) * step > c_max - c_min) {
+    /* 缝隙两侧在扫描全程都要有弹: 需要至少 2*waves 发。 */
+    if (shots < 2 * waves) {
         return false;
     }
 
@@ -328,30 +300,31 @@ bool pattern_shower_make_plan(const PatternRequest *request, const DemoConfig *c
         }
     }
 
-    /* ---- 2) 抽取并固化随机几何(顺序固定, 便于跨机核验) ---- */
-    /* 抽取顺序: (1) 扫描方向 (2) 起始缝隙中心比例 (3) geometry_seed 存档。 */
+    /* ---- 2) 抽取并固化随机几何(顺序固定, 便于跨机核验) ----
+     * 抽取顺序: (1) 扫描方向 (2) 起始缝隙格下标比例 (3) geometry_seed 存档。
+     * 全部校验都在此之前完成, 所以失败路径不消耗任何随机数。 */
     scan_right = rng_next_bool(rng);
-    u = rng_unit_f32(rng); /* [0, 1); rng 契约保证有限 */
+    u = rng_unit_f32(rng); /* [0, 1) */
+    geometry_seed = rng_next_u64(rng);
     if (!isfinite(u) || u < 0.0f) {
         u = 0.0f;
     }
     if (u > 1.0f) {
         u = 1.0f;
     }
-    geometry_seed = rng_next_u64(rng);
 
-    if (scan_right) {
-        lo = c_min;
-        hi = c_max - (float)(waves - 1) * step;
-    } else {
-        lo = c_min + (float)(waves - 1) * step;
-        hi = c_max;
+    /* 起始格下标区间(两个方向相同, 因此与抽到的方向无关)。 */
+    n_min = 1 + (waves - 1);
+    n_max = shots - 1 - (waves - 1);
+    n_span = (float)(n_max - n_min + 1);
+    n0 = n_min + (int32_t)(u * n_span);
+    if (n0 > n_max) {
+        n0 = n_max; /* 防御: u == 1 时夹紧, 不越出合法格范围 */
     }
-    span = hi - lo;
-    if (!(span >= 0.0f)) {
-        return false; /* 理论不可达: 上面已判过可行性, 这里只做防御 */
+    if (n0 < n_min) {
+        n0 = n_min;
     }
-    c0 = lo + span * u;
+    c0 = x_lo + (float)n0 * pitch + corridor * 0.5f;
 
     /* ---- 3) 一次写满完整不可变计划 ---- */
     keep_plan_id = out->plan_id; /* plan_id 由 attack.c 分配, 本模块不生成/不清零 */
@@ -381,10 +354,10 @@ bool pattern_shower_make_plan(const PatternRequest *request, const DemoConfig *c
     out->windup_ticks = pc->windup_ticks;
     out->active_ticks = pc->active_ticks;
 
-    /* 扫描方向编码(见文件头第 2 条): +90 = 向右(+x), -90 = 向左(-x)。 */
+    /* 扫描方向编码(见文件头第 1 条): +90 = 向右(+x), -90 = 向左(-x)。 */
     out->gap_angle_deg = scan_right ? SHOWER_SCAN_RIGHT_DEG : SHOWER_SCAN_LEFT_DEG;
-    out->gap_span_deg = 0.0f;               /* 淋浴无缺口跨度概念 */
-    out->gap_drift_deg_per_wave = 0.0f;     /* 淋浴无角度漂移, 平移用 wave_offset+step */
+    out->gap_span_deg = 0.0f;           /* 淋浴无缺口跨度概念 */
+    out->gap_drift_deg_per_wave = 0.0f; /* 淋浴用 wave_offset + 整数格平移, 不用角度漂移 */
     out->corridor_width = corridor;
     out->wave_count = waves;
     out->shots_per_wave = shots;
@@ -410,6 +383,10 @@ bool pattern_shower_emit(const AttackPlan *plan, const DemoConfig *config, uint3
     int64_t start;
     int64_t now;
     int64_t elapsed;
+    float margin;
+    float x_lo;
+    float x_hi;
+    float pitch;
     int32_t waves;
     int32_t shots;
     int32_t i;
@@ -419,8 +396,11 @@ bool pattern_shower_emit(const AttackPlan *plan, const DemoConfig *config, uint3
     if (plan == NULL || config == NULL || out == NULL) {
         return false;
     }
-
-    if (plan->wave_count <= 0 || plan->shots_per_wave <= 0) {
+    if (plan->wave_count <= 0 || plan->wave_count > SHOWER_WAVE_TICK_CAP) {
+        return false;
+    }
+    if (plan->shots_per_wave <= 0 ||
+        plan->shots_per_wave > (int32_t)DEMO_MAX_ACTIVE_PLAN_PROJECTILES) {
         return false;
     }
     if (plan->active_ticks <= 0) {
@@ -460,13 +440,21 @@ bool pattern_shower_emit(const AttackPlan *plan, const DemoConfig *config, uint3
     }
 
     waves = plan->wave_count;
-    if (waves > SHOWER_WAVE_TICK_CAP) {
-        waves = SHOWER_WAVE_TICK_CAP; /* 数组边界防御, 不越界读 wave_tick[] */
-    }
     shots = plan->shots_per_wave;
+    margin = shower_side_margin(config);
+    x_lo = margin;
+    x_hi = config->field_w - margin;
+    if (!(x_hi - x_lo > plan->corridor_width)) {
+        return false;
+    }
+    pitch = ((x_hi - x_lo) - plan->corridor_width) / (float)shots;
+    if (!isfinite(pitch) || !(pitch > 0.0f)) {
+        return false;
+    }
 
     for (i = 0; i < waves; ++i) {
         int32_t due = shower_round_tick(plan->wave_tick[i]);
+        int32_t n_left;
 
         if (due == INT32_MIN) {
             continue; /* 波次时刻非法: 该波不生成, 不放宽成"补发密弹" */
@@ -475,15 +463,21 @@ bool pattern_shower_emit(const AttackPlan *plan, const DemoConfig *config, uint3
             continue; /* 本 tick 不是第 i 波的生成 tick */
         }
 
+        n_left = shower_gap_index(plan, config, i, pitch);
+        if (n_left == INT32_MIN) {
+            continue;
+        }
+        /* 缝隙两侧都必须有弹, 否则这一波不是"两列弹之间的通道", 判为不可兑现。 */
+        if (n_left < 1 || n_left > shots - 1) {
+            continue;
+        }
+
         for (k = 0; k < shots; ++k) {
             Projectile spec;
-            float x = 0.0f;
+            float x = shower_grid_x(x_lo, pitch, plan->corridor_width, n_left, k);
 
-            if (!shower_lane_x(plan, config, i, k, shots, &x)) {
+            if (!isfinite(x) || x < x_lo || x > x_hi) {
                 continue; /* 几何不可兑现: 少发也不发越界/非法坐标弹 */
-            }
-            if (!isfinite(x)) {
-                continue;
             }
 
             memset(&spec, 0, sizeof(spec)); /* id/generation/active 由 pool_spawn 赋值 */
