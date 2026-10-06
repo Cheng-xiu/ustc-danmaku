@@ -2,7 +2,7 @@
 
 ## 权威来源
 
-- 完整项目规范位于 `docs/project-spec-v3.1.pdf`。项目理解、实现和修改以该完整 PDF 为依据。
+- 完整项目规范的 Markdown 转写位于 `docs/project-spec-v3.1.md`，原 PDF 位于 `references/project-spec-v3.1.pdf`。项目理解、实现和修改以完整原 PDF 为依据；Markdown 供日常阅读与检索，转写有疑问时核对原 PDF。
 - 首次承担项目任务时通读完整 PDF；修改玩法、物理、计分、AI 或交付要求前，核对相关章节及其相互约定。
 - README、聊天摘要、精简版 PDF 和 demo 图仅作索引或说明，不能替代完整规范。demo 是设计示意，不能当作已运行的游戏或实测证据。
 
@@ -21,3 +21,4 @@
 ## 语言约定
 
 - 面向用户的说明、项目文档和提交说明尽量使用中文；代码标识符、库/API 名称及必要的原文保留通用写法。
+- `docs/` 中的规范、手册、指南和报告使用 Markdown（`.md`）；配图放在 `docs/assets/`，原始 PDF 等参考文件放在 `references/`。
