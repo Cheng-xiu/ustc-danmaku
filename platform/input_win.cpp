@@ -1,4 +1,4 @@
-﻿/* input_win.cpp - S13 Windows 输入适配（platform 层, C++/EasyX）
+/* input_win.cpp - S13 Windows 输入适配（platform 层, C++/EasyX）
  *
  * 接口版本: 2    配置版本: 1
  * 任务: S13。唯一交付源文件：platform/input_win.cpp（模块内部辅助头 platform/input_win.h）。
@@ -138,7 +138,67 @@ void detach_window() {
 
 /* ---------------------------------------------------------------- 消息泵 */
 
+/* EasyX 图形窗口的窗口类名（实测: work/agents/S13/probe5_easyx_class.cpp -> "EasyXWnd"）。
+ * 用于在调用方未调用 input_init() 时惰性识别本进程的 EasyX 窗口。
+ * 注意: 不能用 EasyX 的 GetHWnd() 做惰性探测——实测未 initgraph 时 GetHWnd() 会访问违例
+ * （probe4_gethwnd_no_window.cpp），FindWindowW 才是安全路径。 */
+const wchar_t *const kEasyXWindowClass = L"EasyXWnd";
+
+/* 统一的绑定入口。reset_state=false 用于惰性绑定: 此时游戏可能已运行若干帧，
+ * 绝不能清空已有按键状态（否则会丢失玩家当前按住的方向）。 */
+void attach_window(HWND hwnd, bool reset_state) {
+    if (reset_state) {
+        input_state_init(&g_state);
+        g_layout = input_default_layout();
+    }
+    detach_window();
+    if (hwnd == nullptr || IsWindow(hwnd) == 0) {
+        return;
+    }
+    g_hwnd = static_cast<void *>(hwnd);
+    /* 安装窗口钩子以截获 EasyX 不转发的 WM_KILLFOCUS / WM_CLOSE（见文件头实测结论） */
+    SetLastError(0);
+    LONG_PTR prev = SetWindowLongPtrW(hwnd, GWLP_WNDPROC,
+                                      reinterpret_cast<LONG_PTR>(&input_window_proc));
+    if (prev != 0) {
+        g_prev_proc = reinterpret_cast<WNDPROC>(prev);
+        g_subclassed = true;
+    } else {
+        /* 子类化失败: 仍可用, 但失焦/关闭只能依赖 WM_ACTIVATE 与 game_main 自己判定 */
+        g_subclassed = false;
+        g_prev_proc = nullptr;
+    }
+}
+
+/* 若尚未绑定窗口，尝试安全地找到本进程的 EasyX 窗口并安装钩子。
+ * 这样即使调用方（如当前 game_main.cpp）忘记调用 input_init，输入也不会整体失效。
+ * 返回 true 表示已绑定。 */
+bool try_attach_easyx_window() {
+    if (g_hwnd != nullptr) {
+        return true;
+    }
+    HWND found = FindWindowW(kEasyXWindowClass, nullptr);
+    if (found == nullptr) {
+        return false;
+    }
+    /* 只接受本进程的窗口，避免误绑其它进程的 EasyX 窗口 */
+    DWORD pid = 0;
+    GetWindowThreadProcessId(found, &pid);
+    if (pid != GetCurrentProcessId()) {
+        return false;
+    }
+    attach_window(found, /*reset_state=*/false); /* 不清状态: 游戏中途绑定 */
+    return g_hwnd != nullptr;
+}
+
 void drain_messages() {
+    /* 实测（work/agents/S13/probe3_peekmessage_no_window.cpp）: 未 initgraph 或窗口已销毁时
+     * 调用 EasyX peekmessage 会访问违例（0xC0000005）。因此无窗口时必须跳过消息泵，
+     * 否则 input_poll() 在"仅状态机"模式或窗口销毁后的第一帧就会崩溃。 */
+    if (g_hwnd == nullptr) {
+        return;
+    }
+
     ExMessage msg;
     while (peekmessage(&msg, EX_MOUSE | EX_KEY | EX_WINDOW, true)) {
         switch (msg.message) {
@@ -213,33 +273,7 @@ void refresh_pointer_and_focus() {
 
 /* ---------------------------------------------------------------- 公共接口 */
 
-void input_init(void *hwnd) {
-    input_state_init(&g_state);
-    g_layout = input_default_layout();
-
-    detach_window();
-    if (hwnd == nullptr) {
-        return; /* 无窗口: 仅状态机可用（单元测试） */
-    }
-
-    HWND handle = static_cast<HWND>(hwnd);
-    if (IsWindow(handle) == 0) {
-        return;
-    }
-    g_hwnd = hwnd;
-    /* 安装窗口钩子以截获 EasyX 不转发的 WM_KILLFOCUS / WM_CLOSE（见文件头实测结论） */
-    SetLastError(0);
-    LONG_PTR prev = SetWindowLongPtrW(handle, GWLP_WNDPROC,
-                                      reinterpret_cast<LONG_PTR>(&input_window_proc));
-    if (prev != 0) {
-        g_prev_proc = reinterpret_cast<WNDPROC>(prev);
-        g_subclassed = true;
-    } else {
-        /* 子类化失败: 仍可用, 但失焦/关闭只能依赖 WM_ACTIVATE 与 game_main 自己判定 */
-        g_subclassed = false;
-        g_prev_proc = nullptr;
-    }
-}
+void input_init(void *hwnd) { attach_window(static_cast<HWND>(hwnd), /*reset_state=*/true); }
 
 void input_shutdown() {
     detach_window();
@@ -253,6 +287,12 @@ void input_set_layout(const InputLayout *layout) {
 const InputLayout *input_get_layout() { return &g_layout; }
 
 void input_poll(RawInput *raw) {
+    /* 兼容"调用方忘记 input_init"的情况: 首次 poll 时安全地惰性绑定 EasyX 窗口。
+     * 不这样做的话（例如当前 game_main.cpp 未调用 input_init），键盘与鼠标输入会整体失效。
+     * 惰性绑定不清空按键状态，避免丢失游戏运行中玩家已按住的键。 */
+    if (g_hwnd == nullptr) {
+        (void)try_attach_easyx_window();
+    }
     refresh_pointer_and_focus();
     drain_messages();
     /* 开始新一帧的边沿收集: 本帧第一次 input_take_boss_input 可以消费出招边沿 */

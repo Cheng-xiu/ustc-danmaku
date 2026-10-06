@@ -28,8 +28,11 @@ option(DEMO_BUILD_TESTS "构建测试" ON)
 set(EASYX_ROOT "" CACHE PATH "EasyX 头文件与库所在目录（例如包含 easyx.h 与 EasyXa.lib 的目录）")
 
 # 静默 MSVC 对某些 C 代码的弃用警告，但不放松错误
+# 源文件全部是 UTF-8（含中文注释）。MSVC 默认按系统代码页(936)读取，
+# 对多字节边界会报 C2001/C2059/C1004 而编译失败（S13 实测 core/patterns.c 失败，其余文件侥幸通过）。
+# 这里统一加 /utf-8，不依赖每台机器的代码页，也不要求每个文件带 BOM。
 if(MSVC)
-    add_compile_options(/W4 /permissive-)
+    add_compile_options(/W4 /permissive- /utf-8)
     add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 else()
     add_compile_options(-Wall -Wextra)
