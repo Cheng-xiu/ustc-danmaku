@@ -1,0 +1,24 @@
+# Local IDE state
+.vs/
+
+# Generated build files
+build/
+cmake-build-*/
+Debug/
+Release/
+x64/
+x86/
+*.o
+*.obj
+*.exe
+*.dll
+*.pdb
+*.ilk
+*.idb
+
+# Local temporary files
+tmp/
+*.tmp
+*.bak
+__pycache__/
+*.pyc
