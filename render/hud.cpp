@@ -224,14 +224,6 @@ int draw_units_fit(int x, int y, const wchar_t *text, int len, int max_width, CO
     return w;
 }
 
-/* 供布局自检使用：把 text 收窄到 max_width 后的实际字符串与宽度。
- * 这是纯只读计算，不绘制、不写世界，也不参与任何游戏逻辑。 */
-int hud_fit_preview(const wchar_t *text, int max_width, wchar_t *out, int out_cap) {
-    int kept = 0;
-    return fit_units(text, (text != nullptr) ? (int)std::wcslen(text) : 0, max_width, out,
-                     out_cap, &kept, nullptr);
-}
-
 /* 单行绘制入口：测量 -> 收窄 -> 绘制 -> 记录自检 */
 int draw_line_fit(int x, int y, const wchar_t *text, int max_width, COLORREF color) {
     if (text == nullptr) {
