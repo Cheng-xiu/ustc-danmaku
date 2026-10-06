@@ -103,6 +103,12 @@ void pattern_warning(const AttackPlan *plan, const DemoConfig *config, PatternWa
 
 - `make_plan` 在**接受请求的那一 tick** 一次生成完整几何，并把需要随机的内容固化进 `AttackPlan`（包括 `geometry_seed` 与波次时刻）。返回 `false` 表示几何无法满足，调用方回滚能量与状态。
 - `emit` 只按计划生成，不重新随机、不重新选目标、不跟随 Boss 后续位置。可发放到 `ProjectileSpawnBuffer`，容量不足时 `overflow` 计数并保留明确事件。
+  - **`attack_tick` 参数契约（接口 v2 冻结，勿改）**：它是**相对"攻击开始"的时刻**，即 `world->tick - plan.start_tick - plan.windup_ticks`。
+    因此 `plan->wave_tick[i] = first_spawn_sec*60 + i*wave_interval_sec*60` 的语义是"预警结束、进入攻击后第 i 波的相对 tick"，
+    默认配置下 `wave_tick[0] == 0` 表示**预警结束的那一 tick**生成第一波。
+    每招的预警时间由 `windup_ticks` 单独控制，不叠加到 `wave_tick` 上。
+  - 反例（曾发生并被修复）：若调用方传绝对 `world->tick`，`wave_tick[i]` 恒小于 `windup_ticks`，第 1、2 波永不生成，预警与实际生成不一致。
+    回归哨兵：`build/sim/sim.exe --seed 12345 --script mixed --max-ticks 7200` 应报告四招都被接受且 `boss_bullets` 非零。
 - `warning` 只读，供渲染与 AI 使用公开预警。
 
 ### 3.5 学生 AI 与反击

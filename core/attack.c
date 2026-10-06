@@ -1,19 +1,16 @@
-/* attack.c - 单招状态机: 合法性检查、锁定、扣能量、预警/攻击转移
- * 接口版本: 1 (见 core/attack.h), 配置版本: 1
+/* attack.c - 单招状态机: 合法性检查、锁定、扣能量、预�?攻击转移
+ * 接口版本: 1 (�?core/attack.h), 配置版本: 1
  *
  * 职责边界:
- *   - 只实现 core/attack.h 声明的三个函数。
- *   - 不修改四招数值、不增加独立冷却、不写日志文件、不使用 rand()/墙钟。
- *   - 计划在"接受请求"时一次生成并冻结: 预警与攻击读取同一份数据,
- *     锁定之后 Boss 与学生的移动不会迁移 origin / target。
- */
+ *   - 只实�?core/attack.h 声明的三个函数�? *   - 不修改四招数值、不增加独立冷却、不写日志文件、不使用 rand()/墙钟�? *   - 计划�?接受请求"时一次生成并冻结: 预警与攻击读取同一份数�?
+ *     锁定之后 Boss 与学生的移动不会迁移 origin / target�? */
 #include "attack.h"
 
 #include <string.h>
 
 #include "patterns.h"
 
-/* 最近存活学生: 同距按稳定 ID 小者优先。返回 false 表示无存活目标。 */
+/* 最近存活学�? 同距按稳�?ID 小者优先。返�?false 表示无存活目标�?*/
 static bool find_nearest_student(const World *world, DemoEntityId *out_id, float *out_x,
                                  float *out_y) {
     bool found = false;
@@ -54,7 +51,7 @@ static bool find_nearest_student(const World *world, DemoEntityId *out_id, float
     return true;
 }
 
-/* 事件缓冲不足时计入 dropped, 不静默丢弃。 */
+/* 事件缓冲不足时计�?dropped, 不静默丢弃�?*/
 static void attack_push_event(World *world, DemoEventType type, DemoEntityId target_id,
                               int32_t amount, float x, float y, DemoPattern pattern) {
     StepEvent ev;
@@ -95,7 +92,7 @@ bool attack_try_request(World *world, DemoPattern pattern, DemoRejectReason *out
 
     const PatternConfig *pc = &world->cfg.patterns[(int)pattern];
 
-    /* 1) 目标: 最近存活学生; 无目标直接拒绝。 */
+    /* 1) 目标: 最近存活学�? 无目标直接拒绝�?*/
     DemoEntityId target_id = 0u;
     float target_x = 0.0f;
     float target_y = 0.0f;
@@ -106,7 +103,7 @@ bool attack_try_request(World *world, DemoPattern pattern, DemoRejectReason *out
         return false;
     }
 
-    /* 2) 能量: 共享能量池, 不足则拒绝且不扣。 */
+    /* 2) 能量: 共享能量�? 不足则拒绝且不扣�?*/
     if (world->energy < pc->cost) {
         if (out_reason != NULL) {
             *out_reason = DEMO_REJECT_NO_ENERGY;
@@ -116,7 +113,7 @@ bool attack_try_request(World *world, DemoPattern pattern, DemoRejectReason *out
 
     const PatternVTable *vt = pattern_vtable(pattern);
     if (vt == NULL || vt->make_plan == NULL) {
-        return false; /* 招式非法: 不扣能量、不改变状态 */
+        return false; /* 招式非法: 不扣能量、不改变状�?*/
     }
 
     PatternRequest req;
@@ -138,7 +135,7 @@ bool attack_try_request(World *world, DemoPattern pattern, DemoRejectReason *out
         req.student_alive[i] = world->students[i].alive;
     }
 
-    /* 先生成到临时计划: 失败时 world 完全不动。 */
+    /* 先生成到临时计划: 失败�?world 完全不动�?*/
     AttackPlan plan;
     memset(&plan, 0, sizeof(plan));
     if (!vt->make_plan(&req, &world->cfg, &world->world_rng, &plan)) {
@@ -148,7 +145,7 @@ bool attack_try_request(World *world, DemoPattern pattern, DemoRejectReason *out
         return false;
     }
 
-    /* 原子提交: 只扣一次能量, 保存计划, 进入预警。 */
+    /* 原子提交: 只扣一次能�? 保存计划, 进入预警�?*/
     world->energy -= pc->cost;
     plan.plan_id = world->next_plan_id++;
     plan.active = true;
@@ -168,7 +165,7 @@ void attack_step(World *world) {
         return;
     }
     if (!world->plan.active) {
-        /* 计划已被外部清除: 只回收状态, 不生成任何波次。 */
+        /* 计划已被外部清除: 只回收状�? 不生成任何波次�?*/
         world->attack_state = DEMO_ATTACK_IDLE;
         return;
     }
@@ -177,17 +174,16 @@ void attack_step(World *world) {
 
     if (world->attack_state == DEMO_ATTACK_WINDUP) {
         if (elapsed < world->plan.windup_ticks) {
-            return; /* 仍在预警: 只显示, 不生成弹 */
+            return; /* 仍在预警: 只显�? 不生成弹 */
         }
-        /* 边界: elapsed == windup_ticks 恰好切换。
-         * 同一 tick 继续走下面的 ACTIVE 分支, 保证"攻击开始这一刻"应生成的
-         * 第一波不被预警切换吞掉(否则会少生成一波)。 */
+        /* 边界: elapsed == windup_ticks 恰好切换�?         * 同一 tick 继续走下面的 ACTIVE 分支, 保证"攻击开始这一�?应生成的
+         * 第一波不被预警切换吞�?否则会少生成一�?�?*/
         world->attack_state = DEMO_ATTACK_ACTIVE;
         attack_push_event(world, DEMO_EVENT_ATTACK_START, world->plan.target_id, 0,
                           world->plan.origin_x, world->plan.origin_y, world->plan.pattern);
     }
 
-    /* ACTIVE: 先判结束, 结束后同一 tick 不再 emit。 */
+    /* ACTIVE: 先判结束, 结束后同一 tick 不再 emit�?*/
     if (elapsed >= world->plan.windup_ticks + world->plan.active_ticks) {
         if (world->cfg.boss_bullet_clear_on_attack_end > 0) {
             (void)pool_clear_plan(&world->pool, world->plan.plan_id);
@@ -204,9 +200,13 @@ void attack_step(World *world) {
 
     ProjectileSpawnBuffer buf;
     spawn_buffer_init(&buf);
-    /* 任务冻结语义: 第三个参数传当前绝对 tick。 */
-    if (!vt->emit(&world->plan, &world->cfg, (uint32_t)world->tick, &buf)) {
-        return; /* 本 tick 不生成波次 */
+    /* 波次时刻契约（docs/demo-interfaces.md 3.4，接�?v2 冻结，勿改）:
+     *   plan->wave_tick[i] = first_spawn_sec*60 + i*wave_interval_sec*60�?     *   语义�?**预警结束、进入攻击之�?* �?i 波的相对 tick"�?     *   因此第三个参数必须传 (elapsed - windup_ticks)，不是绝�?world->tick�?     *
+     * 传绝�?tick 的后果：默认配置 windup=72、wave_tick=[0, 42, 84]�?     * 绝对 tick 起步就是 72 且只增不减，�?1 �?t=0)与第 2 �?t=42)永不匹配�?     * 只有�?3 �?t=84)能生�?—�?预警与实际生成不一致，玩家看到 3 波预警只收到 1 波�?     * 实测证据�?docs/demo-findings.md；回归哨兵为
+     * `build/sim/sim.exe --seed 12345 --script mixed --max-ticks 7200`（应四招都被接受�?boss_bullets 非零）�?*/
+    const uint32_t active_tick = (uint32_t)(elapsed - world->plan.windup_ticks);
+    if (!vt->emit(&world->plan, &world->cfg, active_tick, &buf)) {
+        return; /* �?tick 不生成波�?*/
     }
 
     uint32_t spawned = 0u;
@@ -250,7 +250,7 @@ float attack_progress(const World *world) {
         return t;
     }
 
-    /* ACTIVE: 1 + 攻击阶段进度, 取值 [1, 2] */
+    /* ACTIVE: 1 + 攻击阶段进度, 取�?[1, 2] */
     const float active = (float)world->plan.active_ticks;
     if (active <= 0.0f) {
         return 2.0f;
