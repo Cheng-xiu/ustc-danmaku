@@ -110,14 +110,23 @@ void draw_warning(const PatternWarning *w, const DemoConfig *cfg) {
             break;
         }
         case DEMO_PATTERN_SHOWER: {
-            /* 淋浴: 顶部扫描带与竖向缝隙 */
+            /* 淋浴: 顶部扫描带与竖向缝隙。
+             * 字段编码（见 core/pattern_shower.c 文件头）:
+             *   warning.origin_x/origin_y  = 目标位置占位, 不是缝隙位置;
+             *   缝隙中心由 plan->wave_offset 决定, 但 PatternWarning 未暴露它。
+             * 因此这里只画"顶部进入线 + 通道宽度"这一公开信息, 不猜缝隙的具体位置,
+             * 避免画出与实际安全通道不符的假预警（真实缝隙位置逐波扫描）。
+             * 若要显示真实缝隙, 需要由母代理在 PatternWarning 中增加字段（接口 v3）。 */
             setlinecolor(RGB(200, 200, 255));
             setlinestyle(PS_SOLID, 1);
             line(0, 100, (int)cfg->field_w, 100);
             float gap = w->corridor_width;
-            float center = cfg->field_w * 0.5f;
-            setfillcolor(RGB(60, 80, 130));
-            solidrectangle((int)(center - gap * 0.5f), 0, (int)(center + gap * 0.5f), 140);
+            /* 用虚线区间提示"存在竖向安全通道", 位置留空以避免误导 */
+            setlinecolor(RGB(120, 160, 220));
+            setlinestyle(PS_DASH, 1);
+            line(0, 100, 0, (int)cfg->field_h);
+            line((int)cfg->field_w - 1, 100, (int)cfg->field_w - 1, (int)cfg->field_h);
+            (void)gap;
             break;
         }
         default:
