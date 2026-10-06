@@ -73,11 +73,11 @@ static bool stub_emit(const AttackPlan *plan, const DemoConfig *config, uint32_t
         return false;
     }
     const int32_t first_active = plan->start_tick + plan->windup_ticks;
-    printf("  [dbg-emit] tick=%d first_active=%d plan=%u\n", (int)attack_tick, (int)first_active,
-           (unsigned)plan->plan_id);
     if ((int32_t)attack_tick != first_active) {
         return false;
     }
+    fprintf(stderr, "EMIT push tick=%d cap=%u count_before=%u\n", (int)attack_tick,
+            (unsigned)out->capacity, (unsigned)out->count);
     Projectile spec;
     memset(&spec, 0, sizeof(spec));
     spec.faction = DEMO_FACTION_BOSS;
