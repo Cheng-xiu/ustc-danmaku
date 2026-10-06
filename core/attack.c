@@ -204,11 +204,8 @@ void attack_step(World *world) {
 
     ProjectileSpawnBuffer buf;
     spawn_buffer_init(&buf);
-    /* 波次时刻语义: 招式模块的 plan->wave_tick[i] 表示"预警结束、进入攻击后"的相对 tick，
-     * 因此这里必须传"相对攻击开始的时刻"(elapsed - windup)，而不是绝对 tick。
-     * 否则 first_spawn_sec=0 的第 1、2 波会落在预警窗口内而永不生成。 */
-    const uint32_t active_tick = (uint32_t)(elapsed - world->plan.windup_ticks);
-    if (!vt->emit(&world->plan, &world->cfg, active_tick, &buf)) {
+    /* 任务冻结语义: 第三个参数传当前绝对 tick。 */
+    if (!vt->emit(&world->plan, &world->cfg, (uint32_t)world->tick, &buf)) {
         return; /* 本 tick 不生成波次 */
     }
 
