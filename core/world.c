@@ -350,10 +350,14 @@ static void students_fire(World *world) {
             continue; /* 冷却在 student_fire_tick_cooldown 中统一推进 */
         }
         DemoEntityId source = 0u;
+        /* 用 uint32_t 中转字段调用冻结签名, 避免 (uint32_t *)&int32_t 的严格别名违规 */
+        world->fire_cooldown_scratch[i] = (uint32_t)world->bot[i].fire_cooldown_ticks;
         if (!student_fire_try(cfg, s, world->boss.x, world->boss.y, &world->pool, world->tick,
-                              (uint32_t *)&world->bot[i].fire_cooldown_ticks, &source)) {
+                              &world->fire_cooldown_scratch[i], &source)) {
+            world->fire_cooldown_scratch[i] = (uint32_t)world->bot[i].fire_cooldown_ticks;
             continue;
         }
+        world->bot[i].fire_cooldown_ticks = (int32_t)world->fire_cooldown_scratch[i];
         world->student_bullets_spawned++;
         push_event(world, DEMO_EVENT_STUDENT_FIRE, s->id, world->boss.id, 1, s->x, s->y,
                    (DemoPattern)0, DEMO_REJECT_NONE);

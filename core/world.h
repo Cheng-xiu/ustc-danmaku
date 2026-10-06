@@ -42,6 +42,11 @@ typedef struct World {
     StudentBotState bot[DEMO_MAX_STUDENTS];
     StudentObservation obs[DEMO_MAX_STUDENTS];
     StudentAction action[DEMO_MAX_STUDENTS];
+    /* student_fire_try 的 inout_cooldown 入参是 uint32_t*（接口 v2 冻结），
+     * 而 StudentBotState.fire_cooldown_ticks 是 int32_t。
+     * 这里保留一个 uint32_t 中转字段并在同一 tick 内同步，避免 `(uint32_t *)&int32_t` 强转
+     * 触发的严格别名违规（S20 验收 P1）。 */
+    uint32_t fire_cooldown_scratch[DEMO_MAX_STUDENTS];
 
     ProjectilePool pool;
 

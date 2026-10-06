@@ -198,6 +198,46 @@ bool demo_config_validate(const DemoConfig *cfg, char *err, size_t err_cap) {
     if (cfg->student_decision_ticks <= 0) {
         FAIL("student decision period must be positive");
     }
+    /* 学生反击字段: 未校验时非法值会被静默接受, 例如负伤害会让 Boss 回血 */
+    if (cfg->student_fire_interval_ticks <= 0) {
+        FAIL("student fire interval must be positive");
+    }
+    if (cfg->student_fire_damage <= 0) {
+        FAIL("student fire damage must be positive");
+    }
+    if (!is_finite_f(cfg->student_bullet_speed) || cfg->student_bullet_speed <= 0.0f) {
+        FAIL("student bullet speed must be positive and finite");
+    }
+    if (!is_finite_f(cfg->student_bullet_radius) || cfg->student_bullet_radius <= 0.0f) {
+        FAIL("student bullet radius must be positive and finite");
+    }
+    if (cfg->student_bullet_lifetime_ticks <= 0) {
+        FAIL("student bullet lifetime must be positive");
+    }
+    if (!is_finite_f(cfg->student_fire_min_range) || cfg->student_fire_min_range < 0.0f) {
+        FAIL("student fire min range must be non-negative and finite");
+    }
+    if (!is_finite_f(cfg->boss_bullet_radius) || cfg->boss_bullet_radius <= 0.0f) {
+        FAIL("boss bullet radius must be positive and finite");
+    }
+    if (!is_finite_f(cfg->boss_bullet_damage) || cfg->boss_bullet_damage <= 0.0f) {
+        FAIL("boss bullet damage must be positive and finite");
+    }
+    if (cfg->boss_bullet_lifetime_ticks <= 0) {
+        FAIL("boss bullet lifetime must be positive");
+    }
+    if (!is_finite_f(cfg->student_radius) || cfg->student_radius <= 0.0f) {
+        FAIL("student radius must be positive and finite");
+    }
+    if (!is_finite_f(cfg->student_speed) || cfg->student_speed <= 0.0f) {
+        FAIL("student speed must be positive and finite");
+    }
+    if (!is_finite_f(cfg->boss_radius) || cfg->boss_radius <= 0.0f) {
+        FAIL("boss radius must be positive and finite");
+    }
+    if (cfg->boss_hurt_invuln_ticks < 0 || cfg->student_hurt_invuln_ticks < 0) {
+        FAIL("invulnerability ticks must be non-negative");
+    }
     if (cfg->energy_max <= 0 || cfg->energy_start < 0 || cfg->energy_start > cfg->energy_max) {
         FAIL("energy settings out of range");
     }

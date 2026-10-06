@@ -19,7 +19,10 @@ bool student_fire_try(const DemoConfig *cfg, Actor *student, float target_x, flo
 
 /* 该学生此刻是否允许发射(冷却与存活检查)。 */
 bool student_fire_ready(const Actor *student, int32_t cooldown_ticks);
-/* 冷却推进 */
+/* 冷却推进。冷却以非负 tick 计, 但接口统一用 int32_t 表达:
+ *   - student_fire_ready 接收 int32_t;
+ *   - student_fire_try 的 inout_cooldown 为 uint32_t*（历史签名, 接口 v2 冻结）。
+ * 调用方不得用 `(uint32_t *)&int32_t变量` 强转(严格别名违规)。 */
 void student_fire_tick_cooldown(int32_t *cooldown_ticks);
 
 #ifdef __cplusplus

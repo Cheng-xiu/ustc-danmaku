@@ -65,15 +65,32 @@ D:\mingw64\mingw64\bin\gcc.exe -std=c11 -O2 -I %R%\core -I %R%\ai -I %R%\sim %R%
 
 | 检查项 | 证据 |
 | --- | --- |
-| 完整对局可结束 | `--script mixed --max-ticks 7200` → `RESULT status=BOSS_WIN tick=4196 accepts=16` |
-| 失败路径可演示 | `--script wait` → `RESULT status=BOSS_LOSE tick=478 boss_hits=6` |
-| 四招都被真实请求 | 同一次运行 `pattern=0/1/2/3 requests=1015/997/1038/738` |
+| 完整对局可结束（失败方向） | `--script wait --max-ticks 7200` → `RESULT status=BOSS_LOSE tick=478 boss_hits=6` |
+| 完整对局可结束（胜利方向） | **本轮实测未复现**。见 §5.1 |
+| 四招都被真实请求 | `pattern=0/1/2/3 requests=1015/997/1038/738` |
 | 能量扣减与拒绝 | `accepts=16 rejects=3772`，拒绝原因为 BUSY/NO_ENERGY；能量随恢复上升 |
-| 弹幕双向生效 | `boss_hits=3 student_hits=9 students_down=3`，学生弹与 Boss 弹都造成伤害 |
+| 弹幕双向生效 | `boss_hits=3~6 student_hits=4~9`，学生弹与 Boss 弹都造成伤害 |
 | 可复现性 | 同 seed 两次 `--replay` 输出逐行一致（45 行，Compare-Object 无差异） |
 | 截断不判胜负 | `--max-ticks 300` → `RESULT status=TRUNCATED tick=300` |
 | 错误处理 | `--seed abc` → 退出码 2 + 明确错误 |
-| 图形程序可启动 | `ustc_danmaku.exe` 启动后窗口进程持续存活（本会话无图形交互能力，未做按键试玩） |
+| 图形程序可启动 | `ustc_danmaku.exe` 启动后 `MainWindowHandle` 非 0、`Responding=True`、结束无残留 |
+
+### 5.1 必须知道的当前缺陷：Boss 胜利在实测中不可达
+
+2026-10-06 修正：本文件早先引用的 `BOSS_WIN tick=4196` **取自过期日志，不可复现**，已删除。独立验收（S20）跑 60+ 次从未出现 `BOSS_WIN`；母代理用当前提交复测 4 种脚本 × 6 个 seed = **24 局**，结果：
+
+| 脚本 | WIN | LOSE | TRUNCATED | 崩溃 |
+| --- | --- | --- | --- | --- |
+| mixed | 0 | 5 | 1 | 0 |
+| dodge | 0 | 5 | 1 | 0 |
+| patrol | 0 | 6 | 0 | 0 |
+| wait | 0 | 6 | 0 | 0 |
+
+**结论：当前配置下"击倒全部学生"这一胜利条件在自动脚本中不可达，Boss 稳定失败。** 这是玩法平衡问题（P1），不是逻辑崩溃：对局能正常结束、能正确判负、能重开。
+
+初步定位（待进一步确认，不是结论）：Boss 弹命中后学生进入 0.3 s 无敌，而三招的弹在时间上高度集中，导致"命中"次数被无敌窗口大量吸收；`mixed` 脚本 12 次成功出招只换到 6 次学生掉血（3 名学生 × 3 血 = 9 次所需）。建议的下一轮最小调整方向（需真人试玩与实测支持，不得凭此直接改规则）：先测"学生无敌时长 / Boss 弹伤害 / 学生血量"三者中单独一项的变化，记录 20 seed 的胜负分布，再决定是否调整配置。
+
+**在这条缺陷修复前，"玩家能赢"这一体验未经验证。** 不得把本 demo 描述为已通过可玩性验收。
 
 ## 6 未验证 / 待办（如实记录）
 
