@@ -91,17 +91,34 @@ try {
       check(`${prefix}: keyboard overrides HUD pointer`, keyboard.snapshot.actors[0].x > afterMouse.snapshot.actors[0].x + 10
         && Math.abs(keyboard.snapshot.actors[0].y - afterMouse.snapshot.actors[0].y) < 0.1);
 
+      // The movement fixture can put the frozen ring origin on a student's
+      // subsequent path: all 24 shots then hit and disappear in their first
+      // tick. Isolate trajectory sampling in a fresh round using real inputs.
+      await page.keyboard.press('r');
+      const skillReady = await ticks(1);
+      check(`${prefix}: a real restart isolates the skill fixture from movement`, skillReady.phase === 'playing'
+        && skillReady.snapshot.accepted === 0 && skillReady.snapshot.rejected === 0
+        && skillReady.snapshot.bossBullets === 0 && !skillReady.aim && !skillReady.preview);
+      const boss = skillReady.snapshot.actors[0];
+      const bossPoint = await page.locator('#arena canvas').evaluate((canvas, data) => {
+        const bounds = canvas.getBoundingClientRect(), width = Math.floor(bounds.width), height = Math.floor(bounds.height);
+        const scale = Math.min(width / data.w, height / data.h);
+        return { x: bounds.left + ((width - data.w * scale) / 2 + data.x * scale) * bounds.width / width,
+          y: bounds.top + ((height - data.h * scale) / 2 + data.y * scale) * bounds.height / height };
+      }, { x: boss.x, y: boss.y, w: skillReady.snapshot.fieldW, h: skillReady.snapshot.fieldH });
+      await page.mouse.move(bossPoint.x, bossPoint.y);
+
       await page.keyboard.down('1');
       const immediate = await inspect();
       check(`${prefix}: pressing ring immediately selects pre-aim without charging`, immediate.aim?.pattern === 0
-        && immediate.snapshot.accepted === 0 && immediate.snapshot.energy === keyboard.snapshot.energy);
+        && immediate.snapshot.accepted === 0 && immediate.snapshot.energy === skillReady.snapshot.energy);
       const holding = await ticks(12);
       check(`${prefix}: held ring exposes C preview without accepting or charging`, holding.aim?.pattern === 0
         && holding.preview?.pattern === 0 && holding.preview.valid && holding.preview.rays.length > 0
         && near(holding.preview.dirX, holding.aim.dirX) && near(holding.preview.dirY, holding.aim.dirY)
         && near(holding.preview.originX, holding.snapshot.actors[0].x) && near(holding.preview.originY, holding.snapshot.actors[0].y)
         && holding.snapshot.accepted === 0 && holding.snapshot.rejected === 0 && holding.snapshot.attackState === 0
-        && holding.snapshot.energy >= keyboard.snapshot.energy && holding.snapshot.warnings.length === 0,
+        && holding.snapshot.energy >= skillReady.snapshot.energy && holding.snapshot.warnings.length === 0,
       { energy: holding.snapshot.energy, rayCount: holding.preview?.rays.length, aim: holding.aim });
       if (viewport.width === 1440) await page.screenshot({ path: path.join(output, 'preaim.png') });
       await page.keyboard.press('Space'); await page.keyboard.up('1');
@@ -141,7 +158,9 @@ try {
           && near(bullet.x, ray.x + ray.vx / 60, .01) && near(bullet.y, ray.y + ray.vy / 60, .01)));
       check(`${prefix}: manual ring emits actual bullets along its locked rays`, firing.snapshot.bossBullets >= 24
         && firing.snapshot.attackState === 2 && firing.snapshot.accepted === 1 && matchingBullet,
-      { tick: firing.snapshot.tick, firstSpawn, emitted: firing.snapshot.bossBullets });
+      { tick: firing.snapshot.tick, firstSpawn, emitted: firing.snapshot.bossBullets,
+        liveBossBullets: firing.snapshot.bullets.filter(bullet => bullet.faction === 1 && bullet.pattern === 0).length,
+        matchingBullet });
       if (viewport.width === 1440) await page.screenshot({ path: path.join(output, 'playing.png') });
       await page.keyboard.press('Escape'); const paused = await inspect(); await page.clock.runFor(1000);
       const frozen = await inspect();

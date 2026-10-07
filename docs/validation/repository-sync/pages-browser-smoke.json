@@ -1,0 +1,353 @@
+{
+  "url": "https://cheng-xiu.github.io/ustc-danmaku/?qa=1",
+  "htmlSha256": "9de27925103b644236b736e635932be215ecd0440d095311657c08673d22680d",
+  "configVersion": 6,
+  "abiVersion": 5,
+  "abiEvidence": "The bundled client requires ABI5; the online HTML must match the tested local artifact byte for byte and expose manual-aim snapshots and C previews.",
+  "method": "Actual HTTPS page and real mouse/keyboard inputs; read-only QA snapshots; clock installed and paused before navigation. No OS blur is simulated. Controlled time is not an FPS measurement.",
+  "checks": [
+    {
+      "name": "1440x900: HTTPS200",
+      "pass": true
+    },
+    {
+      "name": "1440x900: online HTML matches tested artifact",
+      "pass": true
+    },
+    {
+      "name": "1440x900: current core and four pre-game introductions",
+      "pass": true
+    },
+    {
+      "name": "1440x900: real game starts and hides skill guide",
+      "pass": true
+    },
+    {
+      "name": "1440x900: top bars and remaining window form the field",
+      "pass": true,
+      "detail": {
+        "width": 1440,
+        "height": 778,
+        "top": 122,
+        "bottom": 900,
+        "hudBottom": 122,
+        "canvasWidth": 1440,
+        "canvasHeight": 778,
+        "viewport": 900
+      }
+    },
+    {
+      "name": "1440x900: actual mouse in HUD still steers upward",
+      "pass": true
+    },
+    {
+      "name": "1440x900: keyboard overrides HUD pointer",
+      "pass": true
+    },
+    {
+      "name": "1440x900: a real restart isolates the skill fixture from movement",
+      "pass": true
+    },
+    {
+      "name": "1440x900: pressing ring immediately selects pre-aim without charging",
+      "pass": true
+    },
+    {
+      "name": "1440x900: held ring exposes C preview without accepting or charging",
+      "pass": true,
+      "detail": {
+        "energy": 62,
+        "rayCount": 48,
+        "aim": {
+          "pattern": 0,
+          "dirX": 0,
+          "dirY": -1
+        }
+      }
+    },
+    {
+      "name": "1440x900: Space then keyup cancels without submitting an attack",
+      "pass": true
+    },
+    {
+      "name": "1440x900: a new hold has a ready C preview",
+      "pass": true
+    },
+    {
+      "name": "1440x900: release edge cannot deduct before a logical tick",
+      "pass": true
+    },
+    {
+      "name": "1440x900: manual ring release charges once and matches the preview direction",
+      "pass": true,
+      "detail": {
+        "energyBefore": 62,
+        "energyAfter": 37,
+        "direction": [
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "name": "1440x900: accepted warnings preserve all C candidate rays",
+      "pass": true,
+      "detail": {
+        "candidateRays": 48,
+        "warningRays": 48,
+        "tickShift": 0
+      }
+    },
+    {
+      "name": "1440x900: manual ring emits actual bullets along its locked rays",
+      "pass": true,
+      "detail": {
+        "tick": 41,
+        "firstSpawn": 40,
+        "emitted": 24,
+        "liveBossBullets": 24,
+        "matchingBullet": true
+      }
+    },
+    {
+      "name": "1440x900: pause freezes core and score",
+      "pass": true
+    },
+    {
+      "name": "1440x900: restart resets round and matches window",
+      "pass": true
+    },
+    {
+      "name": "1024x768: HTTPS200",
+      "pass": true
+    },
+    {
+      "name": "1024x768: online HTML matches tested artifact",
+      "pass": true
+    },
+    {
+      "name": "1024x768: current core and four pre-game introductions",
+      "pass": true
+    },
+    {
+      "name": "1024x768: real game starts and hides skill guide",
+      "pass": true
+    },
+    {
+      "name": "1024x768: top bars and remaining window form the field",
+      "pass": true,
+      "detail": {
+        "width": 1024,
+        "height": 646,
+        "top": 122,
+        "bottom": 768,
+        "hudBottom": 122,
+        "canvasWidth": 1024,
+        "canvasHeight": 646,
+        "viewport": 768
+      }
+    },
+    {
+      "name": "1024x768: actual mouse in HUD still steers upward",
+      "pass": true
+    },
+    {
+      "name": "1024x768: keyboard overrides HUD pointer",
+      "pass": true
+    },
+    {
+      "name": "1024x768: a real restart isolates the skill fixture from movement",
+      "pass": true
+    },
+    {
+      "name": "1024x768: pressing ring immediately selects pre-aim without charging",
+      "pass": true
+    },
+    {
+      "name": "1024x768: held ring exposes C preview without accepting or charging",
+      "pass": true,
+      "detail": {
+        "energy": 62,
+        "rayCount": 48,
+        "aim": {
+          "pattern": 0,
+          "dirX": 0,
+          "dirY": -1
+        }
+      }
+    },
+    {
+      "name": "1024x768: Space then keyup cancels without submitting an attack",
+      "pass": true
+    },
+    {
+      "name": "1024x768: a new hold has a ready C preview",
+      "pass": true
+    },
+    {
+      "name": "1024x768: release edge cannot deduct before a logical tick",
+      "pass": true
+    },
+    {
+      "name": "1024x768: manual ring release charges once and matches the preview direction",
+      "pass": true,
+      "detail": {
+        "energyBefore": 62,
+        "energyAfter": 37,
+        "direction": [
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "name": "1024x768: accepted warnings preserve all C candidate rays",
+      "pass": true,
+      "detail": {
+        "candidateRays": 48,
+        "warningRays": 48,
+        "tickShift": 0
+      }
+    },
+    {
+      "name": "1024x768: manual ring emits actual bullets along its locked rays",
+      "pass": true,
+      "detail": {
+        "tick": 41,
+        "firstSpawn": 40,
+        "emitted": 24,
+        "liveBossBullets": 24,
+        "matchingBullet": true
+      }
+    },
+    {
+      "name": "1024x768: pause freezes core and score",
+      "pass": true
+    },
+    {
+      "name": "1024x768: restart resets round and matches window",
+      "pass": true
+    },
+    {
+      "name": "390x844: HTTPS200",
+      "pass": true
+    },
+    {
+      "name": "390x844: online HTML matches tested artifact",
+      "pass": true
+    },
+    {
+      "name": "390x844: current core and four pre-game introductions",
+      "pass": true
+    },
+    {
+      "name": "390x844: real game starts and hides skill guide",
+      "pass": true
+    },
+    {
+      "name": "390x844: top bars and remaining window form the field",
+      "pass": true,
+      "detail": {
+        "width": 390,
+        "height": 666.109375,
+        "top": 177.890625,
+        "bottom": 844,
+        "hudBottom": 177.890625,
+        "canvasWidth": 390,
+        "canvasHeight": 666,
+        "viewport": 844
+      }
+    },
+    {
+      "name": "390x844: actual mouse in HUD still steers upward",
+      "pass": true
+    },
+    {
+      "name": "390x844: keyboard overrides HUD pointer",
+      "pass": true
+    },
+    {
+      "name": "390x844: a real restart isolates the skill fixture from movement",
+      "pass": true
+    },
+    {
+      "name": "390x844: pressing ring immediately selects pre-aim without charging",
+      "pass": true
+    },
+    {
+      "name": "390x844: held ring exposes C preview without accepting or charging",
+      "pass": true,
+      "detail": {
+        "energy": 62,
+        "rayCount": 48,
+        "aim": {
+          "pattern": 0,
+          "dirX": 0,
+          "dirY": -1
+        }
+      }
+    },
+    {
+      "name": "390x844: Space then keyup cancels without submitting an attack",
+      "pass": true
+    },
+    {
+      "name": "390x844: a new hold has a ready C preview",
+      "pass": true
+    },
+    {
+      "name": "390x844: release edge cannot deduct before a logical tick",
+      "pass": true
+    },
+    {
+      "name": "390x844: manual ring release charges once and matches the preview direction",
+      "pass": true,
+      "detail": {
+        "energyBefore": 62,
+        "energyAfter": 37,
+        "direction": [
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "name": "390x844: accepted warnings preserve all C candidate rays",
+      "pass": true,
+      "detail": {
+        "candidateRays": 48,
+        "warningRays": 48,
+        "tickShift": 0
+      }
+    },
+    {
+      "name": "390x844: manual ring emits actual bullets along its locked rays",
+      "pass": true,
+      "detail": {
+        "tick": 41,
+        "firstSpawn": 40,
+        "emitted": 24,
+        "liveBossBullets": 24,
+        "matchingBullet": true
+      }
+    },
+    {
+      "name": "390x844: pause freezes core and score",
+      "pass": true
+    },
+    {
+      "name": "390x844: restart resets round and matches window",
+      "pass": true
+    },
+    {
+      "name": "no runtime errors or failed resources",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "failedRequests": [],
+  "httpErrors": [],
+  "passed": true,
+  "browser": "154.0.8037.98",
+  "elapsedSeconds": 13.1274702
+}
