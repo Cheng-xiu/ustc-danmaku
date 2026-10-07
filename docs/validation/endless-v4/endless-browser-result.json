@@ -1,0 +1,224 @@
+{
+  "method": "Real offline browser WASD/digit input handlers; one controlled logical tick at a time; QA reads only. No injected game state.",
+  "configVersion": 4,
+  "abiVersion": 3,
+  "success": true,
+  "errors": [],
+  "externalRequests": [],
+  "checks": [
+    {
+      "name": "fixtures use current cfg4",
+      "pass": true,
+      "detail": {
+        "input": 4,
+        "native": 4
+      }
+    },
+    {
+      "name": "native fixture reaches second wave",
+      "pass": true
+    },
+    {
+      "name": "native warning gap is exactly120ticks",
+      "pass": true,
+      "detail": {
+        "clear": 1939,
+        "birth": 2059
+      }
+    },
+    {
+      "name": "start is playing at tick0",
+      "pass": true,
+      "detail": {
+        "phase": "playing",
+        "tick": 0
+      }
+    },
+    {
+      "name": "browser core matches fixture seed and counts",
+      "pass": true
+    },
+    {
+      "name": "first clear remains playing without victory",
+      "pass": true
+    },
+    {
+      "name": "first clear shows four exact spawn markers",
+      "pass": true
+    },
+    {
+      "name": "clear GPA matches native count formula",
+      "pass": true,
+      "detail": {
+        "kills": 3,
+        "gpa": 56
+      }
+    },
+    {
+      "name": "clear never shows terminal overlay",
+      "pass": true
+    },
+    {
+      "name": "intermission HUD buttons remain inside visible viewport",
+      "pass": true,
+      "detail": {
+        "height": 720,
+        "scrollHeight": 720,
+        "clipTop": 104,
+        "clipBottom": 822,
+        "buttons": [
+          {
+            "top": 786,
+            "bottom": 814
+          },
+          {
+            "top": 786,
+            "bottom": 814
+          }
+        ]
+      }
+    },
+    {
+      "name": "second wave arrives exactly120ticks after clear",
+      "pass": true
+    },
+    {
+      "name": "second wave has four live students",
+      "pass": true
+    },
+    {
+      "name": "new students appear at the frozen preview points",
+      "pass": true,
+      "detail": [
+        {
+          "x": 200,
+          "y": 300
+        },
+        {
+          "x": 760,
+          "y": 300
+        },
+        {
+          "x": 480,
+          "y": 430
+        },
+        {
+          "x": 160,
+          "y": 160
+        }
+      ]
+    },
+    {
+      "name": "second wave preserves kills and computed GPA",
+      "pass": true
+    },
+    {
+      "name": "four-student HUD buttons remain inside visible viewport",
+      "pass": true,
+      "detail": {
+        "height": 720,
+        "scrollHeight": 720,
+        "clipTop": 104,
+        "clipBottom": 822,
+        "buttons": [
+          {
+            "top": 786,
+            "bottom": 814
+          },
+          {
+            "top": 786,
+            "bottom": 814
+          }
+        ]
+      }
+    },
+    {
+      "name": "second wave continues for30ticks",
+      "pass": true
+    },
+    {
+      "name": "HUD displays the computed GPA",
+      "pass": true,
+      "detail": "0.56"
+    },
+    {
+      "name": "current HUD fits720px",
+      "pass": true,
+      "detail": {
+        "height": 720,
+        "scrollHeight": 720
+      }
+    },
+    {
+      "name": "restart clears GPA kills and wave",
+      "pass": true
+    },
+    {
+      "name": "offline replay makes no external requests",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "browser reports no runtime errors",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "inputsReplayed": 2089,
+  "rafAdvances": 2178,
+  "zeroTickFrames": 89,
+  "fixture": {
+    "file": "C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\build\\web-validation\\endless-inputs.json",
+    "native": "C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\build\\web-validation\\endless-native-result.json",
+    "script": "chase-d150-avoid20-ring",
+    "seedLo": 20261006,
+    "seedHi": 0,
+    "students": 3,
+    "previewTick": 1939,
+    "birthTick": 2059,
+    "endTick": 2089
+  },
+  "browser": "154.0.8037.98",
+  "url": "file:///C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/outputs/ustc-danmaku-endless-v4.html?qa=1",
+  "milestonesMatched": 11,
+  "preview": {
+    "tick": 1939,
+    "spawnTick": 2059,
+    "gpa": 56,
+    "kills": 3,
+    "points": [
+      {
+        "x": 200,
+        "y": 300
+      },
+      {
+        "x": 760,
+        "y": 300
+      },
+      {
+        "x": 480,
+        "y": 430
+      },
+      {
+        "x": 160,
+        "y": 160
+      }
+    ]
+  },
+  "previewTicksVerified": 119,
+  "birth": {
+    "tick": 2059,
+    "wave": 2,
+    "gpa": 56,
+    "kills": 3,
+    "students": 4
+  },
+  "final": {
+    "tick": 2089,
+    "wave": 2,
+    "kills": 3,
+    "gpaHundredths": 56,
+    "phase": "playing"
+  },
+  "elapsedSeconds": 65.43192020000001
+}

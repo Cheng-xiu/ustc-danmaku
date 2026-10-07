@@ -39,6 +39,12 @@ typedef enum DemoWorldStatus {
     DEMO_STATUS_DRAW
 } DemoWorldStatus;
 
+/* 无尽模式: 清波后只进入公开出生预告, 不产生胜利终局。 */
+typedef enum DemoStudentWavePhase {
+    DEMO_STUDENT_WAVE_ACTIVE = 0,
+    DEMO_STUDENT_WAVE_PREVIEW = 1
+} DemoStudentWavePhase;
+
 typedef enum DemoFaction {
     DEMO_FACTION_NONE = 0,
     DEMO_FACTION_BOSS,    /* Boss 弹: 伤害学生 */
@@ -111,6 +117,7 @@ typedef struct PatternConfig {
     int32_t shots_per_wave;   /* 每波基础发数(扇面/环/列共用, 具体含义见招式模块) */
     float gap_span_deg;       /* 环弹: 缺口总跨度; 其余招式保留 */
     float corridor_width;     /* 课表: 通道宽度 px; 淋浴: 竖向缝隙 px */
+    float lane_spread_px;     /* 课表: 列内横向弹线偏移, px */
     float spawn_safety_radius;/* 环弹/金矿: 生成点与学生安全距离 */
     float first_spawn_sec;    /* 第一波生成时刻(相对攻击开始) */
     float wave_interval_sec;  /* 相邻波次间隔 */
@@ -177,6 +184,10 @@ typedef struct DemoConfig {
     PatternConfig patterns[DEMO_PATTERN_COUNT];
 
     /* 裁决与实验截断 */
+    bool endless_mode;    /* 产品默认 true; false 仅保留历史有限局回归 */
+    int32_t wave_gap_ticks; /* 无尽清波后的公开出生预告, 至少 120 tick */
+    uint32_t gpa_half_saturation_kills; /* GPA = max*n/(n+k); 默认 k=20, 必须 >0 */
+    int32_t gpa_max_hundredths;         /* 默认 430 = 4.30 */
     int32_t outcome_rule; /* DemoOutcomeRule */
     int32_t max_ticks;    /* sim 防卡截断; 截断记为 TRUNCATED, 不判胜负 */
 } DemoConfig;
@@ -342,6 +353,7 @@ typedef struct AttackPlan {
     float gap_span_deg;
     float gap_drift_deg_per_wave; /* 每波缺口旋转量 */
     float corridor_width;         /* 课表/淋浴: 通道或缝隙宽度 */
+    float lane_spread_px;         /* 接受时锁定的课表弹线偏移 */
     int32_t wave_count;
     int32_t shots_per_wave;
     float wave_tick[DEMO_PATTERN_COUNT * 8]; /* 每波相对 tick：预警结束、攻击开始为 0 */
@@ -408,7 +420,10 @@ typedef enum DemoEventType {
     DEMO_EVENT_ENERGY_SPENT,
     DEMO_EVENT_STUDENT_FIRE,
     DEMO_EVENT_GAME_OVER,
-    DEMO_EVENT_TRUNCATED
+    DEMO_EVENT_TRUNCATED,
+    DEMO_EVENT_STUDENT_WAVE_CLEAR,
+    DEMO_EVENT_STUDENT_WAVE_PREVIEW,
+    DEMO_EVENT_STUDENT_WAVE_BEGIN
 } DemoEventType;
 
 typedef struct StepEvent {

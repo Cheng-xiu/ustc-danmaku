@@ -19,6 +19,9 @@ static unsigned failures;
 static DemoConfig fixture_config(void) {
     DemoConfig cfg;
     if (!demo_config_init(&cfg)) exit(2);
+    /* 保留旧有限局裁决回归；产品无尽模式由 test_endless 独立覆盖。 */
+    cfg.endless_mode = false;
+    cfg.outcome_rule = DEMO_OUTCOME_BOSS_WIN;
     cfg.student_count = 1;
     cfg.student_spawn_x[0] = 480.0f;
     cfg.student_spawn_y[0] = 300.0f;
@@ -170,22 +173,43 @@ static void test_course_birth_band(void) {
     boss_input_clear(&input);
     input.attack_requested[DEMO_PATTERN_COURSE] = true;
     world_step(&world, &input);
+    CHECK(world.last_result.attack_accepted);
+    const float spread = cfg.patterns[DEMO_PATTERN_COURSE].lane_spread_px;
+    const float column_width = cfg.field_w / 3.0f;
+    CHECK(world.plan.lane_spread_px == spread && spread == 96.0f);
+    /* Geometry is immutable after acceptance, including the new lane spread. */
+    cfg.patterns[DEMO_PATTERN_COURSE].lane_spread_px = 0;
     for (int wave = 0; wave < world.plan.wave_count; ++wave) {
         ProjectileSpawnBuffer buf;
         spawn_buffer_init(&buf);
         CHECK(pattern_course_emit(&world.plan, &cfg,
               (uint32_t)lroundf(world.plan.wave_tick[wave]), &buf));
         CHECK(buf.count == 24);
+        const int channel = ((int)world.plan.wave_offset + wave) % 3;
         bool saw_top = false, saw_bottom = false;
         for (uint32_t k = 0; k < buf.count; ++k) {
             const Projectile *p = &buf.spec[k];
             CHECK(p->y >= 0 && p->y <= 100.001f);
             CHECK(p->vy == cfg.patterns[DEMO_PATTERN_COURSE].bullet_speed && p->vx == 0);
+            const int column = (int)(p->x / column_width);
+            const float center = column_width * ((float)column + 0.5f);
+            const float offset = fabsf(p->x - center);
+            CHECK(column >= 0 && column < 3 && column != channel);
+            CHECK(offset < 0.001f || fabsf(offset - spread) < 0.001f);
+            CHECK(p->x - cfg.boss_bullet_radius >= column * column_width &&
+                  p->x + cfg.boss_bullet_radius <= (column + 1) * column_width);
             if (p->y == 0) saw_top = true;
             if (fabsf(p->y - 100) < 0.001f) saw_bottom = true;
         }
         CHECK(saw_top && saw_bottom);
     }
+    char error[128];
+    cfg.patterns[DEMO_PATTERN_COURSE].lane_spread_px = NAN;
+    CHECK(!demo_config_validate(&cfg, error, sizeof(error)));
+    cfg.patterns[DEMO_PATTERN_COURSE].lane_spread_px = -1;
+    CHECK(!demo_config_validate(&cfg, error, sizeof(error)));
+    cfg.patterns[DEMO_PATTERN_COURSE].lane_spread_px = column_width / 2;
+    CHECK(!demo_config_validate(&cfg, error, sizeof(error)));
 }
 
 static void test_rejections(void) {
@@ -234,7 +258,7 @@ static void test_rejections(void) {
     CHECK(world.last_result.attack_accepted);
     float dx = world.plan.aim_x - world.plan.origin_x;
     float dy = world.plan.aim_y - world.plan.origin_y;
-    CHECK(hypotf(dx, dy) >= 179.999f);
+    CHECK(hypotf(dx, dy) >= cfg.patterns[DEMO_PATTERN_MINE].spawn_safety_radius - 0.001f);
 }
 
 static void check_frozen(World *world) {

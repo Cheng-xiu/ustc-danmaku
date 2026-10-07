@@ -17,7 +17,7 @@
  * 与实现共享的约定(两侧注释互相标注, 改动需同步):
  *   - SHOWER_TOP_SPAWN_Y = 100.0f  (core/pattern_shower.c 的顶部进入 y)
  *   - 扫描方向编码: plan->gap_angle_deg = +90 => 向右(+x); -90 => 向左(-x)
- *   - 扫描步长: step = max(corridor_width * 0.5, pitch)
+ *   - 扫描步长: step = pitch (相邻缝隙保持真实交集)
  *   - 弹间距:   pitch = ((field_w - 2*2r) - corridor_width) / shots_per_wave
  */
 #include "demo_base.h"
@@ -286,6 +286,19 @@ static int32_t wave_tick_relative(const AttackPlan *plan, int32_t i)
     return base;
 }
 
+/* 独立从测试输入配置计算预期时刻, 不拿生成计划当自己的正确性证据。 */
+static float expected_wave_time(const DemoConfig *cfg, int32_t i)
+{
+    const PatternConfig *pc = &cfg->patterns[DEMO_PATTERN_SHOWER];
+    return (pc->first_spawn_sec + (float)i * pc->wave_interval_sec) *
+           (float)DEMO_TICKS_PER_SECOND;
+}
+
+static int32_t expected_wave_tick(const DemoConfig *cfg, int32_t i)
+{
+    return (int32_t)lroundf(expected_wave_time(cfg, i));
+}
+
 /* 在某 tick 生成一波, 捕获几何。 */
 static bool emit_at(const AttackPlan *plan, const DemoConfig *cfg, uint32_t tick, WaveGeom *g)
 {
@@ -349,7 +362,6 @@ static void test_plan_fields(const DemoConfig *cfg)
     PatternRequest req;
     AttackPlan plan;
     const PatternConfig *pc = &cfg->patterns[DEMO_PATTERN_SHOWER];
-    static const float expect_wave[5] = {0.0f, 24.0f, 48.0f, 72.0f, 96.0f};
     char hbuf[24];
 
     item_begin("1) make_plan 字段与 wave_tick");
@@ -370,7 +382,7 @@ static void test_plan_fields(const DemoConfig *cfg)
     check_i32(plan.start_tick, req.start_tick, "start_tick 来自 request");
     check_i32(plan.windup_ticks, pc->windup_ticks, "windup_ticks 来自配置(72)");
     check_i32(plan.active_ticks, pc->active_ticks, "active_ticks 来自配置(300)");
-    check_i32(plan.wave_count, pc->wave_count, "wave_count 来自配置(5)");
+    check_i32(plan.wave_count, pc->wave_count, "wave_count 来自配置");
     check_i32(plan.shots_per_wave, pc->shots_per_wave, "shots_per_wave 来自配置(16)");
     check_near(plan.corridor_width, pc->corridor_width, 1e-4f, "corridor_width 来自配置(120)");
     check(plan.corridor_width >= 100.0f, "corridor_width >= 100 px 硬性下限");
@@ -421,10 +433,11 @@ static void test_plan_fields(const DemoConfig *cfg)
         }
     }
 
-    /* wave_tick: 5 波, 递增, 与 first_spawn_sec/wave_interval_sec 一致 */
-    check_i32(plan.wave_count, 5, "wave_count == 5(默认)");
+    /* wave_tick: 波数与时刻都从输入配置推导, 不冻结旧版五波数值。 */
+    check_i32(plan.wave_count, pc->wave_count, "wave_count 与输入配置一致");
     for (int32_t i = 0; i < plan.wave_count; ++i) {
-        check_near(plan.wave_tick[i], expect_wave[i], 1e-3f, "wave_tick[i] == i * 0.4s * 60");
+        check_near(plan.wave_tick[i], expected_wave_time(cfg, i), 1e-3f,
+                   "wave_tick[i] 与配置首波/间隔推导的时刻一致");
     }
     {
         bool increasing = true;
@@ -436,9 +449,8 @@ static void test_plan_fields(const DemoConfig *cfg)
         }
         check(increasing, "wave_tick 严格递增");
     }
-    check_near(plan.wave_tick[4],
-               pc->first_spawn_sec * 60.0f + 4.0f * pc->wave_interval_sec * 60.0f, 1e-3f,
-               "wave_tick[4] == first_spawn_sec*60 + 4*wave_interval_sec*60");
+    check_near(plan.wave_tick[pc->wave_count - 1], expected_wave_time(cfg, pc->wave_count - 1),
+               1e-3f, "最后波次时刻与配置一致");
 
     /* 随机性确实被使用: 不同种子给出不同的 (方向, 起始 x) 组合 */
     {
@@ -585,9 +597,10 @@ static void test_wave_boundaries(const DemoConfig *cfg)
     int32_t last_elapsed;
     int32_t true_count = 0;
     int32_t expected_true = 0;
+    const PatternConfig *pc = &cfg->patterns[DEMO_PATTERN_SHOWER];
     bool seen[8];
 
-    item_begin("3) 波次边界: 5 个正确 tick 各生成一次, 其他 tick 不生成");
+    item_begin("3) 波次边界: 配置中每个正确 tick 各生成一次, 其他 tick 不生成");
     fill_default_request(&req, cfg);
     check(build_plan(&req, cfg, 11u, 2u, &plan), "make_plan 成功");
     start = 0; /* emit 的零点为攻击期开始，计划的绝对 start_tick 保持不变。 */
@@ -600,8 +613,8 @@ static void test_wave_boundaries(const DemoConfig *cfg)
         bool expect = false;
         int32_t which = -1;
 
-        for (int32_t i = 0; i < plan.wave_count; ++i) {
-            if (wave_tick_relative(&plan, i) - start == e) {
+        for (int32_t i = 0; i < pc->wave_count; ++i) {
+            if (expected_wave_tick(cfg, i) - start == e) {
                 expect = true;
                 which = i;
             }
@@ -622,14 +635,15 @@ static void test_wave_boundaries(const DemoConfig *cfg)
             }
         }
     }
-    check_i32(true_count, 5, "整个窗口内恰好 5 个 tick 生成");
-    check_i32(expected_true, 5, "计划给出 5 个波次时刻");
+    check_i32(true_count, pc->wave_count, "整个窗口生成 tick 数与配置波数一致");
+    check_i32(expected_true, pc->wave_count, "独立预期生成时刻数与配置波数一致");
     for (int32_t i = 0; i < plan.wave_count; ++i) {
         check(seen[i], "该波次在自己的 tick 上生成过一次");
     }
     /* 四个具体边界 */
     check(emit_at(&plan, cfg, (uint32_t)(start - 1), NULL) == false, "start_tick-1 不生成");
-    check(emit_at(&plan, cfg, (uint32_t)start, NULL) == true, "start_tick+0 生成第 0 波");
+    check(emit_at(&plan, cfg, (uint32_t)expected_wave_tick(cfg, 0), NULL) == true,
+          "配置首波时刻生成第 0 波");
     check(emit_at(&plan, cfg, (uint32_t)(start + (int32_t)plan.active_ticks), NULL) == false,
           "elapsed == active_ticks 时不生成");
     check(emit_at(&plan, cfg, (uint32_t)(start + (int32_t)plan.active_ticks + 1), NULL) == false,
@@ -637,7 +651,7 @@ static void test_wave_boundaries(const DemoConfig *cfg)
     check(emit_at(&plan, cfg, (uint32_t)(start + 25), NULL) == false, "非波次 tick 返回 false");
 
     /* 超出 active_ticks 的守卫必须独立于"是否是波次 tick"生效。
-     * 默认配置的 5 个波次时刻(0/24/48/72/96)全在 active_ticks(300) 之内,
+     * 默认配置的全部波次时刻均在 active_ticks 之内,
      * 因此这条守卫在默认配置下不会被触发, 必须手工构造边界才可测。
      * 契约(与实现文件头一致): "超出"(elapsed > active_ticks) 返回 false;
      * elapsed == active_ticks 不算超出, 但只有恰为波次 tick 时才生成。 */
@@ -645,23 +659,24 @@ static void test_wave_boundaries(const DemoConfig *cfg)
         AttackPlan tight = plan;
         ProjectileSpawnBuffer buf;
 
-        /* active_ticks 恰好等于第 1 波时刻 24: elapsed == 24 不算超出 => 生成 */
-        tight.active_ticks = 24;
+        /* active_ticks 恰好等于配置第 1 波时刻: 等于边界仍生成。 */
+        tight.active_ticks = expected_wave_tick(cfg, 1);
         spawn_buffer_init(&buf);
-        check(pattern_shower_emit(&tight, cfg, (uint32_t)(start + 24), &buf) == true,
+        check(pattern_shower_emit(&tight, cfg, (uint32_t)tight.active_ticks, &buf) == true,
               "elapsed == active_ticks 且恰为波次 tick 时仍生成(不算超出)");
         check_u32(buf.count, (uint32_t)tight.shots_per_wave, "该波按计划发满");
         spawn_buffer_init(&buf);
-        check(pattern_shower_emit(&tight, cfg, (uint32_t)(start + 25), &buf) == false,
+        check(pattern_shower_emit(&tight, cfg, (uint32_t)(tight.active_ticks + 1), &buf) == false,
               "elapsed > active_ticks 立即返回 false");
         check_u32(buf.count, 0u, "超出后不生成任何弹");
         spawn_buffer_init(&buf);
-        check(pattern_shower_emit(&tight, cfg, (uint32_t)(start + 48), &buf) == false,
-              "第 2 波(48)已超出 active_ticks(24), 被拒绝而不继续生成");
+        check(pattern_shower_emit(&tight, cfg, (uint32_t)expected_wave_tick(cfg, 2), &buf) == false,
+              "后续波次超出收紧的 active_ticks, 被拒绝而不继续生成");
         check_u32(buf.count, 0u, "被拒绝的波次未生成任何弹");
         spawn_buffer_init(&buf);
-        check(pattern_shower_emit(&tight, cfg, (uint32_t)(start + 96), &buf) == false,
-              "最后一个波次(96)同样被拒绝");
+        check(pattern_shower_emit(&tight, cfg,
+              (uint32_t)expected_wave_tick(cfg, pc->wave_count - 1), &buf) == false,
+              "最后一个波次同样被拒绝");
     }
     item_end("3) 波次边界");
 }
@@ -905,12 +920,14 @@ static void test_capacity(const DemoConfig *cfg)
 {
     PatternRequest req;
     AttackPlan plan;
+    const PatternConfig *pc = &cfg->patterns[DEMO_PATTERN_SHOWER];
+    const uint32_t expected_total = (uint32_t)pc->wave_count * (uint32_t)pc->shots_per_wave;
 
     item_begin("10) 容量: spawn_buffer 与弹池容量边界 overflow 正确不越界");
     fill_default_request(&req, cfg);
     check(build_plan(&req, cfg, 10u, 10u, &plan), "make_plan 成功");
 
-    /* 10.1 五波共 80 发全部放进容量 256 的缓冲 */
+    /* 10.1 配置波数 x 每波发数全部放进容量 256 的缓冲 */
     {
         ProjectileSpawnBuffer buf;
 
@@ -918,7 +935,7 @@ static void test_capacity(const DemoConfig *cfg)
         for (int32_t i = 0; i < plan.wave_count; ++i) {
             (void)pattern_shower_emit(&plan, cfg, (uint32_t)wave_tick_relative(&plan, i), &buf);
         }
-        check_u32(buf.count, 80u, "5 波 x 16 发 = 80 发全部进入缓冲");
+        check_u32(buf.count, expected_total, "配置波数 x 每波发数全部进入缓冲");
         check_u32(buf.overflow, 0u, "容量 256 时无 overflow");
         check(buf.count <= DEMO_MAX_ACTIVE_PLAN_PROJECTILES, "缓冲计数不越界");
     }
@@ -937,7 +954,8 @@ static void test_capacity(const DemoConfig *cfg)
             (void)pattern_shower_emit(&plan, cfg, (uint32_t)wave_tick_relative(&plan, w), &buf);
         }
         check_u32(buf.count, 4u, "容量 4 时只保留 4 发");
-        check_u32(buf.overflow, 76u, "其余 76 发计入 overflow(5*16-4)");
+        check_u32(buf.overflow, expected_total - buf.capacity,
+                  "整招总发数扣缓冲容量后全部计入 overflow");
         for (i = 4u; i < 12u; ++i) {
             const unsigned char *raw = (const unsigned char *)&buf.spec[i];
 
@@ -950,7 +968,7 @@ static void test_capacity(const DemoConfig *cfg)
         check(sentinel_ok, "容量 4 时未写入 spec[4..11](哨兵未被破坏, 不越界)");
     }
 
-    /* 10.3 真实弹池 (core/projectiles.c): 容量 800 收下全部 80 发 */
+    /* 10.3 真实弹池 (core/projectiles.c): 默认容量收下配置总发数 */
     {
         ProjectilePool pool;
         uint32_t spawned = 0u;
@@ -972,10 +990,11 @@ static void test_capacity(const DemoConfig *cfg)
                 }
             }
         }
-        check_u32(spawned, 80u, "真实弹池容量 800 全部收下 80 发");
-        check_u32(pool.live_count, 80u, "live_count == 80");
+        check_u32(spawned, expected_total, "真实弹池收下配置中整招总发数");
+        check_u32(pool.live_count, expected_total, "live_count 与配置整招总发数一致");
         check_u32(pool.overflow_events, 0u, "无 overflow");
-        check_u32(pool_count_faction(&pool, DEMO_FACTION_BOSS), 80u, "Boss 阵营计数 == 80");
+        check_u32(pool_count_faction(&pool, DEMO_FACTION_BOSS), expected_total,
+                  "Boss 阵营计数与配置整招总发数一致");
         check_u32(pool_count_faction(&pool, DEMO_FACTION_STUDENT), 0u, "无学生弹混入");
         check(pool.live_count <= cfg->projectile_cap, "live_count 未超过池容量");
         {
@@ -1005,13 +1024,14 @@ static void test_capacity(const DemoConfig *cfg)
                     }
                 }
             }
-            check_u32(live_seen, 80u, "池内 active 弹数 == 80");
+            check_u32(live_seen, expected_total, "池内 active 弹数与配置总发数一致");
             check(fields_ok,
                   "每发弹的 faction/source_id/source_pattern/plan_id/radius/damage/lifetime 正确");
-            check(ids_unique, "80 发弹的 id 两两不同(整局唯一)");
+            check(ids_unique, "整招所有弹的 id 两两不同(整局唯一)");
         }
         /* 按计划清弹: 只清本招 */
-        check_u32(pool_clear_plan(&pool, plan.plan_id), 80u, "按计划清弹清掉全部 80 发");
+        check_u32(pool_clear_plan(&pool, plan.plan_id), expected_total,
+                  "按计划清弹清掉配置整招全部弹");
         check_u32(pool.live_count, 0u, "清弹后 live_count == 0");
     }
 
@@ -1047,17 +1067,18 @@ static void test_capacity(const DemoConfig *cfg)
             }
         }
         check_u32(ok, 8u, "容量 8 时成功 8 发");
-        check_u32(fail, 72u, "容量 8 时失败 72 发(计数不静默丢失)");
+        check_u32(fail, expected_total - pool.capacity, "总发数扣池容量后的失败数正确");
         check_u32(pool.live_count, 8u, "live_count == 8");
-        check_u32(pool.overflow_events, 72u, "overflow_events == 72");
+        check_u32(pool.overflow_events, expected_total - pool.capacity,
+                  "overflow_events 与超额发数一致");
         check(pool.live_count <= pool.capacity, "live_count 未超过容量");
         check(pool.items[0u].active, "槽位 0 未被覆盖");
         check_near(pool.items[0u].x, first_x, 1e-4f, "槽位 0 的 x 未被后续 spawn 改写");
     }
 
-    /* 10.5 单招上限: 80 发远低于弹池 800 与缓冲 256 */
-    check(80u <= DEMO_MAX_ACTIVE_PLAN_PROJECTILES, "整招 80 发 <= 计划缓冲 256");
-    check(80u <= DEMO_MAX_PROJECTILES, "整招 80 发 <= 弹池 800");
+    /* 10.5 单招上限: 总发数来自配置, 不沿用旧五波的 80 发常数 */
+    check(expected_total <= DEMO_MAX_ACTIVE_PLAN_PROJECTILES, "整招总发数 <= 计划缓冲");
+    check(expected_total <= DEMO_MAX_PROJECTILES, "整招总发数 <= 弹池上限");
     item_end("10) 容量");
 }
 
@@ -1116,7 +1137,7 @@ static void test_invalid(const DemoConfig *cfg)
     EXPECT_REJECT(bad.patterns[DEMO_PATTERN_SHOWER].first_spawn_sec = -1.0f,
                   "first_spawn_sec < 0");
     EXPECT_REJECT(bad.patterns[DEMO_PATTERN_SHOWER].wave_interval_sec = 10.0f,
-                  "最后一波超出 active_ticks(4*10s 无法在 300 tick 内兑现)");
+                  "最后一波超出 active_ticks(配置波数不能在攻击窗口内兑现)");
     EXPECT_REJECT(bad.field_w = 100.0f, "field_w 太小, 放不下缝隙");
     EXPECT_REJECT(bad.field_w = 0.0f, "field_w = 0");
     EXPECT_REJECT(bad.boss_bullet_lifetime_ticks = 0, "boss_bullet_lifetime_ticks = 0");
@@ -1131,8 +1152,10 @@ static void test_invalid(const DemoConfig *cfg)
     /* 弹间距过大 => 相邻波缝隙交集 (W - 2r) - p 会 <= 0 */
     EXPECT_REJECT(bad.patterns[DEMO_PATTERN_SHOWER].shots_per_wave = 2,
                   "shots_per_wave 过小导致 p >= W - 2r(相邻波缝隙会失去交集)");
-    /* 缝隙两侧在扫描全程都要有弹: shots < 2 * wave_count */
-    EXPECT_REJECT(bad.patterns[DEMO_PATTERN_SHOWER].shots_per_wave = 8,
+    /* 独立扩大波数, 保持弹间距仍合法, 只违反扫描全程两侧都有弹的要求。 */
+    EXPECT_REJECT(bad.patterns[DEMO_PATTERN_SHOWER].wave_count += 2;
+                  bad.patterns[DEMO_PATTERN_SHOWER].shots_per_wave =
+                      2 * bad.patterns[DEMO_PATTERN_SHOWER].wave_count - 1,
                   "shots_per_wave < 2*wave_count(扫描全程保不住两侧的弹)");
     /* 净空档必须为正: W <= 2r */
     EXPECT_REJECT(bad.boss_bullet_radius = 70.0f,
@@ -1345,11 +1368,13 @@ static void test_scenario_evidence(const DemoConfig *cfg)
         printf("        聚拢 wave %d: 被本波弹接触判定的学生数 = %d / %u\n", (int)i,
                (int)wave_threat, (unsigned)clustered.student_count);
     }
-    printf("    聚拢场景 5 波合计: 被接触判定的学生-x 计数=%d, 安全的计数=%d (共 %d 次判定)\n",
+    printf("    聚拢场景 %d 波合计: 被接触判定的学生-x 计数=%d, 安全的计数=%d (共 %d 次判定)\n",
+           (int)cfg->patterns[DEMO_PATTERN_SHOWER].wave_count,
            (int)covered_total, (int)safe_total, (int)(covered_total + safe_total));
     check(covered_total > 0, "聚拢场景存在被弹接触判定的学生(有压制压力, 不是空放)");
     check(safe_total > 0, "聚拢场景也存在安全时刻(缝隙可达, 不是全屏无缝密弹)");
-    check(covered_total + safe_total == 5 * (int32_t)clustered.student_count,
+    check(covered_total + safe_total == cfg->patterns[DEMO_PATTERN_SHOWER].wave_count *
+                                       (int32_t)clustered.student_count,
           "逐波判定次数 == 波数 x 学生数(没有学生被漏统计)");
     item_end("12) 学生聚拢/分散证据");
 }
@@ -1414,6 +1439,19 @@ int main(void)
     test_capacity(&cfg);
     test_invalid(&cfg);
     test_scenario_evidence(&cfg);
+
+    /* 另保留五波参数夹具覆盖旧容量规模, 不改变上面测试的产品默认三波。 */
+    {
+        DemoConfig five_wave = cfg;
+        five_wave.patterns[DEMO_PATTERN_SHOWER].wave_count = 5;
+        item_begin("额外参数夹具: 五波扫描, 产品默认配置保持不变");
+        check(demo_config_validate(&five_wave, err, sizeof(err)),
+              "显式五波夹具仍满足共享配置约束");
+        item_end("五波参数夹具初始化");
+        test_plan_fields(&five_wave);
+        test_wave_boundaries(&five_wave);
+        test_capacity(&five_wave);
+    }
 
     printf("\n================ 汇总 ================\n");
     printf("总子项: %d, 失败: %d\n", g_checks, g_failed);

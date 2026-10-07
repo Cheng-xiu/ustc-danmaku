@@ -356,8 +356,10 @@ static void test_d_atomic_accept(void) {
 static void test_e_lock_does_not_migrate(void) {
     World w;
     world_setup(&w);
+    /* 本用例隔离锁定几何；v3 淋浴必须先有 100 能量才可接受。 */
+    w.energy = w.cfg.energy_max;
     DemoRejectReason reason = DEMO_REJECT_NONE;
-    (void)attack_try_request(&w, DEMO_PATTERN_SHOWER, &reason);
+    check("e0 满能量淋浴请求接受", attack_try_request(&w, DEMO_PATTERN_SHOWER, &reason));
 
     const float ox = w.plan.origin_x;
     const float oy = w.plan.origin_y;

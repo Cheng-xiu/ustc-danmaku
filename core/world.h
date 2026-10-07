@@ -33,6 +33,18 @@ typedef struct World {
     Actor students[DEMO_MAX_STUDENTS];
     uint32_t student_count;
 
+    uint32_t wave_index;       /* 已派出的波次: 初始为 1 */
+    uint32_t waves_cleared;
+    DemoStudentWavePhase wave_phase;
+    uint32_t next_wave_students;
+    int32_t wave_spawn_tick;   /* 冻结出生预告的绝对 tick */
+    uint32_t spawn_preview_count;
+    Vec2 spawn_preview[DEMO_MAX_STUDENTS];
+    DemoEntityId next_student_id; /* 跨波学生身份持续递增 */
+    int32_t gpa_hundredths;
+    uint32_t students_defeated;
+    uint32_t students_deployed;
+
     /* 本 tick 移动前坐标: 扫掠碰撞需要位移段 */
     float boss_prev_x;
     float boss_prev_y;
@@ -78,6 +90,11 @@ typedef struct World {
  * 无敌计时、待处理请求与全部计数。 */
 bool world_reset(World *world, const DemoConfig *config, uint64_t seed);
 
+/* 仅由累计真实击倒数决定 GPA: floor(max*n/(n+k)), 单位为 0.01。
+ * 使用 64 位整数计算, 不累计逐次舍入, 有限 n 不会达到正渐近上限。
+ * 传入空配置、非正上限或 k=0 时返回 0。 */
+int32_t world_gpa_for_kills(const DemoConfig *config, uint32_t kills);
+
 /* 推进一个逻辑 tick。input 可为 NULL(视为无输入)。 */
 void world_step(World *world, const BossInput *input);
 
@@ -91,6 +108,17 @@ typedef struct WorldView {
     const Actor *boss;
     const Actor *students;
     uint32_t student_count;
+
+    uint32_t wave_index;
+    uint32_t waves_cleared;
+    DemoStudentWavePhase wave_phase;
+    uint32_t next_wave_students;
+    int32_t wave_spawn_tick;
+    uint32_t spawn_preview_count;
+    Vec2 spawn_preview[DEMO_MAX_STUDENTS]; /* 当前已公开, 不属于隐藏未来几何 */
+    int32_t gpa_hundredths;
+    uint32_t students_defeated;
+    uint32_t students_deployed;
 
     const Projectile *projectiles;
     uint32_t projectile_capacity;

@@ -106,14 +106,14 @@ static void item_end(const char *title)
 static ProjectilePool g_pool;
 static DemoConfig g_cfg;
 
-/* 配置版本 2 的固定期望(与 core/demo_config.c 默认值一致)。 */
-#define EXPECT_VERSION 2u
+/* 配置版本 3 的固定期望(与 core/demo_config.c 默认值一致)。 */
+#define EXPECT_VERSION 4u
 #define EXPECT_INTERVAL 78
 #define EXPECT_BULLET_SPEED 260.0f
 #define EXPECT_BULLET_RADIUS 5.0f
 #define EXPECT_BULLET_LIFETIME 240
 #define EXPECT_FIRE_DAMAGE 1
-#define EXPECT_MIN_RANGE 60.0f
+#define EXPECT_MIN_RANGE 50.0f
 
 static Actor make_student(float x, float y)
 {
@@ -435,7 +435,7 @@ static void test_min_range(void)
 
     reset_world_state();
     check_near(g_cfg.student_fire_min_range, EXPECT_MIN_RANGE, 1e-6f,
-               "配置版本 1: student_fire_min_range == 60");
+               "配置版本 4: student_fire_min_range == 50");
 
     /* 距离恰好等于最小射程: 不发射。 */
     check(!student_fire_try(&g_cfg, &s, 100.0f + g_cfg.student_fire_min_range, 100.0f, &g_pool, 3,
@@ -453,7 +453,7 @@ static void test_min_range(void)
     /* 距离刚超过最小射程: 发射。 */
     check(student_fire_try(&g_cfg, &s, 100.0f + g_cfg.student_fire_min_range + 1.0f, 100.0f,
                            &g_pool, 5, &cd, &src),
-          "距离 > 最小射程(60 + 1)发射成功");
+          "距离 > 最小射程发射成功");
     check_u32(cd, (uint32_t)g_cfg.student_fire_interval_ticks, "成功发射后冷却被设置为间隔");
     check_u32(count_active(&g_pool), 1u, "成功发射后池内 1 发弹");
 
@@ -574,9 +574,9 @@ static void test_bullet_attributes(void)
         check(p->x > s.x, "起点在学生中心之外(不生成在学生体内)");
     }
 
-    /* 配置版本 2 的默认值复核(独立于上面的自定义值)。 */
+    /* 配置版本 3 的默认值复核(独立于上面的自定义值)。 */
     reset_world_state();
-    check_u32(g_cfg.version, EXPECT_VERSION, "配置版本 == 2");
+    check_u32(g_cfg.version, EXPECT_VERSION, "配置版本 == 4");
     check_i32(g_cfg.student_fire_interval_ticks, EXPECT_INTERVAL, "默认发射间隔 == 78");
     check_near(g_cfg.student_bullet_speed, EXPECT_BULLET_SPEED, 1e-6f, "默认弹速 == 260");
     check_near(g_cfg.student_bullet_radius, EXPECT_BULLET_RADIUS, 1e-6f, "默认弹半径 == 5");

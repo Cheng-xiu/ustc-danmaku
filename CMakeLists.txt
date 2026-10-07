@@ -104,11 +104,28 @@ if(DEMO_BUILD_TESTS)
     add_executable(test_web_core tests/web/test_core_regression.c)
     target_link_libraries(test_web_core PRIVATE demo_core)
     add_test(NAME test_web_core COMMAND test_web_core)
+    add_executable(test_endless tests/web/test_endless.c)
+    target_link_libraries(test_endless PRIVATE demo_core)
+    add_test(NAME test_endless COMMAND test_endless)
 endif()
 
 add_executable(web_native_replay tests/web/native_replay.c wasm/demo_bridge.c)
 target_link_libraries(web_native_replay PRIVATE demo_core)
 target_include_directories(web_native_replay PRIVATE wasm)
+
+add_executable(endless_native_replay tests/web/endless_replay.c wasm/demo_bridge.c)
+target_link_libraries(endless_native_replay PRIVATE demo_core)
+target_include_directories(endless_native_replay PRIVATE wasm)
+target_compile_definitions(endless_native_replay PRIVATE ENDLESS_SNAPSHOT_TRACE=1)
+
+add_executable(web_bridge_probe wasm/bridge_probe.c wasm/demo_bridge.c)
+target_link_libraries(web_bridge_probe PRIVATE demo_core)
+target_include_directories(web_bridge_probe PRIVATE wasm)
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/web/balance_probe.c")
+    add_executable(web_balance_probe tests/web/balance_probe.c)
+    target_link_libraries(web_balance_probe PRIVATE demo_core)
+endif()
 
 # ---------------------------------------------------------------- EasyX 图形游戏
 

@@ -2,9 +2,12 @@
 
 ## 本轮可玩网页交付
 
+当前为cfg4 / ABI3无尽单文件HTML，[直接试玩文件](../demo/ustc-danmaku.html)。官方圆形校徽、第4招100、逐波3→8和GPA收敛函数已实现。
+
 - [web-demo-guide.md](web-demo-guide.md)：试玩、构建与部署。
 - [web-demo-validation.md](web-demo-validation.md)：本轮工程验证、性能采样与未执行项。
-- [web-playability-findings.md](web-playability-findings.md)：有限默认脚本结果与设计问题。
+- [web-balance-findings.md](web-balance-findings.md)：12种子1152局主要前后对照、最终参数及玩法建议。
+- [web-playability-findings.md](web-playability-findings.md)：当前无尽循环的游戏性评估与建议。
 - [web-demo-playtest.md](web-demo-playtest.md)：真人试玩记录模板，当前尚无真人结论。
 - [web-core-fixes.md](web-core-fixes.md)：核心缺陷与回归依据。
 - [web-abi.md](web-abi.md)、[web-toolchain.md](web-toolchain.md)：已实现 ABI 与固定工具链。

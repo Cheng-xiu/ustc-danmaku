@@ -1,5 +1,7 @@
 # 最小可玩 Boss demo：接口冻结文档
 
+> 当前产品为cfg4 / Web ABI v3，连续快照见[web-abi.md](web-abi.md)，内部新增World/WorldView波次、预告、kills/GPA与world_gpa_for_kills以core/*.h为准。默认仅死亡结束，旧有限局裁决只供历史夹具；lane_spread_px接受时锁入AttackPlan。
+
 > 2026-10-07 状态注记：本文保留 Windows Demo 各阶段的接口记录，包含早期版本及后续修订。网页迁移须按当前源码核对，由 M00 单独冻结 C/Wasm ABI 与 TS 类型；不能直接把历史接口版本当作网页 ABI。当前边界、批量快照和固定步要求见 [网页规划](web-demo-plan.md)。
 
 接口版本：**1**　配置版本：**1**（`demo-config-v1`）

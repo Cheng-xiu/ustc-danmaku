@@ -8,12 +8,16 @@ type WasmModule = {
   _demo_snapshot_size(): number;
   _demo_dispose(): void;
 };
-type ModuleFactory = (options: { locateFile(path: string): string }) => Promise<WasmModule>;
+type ModuleFactory = (options: {
+  locateFile?(path: string): string;
+  instantiateWasm?(imports: WebAssembly.Imports, receive: (instance: WebAssembly.Instance) => void): WebAssembly.Exports;
+}) => Promise<WasmModule>;
+type EmbeddedCore = { factory: ModuleFactory; bytesBase64: string };
 const HEADER_BYTES = 64 * 4;
-const MAX_BYTES = HEADER_BYTES + 9 * 40 + 800 * 40 + 8192 * 32 + 256 * 36;
+const MAX_BYTES = HEADER_BYTES + 9 * 40 + 800 * 40 + 8192 * 32 + 256 * 36 + 8 * 8;
 
 function requireValue(condition: boolean, message: string): asserts condition {
-  if (!condition) throw new Error(`C/Wasm ABI v1: ${message}`);
+  if (!condition) throw new Error(`C/Wasm ABI v3: ${message}`);
 }
 
 function unsigned(value: number, label: string): number {
@@ -39,7 +43,7 @@ export function decodeSnapshot(bytes: Uint8Array): Snapshot {
     return value === 1;
   };
   const identity = (word: number): string => ((BigInt(u(word + 1)) << 32n) | BigInt(u(word))).toString();
-  requireValue(u(0) === 0x55444331 && u(1) === 1, 'magic 或版本不匹配');
+  requireValue(u(0) === 0x55444331 && u(1) === 3, 'magic 或版本不匹配');
   requireValue(u(2) === bytes.byteLength, '头部字节数与缓冲不匹配');
   requireValue(i(3) >= 0 && u(4) <= 3 && u(5) > 0, 'tick、状态或配置版本非法');
   const students = u(6), bulletCount = u(7), warningCount = u(8), eventCount = u(9);
@@ -51,8 +55,13 @@ export function decodeSnapshot(bytes: Uint8Array): Snapshot {
   const eventOffset = warningOffset + warningCount * 32;
   requireValue(u(40) === actorOffset && u(41) === bulletOffset && u(42) === warningOffset && u(43) === eventOffset,
     '记录偏移不是规范连续布局');
-  requireValue(eventOffset + eventCount * 36 === bytes.byteLength, '记录长度不匹配');
-  for (let word = 45; word < 64; ++word) requireValue(u(word) === 0, '保留字必须为零');
+  const previewCount = u(53), previewOffset = eventOffset + eventCount * 36;
+  requireValue(previewCount <= 8 && u(54) === previewOffset && previewOffset + previewCount * 8 === bytes.byteLength,
+    '出生预告偏移或记录长度非法');
+  requireValue(u(45) >= 1 && u(47) <= 1 && u(48) <= 8 && i(49) >= 0 &&
+    i(50) >= 0 && u(55) > 0 && i(56) === 430 && i(50) < i(56) && u(52) >= u(51), '波次或 GPA 非法');
+  requireValue((u(47) === 0 && previewCount === 0) || (u(47) === 1 && previewCount === u(48)), '出生预告与波状态不一致');
+  for (let word = 57; word < 64; ++word) requireValue(u(word) === 0, '保留字必须为零');
   requireValue(i(10) >= 0 && i(11) > 0 && i(10) <= i(11), '能量范围非法');
   requireValue(u(12) <= 2 && u(13) < 4 && i(15) >= 0 && i(16) >= 0 && i(17) >= 0,
     '攻击状态或时刻非法');
@@ -99,11 +108,20 @@ export function decodeSnapshot(bytes: Uint8Array): Snapshot {
     const word = eventOffset / 4 + index * 9;
     const event: GameEvent = { type: u(word), tick: i(word + 1), source: u(word + 2), target: u(word + 3),
       pattern: u(word + 4), reject: u(word + 5), amount: i(word + 6), x: f(word + 7), y: f(word + 8) };
-    requireValue(event.type <= 12 && event.tick >= 0 && event.tick <= i(3) && event.pattern < 4 && event.reject < 5,
+    requireValue(event.type <= 15 && event.tick >= 0 && event.tick <= i(3) && event.pattern < 4 && event.reject < 5,
       '事件记录非法');
     events.push(event);
   }
+  const spawnPreview = Array.from({ length: previewCount }, (_, index) => {
+    const word = previewOffset / 4 + index * 2;
+    const point = { x: f(word), y: f(word + 1) };
+    requireValue(point.x >= 0 && point.x <= fieldW && point.y >= 0 && point.y <= fieldH, '出生预告越界');
+    return point;
+  });
   return { tick: i(3), status: u(4), configVersion: u(5), energy: i(10), energyMax: i(11),
+    wave: u(45), wavesCleared: u(46), wavePhase: u(47) as 0 | 1, nextWaveStudents: u(48), waveSpawnTick: i(49),
+    gpaHundredths: i(50), kills: u(51), studentsDeployed: u(52),
+    gpaHalfSaturationKills: u(55), gpaMaxHundredths: i(56), spawnPreview,
     attackState: u(12), pattern: u(13), target: u(14), startTick: i(15), windup: i(16), active: i(17),
     planId: identity(18), seed: identity(20), accepted: u(22), rejected: u(23), bossHits: u(24), studentHits: u(25),
     bossBullets: u(26), studentBullets: u(27), overflow: u(28), fieldW, fieldH, markedTarget: u(31),
@@ -111,10 +129,23 @@ export function decodeSnapshot(bytes: Uint8Array): Snapshot {
 }
 
 export async function loadCore(): Promise<CoreClient> {
-  const moduleUrl = new URL(`${import.meta.env.BASE_URL}wasm/demo-core.mjs`, window.location.href);
-  const imported = await import(/* @vite-ignore */ moduleUrl.href) as { default: ModuleFactory };
-  requireValue(typeof imported.default === 'function', 'Wasm 模块未导出初始化工厂');
-  const module = await imported.default({ locateFile: path => new URL(path, moduleUrl).href });
+  const embedded = (window as Window & { __ustcEmbeddedCore?: EmbeddedCore }).__ustcEmbeddedCore;
+  let module: WasmModule;
+  if (embedded) {
+    requireValue(typeof embedded.factory === 'function', '内联核心缺少初始化工厂');
+    const bytes = Uint8Array.from(atob(embedded.bytesBase64), character => character.charCodeAt(0));
+    const compiled = await WebAssembly.compile(bytes);
+    module = await embedded.factory({ instantiateWasm: (imports, receive) => {
+      const instance = new WebAssembly.Instance(compiled, imports);
+      receive(instance);
+      return instance.exports;
+    } });
+  } else {
+    const moduleUrl = new URL(`${import.meta.env.BASE_URL}wasm/demo-core.mjs`, window.location.href);
+    const imported = await import(/* @vite-ignore */ moduleUrl.href) as { default: ModuleFactory };
+    requireValue(typeof imported.default === 'function', 'Wasm 模块未导出初始化工厂');
+    module = await imported.default({ locateFile: path => new URL(path, moduleUrl).href });
+  }
   for (const name of ['_demo_reset', '_demo_step', '_demo_snapshot', '_demo_snapshot_size', '_demo_dispose'] as const)
     requireValue(typeof module[name] === 'function', `缺少导出 ${name}`);
   let disposed = false;

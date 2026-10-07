@@ -1,6 +1,6 @@
 /* world.c - 逻辑世界主循环（母代理独占维护）
  *
- * 接口版本: 1    配置版本: 1
+ * 接口版本: 4    配置版本: 4
  * 本文件是 demo 唯一的 tick 顺序实现。graphics 端与 sim 端都只调用 world_step。
  *
  * tick 顺序（契约，见 docs/demo-interfaces.md 3.2）:
@@ -12,7 +12,7 @@
  *   6) pool_advance: 保存本 tick 起点并积分，处理寿命与出界
  *   7) 碰撞结算（相对运动扫掠、最早交点、稳定 ID 破平局、命中即移除）
  *   8) 伤害与击倒（无敌、倒下只发一次、倒下后不再行动）
- *   9) 终局裁决（同 tick 双倒按 outcome_rule，配置 1 = Boss 胜）
+ *   9) 无尽清波/出生推进与死亡裁决（无尽模式死亡优先；历史有限模式保留裁决）
  *  10) 能量恢复、tick 递增、max_ticks 截断
  *
  * 移动输入语义（已批准，见 docs/demo-rules.md 1.2）:
@@ -42,12 +42,25 @@
 #define DEMO_BOSS_START_X 480.0f
 #define DEMO_BOSS_START_Y 620.0f
 #define DEMO_BOSS_STARTUP_INVULN_TICKS 60
+#define DEMO_STUDENT_SPAWN_BOSS_MARGIN 60.0f
+#define DEMO_STUDENT_SPAWN_PEER_MARGIN 20.0f
 
 /* ---------------------------------------------------------------- 小工具 */
 
 static bool is_finite_f(float v) { return isfinite(v) != 0; }
 
 static float vec_len(float x, float y) { return sqrtf(x * x + y * y); }
+
+int32_t world_gpa_for_kills(const DemoConfig *config, uint32_t kills) {
+    if (config == NULL || config->gpa_max_hundredths <= 0 ||
+        config->gpa_half_saturation_kills == 0u) {
+        return 0;
+    }
+    /* 先拓宽再相加/乘: UINT32_MAX 击倒也不溢出, C/Wasm 不靠浮点舍入。 */
+    uint64_t numerator = (uint64_t)(uint32_t)config->gpa_max_hundredths * kills;
+    uint64_t denominator = (uint64_t)kills + config->gpa_half_saturation_kills;
+    return (int32_t)(numerator / denominator);
+}
 
 static void event_reset(StepEvents *events) {
     events->count = 0u;
@@ -116,6 +129,29 @@ bool events_push(StepEvents *events, const StepEvent *event) {
 
 /* ---------------------------------------------------------------- 重置 */
 
+static void initialize_student(World *world, uint32_t index, float x, float y,
+                               bool wave_reinforcement) {
+    Actor *s = &world->students[index];
+    memset(s, 0, sizeof(*s));
+    s->id = world->next_student_id++;
+    s->alive = true;
+    s->x = x;
+    s->y = y;
+    s->radius = world->cfg.student_radius;
+    s->hp = world->cfg.student_hp;
+    s->hp_max = world->cfg.student_hp;
+    student_bot_init(&world->bot[index], (uint32_t)(world->seed & 0xFFFFFFFFu) ^
+                     ((s->id - 100u) * 2654435761u));
+    if (wave_reinforcement) {
+        /* 下一波有完整公开出生预告; 出生后再等待原发射间隔, 不立即反击。 */
+        world->bot[index].fire_cooldown_ticks = world->cfg.student_fire_interval_ticks;
+    }
+    memset(&world->obs[index], 0, sizeof(world->obs[index]));
+    memset(&world->action[index], 0, sizeof(world->action[index]));
+    world->fire_cooldown_scratch[index] = 0u;
+    if (world->students_deployed < UINT32_MAX) world->students_deployed++;
+}
+
 bool world_reset(World *world, const DemoConfig *config, uint64_t seed) {
     if (world == NULL || config == NULL) {
         return false;
@@ -146,19 +182,12 @@ bool world_reset(World *world, const DemoConfig *config, uint64_t seed) {
     world->boss.invuln_ticks = DEMO_BOSS_STARTUP_INVULN_TICKS;
 
     world->student_count = config->student_count;
+    world->wave_index = 1u;
+    world->wave_phase = DEMO_STUDENT_WAVE_ACTIVE;
+    world->next_student_id = 100u;
     for (uint32_t i = 0u; i < world->student_count; ++i) {
-        Actor *s = &world->students[i];
-        s->id = 100u + i;
-        s->alive = true;
-        s->x = config->student_spawn_x[i];
-        s->y = config->student_spawn_y[i];
-        s->radius = config->student_radius;
-        s->hp = config->student_hp;
-        s->hp_max = config->student_hp;
-        s->invuln_ticks = 0;
-        student_bot_init(&world->bot[i], (uint32_t)(seed & 0xFFFFFFFFu) ^ (i * 2654435761u));
-        memset(&world->obs[i], 0, sizeof(world->obs[i]));
-        memset(&world->action[i], 0, sizeof(world->action[i]));
+        initialize_student(world, i, config->student_spawn_x[i],
+                           config->student_spawn_y[i], false);
     }
 
     pool_init(&world->pool, config->projectile_cap);
@@ -229,7 +258,7 @@ bool world_pattern_available(const World *world, DemoPattern pattern) {
     if ((int)pattern < 0 || (int)pattern >= (int)DEMO_PATTERN_COUNT) {
         return false;
     }
-    if (world->status != DEMO_STATUS_RUNNING) {
+    if (world->status != DEMO_STATUS_RUNNING || world->truncated) {
         return false;
     }
     if (world->attack_state != DEMO_ATTACK_IDLE) {
@@ -504,6 +533,9 @@ static void resolve_collisions(World *world) {
                     push_event(world, DEMO_EVENT_HIT, world->boss.id, s->id,
                                (int32_t)p->damage, p->x, p->y, src_pattern, DEMO_REJECT_NONE);
                     if (!s->alive) {
+                        if (world->students_defeated < UINT32_MAX) world->students_defeated++;
+                        world->gpa_hundredths =
+                            world_gpa_for_kills(&world->cfg, world->students_defeated);
                         push_event(world, DEMO_EVENT_KNOCKDOWN, world->boss.id, s->id, 0, s->x,
                                    s->y, src_pattern, DEMO_REJECT_NONE);
                     }
@@ -541,6 +573,98 @@ static void resolve_collisions(World *world) {
 
 /* ---------------------------------------------------------------- 终局 */
 
+static void clear_wave_projectiles_and_attack(World *world) {
+    /* 不调用 pool_init: 跨波保持弹 ID 世代和容量/溢出诊断。 */
+    for (uint32_t i = 0u; i < world->pool.capacity; ++i) {
+        world->pool.items[i].active = false;
+    }
+    world->pool.live_count = 0u;
+    world->attack_state = DEMO_ATTACK_IDLE;
+    memset(&world->plan, 0, sizeof(world->plan));
+    world->pending_count = 0u;
+    memset(world->pending, 0, sizeof(world->pending));
+}
+
+/* 下一波几何只在进入预告时选择一次; 出生直接抄这份公开点位。
+ * 优先配置点, 以合法 8x6 网格补足; 不抽 RNG, 不根据学生 AI 结果取巧。
+ * Boss 后续主动走进预告区不会重选或无限延期, 场上没有接触伤害。 */
+static void choose_spawn_preview(World *world) {
+    const DemoConfig *cfg = &world->cfg;
+    Vec2 candidates[DEMO_MAX_STUDENTS + 48u];
+    uint32_t count = 0u;
+    for (uint32_t i = 0u; i < DEMO_MAX_STUDENTS; ++i) {
+        candidates[count].x = cfg->student_spawn_x[i];
+        candidates[count++].y = cfg->student_spawn_y[i];
+    }
+    for (uint32_t y = 0u; y < 6u; ++y) {
+        for (uint32_t x = 0u; x < 8u; ++x) {
+            candidates[count].x = cfg->student_radius +
+                (cfg->field_w - 2.0f * cfg->student_radius) * ((float)x + 0.5f) / 8.0f;
+            candidates[count++].y = cfg->student_radius +
+                (cfg->field_h - 2.0f * cfg->student_radius) * ((float)y + 0.5f) / 6.0f;
+        }
+    }
+    float boss_safe = cfg->student_radius + world->boss.radius +
+                      DEMO_STUDENT_SPAWN_BOSS_MARGIN;
+    float peer_safe = 2.0f * cfg->student_radius + DEMO_STUDENT_SPAWN_PEER_MARGIN;
+    world->spawn_preview_count = 0u;
+    for (uint32_t i = 0u; i < count && world->spawn_preview_count < world->next_wave_students;
+         ++i) {
+        Vec2 point = candidates[i];
+        float dx = point.x - world->boss.x, dy = point.y - world->boss.y;
+        if (dx * dx + dy * dy < boss_safe * boss_safe) continue;
+        bool separate = true;
+        for (uint32_t k = 0u; k < world->spawn_preview_count; ++k) {
+            dx = point.x - world->spawn_preview[k].x;
+            dy = point.y - world->spawn_preview[k].y;
+            if (dx * dx + dy * dy < peer_safe * peer_safe) {
+                separate = false;
+                break;
+            }
+        }
+        if (separate) world->spawn_preview[world->spawn_preview_count++] = point;
+    }
+}
+
+static void begin_wave_preview(World *world) {
+    clear_wave_projectiles_and_attack(world);
+    if (world->waves_cleared < UINT32_MAX) world->waves_cleared++;
+    world->wave_phase = DEMO_STUDENT_WAVE_PREVIEW;
+    /* 分开比较, 不让人数与已清波累计加法溢出。 */
+    uint32_t extra_room = DEMO_MAX_STUDENTS - world->cfg.student_count;
+    world->next_wave_students = world->waves_cleared >= extra_room ? DEMO_MAX_STUDENTS :
+                               world->cfg.student_count + world->waves_cleared;
+    world->wave_spawn_tick = world->tick + 1 + world->cfg.wave_gap_ticks;
+    choose_spawn_preview(world);
+    push_event(world, DEMO_EVENT_STUDENT_WAVE_CLEAR, world->boss.id, 0u,
+               (int32_t)world->waves_cleared, world->boss.x, world->boss.y,
+               DEMO_PATTERN_RING, DEMO_REJECT_NONE);
+    push_event(world, DEMO_EVENT_STUDENT_WAVE_PREVIEW, world->boss.id, 0u,
+               (int32_t)world->next_wave_students, world->boss.x, world->boss.y,
+               DEMO_PATTERN_RING, DEMO_REJECT_NONE);
+}
+
+static void spawn_next_student_wave(World *world) {
+    /* 默认 960x720 几何始终足够容纳 8 人。自定义极小场地若无法满足
+     * 安全分离则保留预告状态, 不悄悄降低人数或产生不安全出生。 */
+    if (world->spawn_preview_count != world->next_wave_students) return;
+    world->student_count = world->next_wave_students;
+    for (uint32_t i = 0u; i < world->student_count; ++i) {
+        initialize_student(world, i, world->spawn_preview[i].x,
+                           world->spawn_preview[i].y, true);
+    }
+    world->student_since_decision = 0u;
+    if (world->wave_index < UINT32_MAX) world->wave_index++;
+    world->wave_phase = DEMO_STUDENT_WAVE_ACTIVE;
+    world->next_wave_students = 0u;
+    world->wave_spawn_tick = 0;
+    world->spawn_preview_count = 0u;
+    memset(world->spawn_preview, 0, sizeof(world->spawn_preview));
+    push_event(world, DEMO_EVENT_STUDENT_WAVE_BEGIN, world->boss.id, 0u,
+               (int32_t)world->student_count, world->boss.x, world->boss.y,
+               DEMO_PATTERN_RING, DEMO_REJECT_NONE);
+}
+
 static void finish(World *world, DemoWorldStatus status) {
     world->status = status;
     push_event(world, DEMO_EVENT_GAME_OVER, world->boss.id, 0u, (int32_t)status, world->boss.x,
@@ -556,6 +680,22 @@ static void evaluate_outcome(World *world) {
         }
     }
     bool boss_down = !world->boss.alive;
+
+    if (world->cfg.endless_mode) {
+        /* 同 tick 的真实击倒/GPA 已在碰撞阶段记账, 死亡不转成胜利或平局。 */
+        if (boss_down) {
+            finish(world, DEMO_STATUS_BOSS_LOSE);
+            return;
+        }
+        if (world->wave_phase == DEMO_STUDENT_WAVE_ACTIVE && all_down) {
+            begin_wave_preview(world);
+        } else if (world->wave_phase == DEMO_STUDENT_WAVE_PREVIEW &&
+                   world->tick + 1 >= world->wave_spawn_tick) {
+            /* 出生位于本 tick 行动/伤害之后, 第一张新生快照与公开预告一致。 */
+            spawn_next_student_wave(world);
+        }
+        return;
+    }
 
     if (all_down && boss_down) {
         switch (world->cfg.outcome_rule) {
@@ -665,6 +805,16 @@ void world_make_view(const World *world, WorldView *out) {
     out->boss = &world->boss;
     out->students = world->students;
     out->student_count = world->student_count;
+    out->wave_index = world->wave_index;
+    out->waves_cleared = world->waves_cleared;
+    out->wave_phase = world->wave_phase;
+    out->next_wave_students = world->next_wave_students;
+    out->wave_spawn_tick = world->wave_spawn_tick;
+    out->spawn_preview_count = world->spawn_preview_count;
+    memcpy(out->spawn_preview, world->spawn_preview, sizeof(out->spawn_preview));
+    out->gpa_hundredths = world->gpa_hundredths;
+    out->students_defeated = world->students_defeated;
+    out->students_deployed = world->students_deployed;
 
     out->projectiles = world->pool.items;
     out->projectile_capacity = world->pool.capacity;

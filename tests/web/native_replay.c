@@ -3,14 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-int demo_reset(uint32_t lo, uint32_t hi, uint32_t students);
-int demo_step(float mx, float my, int valid, float px, float py, uint32_t attacks);
-const uint32_t *demo_snapshot(void);
-uint32_t demo_snapshot_size(void);
-void demo_dispose(void);
+#include "demo_bridge.h"
 
 static int write_snapshot(FILE *file) {
-    const uint32_t *data = demo_snapshot();
+    const uint8_t *data = demo_snapshot();
     uint32_t length = demo_snapshot_size();
     return data && length && fwrite(&length, 4, 1, file) == 1 && fwrite(data, 1, length, file) == length;
 }

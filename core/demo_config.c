@@ -1,7 +1,7 @@
 /* demo_config.c - demo 规则配置(母代理独占维护)
  *
- * 配置版本: 2（网页迁移修复顶部课表出生区，并补齐非默认学生槽位）
- * 已批准规则来源: docs/demo-rules.md (用户 2026-10-06 答复)
+ * 配置版本: 4（GPA 击倒数收敛函数；基于公开输入的平衡验证）
+ * 已批准规则来源: docs/demo-rules.md (用户 2026-10-06 / 07 指令)
  * 本文件中的"试验数值"可调, 但修改必须递增 version 并更新 docs/demo-rules.md。
  */
 #include "demo_base.h"
@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define DEMO_CONFIG_VERSION 2u
+#define DEMO_CONFIG_VERSION 4u
 
 static void set_default_students(DemoConfig *cfg) {
     /* 默认 3 名学生; 出生点按 960x720 战场等分布置, 与 Boss 初始位置保持安全距离。 */
@@ -36,7 +36,7 @@ static void set_default_patterns(DemoConfig *cfg) {
     ring->cost = 30;
     ring->windup_ticks = 72; /* 1.2 s */
     ring->active_ticks = 150;
-    ring->bullet_speed = 180.0f;
+    ring->bullet_speed = 230.0f; /* v4: 缩短对普通距离学生的追赶时间 */
     ring->wave_count = 3;
     ring->shots_per_wave = 18;
     ring->gap_span_deg = 80.0f;      /* 18 发中连续 4 发缺口 */
@@ -47,14 +47,15 @@ static void set_default_patterns(DemoConfig *cfg) {
 
     /* 1 选课系统·课表华容道: 中消耗·封路 */
     PatternConfig *course = &cfg->patterns[DEMO_PATTERN_COURSE];
-    course->cost = 35;
+    course->cost = 40; /* v4: 三条分散弹线恢复输出后重定中消耗 */
     course->windup_ticks = 72;
     course->active_ticks = 180;
-    course->bullet_speed = 220.0f;
+    course->bullet_speed = 320.0f; /* active 3 s 内能走完整个战场 */
     course->wave_count = 3;
     course->shots_per_wave = 24;
     course->gap_span_deg = 0.0f;
     course->corridor_width = 130.0f; /* 至少保留 110 px 连续通道 */
+    course->lane_spread_px = 96.0f; /* v4: 分散到每个封锁列内三条弹线 */
     course->spawn_safety_radius = 90.0f;
     course->first_spawn_sec = 0.0f;
     course->wave_interval_sec = 0.6f;
@@ -62,24 +63,24 @@ static void set_default_patterns(DemoConfig *cfg) {
     /* 2 一教金矿·绩点淘金: 低消耗·追击 */
     PatternConfig *mine = &cfg->patterns[DEMO_PATTERN_MINE];
     mine->cost = 15;
-    mine->windup_ticks = 72;
+    mine->windup_ticks = 48; /* v4: 0.8 s, 减少锁定后目标走离矿点 */
     mine->active_ticks = 120;
-    mine->bullet_speed = 200.0f;
+    mine->bullet_speed = 300.0f;
     mine->wave_count = 1;
     mine->shots_per_wave = 12; /* 每面最多 12 发; 三个扇面合计 36 */
     mine->gap_span_deg = 40.0f; /* 扇面之间的间隙 */
     mine->corridor_width = 0.0f;
-    mine->spawn_safety_radius = 180.0f; /* 矿点与目标距离 >= 180 px */
+    mine->spawn_safety_radius = 120.0f; /* v4: 仍检查全部学生与矿点的安全距离 */
     mine->first_spawn_sec = 0.0f;
     mine->wave_interval_sec = 0.0f;
 
     /* 3 期末总评·绩点淋浴: 高消耗·多目标压制 */
     PatternConfig *shower = &cfg->patterns[DEMO_PATTERN_SHOWER];
-    shower->cost = 60;
+    shower->cost = 100;
     shower->windup_ticks = 72;
     shower->active_ticks = 300;
     shower->bullet_speed = 240.0f;
-    shower->wave_count = 5;
+    shower->wave_count = 3; /* v4: 降低满能量招对单招循环的统治程度 */
     shower->shots_per_wave = 16;
     shower->gap_span_deg = 0.0f;
     shower->corridor_width = 120.0f; /* 保留 >= 100 px 竖向缝隙 */
@@ -126,7 +127,7 @@ bool demo_config_init(DemoConfig *cfg) {
     cfg->student_bullet_speed = 260.0f;
     cfg->student_bullet_radius = 5.0f;
     cfg->student_bullet_lifetime_ticks = 240;
-    cfg->student_fire_min_range = 60.0f;
+    cfg->student_fire_min_range = 50.0f; /* 20 + 22 + 5 + 3; 消除 48 px 贴脸免火 */
 
     cfg->energy_max = 100;
     cfg->energy_start = 60;
@@ -139,7 +140,11 @@ bool demo_config_init(DemoConfig *cfg) {
     cfg->boss_bullet_clear_on_attack_end = 1;
     cfg->boss_bullet_straight = true; /* 已批准: 直线基础运动, 无默认场力 */
 
-    cfg->outcome_rule = DEMO_OUTCOME_BOSS_WIN; /* 已批准: 同 tick 双方倒下记 Boss 胜 */
+    cfg->endless_mode = true;
+    cfg->wave_gap_ticks = 120;
+    cfg->gpa_half_saturation_kills = 20u;
+    cfg->gpa_max_hundredths = 430;
+    cfg->outcome_rule = DEMO_OUTCOME_BOSS_LOSE; /* 无尽模式: Boss 死亡优先 */
     cfg->max_ticks = 0; /* 0 = 不设强制时限 */
 
     set_default_students(cfg);
@@ -257,9 +262,15 @@ bool demo_config_validate(const DemoConfig *cfg, char *err, size_t err_cap) {
     if (cfg->max_ticks < 0) {
         FAIL("max ticks must be >= 0");
     }
+    if (cfg->endless_mode && cfg->wave_gap_ticks < 120) {
+        FAIL("endless wave preview must last at least 120 ticks");
+    }
+    if (cfg->gpa_max_hundredths != 430 || cfg->gpa_half_saturation_kills == 0u) {
+        FAIL("GPA maximum must be 430 and half saturation kills positive");
+    }
 
     for (uint32_t i = 0u; i < DEMO_MAX_STUDENTS; ++i) {
-        if (i >= cfg->student_count) {
+        if (!cfg->endless_mode && i >= cfg->student_count) {
             continue;
         }
         float sx = cfg->student_spawn_x[i];
@@ -282,6 +293,9 @@ bool demo_config_validate(const DemoConfig *cfg, char *err, size_t err_cap) {
         if (!is_finite_f(pc->bullet_speed) || pc->bullet_speed <= 0.0f) {
             FAIL("pattern bullet speed must be positive");
         }
+        if (!is_finite_f(pc->lane_spread_px) || pc->lane_spread_px < 0.0f) {
+            FAIL("pattern lane spread must be non-negative and finite");
+        }
         if (pc->wave_count <= 0 || pc->wave_count > 8) {
             FAIL("pattern wave count out of range");
         }
@@ -290,6 +304,12 @@ bool demo_config_validate(const DemoConfig *cfg, char *err, size_t err_cap) {
         }
     }
     /* 环弹每圈发数不得超过计划几何容量 */
+    const PatternConfig *course = &cfg->patterns[DEMO_PATTERN_COURSE];
+    float column_width = cfg->field_w / 3.0f;
+    if (course->lane_spread_px > column_width * 0.5f - cfg->boss_bullet_radius ||
+        column_width * 1.5f - course->lane_spread_px < course->corridor_width) {
+        FAIL("course lane spread must keep the full channel clear");
+    }
     if (cfg->patterns[DEMO_PATTERN_RING].shots_per_wave > 180) {
         FAIL("ring shots per wave too large");
     }

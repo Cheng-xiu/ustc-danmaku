@@ -1,0 +1,70 @@
+{
+  "url": "file:///C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/demo/ustc-danmaku.html?qa=1",
+  "checks": [
+    {
+      "name": "single file loads offline real ABI3 core",
+      "passed": true
+    },
+    {
+      "name": "menu describes endless GPA",
+      "passed": true
+    },
+    {
+      "name": "fourth attack refuses at starting60",
+      "passed": true,
+      "detail": 60
+    },
+    {
+      "name": "fourth attack accepts only at100",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "shower actually emits after windup",
+      "passed": true,
+      "detail": 16
+    },
+    {
+      "name": "pause freezes tick energy GPA",
+      "passed": true
+    },
+    {
+      "name": "restart clears wave and GPA",
+      "passed": true
+    },
+    {
+      "name": "only death gives terminal result",
+      "passed": true
+    },
+    {
+      "name": "death report contains finalGPA",
+      "passed": true
+    },
+    {
+      "name": "death freezes GPA wave time",
+      "passed": true
+    },
+    {
+      "name": "HUD fits720",
+      "passed": true,
+      "detail": {
+        "height": 720,
+        "scroll": 720
+      }
+    },
+    {
+      "name": "offline file has zero external network dependencies",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "browser has no runtime errors",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "externalRequests": [],
+  "browser": "154.0.8037.98",
+  "passed": true
+}

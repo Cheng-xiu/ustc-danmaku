@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "configVersion": 4,
+  "abiVersion": 3,
+  "seedLo": 20261006,
+  "seedHi": 0,
+  "snapshotsCompared": 9001,
+  "floatAbsoluteTolerance": 0.002,
+  "maxFloatDelta": 0,
+  "actual": {
+    "status": 0,
+    "tick": 9000,
+    "boss_hp": 6,
+    "boss_hits": 0,
+    "student_hits": 40,
+    "kills": 12,
+    "gpa_hundredths": 161,
+    "wave_index": 4,
+    "waves_cleared": 3,
+    "student_count": 6
+  }
+}

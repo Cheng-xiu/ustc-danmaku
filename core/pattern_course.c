@@ -1,80 +1,12 @@
-/* pattern_course.c - S08 招 1 选课系统·课表华容道: 封路弹带与连续可达通道
- *
- * 接口版本: 1 (core/demo_base.h + core/pattern_course.h 已冻结; 本文件不改任何头文件)
- * 配置版本: 1 (demo-config-v1: cost 35 / windup 72 / active 180 / bullet_speed 220 px/s
- *             / wave_count 3 / shots_per_wave 24 / corridor_width 130 px
- *             / first_spawn_sec 0 / wave_interval_sec 0.6)
- * 用途档位: 中消耗·封路 (消耗 35)
- *
- * 职责与边界:
- *   - 只实现 pattern_course_{make_plan,emit,warning} 三个冻结函数。
- *   - 不改注册表/配置/其他招式; 不写日志; 不读墙钟; 不使用平台 rand();
- *     不使用 EasyX/Windows API/C++ 容器; 纯 C11。
- *   - emit 内**不调用任何 rng**: 冻结签名没有 Rng 入参, 全部几何在 make_plan
- *     固化进 AttackPlan, emit 只读计划(本文件 emit/warning 无任何 rng_* 调用)。
- *
- * ---------------------------------------------------------------- 已批准几何
- *
- *   1. 战场按宽度三等分: 列宽 colw = field_w / 3, 第 j 列中心 cx[j] = colw * (j + 0.5)。
- *      默认场宽 960 px => colw = 320 px, cx = {160, 480, 800}。
- *   2. 每一波封锁 3 列中的 2 列(各一条竖直下落弹带), 保留 1 列作为通道列。
- *   3. 通道列逐波推进到相邻列, 保证"旧通道可达新通道":
- *          channel[i] = (channel[0] + i) % 3
- *      channel[0] 在 make_plan 用 rng_below(rng, 3) 抽一次(唯一一次 rng 消耗),
- *      之后完全确定 —— 相邻两波的通道列必然相邻(模 3 差 1), 学生只需横向平移
- *      一个列宽即可跟上, 不会被两侧弹带夹死。
- *   4. 计划内的编码(头文件不改, 复用通用字段, 报告同步记录):
- *          plan->wave_offset   = (float)channel[0]     <- 首波通道列号, 取值 0/1/2
- *          plan->geometry_seed = (uint64_t)channel[0]  <- 同一初值的整型存档
- *      emit 里按 channel(i) = (wave_offset + i) % 3 重算, 几何因此完全确定。
- *
- * ---------------------------------------------------------------- 通道无弹区保证
- *
- *   每发的 x 只允许落在本列中心 ± COURSE_LANE_JITTER(固定常量 8 px, 与 rng 无关):
- *          x = cx[col] + ((k % 3) - 1) * 8        =>  x ∈ [cx-8, cx+8]
- *   于是任一被封锁列的弹心 x 都严格落在本列内部, 相邻列之间没有任何弹心。三种通道
- *   情形下"无弹心区"宽度分别为:
- *          channel 在边缘列(0 或 2): 1.5 * colw - 8  >= corridor_width
- *          channel 在中间列(1)     : 2.0 * colw - 16 >= corridor_width
- *   make_plan 用最紧的一条 (1.5 * colw - 8 >= corridor_width) 作为硬性可行性判据;
- *   默认配置下无弹心区宽 472 px, 远大于 corridor_width 130 px(结论: 通道列不会
- *   被任何弹覆盖, 且相邻被封锁列的弹带也各向内收缩了 8 px)。因为弹竖直下落
- *   (vx = 0), 这条无弹区在整条下落路径上都不变, 不会在飞行途中被封死。
- *   语义说明: corridor_width 是"弹心空档"宽度; 实际可通过净宽还要扣掉
- *   2 * (boss_bullet_radius + student_radius), 由渲染/AI 自行解释, 本模块不放大。
- *
- * ---------------------------------------------------------------- 弹带排布
- *
- *   被封锁列每列发数 per_column = shots_per_wave / 2 (整数除法), 两列合计
- *   2 * per_column; 若 shots_per_wave 为奇数, 差 extra = shots - 2*per_column
- *   (0 或 1)补到第一条被封锁列, 因此每波总发数恰好为 shots_per_wave, 绝不超过。
- *   每列竖直排布: 全部出生点位于已批准的顶部 y=0..100 带，紧凑排列:
- *          y_k = 100 * k / (n_column - 1), 单发时 y=100。
- *   速度恒为 (vx, vy) = (0, lock_speed): 竖直下落, |v| == lock_speed。
- *
- * ---------------------------------------------------------------- 出生安全距离
- *
- *   本招全部弹从场地顶部 y = 0..100 出生并竖直落下，不再按场高铺满。
- *   顶部生成带是已批准几何，生成点不随学生或 Boss 移动迁移，
- *   与"环弹/金矿"的 spawn_safety_radius 语义无关。因此即使 req 中某个存活学生与
- *   某一列中心的距离 < student_radius, 也**照常允许生成请求**(不因此返回 false),
- *   且 plan->lock_checked_at_spawn 恒为 false, 如实说明没有做生成时复查。
- *
- * ---------------------------------------------------------------- 参数合法性
- *
- *   make_plan 在**写 out 之前**完成全部校验, 任一不满足即返回 false 且不写 out
- *   (调用方据此回滚能量与状态)。被拒的情形:
- *     - request/config/rng/out 任一为空指针;
- *     - 场宽/场高/弹速/时长/发数/波次/波次时刻非法(<=0、非有限);
- *     - corridor_width 非有限或 < 110 px(硬性下限, 不静默加宽);
- *     - start_tick < 0;
- *     - 波次数量超过 wave_tick[] 容量(DEMO_PATTERN_COUNT * 8 == 32);
- *     - 几何上无法留出 corridor_width 无弹区(1.5 * colw - 8 < corridor_width);
- *     - 某波时刻非有限/超范围, 或晚于 active_ticks(计划无法"每波各生成一次"兑现);
- *     - Boss 弹半径/伤害/寿命非法。
- *
- *   plan_id 由调用方(core/attack.c 的 next_plan_id)在 make_plan 之后赋值:
- *   本模块按任务要求清零 out, 既不保留也不生成 plan_id(不影响调用方流程)。
+/* pattern_course.c - 课表华容道: 顶部出弹, 三列中封两列、留一列。
+ * 每波通道列 (初始列 + 波次) % 3；初始列只在接受请求时抽取一次。
+ * 每个封锁列内有 center + {-spread, 0, spread} 三条竖直弹线，
+ * spread 来自 PatternConfig.lane_spread_px，在不可变 AttackPlan 中锁定。
+ * v4 默认 spread=96 px；弹体始终完全留在原封锁列。
+ * 最紧通道的弹心空档是 1.5*column_width - spread = 384 px，
+ * 大于要求的 130 px；扣掉两侧学生与弹半径仍有 332 px 净宽。
+ * 每发出生 y=0..100，速度 (0, lock_speed)；预警从同一计划 emit 读取。
+ * 发数在两列间平均分配，奇数多一发给第一列；请求拒绝不改计划/RNG。
  */
 #include "pattern_course.h"
 
@@ -92,9 +24,6 @@
 
 /* wave_tick[] 的数组长度: AttackPlan 里是 DEMO_PATTERN_COUNT * 8 == 32。 */
 #define COURSE_WAVE_TICK_CAP (DEMO_PATTERN_COUNT * 8)
-
-/* 每条弹相对本列中心的固定横向抖动(px): 确定性常量, 不使用 rng。 */
-#define COURSE_LANE_JITTER 8.0f
 
 /* 基线曾按场高铺到 y=660，违背顶部出生；只修出生带，不改其余几何。 */
 #define COURSE_TOP_SPAWN_Y 100.0f
@@ -135,10 +64,10 @@ static int32_t course_channel_of(const AttackPlan *plan, int32_t wave) {
     return c;
 }
 
-/* 第 k 发相对本列中心的固定横向偏移: {-8, 0, +8} 循环, 与随机数无关。 */
-static float course_lane_offset(int32_t k) {
+/* 列内三条弹线的偏移在接受请求时锁定, 不读取之后改写的 config。 */
+static float course_lane_offset(int32_t k, float spread) {
     int32_t slot = k % 3; /* k >= 0, 结果 0/1/2 */
-    return ((float)slot - 1.0f) * COURSE_LANE_JITTER;
+    return ((float)slot - 1.0f) * spread;
 }
 
 bool pattern_course_make_plan(const PatternRequest *request, const DemoConfig *config, Rng *rng,
@@ -214,9 +143,14 @@ bool pattern_course_make_plan(const PatternRequest *request, const DemoConfig *c
     corridor = pc->corridor_width;
     colw = field_w / (float)COURSE_COLUMNS;
 
+    if (!isfinite(pc->lane_spread_px) || pc->lane_spread_px < 0.0f ||
+        pc->lane_spread_px > colw * 0.5f - config->boss_bullet_radius) {
+        return false; /* 弹体必须完全留在各自被封锁列, 不侵入通道列。 */
+    }
+
     /* 通道无弹区可行性: 最紧的一种通道位置(边缘列)也必须留出 corridor_width。
-     * 见文件头"通道无弹区保证": 边缘列通道时无弹区 = 1.5 * colw - JITTER。 */
-    if (!(colw * 1.5f - COURSE_LANE_JITTER >= corridor)) {
+     * 边缘列通道时弹心空档 = 1.5 * colw - lane_spread_px。 */
+    if (!(colw * 1.5f - pc->lane_spread_px >= corridor)) {
         return false;
     }
 
@@ -266,6 +200,7 @@ bool pattern_course_make_plan(const PatternRequest *request, const DemoConfig *c
     out->gap_span_deg = 0.0f;
     out->gap_drift_deg_per_wave = 0.0f; /* 通道推进走 wave_offset 编码, 不用角度漂移 */
     out->corridor_width = corridor;
+    out->lane_spread_px = pc->lane_spread_px;
     out->wave_count = waves;
     out->shots_per_wave = shots;
 
@@ -315,7 +250,8 @@ bool pattern_course_emit(const AttackPlan *plan, const DemoConfig *config, uint3
     if (!isfinite(plan->lock_speed) || plan->lock_speed <= 0.0f) {
         return false;
     }
-    if (!isfinite(plan->corridor_width) || !isfinite(plan->wave_offset)) {
+    if (!isfinite(plan->corridor_width) || !isfinite(plan->wave_offset) ||
+        !isfinite(plan->lane_spread_px) || plan->lane_spread_px < 0.0f) {
         return false;
     }
     if (!isfinite(config->field_w) || config->field_w <= 0.0f) {
@@ -358,6 +294,10 @@ bool pattern_course_emit(const AttackPlan *plan, const DemoConfig *config, uint3
     }
 
     colw = config->field_w / (float)COURSE_COLUMNS;
+    if (plan->lane_spread_px > colw * 0.5f - config->boss_bullet_radius ||
+        colw * 1.5f - plan->lane_spread_px < plan->corridor_width) {
+        return false;
+    }
 
     for (i = 0; i < waves; ++i) {
         int32_t due = course_round_tick(plan->wave_tick[i]);
@@ -391,7 +331,7 @@ bool pattern_course_emit(const AttackPlan *plan, const DemoConfig *config, uint3
 
             for (k = 0; k < n; ++k) {
                 Projectile spec;
-                float x = cx + course_lane_offset(k); /* 固定常量抖动, 不用 rng */
+                float x = cx + course_lane_offset(k, plan->lane_spread_px);
                 float y = (n > 1) ? y_step * (float)k : COURSE_TOP_SPAWN_Y;
 
                 memset(&spec, 0, sizeof(spec)); /* id/generation/active 由 pool_spawn 赋值 */

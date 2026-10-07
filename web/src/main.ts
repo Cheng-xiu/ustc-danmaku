@@ -68,6 +68,12 @@ function processEvents(events: GameEvent[], now: number) {
     } else if (event.type === 1) {
       reason = '已锁定目标与弹道，预警后释放';
       reasonUntil = now + 1200;
+    } else if (event.type === 14) {
+      reason = `下一波 ${event.amount} 名学生即将出场，留意场内出生标记。`;
+      reasonUntil = now + 2000;
+    } else if (event.type === 15) {
+      reason = `新一波 ${event.amount} 名学生已入场。`;
+      reasonUntil = now + 1200;
     }
   }
 }
@@ -152,6 +158,6 @@ async function boot() {
   });
 }
 boot().catch(error => {
-  loading.textContent = `游戏加载失败：${error instanceof Error ? error.message : String(error)}。请通过本地 HTTP 服务打开，并检查 wasm 文件。`;
+  loading.textContent = `游戏加载失败：${error instanceof Error ? error.message : String(error)}。请重新打开完整的单文件 HTML；源码运行时请检查本地 HTTP 服务及 Wasm 资源。`;
   changePhase('error', loading.textContent);
 });

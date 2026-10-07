@@ -22,6 +22,7 @@ function floatSlots(buffer) {
     [buffer.readUInt32LE(41 * 4) / 4, buffer.readUInt32LE(7 * 4), 10, [4, 5, 6, 7, 8]],
     [buffer.readUInt32LE(42 * 4) / 4, buffer.readUInt32LE(8 * 4), 8, [0, 1, 2, 3, 4]],
     [buffer.readUInt32LE(43 * 4) / 4, buffer.readUInt32LE(9 * 4), 9, [7, 8]],
+    [buffer.readUInt32LE(54 * 4) / 4, buffer.readUInt32LE(53 * 4), 2, [0, 1]],
   ];
   for (const [base, count, stride, offsets] of groups) for (let i = 0; i < count; i++) for (const slot of offsets) result.add(base + i * stride + slot);
   return result;

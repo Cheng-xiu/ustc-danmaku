@@ -1,0 +1,104 @@
+{
+  "samples": [
+    {
+      "point": [
+        460,
+        580
+      ],
+      "before": [
+        11,
+        24,
+        40,
+        255
+      ],
+      "after": [
+        11,
+        24,
+        40,
+        255
+      ]
+    },
+    {
+      "point": [
+        500,
+        580
+      ],
+      "before": [
+        11,
+        24,
+        40,
+        255
+      ],
+      "after": [
+        11,
+        24,
+        40,
+        255
+      ]
+    },
+    {
+      "point": [
+        460,
+        620
+      ],
+      "before": [
+        11,
+        24,
+        40,
+        255
+      ],
+      "after": [
+        11,
+        24,
+        40,
+        255
+      ]
+    },
+    {
+      "point": [
+        500,
+        620
+      ],
+      "before": [
+        11,
+        24,
+        40,
+        255
+      ],
+      "after": [
+        11,
+        24,
+        40,
+        255
+      ]
+    }
+  ],
+  "altered": 1513,
+  "layout": [
+    {
+      "phase": "playing",
+      "height": 720,
+      "scrollHeight": 720
+    },
+    {
+      "phase": "menu",
+      "height": 720,
+      "scrollHeight": 720
+    },
+    {
+      "phase": "paused",
+      "height": 720,
+      "scrollHeight": 720
+    },
+    {
+      "phase": "over",
+      "height": 720,
+      "scrollHeight": 720
+    }
+  ],
+  "errors": [],
+  "maskDisposed": true,
+  "passed": true,
+  "chrome": "154.0.8037.98",
+  "note": "Synthetic renderer/HUD fixture; not a real gameplay or balance run."
+}

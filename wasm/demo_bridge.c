@@ -1,4 +1,4 @@
-/* ABI v1: explicit little-endian words, shared by native and Wasm builds. */
+/* ABI v3: word 55 is the GPA half-saturation kill count. */
 #include "demo_bridge.h"
 #include "patterns.h"
 #include "world.h"
@@ -15,7 +15,7 @@
 #define WARNING_CAPACITY (32u * DEMO_MAX_ACTIVE_PLAN_PROJECTILES)
 #define SNAPSHOT_WORDS (HEADER_WORDS + (DEMO_MAX_STUDENTS + 1u) * ACTOR_WORDS + \
     DEMO_MAX_PROJECTILES * BULLET_WORDS + WARNING_CAPACITY * WARNING_WORDS + \
-    DEMO_MAX_STEP_EVENTS * EVENT_WORDS)
+    DEMO_MAX_STEP_EVENTS * EVENT_WORDS + DEMO_MAX_STUDENTS * 2u)
 
 typedef struct PublicRay {
     float x, y, vx, vy, radius;
@@ -140,7 +140,8 @@ const uint8_t *demo_snapshot(void) {
     g_snapshot_size = 0u;
     if (!g_ready || g_world.student_count > DEMO_MAX_STUDENTS ||
         g_world.pool.capacity > DEMO_MAX_PROJECTILES ||
-        g_world.events.count > DEMO_MAX_STEP_EVENTS || !project_rays()) return NULL;
+        g_world.events.count > DEMO_MAX_STEP_EVENTS ||
+        g_world.spawn_preview_count > DEMO_MAX_STUDENTS || !project_rays()) return NULL;
     memset(g_snapshot, 0, HEADER_WORDS * 4u);
     WorldView view;
     world_make_view(&g_world, &view);
@@ -184,7 +185,13 @@ const uint8_t *demo_snapshot(void) {
         put_f32(cursor + 7u, event->x); put_f32(cursor + 8u, event->y);
         cursor += EVENT_WORDS;
     }
-    put_u32(0u, 0x55444331u); put_u32(1u, 1u); put_u32(2u, cursor * 4u);
+    put_u32(54u, cursor * 4u);
+    for (uint32_t i = 0u; i < g_world.spawn_preview_count; ++i) {
+        put_f32(cursor, g_world.spawn_preview[i].x);
+        put_f32(cursor + 1u, g_world.spawn_preview[i].y);
+        cursor += 2u;
+    }
+    put_u32(0u, 0x55444331u); put_u32(1u, 3u); put_u32(2u, cursor * 4u);
     put_u32(3u, (uint32_t)g_world.tick); put_u32(4u, (uint32_t)g_world.status);
     put_u32(5u, g_world.cfg.version); put_u32(6u, g_world.student_count);
     put_u32(7u, bullets); put_u32(8u, g_ray_count); put_u32(9u, g_world.events.count);
@@ -206,6 +213,14 @@ const uint8_t *demo_snapshot(void) {
         put_u32(36u + p, view.pattern_available[p] ? 1u : 0u);
     }
     put_u32(44u, g_world.events.dropped);
+    put_u32(45u, g_world.wave_index); put_u32(46u, g_world.waves_cleared);
+    put_u32(47u, (uint32_t)g_world.wave_phase); put_u32(48u, g_world.next_wave_students);
+    put_u32(49u, (uint32_t)g_world.wave_spawn_tick);
+    put_u32(50u, (uint32_t)g_world.gpa_hundredths);
+    put_u32(51u, g_world.students_defeated); put_u32(52u, g_world.students_deployed);
+    put_u32(53u, g_world.spawn_preview_count);
+    put_u32(55u, g_world.cfg.gpa_half_saturation_kills);
+    put_u32(56u, (uint32_t)g_world.cfg.gpa_max_hundredths);
     g_snapshot_size = cursor * 4u;
     return g_snapshot;
 }

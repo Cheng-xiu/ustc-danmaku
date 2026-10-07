@@ -1,10 +1,14 @@
-import { Application, Container, Graphics, Rectangle, Sprite, Text, type Texture } from 'pixi.js';
+import { Application, Assets, Container, Graphics, Rectangle, Sprite, Text, type Texture } from 'pixi.js';
 import type { Actor, Snapshot } from '../types';
 import { ProjectileLayer } from './projectiles';
 import { PATTERN_COLORS, WarningLayer } from './warnings';
+import emblemUrl from '../../assets/ustc-emblem.jpg?inline';
 
-type ActorDisplay = { container: Container; sprite: Sprite; label: Text; health: Graphics; hpKey: string };
+type ActorDisplay = { container: Container; sprite: Sprite; mask: Graphics | null; label: Text; health: Graphics; outline: Graphics; hpKey: string };
 const names = ['绿色圆圈好辣', '课表华容道', '绩点淘金', '绩点淋浴'];
+// The official 638 × 656 JPG includes uneven white margins around this disk.
+// Align the disk itself with the hit circle before masking the rectangular image.
+const emblemDisk = { x: 326, y: 344, radius: 312 };
 
 export class GameScene {
   readonly canvas: HTMLCanvasElement;
@@ -13,6 +17,8 @@ export class GameScene {
   private readonly actorDisplays = new Map<number, ActorDisplay>();
   private readonly warnings = new WarningLayer();
   private readonly targets = new Graphics();
+  private readonly spawnMarkers = new Graphics();
+  private readonly spawnLabel = new Text({ text: '', style: { fontFamily: 'Microsoft YaHei, Arial, sans-serif', fontSize: 14, fill: 0xb7deef, fontWeight: '600' } });
   private readonly hitEffects = new Graphics();
   private readonly attackLabel = new Text({ text: '', style: { fontFamily: 'Microsoft YaHei, Arial, sans-serif', fontSize: 12, fill: 0xc2d4e4, fontWeight: '500' } });
   private readonly targetLabel = new Text({ text: '', style: { fontFamily: 'Microsoft YaHei, Arial, sans-serif', fontSize: 9, fill: 0xd9ae75 } });
@@ -30,24 +36,27 @@ export class GameScene {
       resolution: Math.min(window.devicePixelRatio || 1, 2), antialias: true,
     });
     app.stop();
-    const scene = new GameScene(app);
+    const emblem = await Assets.load<Texture>(emblemUrl);
+    const scene = new GameScene(app, emblem);
     host.append(scene.canvas);
     return scene;
   }
 
-  private constructor(private readonly app: Application) {
+  private constructor(private readonly app: Application, emblem: Texture) {
     this.canvas = app.canvas as HTMLCanvasElement;
-    this.bossTexture = this.makeActorTexture(true);
-    this.studentTexture = this.makeActorTexture(false);
+    this.bossTexture = emblem;
+    this.studentTexture = this.makeStudentTexture();
     const bulletTextures = PATTERN_COLORS.map((color, pattern) => this.makeBulletTexture(color, pattern));
     const studentBullet = this.makeBulletTexture(0xff7698, 4);
     this.projectiles = new ProjectileLayer(bulletTextures, studentBullet);
     this.makeBackground();
-    app.stage.addChild(this.warnings, this.projectiles, this.actorLayer, this.targets, this.hitEffects);
+    app.stage.addChild(this.warnings, this.spawnMarkers, this.projectiles, this.actorLayer, this.targets, this.hitEffects);
     this.attackLabel.anchor.set(0.5, 0);
     this.attackLabel.position.set(480, 34);
     this.targetLabel.anchor.set(0.5, 0);
-    app.stage.addChild(this.attackLabel, this.targetLabel);
+    this.spawnLabel.anchor.set(0.5, 0);
+    this.spawnLabel.position.set(480, 58);
+    app.stage.addChild(this.attackLabel, this.targetLabel, this.spawnLabel);
   }
 
   private texture(graphics: Graphics, size: number): Texture {
@@ -57,20 +66,12 @@ export class GameScene {
     return texture;
   }
 
-  private makeActorTexture(boss: boolean): Texture {
+  private makeStudentTexture(): Texture {
     const graphics = new Graphics();
-    graphics.circle(32, 32, 22).fill({ color: boss ? 0x3d322b : 0x173a42 }).stroke({ color: boss ? 0xffc58a : 0x91d4d2, width: 1.8 });
-    if (boss) {
-      const vertices: number[] = [];
-      for (let i = 0; i < 6; i++) vertices.push(32 + Math.cos(i * Math.PI / 3 - Math.PI / 2) * 17, 32 + Math.sin(i * Math.PI / 3 - Math.PI / 2) * 17);
-      graphics.poly(vertices).fill(0xffc58a);
-      graphics.circle(32, 32, 6).fill(0x3a2a23);
-      graphics.circle(32, 32, 2).fill(0xffe0b4);
-    } else {
-      graphics.circle(32, 32, 14).fill(0xb9e4de);
-      graphics.circle(32, 32, 5).fill(0x436d72);
-      graphics.circle(32, 32, 2).fill(0xeffff8);
-    }
+    graphics.circle(32, 32, 22).fill(0x173a42).stroke({ color: 0x91d4d2, width: 1.8 });
+    graphics.circle(32, 32, 14).fill(0xb9e4de);
+    graphics.circle(32, 32, 5).fill(0x436d72);
+    graphics.circle(32, 32, 2).fill(0xeffff8);
     return this.texture(graphics, 64);
   }
 
@@ -123,7 +124,12 @@ export class GameScene {
     this.projectiles.update(snapshot.bullets);
     for (const actor of snapshot.actors) this.drawActor(actor, snapshot.tick);
     const currentIds = new Set(snapshot.actors.map((actor) => actor.id));
-    for (const [id, display] of this.actorDisplays) display.container.visible = currentIds.has(id);
+    for (const [id, display] of this.actorDisplays) {
+      if (currentIds.has(id)) continue;
+      display.container.destroy({ children: true });
+      this.actorDisplays.delete(id);
+    }
+    this.drawSpawns(snapshot);
     this.drawTargets(snapshot);
     for (const event of snapshot.events) {
       if (event.type !== 7) continue;
@@ -151,13 +157,25 @@ export class GameScene {
       const label = new Text({ text: boss ? 'YOU / BOSS' : `学生 ${actor.id}`, style: { fontFamily: 'Microsoft YaHei, Arial, sans-serif', fontSize: boss ? 10 : 9, fill: boss ? 0xe9bf8f : 0x8ec4c4, letterSpacing: boss ? 1 : 0 } });
       label.anchor.set(0.5, 1);
       const health = new Graphics();
-      container.addChild(sprite, label, health);
+      const outline = new Graphics();
+      const mask = boss ? new Graphics() : null;
+      container.addChild(sprite);
+      if (mask) {
+        mask.circle(0, 0, actor.radius).fill(0xffffff);
+        container.addChild(mask);
+        sprite.mask = mask;
+      }
+      container.addChild(outline, label, health);
       this.actorLayer.addChild(container);
-      display = { container, sprite, label, health, hpKey: '' };
+      display = { container, sprite, mask, label, health, outline, hpKey: '' };
       this.actorDisplays.set(actor.id, display);
     }
     display.container.position.set(actor.x, actor.y);
-    display.sprite.width = display.sprite.height = actor.radius * 64 / 22;
+    if (boss) {
+      const scale = actor.radius / emblemDisk.radius;
+      display.sprite.scale.set(scale);
+      display.sprite.position.set((this.bossTexture.width / 2 - emblemDisk.x) * scale, (this.bossTexture.height / 2 - emblemDisk.y) * scale);
+    } else display.sprite.width = display.sprite.height = actor.radius * 64 / 22;
     display.label.y = -actor.radius - 8;
     display.container.alpha = !actor.alive ? 0.16 : actor.invuln > 0 && Math.floor(tick / 3) % 2 === 0 ? 0.5 : 1;
     const hpKey = `${actor.hp}/${actor.hpMax}/${actor.radius}`;
@@ -167,7 +185,24 @@ export class GameScene {
       const gap = 3;
       const segment = (width - gap * (actor.hpMax - 1)) / Math.max(1, actor.hpMax);
       display.health.clear();
+      display.outline.clear();
+      if (display.mask) display.mask.clear().circle(0, 0, actor.radius).fill(0xffffff);
+      if (boss) display.outline.circle(0, 0, actor.radius).stroke({ color: 0xffc58a, width: 1.5, alpha: 0.9 });
       for (let hp = 0; hp < actor.hpMax; hp++) display.health.rect(-width / 2 + hp * (segment + gap), actor.radius + 5, segment, 3).fill(hp < actor.hp ? boss ? 0xffb877 : 0x80cac9 : 0x2e4557);
+    }
+  }
+
+  private drawSpawns(snapshot: Snapshot): void {
+    this.spawnMarkers.clear();
+    this.spawnLabel.visible = snapshot.wavePhase === 1;
+    if (snapshot.wavePhase !== 1) return;
+    const remaining = Math.max(0, snapshot.waveSpawnTick - snapshot.tick) / 60;
+    this.spawnLabel.text = `第 ${snapshot.wave + 1} 波 · ${snapshot.nextWaveStudents} 名学生 · ${remaining.toFixed(1)} 秒后入场`;
+    for (const point of snapshot.spawnPreview) {
+      this.spawnMarkers.circle(point.x, point.y, 24).fill({ color: 0x76b8d8, alpha: 0.08 }).stroke({ color: 0x9bd7ef, width: 1.5, alpha: 0.7 });
+      this.spawnMarkers.moveTo(point.x - 7, point.y).lineTo(point.x + 7, point.y);
+      this.spawnMarkers.moveTo(point.x, point.y - 7).lineTo(point.x, point.y + 7);
+      this.spawnMarkers.stroke({ color: 0x9bd7ef, width: 1.2, alpha: 0.7 });
     }
   }
 
@@ -202,6 +237,8 @@ export class GameScene {
     this.warnings.visible = false;
     this.projectiles.update([]);
     this.targets.clear();
+    this.spawnMarkers.clear();
+    this.spawnLabel.visible = false;
     this.hitEffects.clear();
     this.attackLabel.text = '';
     this.targetLabel.visible = false;
