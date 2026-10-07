@@ -8,10 +8,10 @@ const formatTime = (tick: number) => {
   return `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`;
 };
 const patterns = [
-  { name: '绿色圆圈好辣', source: '桃李苑', purpose: '周边压力', color: 'green' },
-  { name: '课表华容道', source: '选课系统', purpose: '封住路线', color: 'purple' },
-  { name: '绩点淘金', source: '一教金矿', purpose: '局部追击', color: 'gold' },
-  { name: '绩点淋浴', source: '期末总评', purpose: '多目标压制', color: 'blue' },
+  { name: '绿色圆圈好辣', short: '环震', source: '桃李苑', purpose: '近身环震', color: 'green', description: '短预警后，从出招时的位置向外震出两圈缺口弹环。靠近敌人再出手，适合应对身边的学生。' },
+  { name: '课表华容道', short: '封路', source: '选课系统', purpose: '分列封路', color: 'purple', description: '从顶部压下两排分列弹墙，封住两列、留出一列。持续封锁纵向路线，适合压制分散敌人。' },
+  { name: '绩点淘金', short: '速攻', source: '一教金矿', purpose: '单目标速攻', color: 'gold', description: '锁定最近学生的方向，快速打出集中三连弹束。准备短、消耗低，适合追击单个目标和收尾。' },
+  { name: '绩点淋浴', short: '弹雨', source: '期末总评', purpose: '满能量全场弹雨', color: 'blue', description: '攒满能量后从顶部释放大范围弹雨，沿全场多条路线扫下。适合学生较多时集中压制。' },
 ];
 
 export class HUD {
@@ -31,24 +31,23 @@ export class HUD {
 
   constructor(host: HTMLElement, callbacks?: HUDCallbacks) {
     this.callbacks = callbacks ?? { start: noop, pause: noop, restart: noop, attack: noop };
-    this.panel = document.createElement('aside');
+    this.panel = document.createElement('section');
     this.panel.className = 'demo-hud';
+    this.panel.setAttribute('aria-label', '战斗状态与出招');
     this.panel.innerHTML = `
-      <header class="demo-hud-header"><span class="demo-eyebrow">USTC · DANMAKU</span><h1>校园弹幕</h1><div class="demo-subtitle">无尽 Boss 试玩场 <span>DEMO 03</span></div></header>
-      <div class="demo-match-row"><span class="demo-phase" data-ui="phase">准备开始</span><span class="demo-clock" data-ui="clock">00:00</span></div>
-      <section class="demo-progress"><div><span>GPA</span><strong data-ui="gpa">0.00</strong><small data-ui="gpa-rule">击倒数计算 · 趋近 4.30</small></div><div class="demo-progress-side"><span>第 <b data-ui="wave">1</b> 波</span><span>击倒 <b data-ui="kills">0</b> 人</span></div></section>
-      <section class="demo-vitals"><div class="demo-line"><span>你的生命</span><strong data-ui="health-text">6 / 6</strong></div><div class="demo-health" data-ui="health"></div><div class="demo-line demo-energy-label"><span>共享能量</span><strong data-ui="energy-text">60 <small>/ 100</small></strong></div><div class="demo-energy-track"><div data-ui="energy-fill"></div></div><div class="demo-energy-note">等待时蓄能 · 出招成功才扣除</div></section>
-      <section class="demo-skills"><div class="demo-section-label">主动出招 <span>按 1 — 4</span></div><div data-ui="skills"></div><div class="demo-attack-state" data-ui="attack-state">当前没有攻击</div><div class="demo-attack-track"><div data-ui="attack-fill"></div></div></section>
+      <section class="demo-match-summary"><div class="demo-summary-head"><span class="demo-phase" data-ui="phase">准备开始</span><span class="demo-clock" data-ui="clock">00:00</span></div><div class="demo-score-row"><span class="demo-gpa">GPA <strong data-ui="gpa">0.00</strong></span><span>第 <b data-ui="wave">1</b> 波</span><span>击倒 <b data-ui="kills">0</b></span><span data-ui="student-count">3 人存活</span></div><div class="demo-health-row"><span>生命 <strong data-ui="health-text">6 / 6</strong></span><div class="demo-health" data-ui="health" aria-label="剩余生命"></div></div><small data-ui="gpa-rule" hidden>击倒数计算 · 趋近 4.30</small><div data-ui="student-list" hidden></div></section>
+      <section class="demo-energy-box"><div class="demo-meter-label"><span>共享能量</span><strong data-ui="energy-text">60 / 100</strong></div><div class="demo-energy-track" data-ui="energy-track" role="progressbar" aria-label="共享能量" aria-valuemin="0" aria-valuemax="100"><div data-ui="energy-fill"></div></div><span class="demo-meter-caption" data-ui="energy-caption">蓄能中 · 成功出招才扣除</span></section>
+      <section class="demo-cd-box" data-ui="cd-box"><div class="demo-meter-label"><span>共享出招 CD</span><strong data-ui="cd-text">就绪</strong></div><div class="demo-attack-track" data-ui="cd-track" role="progressbar" aria-label="当前招式剩余进度" aria-valuemin="0" aria-valuemax="100"><div data-ui="attack-fill"></div></div><div class="demo-attack-state" data-ui="attack-state">就绪 · 可选择下一招</div></section>
+      <section class="demo-skills" aria-label="按 1 到 4 出招"><div data-ui="skills"></div></section>
       <div class="demo-notice" data-ui="notice" role="status" aria-live="polite"></div>
-      <section class="demo-students"><div class="demo-section-label">学生反击 <span data-ui="student-count">3 人存活</span></div><div data-ui="student-list"></div></section>
-      <footer class="demo-hud-footer"><div class="demo-legend"><span><i class="student-bullet"></i>反击弹</span><span><i class="warning-ray"></i>锁定预警</span><span><i class="spawn-marker"></i>入场点</span></div><p>鼠标靠近即停；WASD / 方向键备用<br>Esc / 右键暂停，R 重开</p><div class="demo-system-buttons"><button type="button" data-ui="pause">暂停 <kbd>Esc</kbd></button><button type="button" data-ui="restart">重开 <kbd>R</kbd></button></div></footer>`;
+      <div class="demo-system-buttons"><button type="button" data-ui="pause">暂停 <kbd>Esc</kbd></button><button type="button" data-ui="restart">重开 <kbd>R</kbd></button></div>`;
     host.append(this.panel);
     this.panel.querySelectorAll<HTMLElement>('[data-ui]').forEach((element) => this.lookup.set(element.dataset.ui!, element));
     patterns.forEach((pattern, index) => {
       const button = document.createElement('button');
       button.type = 'button';
       button.className = `demo-skill ${pattern.color}`;
-      button.innerHTML = `<kbd>${index + 1}</kbd><span class="demo-skill-copy"><small>${pattern.source} · ${pattern.purpose}</small><strong>${pattern.name}</strong></span><span class="demo-cost"></span>`;
+      button.innerHTML = `<kbd>${index + 1}</kbd><span class="demo-skill-copy"><strong>${pattern.short}</strong><small class="demo-skill-status">就绪</small></span><span class="demo-cost"></span>`;
       button.addEventListener('click', () => this.callbacks.attack(index));
       this.ui('skills').append(button);
       this.attackButtons.push(button);
@@ -65,7 +64,7 @@ export class HUD {
     this.overlay = document.createElement('section');
     this.overlay.className = 'demo-status-overlay';
     this.overlay.setAttribute('aria-label', '游戏状态');
-    this.overlay.innerHTML = `<div class="demo-status-card"><span class="demo-eyebrow" data-overlay="tag">无尽可玩 Demo</span><h2 data-overlay="title">四招，撑到最后。</h2><p class="demo-overlay-description" data-overlay="description"></p><div class="demo-overlay-controls"><span><kbd>鼠标</kbd>朝指针移动，靠近减速</span><span><kbd>1 — 4</kbd>主动出招，等待蓄能</span><span><kbd>Esc</kbd>随时暂停 <kbd>R</kbd>重开</span></div><dl class="demo-report" data-overlay="report" hidden><div><dt>最终 GPA</dt><dd data-report="gpa">0.00</dd></div><div><dt>存活时间</dt><dd data-report="time">00:00</dd></div><div><dt>到达波次 / 清空波次</dt><dd data-report="waves">1 / 0</dd></div><div><dt>累计击倒 / 累计派出</dt><dd data-report="kills">0 / 3</dd></div></dl><button type="button" class="demo-primary-action" data-overlay="action">开始试玩 <span>→</span></button><p class="demo-overlay-footnote">每清空一波，下波增加 1 人，最多同时 8 人<br>学生当前使用脚本 AI；GPA 为本游戏的击倒积分</p></div>`;
+    this.overlay.innerHTML = `<div class="demo-status-card"><span class="demo-eyebrow" data-overlay="tag">科大弹幕录 · 无尽 Boss</span><h2 data-overlay="title">四招，撑到最后。</h2><p class="demo-overlay-description" data-overlay="description"></p><div class="demo-overlay-skills" data-overlay="skills">${patterns.map((pattern, index) => `<article class="demo-skill-guide ${pattern.color}"><div><kbd>${index + 1}</kbd><strong>${pattern.purpose}</strong><span data-guide-cost="${index}">— 能量</span></div><h3>${pattern.source} · ${pattern.name}</h3><p>${pattern.description}</p></article>`).join('')}</div><div class="demo-overlay-controls"><span><kbd>鼠标</kbd>朝指针移动，靠近减速；移出战场也能继续指向</span><span><kbd>WASD / ↑↓←→</kbd>键盘八方向移动</span><span><kbd>1 — 4</kbd>主动出招；共享 CD 结束后才能选下一招</span><span><kbd>Esc / 右键</kbd>暂停 <kbd>R</kbd>重开</span></div><dl class="demo-report" data-overlay="report" hidden><div><dt>最终 GPA</dt><dd data-report="gpa">0.00</dd></div><div><dt>存活时间</dt><dd data-report="time">00:00</dd></div><div><dt>到达波次 / 清空波次</dt><dd data-report="waves">1 / 0</dd></div><div><dt>累计击倒 / 累计派出</dt><dd data-report="kills">0 / 3</dd></div></dl><button type="button" class="demo-primary-action" data-overlay="action">开始试玩 <span>→</span></button><p class="demo-overlay-footnote">清波后增加 1 人，最多同时 8 人；生命耗尽时结算，无胜利终点。<br>GPA 只由累计击倒数决定；学生当前使用脚本 AI。</p></div>`;
     (host.parentElement ?? host).append(this.overlay);
     this.overlay.querySelector<HTMLButtonElement>('[data-overlay="action"]')!.addEventListener('click', () => {
       if (this.previousPhase === 'menu') this.callbacks.start();
@@ -96,6 +95,7 @@ export class HUD {
       this.ui('gpa').textContent = (snapshot.gpaHundredths / 100).toFixed(2);
       this.ui('gpa-rule').textContent = `增长渐缓 · 趋近 ${(snapshot.gpaMaxHundredths / 100).toFixed(2)}`;
       this.ui('gpa-rule').title = `GPA = ${(snapshot.gpaMaxHundredths / 100).toFixed(2)} × 击倒人数 / (击倒人数 + ${snapshot.gpaHalfSaturationKills})；只由累计击倒人数决定，显示保留两位小数。`;
+      this.ui('gpa').title = this.ui('gpa-rule').title;
       this.ui('wave').textContent = String(snapshot.wave);
       this.ui('kills').textContent = String(snapshot.kills);
       const boss = snapshot.actors[0];
@@ -108,23 +108,44 @@ export class HUD {
         Array.from(health.children).forEach((element, index) => element.classList.toggle('lost', index >= boss.hp));
       }
       this.ui('energy-text').textContent = `${Math.floor(snapshot.energy)} / ${snapshot.energyMax}`;
-      this.ui('energy-fill').style.width = `${Math.max(0, Math.min(100, snapshot.energy / Math.max(1, snapshot.energyMax) * 100))}%`;
+      const energyPercent = Math.max(0, Math.min(100, snapshot.energy / Math.max(1, snapshot.energyMax) * 100));
+      this.ui('energy-fill').style.width = `${energyPercent}%`;
+      this.ui('energy-track').setAttribute('aria-valuenow', String(Math.floor(snapshot.energy)));
+      this.ui('energy-track').setAttribute('aria-valuemax', String(snapshot.energyMax));
+      this.ui('energy-track').classList.toggle('full', snapshot.energy >= snapshot.energyMax);
+      this.ui('energy-caption').textContent = phase === 'paused' ? '暂停中 · 蓄能已冻结' : snapshot.energy >= snapshot.energyMax ? '能量已满 · 等待出招机会' : '蓄能中 · 成功出招才扣除';
       this.attackButtons.forEach((button, index) => {
         button.disabled = phase !== 'playing';
         button.classList.toggle('unavailable', !snapshot.available[index]);
         button.classList.toggle('selected', snapshot.attackState !== 0 && snapshot.pattern === index);
+        button.setAttribute('aria-pressed', String(snapshot.attackState !== 0 && snapshot.pattern === index));
         button.querySelector('.demo-cost')!.textContent = `${snapshot.costs[index] ?? '—'}`;
-        button.title = `${patterns[index].name}，消耗 ${snapshot.costs[index]} 能量${snapshot.available[index] ? '' : '；当前请求会被拒绝'}。`;
+        const status = snapshot.attackState !== 0 ? (snapshot.pattern === index ? '出招中' : '锁定')
+          : snapshot.wavePhase === 1 ? '待入场'
+          : snapshot.energy < snapshot.costs[index] ? `差 ${Math.ceil(snapshot.costs[index] - snapshot.energy)}`
+          : snapshot.available[index] ? '就绪' : '站位';
+        button.querySelector('.demo-skill-status')!.textContent = status;
+        button.title = `${index + 1} · ${patterns[index].name}，消耗 ${snapshot.costs[index]} 能量；${status}。`;
+        button.setAttribute('aria-label', button.title);
+        this.overlay.querySelector<HTMLElement>(`[data-guide-cost="${index}"]`)!.textContent = `${snapshot.costs[index]} 能量`;
       });
       const attackName = patterns[snapshot.pattern]?.name ?? '攻击';
       const elapsed = Math.max(0, snapshot.tick - snapshot.startTick);
       const total = snapshot.attackState === 1 ? snapshot.windup : snapshot.active;
       const localElapsed = snapshot.attackState === 1 ? elapsed : Math.max(0, elapsed - snapshot.windup);
       const remaining = Math.max(0, total - localElapsed) / 60;
+      // The core permits one plan at a time. This is the visible remainder of
+      // that shared lock (windup + active), not a new per-skill cooldown rule.
+      const lockTotal = Math.max(1, snapshot.windup + snapshot.active + 1);
+      const lockRemaining = snapshot.attackState === 0 ? 0 : Math.max(1, snapshot.startTick + lockTotal - snapshot.tick);
+      const lockPercent = lockRemaining / lockTotal * 100;
+      this.ui('cd-text').textContent = snapshot.attackState === 0 ? '就绪' : `${(Math.ceil(lockRemaining / 6) / 10).toFixed(1)}s`;
+      this.ui('cd-box').dataset.state = snapshot.attackState === 0 ? 'ready' : snapshot.attackState === 1 ? 'windup' : 'active';
+      this.ui('cd-track').setAttribute('aria-valuenow', String(Math.round(lockPercent)));
       this.ui('attack-state').textContent = snapshot.wavePhase === 1 ? `入场倒计时 · ${(Math.max(0, snapshot.waveSpawnTick - snapshot.tick) / 60).toFixed(1)}s`
         : snapshot.attackState === 0 ? '就绪 · 可选择下一招'
         : `${snapshot.attackState === 1 ? '预警' : '攻击'} · ${attackName} · ${remaining.toFixed(1)}s`;
-      this.ui('attack-fill').style.width = snapshot.attackState === 0 ? '0%' : `${Math.min(100, localElapsed / Math.max(1, total) * 100)}%`;
+      this.ui('attack-fill').style.width = `${Math.max(0, Math.min(100, lockPercent))}%`;
       const students = snapshot.actors.slice(1);
       this.ui('student-list').classList.toggle('many', students.length >= 4);
       this.ui('student-count').textContent = snapshot.wavePhase === 1 ? `下波 ${snapshot.nextWaveStudents} 人`
@@ -171,6 +192,8 @@ export class HUD {
       }
       if (phase === 'over') {
         this.ui('attack-state').textContent = '本局已结束 · 重开可再次挑战';
+        this.ui('cd-text').textContent = '结束';
+        this.ui('energy-caption').textContent = '本局结束 · 生命与能量已冻结';
         this.notice = `最终 GPA ${(snapshot.gpaHundredths / 100).toFixed(2)}，累计击倒 ${snapshot.kills} 人。按 R 开始新的一局。`;
         this.noticeKind = '';
       }
@@ -178,6 +201,7 @@ export class HUD {
       this.attackButtons.forEach((button) => { button.disabled = true; });
     }
     this.ui('notice').textContent = this.notice;
+    this.ui('notice').title = this.notice;
     this.ui('notice').dataset.kind = this.noticeKind;
     this.overlay.hidden = phase === 'playing';
     const tag = this.overlay.querySelector<HTMLElement>('[data-overlay="tag"]')!;
@@ -185,12 +209,14 @@ export class HUD {
     const description = this.overlay.querySelector<HTMLElement>('[data-overlay="description"]')!;
     const action = this.overlay.querySelector<HTMLButtonElement>('[data-overlay="action"]')!;
     const controls = this.overlay.querySelector<HTMLElement>('.demo-overlay-controls')!;
+    const skillGuide = this.overlay.querySelector<HTMLElement>('[data-overlay="skills"]')!;
     const report = this.overlay.querySelector<HTMLElement>('[data-overlay="report"]')!;
     controls.hidden = phase === 'over' || phase === 'error';
+    skillGuide.hidden = phase !== 'menu';
     report.hidden = phase !== 'over';
     if (phase === 'menu') {
-      tag.textContent = '无尽可玩 Demo'; title.textContent = '四招，撑到最后。';
-      description.textContent = '你是 Boss。击倒学生提升 GPA，越往后增长越慢，逐渐趋近 4.30。清空一波后更多学生入场；没有胜利终点，生命耗尽时结算。第四招需要 100 能量。';
+      tag.textContent = '科大弹幕录 · 无尽 Boss'; title.textContent = '四招，撑到最后。';
+      description.textContent = '你操控校徽 Boss，躲开学生反击，按 1—4 主动出招。每招用途不同，共享能量与出招 CD；击倒学生提升 GPA，逐渐趋近 4.30。第四招需要 100 能量。';
       action.innerHTML = '开始试玩 <span>→</span>';
     } else if (phase === 'paused') {
       tag.textContent = 'PAUSED'; title.textContent = '喘口气，再继续。';

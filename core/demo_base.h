@@ -115,9 +115,9 @@ typedef struct PatternConfig {
     float bullet_speed;       /* px/s */
     int32_t wave_count;       /* 波次数量 */
     int32_t shots_per_wave;   /* 每波基础发数(扇面/环/列共用, 具体含义见招式模块) */
-    float gap_span_deg;       /* 环弹: 缺口总跨度; 其余招式保留 */
+    float gap_span_deg;       /* 环弹: 缺口总跨度；金矿: 单束扇面总角度 */
     float corridor_width;     /* 课表: 通道宽度 px; 淋浴: 竖向缝隙 px */
-    float lane_spread_px;     /* 课表: 列内横向弹线偏移, px */
+    float lane_spread_px;     /* 课表: 列内横排弹墙半宽, px */
     float spawn_safety_radius;/* 环弹/金矿: 生成点与学生安全距离 */
     float first_spawn_sec;    /* 第一波生成时刻(相对攻击开始) */
     float wave_interval_sec;  /* 相邻波次间隔 */
@@ -298,6 +298,7 @@ bool pool_spawn(ProjectilePool *pool, DemoFaction faction, DemoEntityId source_i
                 float vy, float radius, float damage, int32_t lifetime_ticks,
                 uint64_t id_seed_tick);
 void pool_advance(ProjectilePool *pool, float dt); /* 位置积分 + 寿命推进 + 出界移除 */
+void pool_advance_in_field(ProjectilePool *pool, float dt, float width, float height);
 uint32_t pool_clear_plan(ProjectilePool *pool, uint64_t plan_id); /* 返回清除数量 */
 uint32_t pool_count_faction(const ProjectilePool *pool, DemoFaction faction);
 
@@ -353,7 +354,7 @@ typedef struct AttackPlan {
     float gap_span_deg;
     float gap_drift_deg_per_wave; /* 每波缺口旋转量 */
     float corridor_width;         /* 课表/淋浴: 通道或缝隙宽度 */
-    float lane_spread_px;         /* 接受时锁定的课表弹线偏移 */
+    float lane_spread_px;         /* 接受时锁定的课表横排弹墙半宽 */
     int32_t wave_count;
     int32_t shots_per_wave;
     float wave_tick[DEMO_PATTERN_COUNT * 8]; /* 每波相对 tick：预警结束、攻击开始为 0 */

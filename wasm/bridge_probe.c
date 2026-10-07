@@ -1,5 +1,6 @@
 /* Standalone native ABI/real-wave probe, no graphics or wall clock. */
 #include "demo_bridge.h"
+#include <math.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,7 +35,7 @@ int main(void) {
         CHECK(demo_step(0, 0, 0, 0, 0, 1u << pattern) == 1);
         bytes = demo_snapshot();
         CHECK(bytes != NULL && u32(bytes, 22u) == 1u && u32(bytes, 8u) > 0u);
-        CHECK(u32(bytes, 0u) == 0x55444331u && u32(bytes, 1u) == 3u);
+        CHECK(u32(bytes, 0u) == 0x55444331u && u32(bytes, 1u) == 4u);
         CHECK(u32(bytes, 2u) == demo_snapshot_size() && u32(bytes, 15u) == start_tick);
         uint32_t predicted[512] = {0};
         uint32_t count = u32(bytes, 8u), offset = u32(bytes, 42u) / 4u;
@@ -72,6 +73,14 @@ int main(void) {
     CHECK(demo_reset(12345u, 0u, 3u) == 1);
     bytes = demo_snapshot();
     CHECK(bytes != NULL && u32(bytes, 3u) == 0u && u32(bytes, 8u) == 0u && u32(bytes, 22u) == 0u);
+    CHECK(demo_step(1, 0, 0, 0, 0, 0) == 1);
+    bytes = demo_snapshot();
+    const uint32_t old_tick = u32(bytes, 3u), old_seed = u32(bytes, 20u);
+    CHECK(demo_reset_sized(999u, 0u, 3u, NAN, 720.0f) == 0);
+    CHECK(demo_reset_sized(999u, 0u, 3u, 1600.0f, 60.0f) == 0);
+    bytes = demo_snapshot();
+    CHECK(bytes != NULL && u32(bytes, 3u) == old_tick && u32(bytes, 20u) == old_seed);
+    CHECK(demo_step(0, 0, 0, 0, 0, 0) == 1);
     puts("native bridge lifecycle, seed64, 8 students, all warnings vs real waves PASS");
     return EXIT_SUCCESS;
 }

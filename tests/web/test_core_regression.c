@@ -96,9 +96,9 @@ static void test_wave_schedule(void) {
                     CHECK(ev->tick == expected);
                     CHECK(ev->amount > 0);
                     if (pattern == DEMO_PATTERN_RING) {
-                        CHECK(ev->amount >= 13 && ev->amount <= 14);
-                    } else if (pattern == DEMO_PATTERN_MINE) {
-                        CHECK(ev->amount == 3 * pc->shots_per_wave);
+                        const int omitted = (int)floorf(pc->gap_span_deg / (360.0f / pc->shots_per_wave));
+                        CHECK(ev->amount >= pc->shots_per_wave - omitted - 1 &&
+                              ev->amount <= pc->shots_per_wave - omitted);
                     } else {
                         CHECK(ev->amount == pc->shots_per_wave);
                     }
@@ -176,7 +176,7 @@ static void test_course_birth_band(void) {
     CHECK(world.last_result.attack_accepted);
     const float spread = cfg.patterns[DEMO_PATTERN_COURSE].lane_spread_px;
     const float column_width = cfg.field_w / 3.0f;
-    CHECK(world.plan.lane_spread_px == spread && spread == 96.0f);
+    CHECK(world.plan.lane_spread_px == spread && spread == 140.0f);
     /* Geometry is immutable after acceptance, including the new lane spread. */
     cfg.patterns[DEMO_PATTERN_COURSE].lane_spread_px = 0;
     for (int wave = 0; wave < world.plan.wave_count; ++wave) {
@@ -186,7 +186,8 @@ static void test_course_birth_band(void) {
               (uint32_t)lroundf(world.plan.wave_tick[wave]), &buf));
         CHECK(buf.count == 24);
         const int channel = ((int)world.plan.wave_offset + wave) % 3;
-        bool saw_top = false, saw_bottom = false;
+        bool saw_left = false, saw_right = false;
+        unsigned column_counts[3] = {0};
         for (uint32_t k = 0; k < buf.count; ++k) {
             const Projectile *p = &buf.spec[k];
             CHECK(p->y >= 0 && p->y <= 100.001f);
@@ -195,13 +196,16 @@ static void test_course_birth_band(void) {
             const float center = column_width * ((float)column + 0.5f);
             const float offset = fabsf(p->x - center);
             CHECK(column >= 0 && column < 3 && column != channel);
-            CHECK(offset < 0.001f || fabsf(offset - spread) < 0.001f);
+            CHECK(offset <= spread + 0.001f);
+            CHECK(fabsf(p->y - 100.0f) < 0.001f);
+            column_counts[column]++;
             CHECK(p->x - cfg.boss_bullet_radius >= column * column_width &&
                   p->x + cfg.boss_bullet_radius <= (column + 1) * column_width);
-            if (p->y == 0) saw_top = true;
-            if (fabsf(p->y - 100) < 0.001f) saw_bottom = true;
+            if (fabsf(p->x - (center - spread)) < 0.001f) saw_left = true;
+            if (fabsf(p->x - (center + spread)) < 0.001f) saw_right = true;
         }
-        CHECK(saw_top && saw_bottom);
+        CHECK(saw_left && saw_right);
+        for (int col = 0; col < 3; ++col) CHECK(column_counts[col] == (col == channel ? 0u : 12u));
     }
     char error[128];
     cfg.patterns[DEMO_PATTERN_COURSE].lane_spread_px = NAN;
@@ -231,16 +235,16 @@ static void test_rejections(void) {
     input.attack_requested[DEMO_PATTERN_MINE] = true;
     world_step(&world, &input);
     CHECK(world.last_result.attack_accepted);
-    CHECK(world.energy == 85);
+    CHECK(world.energy == 80); /* v5 mine costs 20; accepted once. */
     boss_input_clear(&input);
     input.attack_requested[DEMO_PATTERN_SHOWER] = true;
     world_step(&world, &input);
     CHECK(world.last_result.last_reject == DEMO_REJECT_BUSY);
-    CHECK(world.energy == 85);
+    CHECK(world.energy == 80);
     for (int step = 0; step < 250; ++step) world_step(&world, NULL);
     CHECK(world.attack_accept_count == 1);
     CHECK(world.attack_state == DEMO_ATTACK_IDLE);
-    CHECK(world.energy == 85);
+    CHECK(world.energy == 80);
 
     cfg = fixture_config();
     reset(&world, &cfg);

@@ -68,7 +68,7 @@ if ($Clean -and (Test-Path $OutDir)) { Remove-Item -Recurse -Force $OutDir }
 New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
 
 $CoreSources = @(
-    'core/demo_config.c', 'core/rng.c', 'core/collision.c', 'core/actors.c',
+    'core/demo_config.c', 'core/field_config.c', 'core/rng.c', 'core/collision.c', 'core/actors.c',
     'core/projectiles.c', 'core/attack.c', 'core/patterns.c',
     'core/pattern_ring.c', 'core/pattern_course.c', 'core/pattern_mine.c',
     'core/pattern_shower.c', 'core/student_fire.c', 'core/world.c'

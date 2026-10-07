@@ -1,6 +1,6 @@
 /* demo_config.c - demo 规则配置(母代理独占维护)
  *
- * 配置版本: 4（GPA 击倒数收敛函数；基于公开输入的平衡验证）
+ * 配置版本: 5（四招用途差异；基于公开输入的平衡验证）
  * 已批准规则来源: docs/demo-rules.md (用户 2026-10-06 / 07 指令)
  * 本文件中的"试验数值"可调, 但修改必须递增 version 并更新 docs/demo-rules.md。
  */
@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define DEMO_CONFIG_VERSION 4u
+#define DEMO_CONFIG_VERSION 5u
 
 static void set_default_students(DemoConfig *cfg) {
     /* 默认 3 名学生; 出生点按 960x720 战场等分布置, 与 Boss 初始位置保持安全距离。 */
@@ -33,54 +33,54 @@ static void set_default_students(DemoConfig *cfg) {
 static void set_default_patterns(DemoConfig *cfg) {
     /* 0 桃李苑·绿色圆圈好辣: 中消耗·周边压力 */
     PatternConfig *ring = &cfg->patterns[DEMO_PATTERN_RING];
-    ring->cost = 30;
-    ring->windup_ticks = 72; /* 1.2 s */
-    ring->active_ticks = 150;
-    ring->bullet_speed = 230.0f; /* v4: 缩短对普通距离学生的追赶时间 */
-    ring->wave_count = 3;
-    ring->shots_per_wave = 18;
-    ring->gap_span_deg = 80.0f;      /* 18 发中连续 4 发缺口 */
+    ring->cost = 25;
+    ring->windup_ticks = 24; /* 快速近中距双环 */
+    ring->active_ticks = 90;
+    ring->bullet_speed = 360.0f;
+    ring->wave_count = 2;
+    ring->shots_per_wave = 30;
+    ring->gap_span_deg = 72.0f;      /* 每圈留 6 个角位置缺口 */
     ring->corridor_width = 0.0f;
     ring->spawn_safety_radius = 70.0f; /* 环弹从 Boss 原点放出, 只要求不贴 Boss 自身 */
     ring->first_spawn_sec = 0.0f;
-    ring->wave_interval_sec = 0.7f;
+    ring->wave_interval_sec = 0.3f;
 
     /* 1 选课系统·课表华容道: 中消耗·封路 */
     PatternConfig *course = &cfg->patterns[DEMO_PATTERN_COURSE];
-    course->cost = 40; /* v4: 三条分散弹线恢复输出后重定中消耗 */
-    course->windup_ticks = 72;
-    course->active_ticks = 180;
-    course->bullet_speed = 320.0f; /* active 3 s 内能走完整个战场 */
-    course->wave_count = 3;
+    course->cost = 50;
+    course->windup_ticks = 60;
+    course->active_ticks = 240;
+    course->bullet_speed = 210.0f; /* 较慢的整排分列弹墙 */
+    course->wave_count = 2;
     course->shots_per_wave = 24;
     course->gap_span_deg = 0.0f;
     course->corridor_width = 130.0f; /* 至少保留 110 px 连续通道 */
-    course->lane_spread_px = 96.0f; /* v4: 分散到每个封锁列内三条弹线 */
+    course->lane_spread_px = 140.0f; /* 每个封锁列整排弹墙的半宽 */
     course->spawn_safety_radius = 90.0f;
     course->first_spawn_sec = 0.0f;
-    course->wave_interval_sec = 0.6f;
+    course->wave_interval_sec = 1.0f;
 
     /* 2 一教金矿·绩点淘金: 低消耗·追击 */
     PatternConfig *mine = &cfg->patterns[DEMO_PATTERN_MINE];
-    mine->cost = 15;
-    mine->windup_ticks = 48; /* v4: 0.8 s, 减少锁定后目标走离矿点 */
-    mine->active_ticks = 120;
-    mine->bullet_speed = 300.0f;
-    mine->wave_count = 1;
-    mine->shots_per_wave = 12; /* 每面最多 12 发; 三个扇面合计 36 */
-    mine->gap_span_deg = 40.0f; /* 扇面之间的间隙 */
+    mine->cost = 20;
+    mine->windup_ticks = 18;
+    mine->active_ticks = 75;
+    mine->bullet_speed = 480.0f;
+    mine->wave_count = 3;
+    mine->shots_per_wave = 9; /* 一束单目标扇面，分三次短促发射 */
+    mine->gap_span_deg = 40.0f; /* 单束总扇角，不再是三扇面间隙 */
     mine->corridor_width = 0.0f;
     mine->spawn_safety_radius = 120.0f; /* v4: 仍检查全部学生与矿点的安全距离 */
     mine->first_spawn_sec = 0.0f;
-    mine->wave_interval_sec = 0.0f;
+    mine->wave_interval_sec = 0.3f;
 
     /* 3 期末总评·绩点淋浴: 高消耗·多目标压制 */
     PatternConfig *shower = &cfg->patterns[DEMO_PATTERN_SHOWER];
     shower->cost = 100;
-    shower->windup_ticks = 72;
-    shower->active_ticks = 300;
+    shower->windup_ticks = 90;
+    shower->active_ticks = 330;
     shower->bullet_speed = 240.0f;
-    shower->wave_count = 3; /* v4: 降低满能量招对单招循环的统治程度 */
+    shower->wave_count = 5; /* 长周期全场扫描，区别于分列封路 */
     shower->shots_per_wave = 16;
     shower->gap_span_deg = 0.0f;
     shower->corridor_width = 120.0f; /* 保留 >= 100 px 竖向缝隙 */

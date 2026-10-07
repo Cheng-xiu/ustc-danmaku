@@ -62,7 +62,7 @@ static void finish_gap(World *w) {
 static void test_defaults_and_cost(void) {
     DemoConfig cfg;
     CHECK(demo_config_init(&cfg));
-    CHECK(cfg.version == 4);
+    CHECK(cfg.version == 5);
     CHECK(cfg.endless_mode);
     CHECK(cfg.patterns[DEMO_PATTERN_SHOWER].cost == 100);
     CHECK(cfg.wave_gap_ticks == 120);

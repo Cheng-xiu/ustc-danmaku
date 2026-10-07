@@ -1,11 +1,11 @@
 /* pattern_course.c - 课表华容道: 顶部出弹, 三列中封两列、留一列。
  * 每波通道列 (初始列 + 波次) % 3；初始列只在接受请求时抽取一次。
- * 每个封锁列内有 center + {-spread, 0, spread} 三条竖直弹线，
+ * 每个封锁列内在 center +/- spread 均匀铺开一整排弹墙，
  * spread 来自 PatternConfig.lane_spread_px，在不可变 AttackPlan 中锁定。
- * v4 默认 spread=96 px；弹体始终完全留在原封锁列。
- * 最紧通道的弹心空档是 1.5*column_width - spread = 384 px，
- * 大于要求的 130 px；扣掉两侧学生与弹半径仍有 332 px 净宽。
- * 每发出生 y=0..100，速度 (0, lock_speed)；预警从同一计划 emit 读取。
+ * v5 默认 spread=140 px；弹体始终完全留在原封锁列。
+ * 最紧通道的弹心空档是 1.5*column_width - spread = 340 px，
+ * 大于要求的 130 px；扣掉两侧学生与弹半径仍有 288 px 净宽。
+ * 同波出生 y=100，形成横向弹墙；预警从同一计划 emit 读取。
  * 发数在两列间平均分配，奇数多一发给第一列；请求拒绝不改计划/RNG。
  */
 #include "pattern_course.h"
@@ -64,10 +64,9 @@ static int32_t course_channel_of(const AttackPlan *plan, int32_t wave) {
     return c;
 }
 
-/* 列内三条弹线的偏移在接受请求时锁定, 不读取之后改写的 config。 */
-static float course_lane_offset(int32_t k, float spread) {
-    int32_t slot = k % 3; /* k >= 0, 结果 0/1/2 */
-    return ((float)slot - 1.0f) * spread;
+/* 整排的半宽在接受请求时锁定，不读取之后改写的 config。 */
+static float course_lane_offset(int32_t k, int32_t count, float spread) {
+    return count > 1 ? (2.0f * (float)k / (float)(count - 1) - 1.0f) * spread : 0.0f;
 }
 
 bool pattern_course_make_plan(const PatternRequest *request, const DemoConfig *config, Rng *rng,
@@ -313,7 +312,6 @@ bool pattern_course_emit(const AttackPlan *plan, const DemoConfig *config, uint3
         blocked = 0;
         for (col = 0; col < COURSE_COLUMNS; ++col) {
             float cx;
-            float y_step;
             int32_t n;
             int32_t k;
 
@@ -327,12 +325,11 @@ bool pattern_course_emit(const AttackPlan *plan, const DemoConfig *config, uint3
                 continue;
             }
             cx = colw * ((float)col + 0.5f);     /* 本列中心 x */
-            y_step = (n > 1) ? COURSE_TOP_SPAWN_Y / (float)(n - 1) : 0.0f;
 
             for (k = 0; k < n; ++k) {
                 Projectile spec;
-                float x = cx + course_lane_offset(k, plan->lane_spread_px);
-                float y = (n > 1) ? y_step * (float)k : COURSE_TOP_SPAWN_Y;
+                float x = cx + course_lane_offset(k, n, plan->lane_spread_px);
+                float y = COURSE_TOP_SPAWN_Y;
 
                 memset(&spec, 0, sizeof(spec)); /* id/generation/active 由 pool_spawn 赋值 */
                 spec.faction = DEMO_FACTION_BOSS;

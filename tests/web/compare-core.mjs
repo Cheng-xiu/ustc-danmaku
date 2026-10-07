@@ -28,11 +28,12 @@ function floatSlots(buffer) {
   return result;
 }
 let maxFloatDelta = 0, ticksCompared = 0;
-const cases = [[20261006, 0, 3], [12345, 0, 1], [0x9abcdef0, 0x12345678, 8]];
+const cases = [[20261006, 0, 3, 960, 720], [12345, 0, 1, 960, 720], [0x9abcdef0, 0x12345678, 8, 960, 720],
+  [20261007, 0, 3, 1120, 617.1428833], [7654321, 0, 8, 1280, 540], [13579, 0, 3, 650, 1063.38464]];
 const reports = [];
-for (const [lo, hi, students] of cases) {
-  const filename = path.join(out, `native-${lo}-${hi}-${students}.bin`);
-  const run = spawnSync(executable, [filename, String(lo), String(hi), String(students)], { encoding: 'utf8' });
+for (const [lo, hi, students, width, height] of cases) {
+  const filename = path.join(out, `native-${lo}-${hi}-${students}-${width}.bin`);
+  const run = spawnSync(executable, [filename, String(lo), String(hi), String(students), String(width), String(height)], { encoding: 'utf8' });
   if (run.status !== 0) throw new Error(`Native replay failed ${run.status}: ${run.stderr}`);
   const native = readFileSync(filename);
   let position = 0;
@@ -55,7 +56,7 @@ for (const [lo, hi, students] of cases) {
     ticksCompared++;
     return b;
   }
-  if (!module._demo_reset(lo, hi, students)) throw new Error('Reset failed');
+  if (!module._demo_reset_sized(lo, hi, students, width, height)) throw new Error('Reset failed');
   compare(-1);
   let final;
   for (let tick = 0; tick < 3600; tick++) {
@@ -69,7 +70,7 @@ for (const [lo, hi, students] of cases) {
     final = compare(tick);
   }
   if (position !== native.length) throw new Error('Unconsumed native records');
-  reports.push({ seedLo: lo, seedHi: hi, students, tick: final.readUInt32LE(12), status: final.readUInt32LE(16), accepted: final.readUInt32LE(88), bossBullets: final.readUInt32LE(104), studentBullets: final.readUInt32LE(108) });
+  reports.push({ seedLo: lo, seedHi: hi, students, fieldW: final.readFloatLE(29 * 4), fieldH: final.readFloatLE(30 * 4), tick: final.readUInt32LE(12), status: final.readUInt32LE(16), accepted: final.readUInt32LE(88), bossBullets: final.readUInt32LE(104), studentBullets: final.readUInt32LE(108) });
 }
 module._demo_dispose();
 const report = { nativeCompiler: 'see web-demo-validation.md', floatAbsoluteTolerance: 0.002, maxFloatDelta, ticksCompared, cases: reports };

@@ -42,6 +42,7 @@ endif()
 
 set(DEMO_CORE_SOURCES
     core/demo_config.c
+    core/field_config.c
     core/rng.c
     core/collision.c
     core/actors.c
@@ -107,6 +108,9 @@ if(DEMO_BUILD_TESTS)
     add_executable(test_endless tests/web/test_endless.c)
     target_link_libraries(test_endless PRIVATE demo_core)
     add_test(NAME test_endless COMMAND test_endless)
+    add_executable(test_field_size tests/web/test_field_size.c)
+    target_link_libraries(test_field_size PRIVATE demo_core)
+    add_test(NAME test_field_size COMMAND test_field_size)
 endif()
 
 add_executable(web_native_replay tests/web/native_replay.c wasm/demo_bridge.c)

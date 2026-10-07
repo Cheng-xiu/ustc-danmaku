@@ -1,4 +1,4 @@
-/** Web ABI v3. Scalar words are explicitly written by C, never raw C structs. */
+/** Web ABI v4. Scalar words are explicitly written by C, never raw C structs. */
 export type Actor = { id: number; alive: boolean; x: number; y: number; radius: number; hp: number; hpMax: number; invuln: number; faction: number };
 export type Bullet = { id: string; faction: number; pattern: number; x: number; y: number; vx: number; vy: number; radius: number; source: number };
 export type WarningRay = { x: number; y: number; vx: number; vy: number; radius: number; spawnTick: number; wave: number; pattern: number };
@@ -15,5 +15,5 @@ export type Snapshot = {
   actors: Actor[]; bullets: Bullet[]; warnings: WarningRay[]; events: GameEvent[];
 };
 export type TickInput = { moveX: number; moveY: number; pointerValid: boolean; pointerX: number; pointerY: number; attacks: number };
-export type CoreClient = { reset(seedLo?: number, seedHi?: number, students?: number): Snapshot; step(input: TickInput): void; snapshot(): Snapshot; dispose(): void };
+export type CoreClient = { reset(seedLo?: number, seedHi?: number, students?: number, fieldW?: number, fieldH?: number): Snapshot; step(input: TickInput): void; snapshot(): Snapshot; dispose(): void };
 export type Phase = 'menu' | 'playing' | 'paused' | 'over' | 'error';

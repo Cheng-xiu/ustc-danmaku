@@ -1,5 +1,6 @@
-/* ABI v3: word 55 is the GPA half-saturation kill count. */
+/* ABI v4: sized reset; snapshot layout retains the v3 field width/height words. */
 #include "demo_bridge.h"
+#include "field_config.h"
 #include "patterns.h"
 #include "world.h"
 
@@ -99,12 +100,19 @@ static int project_rays(void) {
 }
 
 int demo_reset(uint32_t seed_lo, uint32_t seed_hi, uint32_t students) {
-    demo_dispose();
+    return demo_reset_sized(seed_lo, seed_hi, students, DEMO_FIELD_WIDTH, DEMO_FIELD_HEIGHT);
+}
+
+int demo_reset_sized(uint32_t seed_lo, uint32_t seed_hi, uint32_t students,
+                     float field_width, float field_height) {
     DemoConfig config;
     if (students == 0u) students = 3u;
     if (students > DEMO_MAX_STUDENTS || !demo_config_init(&config)) return 0;
     config.student_count = students;
+    if (!demo_config_set_field_size(&config, field_width, field_height)) return 0;
     const uint64_t seed = ((uint64_t)seed_hi << 32) | seed_lo;
+    /* A rejected window size must leave the current match usable. */
+    demo_dispose();
     g_ready = world_reset(&g_world, &config, seed) ? 1 : 0;
     return g_ready;
 }
@@ -191,7 +199,7 @@ const uint8_t *demo_snapshot(void) {
         put_f32(cursor + 1u, g_world.spawn_preview[i].y);
         cursor += 2u;
     }
-    put_u32(0u, 0x55444331u); put_u32(1u, 3u); put_u32(2u, cursor * 4u);
+    put_u32(0u, 0x55444331u); put_u32(1u, 4u); put_u32(2u, cursor * 4u);
     put_u32(3u, (uint32_t)g_world.tick); put_u32(4u, (uint32_t)g_world.status);
     put_u32(5u, g_world.cfg.version); put_u32(6u, g_world.student_count);
     put_u32(7u, bullets); put_u32(8u, g_ray_count); put_u32(9u, g_world.events.count);

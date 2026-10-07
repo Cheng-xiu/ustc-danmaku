@@ -1,7 +1,7 @@
 /* projectiles.c - S05 固定容量弹池与弹的直线运动
  *
- * 接口版本: 1 (core/demo_base.h, 已冻结; 本文件不改动任何头文件或配置)
- * 配置版本: 1 (docs/demo-rules.md)
+ * 接口版本: 2 (core/projectiles.h 增加可变场地入口，旧入口兼容)
+ * 配置版本: 5 (docs/demo-rules.md)
  *
  * 职责与边界:
  *   - pool_init / pool_spawn / pool_advance / pool_clear_plan / pool_count_faction
@@ -46,16 +46,13 @@
  *   寿命:   lifetime_ticks 每次 advance 递减 1, <= 0 时移除
  *   出界:   用本 tick 终点判断, 见 POOL_OOB_MARGIN
  */
-#include "demo_base.h"
+#include "projectiles.h"
 
 #include <math.h>
 #include <string.h>
 
-/* 出界判定的固定保守边距(px)。
- * 场地尺寸取自冻结的公共场景常量 DEMO_FIELD_WIDTH / DEMO_FIELD_HEIGHT
- * (demo_base.h: 960 x 720, 与默认配置 cfg.field_w/field_h 一致), 不读取 DemoConfig
- * 结构, 因此 pool_advance(dt) 的既有签名不需要场地参数。超出
- * [-margin, field + margin] 的弹在本 tick 结束时移除, x 与 y 两个方向同时判定。 */
+/* 出界判定保留 64 px 固定边距；真实场宽高由拥有该弹池的世界传入。
+ * 旧 pool_advance(dt) 入口仍使用默认 960x720，保持原生调用兼容。 */
 #define POOL_OOB_MARGIN 64.0f
 
 /* 池的实际可用槽位数: 防御伪造的 capacity, 保证任何循环都不会越界访问 items[]。 */
@@ -201,7 +198,7 @@ bool pool_spawn(ProjectilePool *pool, DemoFaction faction, DemoEntityId source_i
     return true;
 }
 
-void pool_advance(ProjectilePool *pool, float dt)
+void pool_advance_in_field(ProjectilePool *pool, float dt, float width, float height)
 {
     uint32_t cap;
 
@@ -209,7 +206,8 @@ void pool_advance(ProjectilePool *pool, float dt)
         return;
     }
     /* 防御: dt 非有限或为负时不推进(既不做 NaN 积分, 也不消耗寿命)。 */
-    if (!isfinite(dt) || dt < 0.0f) {
+    if (!isfinite(dt) || dt < 0.0f || !isfinite(width) || !isfinite(height) ||
+        width <= 0.0f || height <= 0.0f) {
         return;
     }
 
@@ -236,14 +234,19 @@ void pool_advance(ProjectilePool *pool, float dt)
         }
 
         /* 出界: 用本 tick 终点判断, x 与 y 两个方向都覆盖。 */
-        if (p->x < -POOL_OOB_MARGIN || p->x > DEMO_FIELD_WIDTH + POOL_OOB_MARGIN ||
-            p->y < -POOL_OOB_MARGIN || p->y > DEMO_FIELD_HEIGHT + POOL_OOB_MARGIN) {
+        if (p->x < -POOL_OOB_MARGIN || p->x > width + POOL_OOB_MARGIN ||
+            p->y < -POOL_OOB_MARGIN || p->y > height + POOL_OOB_MARGIN) {
             p->active = false;
             if (pool->live_count > 0u) {
                 pool->live_count -= 1u;
             }
         }
     }
+}
+
+void pool_advance(ProjectilePool *pool, float dt)
+{
+    pool_advance_in_field(pool, dt, DEMO_FIELD_WIDTH, DEMO_FIELD_HEIGHT);
 }
 
 uint32_t pool_clear_plan(ProjectilePool *pool, uint64_t plan_id)

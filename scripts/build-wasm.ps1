@@ -20,7 +20,7 @@ New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
 $RootCmake = Get-Content -LiteralPath (Join-Path $RepoRoot 'CMakeLists.txt') -Raw
 $Block = [regex]::Match($RootCmake, 'set\(DEMO_CORE_SOURCES[^)]*\)').Value
 $Core = @([regex]::Matches($Block, '(core|ai)/[A-Za-z0-9_]+\.c') | ForEach-Object { Join-Path $RepoRoot $_.Value })
-if ($Core.Count -ne 14) { throw 'Expected the frozen 14-file core/ai source list.' }
+if ($Core.Count -ne 15) { throw 'Expected the frozen 15-file core/ai source list.' }
 $Bridge = Join-Path $RepoRoot 'wasm/demo_bridge.c'
 $Output = Join-Path $OutDir 'demo-core.mjs'
 $Arguments = @('-std=c11', '-O2', '-Wall', '-Wextra', '--no-entry', '-I', (Join-Path $RepoRoot 'core'),
@@ -28,7 +28,7 @@ $Arguments = @('-std=c11', '-O2', '-Wall', '-Wextra', '--no-entry', '-I', (Join-
     '-sMODULARIZE=1', '-sEXPORT_ES6=1', '-sENVIRONMENT=web,node', '-sFILESYSTEM=0',
     '-sALLOW_MEMORY_GROWTH=1', '-sSTACK_SIZE=1048576', '-sINITIAL_MEMORY=16777216',
     '-sMAXIMUM_MEMORY=67108864',
-    "-sEXPORTED_FUNCTIONS=['_demo_reset','_demo_step','_demo_snapshot','_demo_snapshot_size','_demo_dispose']",
+    "-sEXPORTED_FUNCTIONS=['_demo_reset','_demo_reset_sized','_demo_step','_demo_snapshot','_demo_snapshot_size','_demo_dispose']",
     "-sEXPORTED_RUNTIME_METHODS=['HEAPU8']")
 & $Emcc @Arguments
 if ($LASTEXITCODE -ne 0) { throw 'Wasm core compilation failed.' }

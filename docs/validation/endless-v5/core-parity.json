@@ -1,0 +1,80 @@
+{
+  "nativeCompiler": "see web-demo-validation.md",
+  "floatAbsoluteTolerance": 0.002,
+  "maxFloatDelta": 0.000003814697265625,
+  "ticksCompared": 21606,
+  "cases": [
+    {
+      "seedLo": 20261006,
+      "seedHi": 0,
+      "students": 3,
+      "fieldW": 960,
+      "fieldH": 720,
+      "tick": 1528,
+      "status": 2,
+      "accepted": 4,
+      "bossBullets": 224,
+      "studentBullets": 51
+    },
+    {
+      "seedLo": 12345,
+      "seedHi": 0,
+      "students": 1,
+      "fieldW": 960,
+      "fieldH": 720,
+      "tick": 2281,
+      "status": 2,
+      "accepted": 6,
+      "bossBullets": 336,
+      "studentBullets": 42
+    },
+    {
+      "seedLo": 2596069104,
+      "seedHi": 305419896,
+      "students": 8,
+      "fieldW": 960,
+      "fieldH": 720,
+      "tick": 597,
+      "status": 2,
+      "accepted": 2,
+      "bossBullets": 96,
+      "studentBullets": 61
+    },
+    {
+      "seedLo": 20261007,
+      "seedHi": 0,
+      "students": 3,
+      "fieldW": 1120,
+      "fieldH": 617.1428833007812,
+      "tick": 1421,
+      "status": 2,
+      "accepted": 4,
+      "bossBullets": 239,
+      "studentBullets": 45
+    },
+    {
+      "seedLo": 7654321,
+      "seedHi": 0,
+      "students": 8,
+      "fieldW": 1280,
+      "fieldH": 540,
+      "tick": 859,
+      "status": 2,
+      "accepted": 3,
+      "bossBullets": 162,
+      "studentBullets": 75
+    },
+    {
+      "seedLo": 13579,
+      "seedHi": 0,
+      "students": 3,
+      "fieldW": 650,
+      "fieldH": 1063.3846435546875,
+      "tick": 1018,
+      "status": 2,
+      "accepted": 3,
+      "bossBullets": 146,
+      "studentBullets": 40
+    }
+  ]
+}

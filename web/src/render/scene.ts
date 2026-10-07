@@ -14,6 +14,9 @@ export class GameScene {
   readonly canvas: HTMLCanvasElement;
   private readonly textures: Texture[] = [];
   private readonly actorLayer = new Container();
+  private readonly background = new Container();
+  private fieldW = 960;
+  private fieldH = 720;
   private readonly actorDisplays = new Map<number, ActorDisplay>();
   private readonly warnings = new WarningLayer();
   private readonly targets = new Graphics();
@@ -89,32 +92,60 @@ export class GameScene {
   }
 
   private makeBackground(): void {
-    const base = new Graphics().rect(0, 0, 960, 720).fill(0x0b1828);
+    for (const child of this.background.removeChildren()) child.destroy({ children: true });
+    const w = this.fieldW, h = this.fieldH;
+    const sx = w / 960, sy = h / 720;
+    const base = new Graphics().rect(0, 0, w, h).fill(0x0b1828);
     // Campus floor markings are decorative; the entire field remains walkable.
-    base.roundRect(90, 82, 190, 118, 12).fill({ color: 0x1b3445, alpha: 0.2 }).stroke({ width: 1, color: 0x3c566a, alpha: 0.2 });
-    base.roundRect(680, 82, 190, 118, 12).fill({ color: 0x1b3445, alpha: 0.2 }).stroke({ width: 1, color: 0x3c566a, alpha: 0.2 });
-    base.roundRect(372, 94, 216, 66, 8).fill({ color: 0x1b3445, alpha: 0.18 }).stroke({ width: 1, color: 0x3c566a, alpha: 0.16 });
-    for (let x = 0; x <= 960; x += 48) base.moveTo(x, 0).lineTo(x, 720);
-    for (let y = 0; y <= 720; y += 48) base.moveTo(0, y).lineTo(960, y);
+    base.roundRect(90 * sx, 82 * sy, 190 * sx, 118 * sy, 12).fill({ color: 0x1b3445, alpha: 0.2 }).stroke({ width: 1, color: 0x3c566a, alpha: 0.2 });
+    base.roundRect(680 * sx, 82 * sy, 190 * sx, 118 * sy, 12).fill({ color: 0x1b3445, alpha: 0.2 }).stroke({ width: 1, color: 0x3c566a, alpha: 0.2 });
+    base.roundRect(372 * sx, 94 * sy, 216 * sx, 66 * sy, 8).fill({ color: 0x1b3445, alpha: 0.18 }).stroke({ width: 1, color: 0x3c566a, alpha: 0.16 });
+    for (let x = 0; x <= w; x += 48) base.moveTo(x, 0).lineTo(x, h);
+    for (let y = 0; y <= h; y += 48) base.moveTo(0, y).lineTo(w, y);
     base.stroke({ color: 0x294359, width: 1, alpha: 0.24 });
-    base.rect(22, 22, 916, 676).stroke({ color: 0x416478, width: 1, alpha: 0.35 });
+    base.rect(22, 22, w - 44, h - 44).stroke({ color: 0x416478, width: 1, alpha: 0.35 });
     const corner = new Graphics();
-    for (const [x, y, sx, sy] of [[22, 22, 1, 1], [938, 22, -1, 1], [22, 698, 1, -1], [938, 698, -1, -1]]) corner.moveTo(x, y + 13 * sy).lineTo(x, y).lineTo(x + 13 * sx, y);
+    for (const [x, y, sx, sy] of [[22, 22, 1, 1], [w - 22, 22, -1, 1], [22, h - 22, 1, -1], [w - 22, h - 22, -1, -1]]) corner.moveTo(x, y + 13 * sy).lineTo(x, y).lineTo(x + 13 * sx, y);
     corner.stroke({ color: 0x6a8a9b, width: 1.5, alpha: 0.6 });
-    this.app.stage.addChild(base, corner);
+    this.background.addChild(base, corner);
+    if (!this.background.parent) this.app.stage.addChild(this.background);
     const caption = (text: string, x: number, y: number, size: number, color: number, alpha = 1) => {
       const label = new Text({ text, style: { fontFamily: 'Arial, sans-serif', fontSize: size, fill: color, letterSpacing: size < 12 ? 1.3 : 2.5 } });
-      label.position.set(x, y); label.alpha = alpha; this.app.stage.addChild(label);
+      label.position.set(x, y); label.alpha = alpha; this.background.addChild(label);
     };
     caption('CAMPUS / BOSS FIELD', 40, 38, 10, 0x7897ab, 0.7);
-    caption('TAOLI GARDEN', 115, 103, 9, 0x658373, 0.38);
-    caption('TEACHING BUILDING', 699, 103, 9, 0x7797ac, 0.38);
-    caption('USTC', 427, 119, 24, 0x7193a6, 0.12);
-    caption('MOVE • WAIT • CAST', 40, 671, 9, 0x547086, 0.65);
-    caption('AUTO ○   LOCK ◇', 799, 38, 9, 0xa7b292, 0.62);
+    caption('TAOLI GARDEN', 115 * sx, 103 * sy, 9, 0x658373, 0.38);
+    caption('TEACHING BUILDING', 699 * sx, 103 * sy, 9, 0x7797ac, 0.38);
+    caption('USTC', 427 * sx, 119 * sy, 24, 0x7193a6, 0.12);
+    caption('MOVE • WAIT • CAST', 40, h - 49, 9, 0x547086, 0.65);
+    caption('AUTO ○   LOCK ◇', Math.max(40, w - 161), 38, 9, 0xa7b292, 0.62);
+  }
+
+  /** Resize the display only. The accepted plan and this round's field stay frozen. */
+  resize(width: number, height: number): void {
+    this.app.renderer.resize(Math.max(1, Math.floor(width)), Math.max(1, Math.floor(height)));
+    const scale = Math.min(this.app.screen.width / this.fieldW, this.app.screen.height / this.fieldH);
+    this.app.stage.scale.set(scale);
+    this.app.stage.position.set((this.app.screen.width - this.fieldW * scale) / 2,
+      (this.app.screen.height - this.fieldH * scale) / 2);
+  }
+
+  screenToWorld(clientX: number, clientY: number): { x: number; y: number } {
+    const bounds = this.canvas.getBoundingClientRect();
+    return {
+      x: ((clientX - bounds.left) * this.app.screen.width / bounds.width - this.app.stage.x) / this.app.stage.scale.x,
+      y: ((clientY - bounds.top) * this.app.screen.height / bounds.height - this.app.stage.y) / this.app.stage.scale.y,
+    };
   }
 
   draw(snapshot: Snapshot): void {
+    if (snapshot.fieldW !== this.fieldW || snapshot.fieldH !== this.fieldH) {
+      this.fieldW = snapshot.fieldW; this.fieldH = snapshot.fieldH;
+      this.makeBackground();
+      this.attackLabel.position.set(this.fieldW / 2, 34);
+      this.spawnLabel.position.set(this.fieldW / 2, 58);
+      this.resize(this.app.screen.width, this.app.screen.height);
+    }
     if (snapshot.tick < this.lastTick) {
       this.hits = [];
       this.warnings.reset();

@@ -1,8 +1,8 @@
 /* pattern_shower.c - S10 招 3 期末总评·绩点淋浴: 锁定方向的扫描弹雨
  *
  * 接口版本: 2 (core/demo_base.h + core/pattern_shower.h 已冻结; 本文件不改任何头文件)
- * 配置版本: 1 (demo-config-v1, 见 docs/demo-rules.md 2.5 第 3 行)
- * 用途档位: 高消耗·多目标压制 (消耗 60)
+ * 当前配置版本: 5 (demo_config.c；见 docs/demo-rules.md)
+ * 用途档位: 高消耗·多目标压制 (消耗 100)
  *
  * 职责与边界:
  *   - 只实现 pattern_shower_{make_plan,emit,warning} 三个冻结函数。
@@ -14,7 +14,7 @@
  * ---------------------------------------------------------------- 已批准几何
  *
  * 依据 docs/demo-rules.md 2.5 与 docs/project-spec-v3.1.md 3.4:
- *   - 预警 72 tick, 攻击 300 tick, 弹速 240 px/s, 5 波 (间隔 0.4 s), 每波 16 发;
+ *   - v5 默认预警 90 tick, 攻击 330 tick, 弹速 240 px/s, 5 波 (间隔 0.4 s), 每波 16 发;
  *   - 保留 >= 120 px 竖向缝隙 (硬性下限 100 px);
  *   - 上方弹雨依次向左或右扫描, 逼玩家换向与上下调整, 扫描速率限定;
  *   - 所有顶部弹从 y = 100 附近进入场地。

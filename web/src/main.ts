@@ -6,8 +6,7 @@ import { GameScene } from './render/scene';
 import { HUD } from './ui/hud';
 import type { CoreClient, Phase, Snapshot, GameEvent } from './types';
 
-const shell = document.querySelector<HTMLElement>('#game-shell')!;
-const viewport = document.querySelector<HTMLElement>('.viewport')!;
+const arena = document.querySelector<HTMLElement>('#arena')!;
 const loading = document.querySelector<HTMLElement>('#load-status')!;
 const hud = new HUD(document.querySelector<HTMLElement>('#hud')!);
 let phase: Phase = 'menu';
@@ -22,18 +21,20 @@ let lastTime = 0;
 let raf = 0;
 const samples: { interval: number; frame: number; core: number; decode: number; render: number; ticks: number }[] = [];
 function resize() {
-  const parent = document.querySelector<HTMLElement>('main')!;
-  const style = getComputedStyle(parent);
-  const availableWidth = parent.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) - 2;
-  // Measure the independent parent: measuring viewport after setting its width creates a shrinking feedback loop.
-  const scale = Math.min(1, availableWidth / 1280, Math.max(0.2, (window.innerHeight - 132) / 720));
-  shell.style.transform = `scale(${scale})`;
-  viewport.style.height = `${720 * scale}px`;
-  viewport.style.width = `${1280 * scale}px`;
+  if (!scene) return;
+  const bounds = arena.getBoundingClientRect();
+  scene.resize(bounds.width, bounds.height);
 }
-new ResizeObserver(resize).observe(document.querySelector('main')!);
+new ResizeObserver(resize).observe(arena);
 window.addEventListener('resize', resize);
-resize();
+
+function roundFieldSize() {
+  const bounds = arena.getBoundingClientRect();
+  const aspect = bounds.width / Math.max(1, bounds.height);
+  // Keep playable area constant while matching this round's window aspect.
+  const area = 960 * 720;
+  return { width: Math.sqrt(area * aspect), height: Math.sqrt(area / aspect) };
+}
 
 function changePhase(next: Phase, message = '') {
   phase = next;
@@ -46,8 +47,17 @@ function changePhase(next: Phase, message = '') {
   hud.render(snapshot, phase, reason);
 }
 function restart() {
-  snapshot = core.reset(20261006, 0, 3);
+  const field = roundFieldSize();
+  try {
+    snapshot = core.reset(20261006, 0, 3, field.width, field.height);
+  } catch {
+    // The bridge preserves the previous match when the new field is invalid.
+    changePhase(phase === 'playing' ? 'paused' : phase, '窗口空间不足，请调整窗口大小后重试。');
+    return;
+  }
   scene.reset();
+  scene.draw(snapshot);
+  resize();
   samples.length = 0;
   changePhase('playing');
 }
@@ -124,12 +134,14 @@ function frame(now: number) {
 }
 
 async function boot() {
-  [core, scene] = await Promise.all([loadCore(), GameScene.create(document.querySelector<HTMLElement>('#arena')!)]);
-  input = new BrowserInput(scene.canvas, { pause: () => pause(), restart });
+  [core, scene] = await Promise.all([loadCore(), GameScene.create(arena)]);
+  input = new BrowserInput(scene.canvas, { pause: () => pause(), restart }, (x, y) => scene.screenToWorld(x, y));
   hud.setCallbacks({ start, pause: () => pause(), restart, attack: p => { if (phase === 'playing') input.requestAttack(p); } });
   snapshot = core.reset(20261006, 0, 3);
   loading.hidden = true;
   hud.render(snapshot, phase);
+  scene.draw(snapshot);
+  resize();
   raf = requestAnimationFrame(frame);
   // QA only reads the public display snapshot and timings. It cannot alter core state.
   if (new URLSearchParams(location.search).has('qa')) {

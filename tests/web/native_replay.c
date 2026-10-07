@@ -11,13 +11,16 @@ static int write_snapshot(FILE *file) {
     return data && length && fwrite(&length, 4, 1, file) == 1 && fwrite(data, 1, length, file) == length;
 }
 int main(int argc, char **argv) {
-    if (argc != 5) { fprintf(stderr, "usage: native_replay path seedLo seedHi students\n"); return 2; }
+    if (argc != 5 && argc != 7) { fprintf(stderr, "usage: native_replay path seedLo seedHi students [width height]\n"); return 2; }
     FILE *file = fopen(argv[1], "wb");
     if (!file) return 3;
     uint32_t lo = (uint32_t)strtoul(argv[2], NULL, 10);
     uint32_t hi = (uint32_t)strtoul(argv[3], NULL, 10);
     uint32_t students = (uint32_t)strtoul(argv[4], NULL, 10);
-    if (!demo_reset(lo, hi, students) || !write_snapshot(file)) return 4;
+    const int reset = argc == 7
+        ? demo_reset_sized(lo, hi, students, strtof(argv[5], NULL), strtof(argv[6], NULL))
+        : demo_reset(lo, hi, students);
+    if (!reset || !write_snapshot(file)) return 4;
     for (uint32_t tick = 0; tick < 3600; tick++) {
         uint32_t segment = (tick / 120) % 4;
         float mx = segment == 0 ? 1.0f : segment == 2 ? -1.0f : 0.0f;

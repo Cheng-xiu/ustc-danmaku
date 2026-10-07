@@ -2,6 +2,7 @@
  * HUD availability and accepted-count feedback. Metrics read real events.
  * No HP/projectile injection, RNG lookahead, copied-World rollout or ML. */
 #include "world.h"
+#include "field_config.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,6 +18,7 @@ typedef struct PublicState {
     VisibleBullet bullets[DEMO_MAX_PROJECTILES];
     bool available[4];
     int32_t tick;
+    float field_w,field_h,boss_speed,min_x,max_x,min_y,max_y;
 } PublicState;
 typedef struct SkillMetrics { unsigned accepted, spent, damage, kills, rejected; } SkillMetrics;
 typedef struct Result {
@@ -28,14 +30,18 @@ typedef struct Result {
 static const char *move_names[] = {"stationary", "chase-48-avoid20", "chase-150-avoid4", "orbit-150-avoid4"};
 static const char *attack_names[] = {"ring", "course", "mine", "shower", "mixed", "none"};
 static const float dirs[9][2] = {{0,0},{1,0},{.70710677f,.70710677f},{0,1},{-.70710677f,.70710677f},{-1,0},{-.70710677f,-.70710677f},{0,-1},{.70710677f,-.70710677f}};
-static void observe(const WorldView *v, PublicState *s) {
+static void observe(const WorldView *v, const DemoConfig *public_rules, PublicState *s) {
     memset(s,0,sizeof(*s)); s->boss=*v->boss; s->students_count=v->student_count;
     memcpy(s->students,v->students,v->student_count*sizeof(Actor));
     memcpy(s->available,v->pattern_available,sizeof(s->available));
     s->tick=v->tick;s->accepted=v->attack_accept_count;
+    s->field_w=public_rules->field_w;s->field_h=public_rules->field_h;
+    s->boss_speed=public_rules->boss_speed;
+    s->min_x=public_rules->boss_move_min_x;s->max_x=public_rules->boss_move_max_x;
+    s->min_y=public_rules->boss_move_min_y;s->max_y=public_rules->boss_move_max_y;
     for(unsigned i=0;i<v->projectile_capacity;++i) {
         const Projectile *p=&v->projectiles[i];
-        if(!p->active || p->faction!=DEMO_FACTION_STUDENT || p->x<0||p->x>960||p->y<0||p->y>720)continue;
+        if(!p->active || p->faction!=DEMO_FACTION_STUDENT || p->x<0||p->x>s->field_w||p->y<0||p->y>s->field_h)continue;
         VisibleBullet *b=&s->bullets[s->bullet_count++];
         b->x=p->x;b->y=p->y;b->vx=p->vx;b->vy=p->vy;b->r=p->radius;
     }
@@ -44,9 +50,9 @@ static float risk(const PublicState *s,float mx,float my) {
     float score=0;
     for(unsigned i=0;i<s->bullet_count;++i) {
         const VisibleBullet *b=&s->bullets[i];float rx=b->x-s->boss.x,ry=b->y-s->boss.y;
-        float vx=b->vx-mx*270,vy=b->vy-my*270,vv=vx*vx+vy*vy;
+        float vx=b->vx-mx*s->boss_speed,vy=b->vy-my*s->boss_speed,vv=vx*vx+vy*vy;
         float t=vv>0?-(rx*vx+ry*vy)/vv:0;if(t<0)t=0;if(t>.45f)t=.45f;
-        float d=hypotf(rx+vx*t,ry+vy*t),safe=22+b->r+10;
+        float d=hypotf(rx+vx*t,ry+vy*t),safe=s->boss.radius+b->r+10;
         if(d<safe)score+=1+(safe-d)/safe;
     }return score;
 }
@@ -68,8 +74,8 @@ static void choose(const PublicState *s,unsigned movement,unsigned attack,int *l
         float best=1e30f;unsigned index=0;
         for(unsigned j=0;j<9;++j){float mx=dirs[j][0],my=dirs[j][1],ex=mx-dx,ey=my-dy;
             float score=ex*ex+ey*ey+(movement==1?20:4)*risk(s,mx,my);
-            float x=s->boss.x+mx*270*.35f,y=s->boss.y+my*270*.35f;
-            if(x<22||x>938||y<22||y>698)score+=8;
+            float x=s->boss.x+mx*s->boss_speed*.35f,y=s->boss.y+my*s->boss_speed*.35f;
+            if(x<s->min_x||x>s->max_x||y<s->min_y||y>s->max_y)score+=8;
             if(score<best){best=score;index=j;}
         }in->move_x=dirs[index][0];in->move_y=dirs[index][1];
     }
@@ -85,7 +91,7 @@ static Result run(const DemoConfig *base,uint32_t seed,unsigned students,unsigne
     if(!world_reset(&w,&cfg,seed)){fprintf(stderr,"reset failed\n");exit(2);}
     world_make_view(&w,&v);
     while(v.status==DEMO_STATUS_RUNNING&&!v.truncated&&v.tick<RUN_TICKS) {
-        observe(&v,&state);choose(&state,movement,attack,&last,&next,&last_accepted,&in);world_step(&w,&in);world_make_view(&w,&v);
+        observe(&v,&cfg,&state);choose(&state,movement,attack,&last,&next,&last_accepted,&in);world_step(&w,&in);world_make_view(&w,&v);
         for(unsigned i=0;i<v.event_count;++i) {
             const StepEvent *e=&v.events[i];unsigned p=(unsigned)e->pattern;if(p>=4)continue;
             if(e->type==DEMO_EVENT_ATTACK_ACCEPTED)r.skills[p].accepted++;
@@ -114,85 +120,44 @@ int main(int argc,char **argv) {
     static const uint32_t hold[]={20261007u,7654321u,424242u,314159u,888888u,13579u};
     const uint32_t *seeds=heldout?hold:primary;
     DemoConfig cfg;if(!demo_config_init(&cfg))return 2;
-    /* Optional numeric-only candidate; never changes rules or injects state. */
+    /* Numeric-only v5 candidates; geometry always comes from the real C core.
+     * The v4 baseline is captured separately before editing its pattern source. */
     unsigned candidate=argc>3?(unsigned)atoi(argv[3]):0;
-    /* 0 = shipped v4. Other experiments start from the captured v3 gameplay
-     * numbers, while retaining the current scoring formula. 99 = before.
-     * This keeps the checked-in probe reproducible after updating defaults. */
-    if(candidate!=0) {
-        cfg.student_fire_min_range=60;
-        cfg.patterns[0].bullet_speed=180;
-        cfg.patterns[1].cost=35;cfg.patterns[1].bullet_speed=220;
-        cfg.patterns[1].lane_spread_px=8;
-        cfg.patterns[2].windup_ticks=72;cfg.patterns[2].bullet_speed=200;
-        cfg.patterns[2].spawn_safety_radius=180;
-        cfg.patterns[3].wave_count=5;
+    if(candidate==20) {
+        cfg.patterns[DEMO_PATTERN_COURSE].cost=40;
+        cfg.patterns[DEMO_PATTERN_COURSE].wave_count=3;
+        cfg.patterns[DEMO_PATTERN_COURSE].shots_per_wave=32;
+        cfg.patterns[DEMO_PATTERN_COURSE].bullet_speed=220;
+        cfg.patterns[DEMO_PATTERN_COURSE].active_ticks=270;
+        cfg.patterns[DEMO_PATTERN_COURSE].wave_interval_sec=.7f;
+        cfg.patterns[DEMO_PATTERN_MINE].gap_span_deg=60;
+    } else if(candidate>=21 && candidate<=24) {
+        cfg.patterns[DEMO_PATTERN_MINE].gap_span_deg=60;
+        cfg.patterns[DEMO_PATTERN_COURSE].cost=candidate==21?50:55;
+        cfg.patterns[DEMO_PATTERN_COURSE].wave_count=candidate==24?1:2;
+        cfg.patterns[DEMO_PATTERN_COURSE].shots_per_wave=24;
+        cfg.patterns[DEMO_PATTERN_COURSE].bullet_speed=candidate==23?180:210;
+        cfg.patterns[DEMO_PATTERN_COURSE].active_ticks=240;
+        cfg.patterns[DEMO_PATTERN_COURSE].wave_interval_sec=1.0f;
+    } else if(candidate>=25 && candidate<=29) {
+        cfg.patterns[DEMO_PATTERN_COURSE].cost=50;
+        cfg.patterns[DEMO_PATTERN_COURSE].wave_count=2;
+        cfg.patterns[DEMO_PATTERN_COURSE].shots_per_wave=24;
+        cfg.patterns[DEMO_PATTERN_COURSE].bullet_speed=210;
+        cfg.patterns[DEMO_PATTERN_COURSE].active_ticks=240;
+        cfg.patterns[DEMO_PATTERN_COURSE].wave_interval_sec=1.0f;
+        cfg.patterns[DEMO_PATTERN_MINE].wave_count=candidate==25?2:3;
+        cfg.patterns[DEMO_PATTERN_MINE].gap_span_deg=candidate==26?40:candidate==27?48:60;
+        cfg.patterns[DEMO_PATTERN_MINE].cost=candidate==28?25:20;
+        if(candidate==29)cfg.patterns[DEMO_PATTERN_SHOWER].wave_count=4;
+    } else if(candidate!=0) { fprintf(stderr,"unsupported v5 candidate\n");return 2; }
+    if(argc>5 && strcmp(argv[5],"default")!=0)cfg.patterns[DEMO_PATTERN_COURSE].lane_spread_px=strtof(argv[5],NULL);
+    if(argc>7 && !demo_config_set_field_size(&cfg,strtof(argv[6],NULL),strtof(argv[7],NULL))) {
+        fprintf(stderr,"invalid field size\n");return 2;
     }
-    if(candidate==1) {
-        cfg.student_fire_min_range=50;
-        cfg.patterns[1].active_ticks=240;
-        cfg.patterns[2].bullet_speed=300;cfg.patterns[2].windup_ticks=48;
-    } else if(candidate==2) {
-        cfg.student_fire_min_range=50;
-        cfg.patterns[1].active_ticks=240;
-        cfg.patterns[2].bullet_speed=300;cfg.patterns[2].windup_ticks=48;
-        cfg.patterns[3].wave_count=3;
-    } else if(candidate==3) {
-        cfg.student_fire_min_range=50;
-        cfg.patterns[1].active_ticks=240;
-        cfg.patterns[2].bullet_speed=300;cfg.patterns[2].windup_ticks=48;
-        cfg.patterns[3].shots_per_wave=10;
-    } else if(candidate==4) {
-        cfg.student_fire_min_range=50;
-        cfg.patterns[1].active_ticks=240;
-        cfg.patterns[2].bullet_speed=300;cfg.patterns[2].windup_ticks=48;
-        cfg.patterns[3].wave_count=3;cfg.patterns[3].shots_per_wave=10;
-    } else if(candidate==5 || candidate==6) {
-        cfg.student_fire_min_range=50;
-        cfg.patterns[1].bullet_speed=candidate==5?320:440;cfg.patterns[1].cost=20;
-        cfg.patterns[2].bullet_speed=300;cfg.patterns[2].windup_ticks=48;
-        cfg.patterns[2].spawn_safety_radius=120;
-        cfg.patterns[3].wave_count=3;
-    } else if(candidate==7) {
-        cfg.student_fire_min_range=50;
-        cfg.patterns[1].bullet_speed=320;cfg.patterns[1].cost=20;
-        cfg.patterns[2].bullet_speed=300;cfg.patterns[2].windup_ticks=48;
-        cfg.patterns[2].spawn_safety_radius=120;
-        cfg.patterns[3].shots_per_wave=10;
-    } else if(candidate==8 || candidate==9) {
-        cfg.student_fire_min_range=50;
-        cfg.patterns[0].bullet_speed=230;
-        cfg.patterns[1].bullet_speed=320;cfg.patterns[1].cost=20;
-        if(candidate==9)cfg.patterns[1].wave_count=5;
-        cfg.patterns[2].bullet_speed=300;cfg.patterns[2].windup_ticks=48;
-        cfg.patterns[2].spawn_safety_radius=120;
-        cfg.patterns[3].wave_count=3;
-    } else if(candidate>=10 && candidate<=15) {
-        cfg.student_fire_min_range=50;
-        cfg.patterns[0].bullet_speed=230;
-        cfg.patterns[1].bullet_speed=candidate==12?440:320;cfg.patterns[1].cost=20;
-        cfg.patterns[1].windup_ticks=candidate==10?48:30;
-        cfg.patterns[1].wave_count=candidate>=13?8:5;
-        cfg.patterns[1].active_ticks=candidate>=13?300:240;
-        if(candidate==14)cfg.patterns[1].wave_interval_sec=.3f;
-        if(candidate==15)cfg.patterns[1].wave_interval_sec=.15f;
-        cfg.patterns[2].bullet_speed=300;cfg.patterns[2].windup_ticks=48;
-        cfg.patterns[2].spawn_safety_radius=120;
-        cfg.patterns[3].wave_count=3;
-    } else if(candidate>=16 && candidate<=18) {
-        cfg.student_fire_min_range=50;
-        cfg.patterns[0].bullet_speed=230;
-        cfg.patterns[1].bullet_speed=320;
-        cfg.patterns[1].cost=candidate==16?35:candidate==17?40:45;
-        cfg.patterns[1].lane_spread_px=96;
-        cfg.patterns[2].bullet_speed=300;cfg.patterns[2].windup_ticks=48;
-        cfg.patterns[2].spawn_safety_radius=120;
-        cfg.patterns[3].wave_count=3;
-    }
-    if(argc>5)cfg.patterns[DEMO_PATTERN_COURSE].lane_spread_px=strtof(argv[5],NULL);
     char err[256];if(!demo_config_validate(&cfg,err,sizeof(err))){fprintf(stderr,"invalid config: %s\n",err);return 2;}
     FILE *f=fopen(output,"wb");if(!f)return 3;
-    fprintf(f,"{\n\"config_version\":%u,\"candidate\":%u,\"held_out\":%s,\"tick_budget\":%d,\"type\":\"finite_public_observation_scripts_not_human_or_ml\",\"student_fire_min_range\":%.9g,\"parameters\":[",cfg.version,candidate,heldout?"true":"false",RUN_TICKS,cfg.student_fire_min_range);
+    fprintf(f,"{\n\"config_version\":%u,\"candidate\":%u,\"held_out\":%s,\"tick_budget\":%d,\"type\":\"finite_public_observation_scripts_not_human_or_ml\",\"field_width\":%.9g,\"field_height\":%.9g,\"student_fire_min_range\":%.9g,\"parameters\":[",cfg.version,candidate,heldout?"true":"false",RUN_TICKS,cfg.field_w,cfg.field_h,cfg.student_fire_min_range);
     for(unsigned p=0;p<4;++p){const PatternConfig *pc=&cfg.patterns[p];
         fprintf(f,"%s{\"pattern\":%u,\"cost\":%d,\"windup\":%d,\"active\":%d,\"speed\":%.9g,\"waves\":%d,\"shots_per_wave\":%d,\"interval_sec\":%.9g,\"lane_spread_px\":%.9g,\"spawn_safety_radius\":%.9g}",p?",":"",p,pc->cost,pc->windup_ticks,pc->active_ticks,pc->bullet_speed,pc->wave_count,pc->shots_per_wave,pc->wave_interval_sec,pc->lane_spread_px,pc->spawn_safety_radius);
     }
@@ -201,7 +166,8 @@ int main(int argc,char **argv) {
     unsigned course_only=argc>4?(unsigned)atoi(argv[4]):0;
     for(unsigned si=0;si<6&&!cpu_exhausted;++si)for(unsigned pop=0;pop<2&&!cpu_exhausted;++pop)
         for(unsigned mv=0;mv<4&&!cpu_exhausted;++mv)for(unsigned at=0;at<6;++at) {
-            if(course_only && at!=DEMO_PATTERN_COURSE && at!=4)continue;
+            if(course_only==4 && mv!=2)continue;
+            if(course_only>0 && course_only<4 && at!=(course_only==1?DEMO_PATTERN_COURSE:course_only==2?DEMO_PATTERN_MINE:DEMO_PATTERN_RING) && at!=4)continue;
             Result r=run(&cfg,seeds[si],pop?8:3,mv,at);write_result(f,&r,count++>0);
             if((double)(clock()-begin)/CLOCKS_PER_SEC>=CPU_LIMIT){cpu_exhausted=true;break;}
         }

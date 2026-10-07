@@ -32,6 +32,7 @@
 
 #include "attack.h"
 #include "patterns.h"
+#include "projectiles.h"
 #include "student_bot.h"
 #include "student_fire.h"
 
@@ -176,6 +177,16 @@ bool world_reset(World *world, const DemoConfig *config, uint64_t seed) {
     world->boss.alive = true;
     world->boss.x = DEMO_BOSS_START_X;
     world->boss.y = DEMO_BOSS_START_Y;
+    if (config->field_w != DEMO_FIELD_WIDTH || config->field_h != DEMO_FIELD_HEIGHT) {
+        world->boss.x = config->boss_radius +
+            (DEMO_BOSS_START_X - config->boss_radius) /
+            (DEMO_FIELD_WIDTH - 2.0f * config->boss_radius) *
+            (config->field_w - 2.0f * config->boss_radius);
+        world->boss.y = config->boss_radius +
+            (DEMO_BOSS_START_Y - config->boss_radius) /
+            (DEMO_FIELD_HEIGHT - 2.0f * config->boss_radius) *
+            (config->field_h - 2.0f * config->boss_radius);
+    }
     world->boss.radius = config->boss_radius;
     world->boss.hp = config->boss_hp;
     world->boss.hp_max = config->boss_hp;
@@ -754,7 +765,8 @@ void world_step(World *world, const BossInput *input) {
     students_fire(world);
 
     /* 6) 弹运动 */
-    pool_advance(&world->pool, 1.0f / (float)DEMO_TICKS_PER_SECOND);
+    pool_advance_in_field(&world->pool, 1.0f / (float)DEMO_TICKS_PER_SECOND,
+                          world->cfg.field_w, world->cfg.field_h);
 
     /* 7) 碰撞结算 */
     resolve_collisions(world);

@@ -1,0 +1,14 @@
+{
+  "configVersion": 5,
+  "abiVersion": 4,
+  "htmlPath": "demo/ustc-danmaku.html",
+  "htmlBytes": 1145405,
+  "htmlSha256": "7c71994fa81c9007b9e13a1f736bf2db69286f04d5deb8799feba1a50d98542c",
+  "wasmBytes": 54393,
+  "wasmSha256": "e5714aa02a9bc763c2037dde766c3dc825f880cf34e6ca001d6cb06defebce22",
+  "emblemSha256": "f18400d73b532fad6752b756d608e63717cd495f8f8a72a29f3b7e9ebad50663",
+  "embeddedWasmMatchesSource": true,
+  "embeddedEmblemMatchesOriginal": true,
+  "externalScriptTags": 0,
+  "externalStylesheets": 0
+}

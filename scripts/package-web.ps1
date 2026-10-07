@@ -3,7 +3,7 @@ $ErrorActionPreference = 'Stop'
 $taskRoot = Split-Path -Parent $PSScriptRoot
 if (!$OutputRoot) { $OutputRoot = Join-Path $taskRoot 'build/release' }
 $taskOutput = [IO.Path]::GetFullPath($OutputRoot)
-$taskPackage = Join-Path $taskOutput 'ustc-danmaku-endless-v4'
+$taskPackage = Join-Path $taskOutput 'ustc-danmaku-endless-v5'
 $taskZip = "$taskPackage.zip"
 if ((Test-Path -LiteralPath $taskPackage) -or (Test-Path -LiteralPath $taskZip)) {
     throw 'Output already exists. Choose another OutputRoot to preserve the previous package.'
@@ -11,16 +11,28 @@ if ((Test-Path -LiteralPath $taskPackage) -or (Test-Path -LiteralPath $taskZip))
 if (!(Test-Path -LiteralPath (Join-Path $taskRoot 'web/dist/wasm/demo-core.wasm'))) {
     throw 'Build the Wasm core and web production output first.'
 }
+$taskCmakeSource = Get-Content -LiteralPath (Join-Path $taskRoot 'CMakeLists.txt') -Raw -Encoding utf8
+$taskSourceBlock = [regex]::Match($taskCmakeSource, '(?s)set\(DEMO_CORE_SOURCES(?<sources>[^)]*)\)')
+$taskCoreSourceCount = [regex]::Matches($taskSourceBlock.Groups['sources'].Value, '(core|ai)/[A-Za-z0-9_]+\.c').Count
+if (!$taskSourceBlock.Success -or $taskCoreSourceCount -ne 15) {
+    throw 'Expected the v5 shared 15-file C/AI source list.'
+}
 New-Item -ItemType Directory -Path (Join-Path $taskPackage 'web'), (Join-Path $taskPackage 'scripts'), (Join-Path $taskPackage 'docs') -Force | Out-Null
 Copy-Item -LiteralPath (Join-Path $taskRoot 'web/dist') -Destination (Join-Path $taskPackage 'web') -Recurse
 Copy-Item -LiteralPath (Join-Path $taskRoot 'Start-Web-Demo.bat') -Destination $taskPackage
 & node (Join-Path $taskRoot 'scripts/build-standalone.mjs') (Join-Path $taskPackage 'ustc-danmaku.html')
 if ($LASTEXITCODE) { throw 'Standalone HTML build failed.' }
 Copy-Item -LiteralPath (Join-Path $taskRoot 'scripts/serve-web.mjs') -Destination (Join-Path $taskPackage 'scripts')
-foreach ($taskName in @('web-demo-guide.md','web-demo-validation.md','web-demo-playtest.md','web-playability-findings.md','web-balance-findings.md','ustc-emblem-source.md')) {
+foreach ($taskName in @('web-demo-guide.md','web-demo-validation.md','web-demo-playtest.md','web-playability-findings.md','web-balance-findings.md','web-balance-findings-v5.md','demo-rules.md','web-abi.md','ustc-emblem-source.md')) {
     Copy-Item -LiteralPath (Join-Path $taskRoot "docs/$taskName") -Destination (Join-Path $taskPackage 'docs')
 }
 Copy-Item -LiteralPath (Join-Path $taskRoot 'docs/validation') -Destination (Join-Path $taskPackage 'docs') -Recurse
+foreach ($taskHistoricalFolder in @('archive','assets')) {
+    $taskHistoricalPath = Join-Path $taskRoot "docs/$taskHistoricalFolder"
+    if (Test-Path -LiteralPath $taskHistoricalPath) {
+        Copy-Item -LiteralPath $taskHistoricalPath -Destination (Join-Path $taskPackage 'docs') -Recurse
+    }
+}
 Copy-Item -LiteralPath (Join-Path $taskRoot 'docs/web-package-readme.md') -Destination (Join-Path $taskPackage 'README.md')
 
 # Preserve the licenses of the production dependency tree distributed in the bundle.
@@ -44,7 +56,7 @@ $taskNotices -join "`n" | Set-Content -LiteralPath (Join-Path $taskPackage 'THIR
 $taskManifest = @(Get-ChildItem -LiteralPath $taskPackage -Recurse -File | ForEach-Object {
     [ordered]@{ path = $_.FullName.Substring($taskPackage.Length + 1).Replace('\','/'); bytes = $_.Length; sha256 = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash }
 })
-[ordered]@{ configVersion = 4; abiVersion = 3; files = $taskManifest } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $taskPackage 'manifest.json') -Encoding utf8
+[ordered]@{ configVersion = 5; abiVersion = 4; coreSourceCount = $taskCoreSourceCount; files = $taskManifest } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $taskPackage 'manifest.json') -Encoding utf8
 Compress-Archive -LiteralPath $taskPackage -DestinationPath $taskZip -CompressionLevel Optimal
 Write-Host "Package: $taskPackage"
 Write-Host "ZIP: $taskZip"

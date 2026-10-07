@@ -1,17 +1,17 @@
 /* pattern_mine.c - 招 2 一教金矿·绩点淘金（低消耗·追击/局部打击）
- * 接口版本 2、配置版本 1
+ * v5 单目标短促三连扇击；保持锁定矿点与公开预警。
  * 几何: 矿点定在目标位置沿"Boss→目标"方向偏移 spawn_safety_radius 处, 夹紧到场地内;
- *       三个扇面从矿点向外喷射, 扇面之间有间隙 (gap_span_deg)。
- * 计划编码: origin = 锁定矿点; aim = 目标位置; gap_angle_deg = 中心扇面方向(度);
- *           corridor_width = 扇面间隙(度); wave_offset = 扇面数。
+ *       单束窄扇从矿点朝锁定目标方向分次喷射，目标后来移动不追踪。
+ * 计划编码: origin = 锁定矿点; aim = 目标位置; gap_angle_deg = 扇面中心方向(度);
+ *           gap_span_deg = 单束总扇角；wave_offset = 1（单扇）。
  */
 #include "pattern_mine.h"
 
 #include <math.h>
 #include <string.h>
 
-#define MINE_FANS 3
 #define MINE_PI 3.14159265358979323846f
+#define MINE_WAVE_CAP (DEMO_PATTERN_COUNT * 8)
 
 static float clampf(float v, float lo, float hi) {
     if (v < lo) return lo;
@@ -25,8 +25,24 @@ bool pattern_mine_make_plan(const PatternRequest *request, const DemoConfig *con
         return false;
     }
     const PatternConfig *pc = &config->patterns[DEMO_PATTERN_MINE];
-    if (pc->wave_count <= 0 || pc->shots_per_wave <= 0 || pc->bullet_speed <= 0.0f) {
+    if (pc->wave_count <= 0 || pc->wave_count > MINE_WAVE_CAP ||
+        pc->shots_per_wave <= 0 || pc->shots_per_wave > (int32_t)DEMO_MAX_ACTIVE_PLAN_PROJECTILES ||
+        !isfinite(pc->bullet_speed) || pc->bullet_speed <= 0.0f ||
+        pc->windup_ticks < 0 || pc->active_ticks <= 0 ||
+        !isfinite(pc->gap_span_deg) || pc->gap_span_deg <= 0.0f || pc->gap_span_deg >= 180.0f ||
+        !isfinite(pc->spawn_safety_radius) || pc->spawn_safety_radius <= 0.0f ||
+        !isfinite(pc->first_spawn_sec) || pc->first_spawn_sec < 0.0f ||
+        !isfinite(pc->wave_interval_sec) || pc->wave_interval_sec < 0.0f ||
+        !isfinite(request->origin_x) || !isfinite(request->origin_y) ||
+        !isfinite(request->target_x) || !isfinite(request->target_y) || request->start_tick < 0 ||
+        !isfinite(config->field_w) || config->field_w <= 0.0f ||
+        !isfinite(config->field_h) || config->field_h <= 0.0f) {
         return false;
+    }
+    for (int32_t i = 0; i < pc->wave_count; ++i) {
+        float due = (pc->first_spawn_sec + (float)i * pc->wave_interval_sec) *
+                    (float)DEMO_TICKS_PER_SECOND;
+        if (!isfinite(due) || due > 1.0e9f || lroundf(due) > pc->active_ticks) return false;
     }
 
     /* 矿点 = 目标位置沿 (目标 - Boss) 方向外推 spawn_safety_radius, 即位于目标与 Boss 连线上、
@@ -84,12 +100,15 @@ bool pattern_mine_make_plan(const PatternRequest *request, const DemoConfig *con
     out->gap_span_deg = pc->gap_span_deg;
     out->corridor_width = pc->corridor_width;
     out->lock_checked_at_spawn = true;
-    out->wave_tick[0] = pc->first_spawn_sec * (float)DEMO_TICKS_PER_SECOND;
+    for (int32_t i = 0; i < pc->wave_count; ++i) {
+        out->wave_tick[i] = (pc->first_spawn_sec + (float)i * pc->wave_interval_sec) *
+                            (float)DEMO_TICKS_PER_SECOND;
+    }
 
-    /* 中心扇面朝目标(即 -u 方向, 从矿点指向目标); 间隙为 gap_span_deg */
+    /* 单束中心朝接受时目标位置，即从锁定矿点指向锁定目标。 */
     out->gap_angle_deg = atan2f(request->target_y - mine_y, request->target_x - mine_x) *
                          (180.0f / MINE_PI);
-    out->wave_offset = (float)MINE_FANS;
+    out->wave_offset = 1.0f;
     (void)rng;
     out->geometry_seed = (uint64_t)request->target_id;
     return true;
@@ -97,46 +116,52 @@ bool pattern_mine_make_plan(const PatternRequest *request, const DemoConfig *con
 
 bool pattern_mine_emit(const AttackPlan *plan, const DemoConfig *config, uint32_t attack_tick,
                        ProjectileSpawnBuffer *out) {
-    if (plan == NULL || config == NULL || out == NULL || !plan->active) {
+    if (plan == NULL || config == NULL || out == NULL || !plan->active ||
+        plan->pattern != DEMO_PATTERN_MINE || plan->wave_count <= 0 ||
+        plan->wave_count > MINE_WAVE_CAP || plan->shots_per_wave <= 0 ||
+        plan->shots_per_wave > (int32_t)DEMO_MAX_ACTIVE_PLAN_PROJECTILES ||
+        !isfinite(plan->gap_span_deg) || plan->gap_span_deg <= 0.0f || plan->gap_span_deg >= 180.0f ||
+        !isfinite(plan->gap_angle_deg) || !isfinite(plan->lock_speed) || plan->lock_speed <= 0.0f ||
+        attack_tick > (uint32_t)plan->active_ticks) {
         return false;
     }
-    /* 第三个参数是攻击阶段相对 tick，不加接受请求的绝对 tick。 */
-    int32_t due = (int32_t)lroundf(plan->wave_tick[0]);
-    if ((int32_t)attack_tick != due) {
-        return false;
+    bool due_now = false;
+    for (int32_t i = 0; i < plan->wave_count; ++i) {
+        if (isfinite(plan->wave_tick[i]) && plan->wave_tick[i] >= 0.0f &&
+            plan->wave_tick[i] <= 1.0e9f &&
+            (uint32_t)lroundf(plan->wave_tick[i]) == attack_tick) {
+            due_now = true;
+            break;
+        }
     }
+    if (!due_now) return false;
 
     const float center_deg = plan->gap_angle_deg;
-    const float gap_deg = (plan->gap_span_deg > 0.0f) ? plan->gap_span_deg : 40.0f;
-    /* 三个扇面: 中心偏移 -gap, 0, +gap 度; 每面覆盖 span_deg 度 */
-    const float span_deg = 34.0f;
+    const float span_deg = plan->gap_span_deg;
     const int shots = plan->shots_per_wave;
 
-    for (int fan = 0; fan < MINE_FANS; ++fan) {
-        float fan_center = center_deg + (float)(fan - 1) * gap_deg;
-        for (int k = 0; k < shots; ++k) {
-            float frac = (shots > 1) ? (((float)k / (float)(shots - 1)) - 0.5f) : 0.0f;
-            float ang_deg = fan_center + frac * span_deg;
-            float rad = ang_deg * (MINE_PI / 180.0f);
-            Projectile spec;
-            memset(&spec, 0, sizeof(spec));
-            spec.active = true;
-            spec.faction = DEMO_FACTION_BOSS;
-            spec.source_id = 1u;
-            spec.plan_id = plan->plan_id;
-            spec.source_pattern = DEMO_PATTERN_MINE;
-            spec.x = plan->origin_x;
-            spec.y = plan->origin_y;
-            spec.px = spec.x;
-            spec.py = spec.y;
-            spec.vx = cosf(rad) * plan->lock_speed;
-            spec.vy = sinf(rad) * plan->lock_speed;
-            spec.radius = config->boss_bullet_radius;
-            spec.damage = config->boss_bullet_damage;
-            spec.lifetime_ticks = config->boss_bullet_lifetime_ticks;
-            if (!spawn_buffer_push(out, &spec)) {
-                return true;
-            }
+    for (int k = 0; k < shots; ++k) {
+        float frac = (shots > 1) ? (((float)k / (float)(shots - 1)) - 0.5f) : 0.0f;
+        float ang_deg = center_deg + frac * span_deg;
+        float rad = ang_deg * (MINE_PI / 180.0f);
+        Projectile spec;
+        memset(&spec, 0, sizeof(spec));
+        spec.active = true;
+        spec.faction = DEMO_FACTION_BOSS;
+        spec.source_id = 1u;
+        spec.plan_id = plan->plan_id;
+        spec.source_pattern = DEMO_PATTERN_MINE;
+        spec.x = plan->origin_x;
+        spec.y = plan->origin_y;
+        spec.px = spec.x;
+        spec.py = spec.y;
+        spec.vx = cosf(rad) * plan->lock_speed;
+        spec.vy = sinf(rad) * plan->lock_speed;
+        spec.radius = config->boss_bullet_radius;
+        spec.damage = config->boss_bullet_damage;
+        spec.lifetime_ticks = config->boss_bullet_lifetime_ticks;
+        if (!spawn_buffer_push(out, &spec)) {
+            return true;
         }
     }
     return true;

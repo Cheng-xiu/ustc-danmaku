@@ -7,16 +7,23 @@ export class BrowserInput {
   private readonly keys = new Set<string>();
   private pendingAttacks = 0;
   private pointerValid = false;
+  private pointerClientX = 0;
+  private pointerClientY = 0;
   private pointerX = 0;
   private pointerY = 0;
   private readonly disposers: Array<() => void> = [];
 
-  constructor(private readonly canvas: HTMLCanvasElement, private readonly callbacks: InputCallbacks) {
+  constructor(private readonly canvas: HTMLCanvasElement, private readonly callbacks: InputCallbacks,
+    private readonly project?: (clientX: number, clientY: number) => { x: number; y: number }) {
     canvas.tabIndex = 0;
     canvas.setAttribute('aria-label', '弹幕战场，鼠标移动 Boss，数字 1 到 4 出招');
-    this.listen(canvas, 'pointermove', (event) => this.updatePointer(event as PointerEvent));
-    this.listen(canvas, 'pointerenter', (event) => this.updatePointer(event as PointerEvent));
-    this.listen(canvas, 'pointerleave', () => { this.pointerValid = false; });
+    this.listen(window, 'pointermove', (event) => this.updatePointer(event as PointerEvent));
+    // Leaving the playfield or page retains the last known pointer direction.
+    // The browser cannot observe positions outside its window; blur still clears input.
+    this.listen(window, 'pointerout', (event) => {
+      const pointer = event as PointerEvent;
+      if (pointer.relatedTarget === null) this.updatePointer(pointer);
+    });
     this.listen(canvas, 'pointercancel', () => { this.pointerValid = false; });
     this.listen(canvas, 'pointerdown', (event) => {
       const pointer = event as PointerEvent;
@@ -40,16 +47,22 @@ export class BrowserInput {
   }
 
   private updatePointer(event: PointerEvent): void {
+    this.pointerClientX = event.clientX;
+    this.pointerClientY = event.clientY;
+    this.projectPointer();
+  }
+
+  private projectPointer(): void {
     const bounds = this.canvas.getBoundingClientRect();
     if (bounds.width <= 0 || bounds.height <= 0) {
       this.pointerValid = false;
       return;
     }
-    // Backing pixels include DPR; the core always uses a 960 × 720 field.
-    this.pointerX = (event.clientX - bounds.left) * 960 / bounds.width;
-    this.pointerY = (event.clientY - bounds.top) * 720 / bounds.height;
-    this.pointerValid = this.pointerX >= 0 && this.pointerX <= 960
-      && this.pointerY >= 0 && this.pointerY <= 720;
+    // Use the scene's current transform; the fallback supports legacy 960 × 720 callers.
+    const point = this.project?.(this.pointerClientX, this.pointerClientY);
+    this.pointerX = point?.x ?? (this.pointerClientX - bounds.left) * 960 / bounds.width;
+    this.pointerY = point?.y ?? (this.pointerClientY - bounds.top) * 720 / bounds.height;
+    this.pointerValid = Number.isFinite(this.pointerX) && Number.isFinite(this.pointerY);
   }
 
   private keyDown(event: KeyboardEvent): void {
@@ -73,13 +86,16 @@ export class BrowserInput {
   }
 
   consume(boss?: { x: number; y: number }): TickInput {
+    // Resize can change the world projection without any new pointer event.
+    // A cleared/cancelled pointer stays invalid until another pointer event.
+    if (this.pointerValid) this.projectPointer();
     const held = (...codes: string[]) => codes.some((code) => this.keys.has(code));
     let moveX = Number(held('KeyD', 'ArrowRight')) - Number(held('KeyA', 'ArrowLeft'));
     let moveY = Number(held('KeyS', 'ArrowDown')) - Number(held('KeyW', 'ArrowUp'));
     const length = Math.hypot(moveX, moveY);
     if (length > 1) { moveX /= length; moveY /= length; }
     const input: TickInput = {
-      moveX, moveY, pointerValid: this.pointerValid && (!boss || Math.hypot(this.pointerX - boss.x, this.pointerY - boss.y) > 12),
+      moveX, moveY, pointerValid: length === 0 && this.pointerValid && (!boss || Math.hypot(this.pointerX - boss.x, this.pointerY - boss.y) > 12),
       pointerX: this.pointerX, pointerY: this.pointerY, attacks: this.pendingAttacks,
     };
     this.pendingAttacks = 0;

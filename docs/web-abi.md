@@ -1,10 +1,12 @@
-# Web ABI v3
+# Web ABI v4
 
-当前配置 v4。v3 将头部 word 55 从旧逐杀加分改为 GPA 半饱和击倒数；同一内存布局也必须用新版本号区分，客户端拒绝旧 ABI。原生和 Wasm 共用桥接源码，不 memcpy C 结构体。
+当前配置 v5。v4 新增可变场地重开导出 `demo_reset_sized`，64-word 快照布局保留 v3，word 29/30 为本局真实场宽高。客户端严格要求 v4 及新导出，拒绝旧模块。v3 曾将 word 55 改为 GPA 半饱和击倒数。原生和 Wasm 共用桥接源码，不 memcpy C 结构体。
 
 ## 导出与所有权
 
 demo_reset(uint32 seedLo, uint32 seedHi, uint32 students) 返回 1/0；students 为初始 1..8，默认界面为 3。demo_step(float mx, float my, int pointerValid, float px, float py, uint32 attackMask) 每次只前进一 tick。demo_snapshot 返回字节缓冲指针，demo_snapshot_size 返回长度，demo_dispose 释放单实例状态。终局或实验截断停止。
+
+`demo_reset_sized(seedLo, seedHi, students, float width, float height)` 返回 1/0，场地验证与适配由共享 C 完成；非法尺寸返回 0 并保留当前世界。`demo_reset` 仍是默认 960×720 兼容入口。网页新局按战场比例保持面积 960×720；本局窗口缩放只影响显示，已公开计划与预告点不变。
 
 缓冲在下一次 snapshot/reset/dispose 时失效。TypeScript 每次重新获取 HEAPU8 并复制，再严格检查 magic、版本、容量、连续偏移和字段。64 位 ID/seed 以十进制字符串保存。内存增长后不复用旧视图。
 
@@ -14,7 +16,7 @@ demo_reset(uint32 seedLo, uint32 seedHi, uint32 students) 返回 1/0；students 
 
 | Word | 值或意义 |
 | --- | --- |
-| 0 / 1 / 2 | magic 0x55444331 / ABI 3 / 总字节数 |
+| 0 / 1 / 2 | magic 0x55444331 / ABI 4 / 总字节数 |
 | 3 / 4 / 5 | tick / status / config version |
 | 6–9 | 学生数 / 活弹数 / 公开预警数 / 本 tick 事件数 |
 | 10 / 11 | 能量 / 上限 |

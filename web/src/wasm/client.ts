@@ -3,6 +3,7 @@ import type { Actor, Bullet, CoreClient, GameEvent, Snapshot, TickInput, Warning
 type WasmModule = {
   HEAPU8: Uint8Array;
   _demo_reset(lo: number, hi: number, students: number): number;
+  _demo_reset_sized(lo: number, hi: number, students: number, width: number, height: number): number;
   _demo_step(mx: number, my: number, pointerValid: number, px: number, py: number, mask: number): number;
   _demo_snapshot(): number;
   _demo_snapshot_size(): number;
@@ -17,7 +18,7 @@ const HEADER_BYTES = 64 * 4;
 const MAX_BYTES = HEADER_BYTES + 9 * 40 + 800 * 40 + 8192 * 32 + 256 * 36 + 8 * 8;
 
 function requireValue(condition: boolean, message: string): asserts condition {
-  if (!condition) throw new Error(`C/Wasm ABI v3: ${message}`);
+  if (!condition) throw new Error(`C/Wasm ABI v4: ${message}`);
 }
 
 function unsigned(value: number, label: string): number {
@@ -43,7 +44,7 @@ export function decodeSnapshot(bytes: Uint8Array): Snapshot {
     return value === 1;
   };
   const identity = (word: number): string => ((BigInt(u(word + 1)) << 32n) | BigInt(u(word))).toString();
-  requireValue(u(0) === 0x55444331 && u(1) === 3, 'magic 或版本不匹配');
+  requireValue(u(0) === 0x55444331 && u(1) === 4, 'magic 或版本不匹配');
   requireValue(u(2) === bytes.byteLength, '头部字节数与缓冲不匹配');
   requireValue(i(3) >= 0 && u(4) <= 3 && u(5) > 0, 'tick、状态或配置版本非法');
   const students = u(6), bulletCount = u(7), warningCount = u(8), eventCount = u(9);
@@ -148,6 +149,7 @@ export async function loadCore(): Promise<CoreClient> {
   }
   for (const name of ['_demo_reset', '_demo_step', '_demo_snapshot', '_demo_snapshot_size', '_demo_dispose'] as const)
     requireValue(typeof module[name] === 'function', `缺少导出 ${name}`);
+  requireValue(typeof module._demo_reset_sized === 'function', '缺少可变战场重置导出');
   let disposed = false;
   const assertAlive = (): void => requireValue(!disposed, '客户端已释放');
   const snapshot = (): Snapshot => {
@@ -161,10 +163,11 @@ export async function loadCore(): Promise<CoreClient> {
     return decodeSnapshot(heap.slice(pointer, pointer + size));
   };
   return {
-    reset(seedLo = 12345, seedHi = 0, students = 3): Snapshot {
+    reset(seedLo = 12345, seedHi = 0, students = 3, fieldW = 960, fieldH = 720): Snapshot {
       assertAlive(); unsigned(seedLo, 'seedLo'); unsigned(seedHi, 'seedHi');
       requireValue(Number.isInteger(students) && students >= 1 && students <= 8, '学生数量必须为 1..8');
-      requireValue(module._demo_reset(seedLo, seedHi, students) === 1, '核心重置失败');
+      requireValue(Number.isFinite(fieldW) && Number.isFinite(fieldH) && fieldW > 0 && fieldH > 0, '战场尺寸非法');
+      requireValue(module._demo_reset_sized(seedLo, seedHi, students, fieldW, fieldH) === 1, '核心重置失败');
       return snapshot();
     },
     step(input: TickInput): void {

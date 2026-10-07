@@ -107,7 +107,7 @@ static ProjectilePool g_pool;
 static DemoConfig g_cfg;
 
 /* 配置版本 3 的固定期望(与 core/demo_config.c 默认值一致)。 */
-#define EXPECT_VERSION 4u
+#define EXPECT_VERSION 5u
 #define EXPECT_INTERVAL 78
 #define EXPECT_BULLET_SPEED 260.0f
 #define EXPECT_BULLET_RADIUS 5.0f
@@ -576,7 +576,7 @@ static void test_bullet_attributes(void)
 
     /* 配置版本 3 的默认值复核(独立于上面的自定义值)。 */
     reset_world_state();
-    check_u32(g_cfg.version, EXPECT_VERSION, "配置版本 == 4");
+    check_u32(g_cfg.version, EXPECT_VERSION, "配置版本 == 5");
     check_i32(g_cfg.student_fire_interval_ticks, EXPECT_INTERVAL, "默认发射间隔 == 78");
     check_near(g_cfg.student_bullet_speed, EXPECT_BULLET_SPEED, 1e-6f, "默认弹速 == 260");
     check_near(g_cfg.student_bullet_radius, EXPECT_BULLET_RADIUS, 1e-6f, "默认弹半径 == 5");
