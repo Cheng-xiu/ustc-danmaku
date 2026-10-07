@@ -1,0 +1,183 @@
+{
+  "url": "https://cheng-xiu.github.io/ustc-danmaku/?qa=1",
+  "htmlSha256": "7c71994fa81c9007b9e13a1f736bf2db69286f04d5deb8799feba1a50d98542c",
+  "configVersion": 5,
+  "abiVersion": 4,
+  "method": "Actual HTTPS page and real mouse/keyboard inputs; read-only QA; controlled time is not an FPS measurement.",
+  "checks": [
+    {
+      "name": "1440x900: HTTPS200",
+      "pass": true
+    },
+    {
+      "name": "1440x900: online HTML matches tested artifact",
+      "pass": true
+    },
+    {
+      "name": "1440x900: current core and four pre-game introductions",
+      "pass": true
+    },
+    {
+      "name": "1440x900: real game starts and hides skill guide",
+      "pass": true
+    },
+    {
+      "name": "1440x900: top bars and remaining window form the field",
+      "pass": true,
+      "detail": {
+        "width": 1440,
+        "height": 778,
+        "top": 122,
+        "bottom": 900,
+        "hudBottom": 122,
+        "canvasWidth": 1440,
+        "canvasHeight": 778,
+        "viewport": 900
+      }
+    },
+    {
+      "name": "1440x900: actual mouse in HUD still steers upward",
+      "pass": true
+    },
+    {
+      "name": "1440x900: keyboard overrides HUD pointer",
+      "pass": true
+    },
+    {
+      "name": "1440x900: ring consumes energy and starts shared CD",
+      "pass": true,
+      "detail": 39
+    },
+    {
+      "name": "1440x900: current ring produces actual bullets",
+      "pass": true
+    },
+    {
+      "name": "1440x900: pause freezes core and score",
+      "pass": true
+    },
+    {
+      "name": "1440x900: restart resets round and matches window",
+      "pass": true
+    },
+    {
+      "name": "1024x768: HTTPS200",
+      "pass": true
+    },
+    {
+      "name": "1024x768: online HTML matches tested artifact",
+      "pass": true
+    },
+    {
+      "name": "1024x768: current core and four pre-game introductions",
+      "pass": true
+    },
+    {
+      "name": "1024x768: real game starts and hides skill guide",
+      "pass": true
+    },
+    {
+      "name": "1024x768: top bars and remaining window form the field",
+      "pass": true,
+      "detail": {
+        "width": 1024,
+        "height": 646,
+        "top": 122,
+        "bottom": 768,
+        "hudBottom": 122,
+        "canvasWidth": 1024,
+        "canvasHeight": 646,
+        "viewport": 768
+      }
+    },
+    {
+      "name": "1024x768: actual mouse in HUD still steers upward",
+      "pass": true
+    },
+    {
+      "name": "1024x768: keyboard overrides HUD pointer",
+      "pass": true
+    },
+    {
+      "name": "1024x768: ring consumes energy and starts shared CD",
+      "pass": true,
+      "detail": 39
+    },
+    {
+      "name": "1024x768: current ring produces actual bullets",
+      "pass": true
+    },
+    {
+      "name": "1024x768: pause freezes core and score",
+      "pass": true
+    },
+    {
+      "name": "1024x768: restart resets round and matches window",
+      "pass": true
+    },
+    {
+      "name": "390x844: HTTPS200",
+      "pass": true
+    },
+    {
+      "name": "390x844: online HTML matches tested artifact",
+      "pass": true
+    },
+    {
+      "name": "390x844: current core and four pre-game introductions",
+      "pass": true
+    },
+    {
+      "name": "390x844: real game starts and hides skill guide",
+      "pass": true
+    },
+    {
+      "name": "390x844: top bars and remaining window form the field",
+      "pass": true,
+      "detail": {
+        "width": 390,
+        "height": 666.109375,
+        "top": 177.890625,
+        "bottom": 844,
+        "hudBottom": 177.890625,
+        "canvasWidth": 390,
+        "canvasHeight": 666,
+        "viewport": 844
+      }
+    },
+    {
+      "name": "390x844: actual mouse in HUD still steers upward",
+      "pass": true
+    },
+    {
+      "name": "390x844: keyboard overrides HUD pointer",
+      "pass": true
+    },
+    {
+      "name": "390x844: ring consumes energy and starts shared CD",
+      "pass": true,
+      "detail": 39
+    },
+    {
+      "name": "390x844: current ring produces actual bullets",
+      "pass": true
+    },
+    {
+      "name": "390x844: pause freezes core and score",
+      "pass": true
+    },
+    {
+      "name": "390x844: restart resets round and matches window",
+      "pass": true
+    },
+    {
+      "name": "no runtime errors or failed resources",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "failedRequests": [],
+  "httpErrors": [],
+  "passed": true,
+  "browser": "154.0.8037.98"
+}

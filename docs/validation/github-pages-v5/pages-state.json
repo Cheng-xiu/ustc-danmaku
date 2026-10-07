@@ -1,0 +1,48 @@
+{
+  "http_status": 200,
+  "pages": {
+    "url": "https://api.github.com/repos/Cheng-xiu/ustc-danmaku/pages",
+    "status": "built",
+    "cname": null,
+    "custom_404": false,
+    "html_url": "https://cheng-xiu.github.io/ustc-danmaku/",
+    "build_type": "legacy",
+    "source": {
+      "branch": "gh-pages",
+      "path": "/"
+    },
+    "public": true,
+    "protected_domain_state": null,
+    "pending_domain_unverified_at": null,
+    "https_enforced": true
+  },
+  "latest_build_http_status": 200,
+  "latest_build": {
+    "status": "built",
+    "commit": "b9260dfa4d2d0c92003f832b134d0f24f913ffd1",
+    "error": {
+      "message": null
+    },
+    "created_at": "2026-10-07T14:30:42Z",
+    "updated_at": "2026-10-07T14:31:09Z"
+  },
+  "workflow_runs_http_status": 200,
+  "workflow_runs": [
+    {
+      "id": 37637302206,
+      "name": "pages build and deployment",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Cheng-xiu/ustc-danmaku/actions/runs/37637302206",
+      "head_sha": "b9260dfa4d2d0c92003f832b134d0f24f913ffd1"
+    },
+    {
+      "id": 37630396240,
+      "name": "pages build and deployment",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Cheng-xiu/ustc-danmaku/actions/runs/37630396240",
+      "head_sha": "cf9743f436cfd8213fb78186e66a7dcc163fde55"
+    }
+  ]
+}

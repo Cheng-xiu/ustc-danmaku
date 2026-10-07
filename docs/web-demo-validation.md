@@ -37,3 +37,5 @@ Node24.19.0、npm11.17.0、TypeScript5.9.3、Vite7.1.12、PixiJS8.22.0、esbuild
 [validation/endless-v5](validation/endless-v5/)保存24份JSON、两份CTest原始日志，包括19份平衡输出、最终浏览器/清波/极小窗口、资源指纹和六组parity。临时二进制快照与可执行文件保留build，不提交。[运行指南](web-demo-guide.md)列出当前复跑命令，[v5平衡报告](web-balance-findings-v5.md)列出基线身份、候选、冻结后首次留出结果、尺寸限制与建议。
 
 GitHub Pages发布已测单文件的原始字节；网站发布记录与线上验证见[Pages指南](github-pages.md)。
+
+线上v5部署成功，三尺寸实际Chrome检查34/34通过，HTTPS响应与此处最终HTML逐字一致；部署身份和原始线上证据见[Pages指南](github-pages.md)。可选v5目录/ZIP已实际打包，包内HTML亦与最终验收文件逐字一致。

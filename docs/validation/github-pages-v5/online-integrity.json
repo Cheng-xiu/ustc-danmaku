@@ -1,0 +1,25 @@
+{
+  "url": "https://cheng-xiu.github.io/ustc-danmaku/",
+  "httpStatus": 200,
+  "deploymentStatus": 200,
+  "htmlBytes": 1145405,
+  "htmlSha256": "7c71994fa81c9007b9e13a1f736bf2db69286f04d5deb8799feba1a50d98542c",
+  "matchesTestedAndCommittedHtml": true,
+  "deployment": {
+    "repository": "Cheng-xiu/ustc-danmaku",
+    "publisher": "scripts/publish-pages.mjs",
+    "source_commit": "ce07fc266335f6afae1e23d30b960e8e3465b061",
+    "html_sha256": "7c71994fa81c9007b9e13a1f736bf2db69286f04d5deb8799feba1a50d98542c",
+    "html_bytes": 1145405
+  },
+  "publishedCommit": "b9260dfa4d2d0c92003f832b134d0f24f913ffd1",
+  "workflow": {
+    "id": 37637302206,
+    "name": "pages build and deployment",
+    "status": "completed",
+    "conclusion": "success",
+    "html_url": "https://github.com/Cheng-xiu/ustc-danmaku/actions/runs/37637302206",
+    "head_sha": "b9260dfa4d2d0c92003f832b134d0f24f913ffd1"
+  },
+  "checkedAt": "2026-10-07T14:32:47.062025+00:00"
+}

@@ -37,3 +37,13 @@ node scripts/publish-pages.mjs
 发布脚本同一来源重复运行返回 `unchanged: true`，发布提交保持不变。原始证据见 [validation/github-pages](validation/github-pages/)；这里只部署现有 v4 游戏，没有新增玩法。后续说明与证据提交不需要重新发布相同的游戏文件。
 
 [GitHub 官方发布源说明](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)。
+
+## v5 更新上线记录
+
+2026-10-07 的[v5构建与部署](https://github.com/Cheng-xiu/ustc-danmaku/actions/runs/37637302206)成功。游戏来源提交为`ce07fc266335f6afae1e23d30b960e8e3465b061`，发布提交为`b9260dfa4d2d0c92003f832b134d0f24f913ffd1`。源分支后续文档提交不改变已发布游戏身份。
+
+当前配置5、ABI4，顶部能量/共享CD、开局技能介绍、场外指针和四招差异已上线。在线HTML返回200，1,145,405字节，SHA256为`7c71994fa81c9007b9e13a1f736bf2db69286f04d5deb8799feba1a50d98542c`，与1191项最终离线检查所测文件、仓库HTML和deployment.json一致。
+
+实际Chrome154在1440×900、1024×768、390×844在线检查34/34通过：各自核对响应字节、核心与费用、菜单说明、开始与顶栏/战场比例、鼠标移入HUD继续朝方向移动、键盘覆盖、环弹扣能/CD/实际发弹、暂停冻结及重开。运行异常、资源失败和HTTP错误均0。完整四招、清波与120tick出生预告的离线结果见[当前工程报告](web-demo-validation.md)，网站发布同一份已测字节。
+
+线上复跑命令为`node tests/web/pages-smoke.mjs`。需要Chrome及正常网络；本机必须代理时可临时传PAGES_QA_PROXY，不把本机代理或令牌保存到仓库。证据保存在[validation/github-pages-v5](validation/github-pages-v5/)，首次v4上线证据仍独立保留。
