@@ -1,0 +1,500 @@
+{
+  "baseCommit": "f4bdd9dbb67440c49f21eb64459f1259f69933b0",
+  "passed": true,
+  "nativeAndReferenceFiles": [
+    {
+      "before": "ai/student_bot.c",
+      "after": "packages/core/ai/student_bot.c",
+      "sha256": "0ae7c1fb4061067c7850fcc6cb4072e5acf59c82631a57a10aced9f8935464ac",
+      "pass": true
+    },
+    {
+      "before": "ai/student_bot.h",
+      "after": "packages/core/ai/student_bot.h",
+      "sha256": "69392876d5f5cb3a3a8414c47ce248cbd70ee7e0362bbd70ec959c08bc6fa58a",
+      "pass": true
+    },
+    {
+      "before": "core/actors.c",
+      "after": "packages/core/core/actors.c",
+      "sha256": "653b3fd4d0fd68e44b516011ade324d821bf16656c3b4729cc06eabf413bba33",
+      "pass": true
+    },
+    {
+      "before": "core/attack.c",
+      "after": "packages/core/core/attack.c",
+      "sha256": "8bb75a602b28ab4fa7c2bbbef448395ea40fe4dc71ba2ec4a465536235da9ea0",
+      "pass": true
+    },
+    {
+      "before": "core/attack.h",
+      "after": "packages/core/core/attack.h",
+      "sha256": "80f852718f7b0fab9c293073f10650fbecbfad958d4efc605c48d8371c027816",
+      "pass": true
+    },
+    {
+      "before": "core/collision.c",
+      "after": "packages/core/core/collision.c",
+      "sha256": "39a05660b431dc9fbce9c3fbd5a93bb8fb68f425d98a520f82fa661fdccd5840",
+      "pass": true
+    },
+    {
+      "before": "core/demo_base.h",
+      "after": "packages/core/core/demo_base.h",
+      "sha256": "582cf1e9f0daff3a076e29179b709c20d8df9b01b0b583f089bc73b1b0340b71",
+      "pass": true
+    },
+    {
+      "before": "core/demo_config.c",
+      "after": "packages/core/core/demo_config.c",
+      "sha256": "4766a5b415f4ad4867a547522bfd9d5bd3a7dd8bf5e406ab20586a373d339dc5",
+      "pass": true
+    },
+    {
+      "before": "core/field_config.c",
+      "after": "packages/core/core/field_config.c",
+      "sha256": "f0cf185d4568d1f10e489b06dfd3a4ba500e44af26c4bc422da4e3210e09822f",
+      "pass": true
+    },
+    {
+      "before": "core/field_config.h",
+      "after": "packages/core/core/field_config.h",
+      "sha256": "f167ef46856742a7fd1adf3e28650d00395028ff30405b3e724847a9e536782a",
+      "pass": true
+    },
+    {
+      "before": "core/pattern_aim.c",
+      "after": "packages/core/core/pattern_aim.c",
+      "sha256": "00fa638eb9ad9886b6bd03c5cfb314f8638b7078d878783f93c59b85038c5162",
+      "pass": true
+    },
+    {
+      "before": "core/pattern_aim.h",
+      "after": "packages/core/core/pattern_aim.h",
+      "sha256": "ac84383cbcba4627ac5c42bd757d8ce880d242cf94c40a09d31ddc2bdd20406c",
+      "pass": true
+    },
+    {
+      "before": "core/pattern_course.c",
+      "after": "packages/core/core/pattern_course.c",
+      "sha256": "9bc9f29d51ef3a381f8467919ec0a6a04ccb10aa68ff21117adc85c5ab3cea56",
+      "pass": true
+    },
+    {
+      "before": "core/pattern_course.h",
+      "after": "packages/core/core/pattern_course.h",
+      "sha256": "a0d4b595473bd5a6006dae7411c1d1cdccc79f8d58139e160374062ada5e37b5",
+      "pass": true
+    },
+    {
+      "before": "core/pattern_mine.c",
+      "after": "packages/core/core/pattern_mine.c",
+      "sha256": "117dc27d4bdbd2f869ae0611d916f7dd113d93991062bafa4f0940f06d1f2901",
+      "pass": true
+    },
+    {
+      "before": "core/pattern_mine.h",
+      "after": "packages/core/core/pattern_mine.h",
+      "sha256": "0fca388dfa96a8a42f95d9e5b9f6204691683b120cd1ec9db943710913e08bf6",
+      "pass": true
+    },
+    {
+      "before": "core/pattern_ring.c",
+      "after": "packages/core/core/pattern_ring.c",
+      "sha256": "2ce42b5fe03a04221908bfe3ae14aeee56830728d6b3c9fad926854c35b3fc31",
+      "pass": true
+    },
+    {
+      "before": "core/pattern_ring.h",
+      "after": "packages/core/core/pattern_ring.h",
+      "sha256": "18881ee25efc9b3364d34fcb1ff77feb1b22487ae16396c8999d59362c98380c",
+      "pass": true
+    },
+    {
+      "before": "core/pattern_shower.c",
+      "after": "packages/core/core/pattern_shower.c",
+      "sha256": "52fee5a24f2f3f42b4b07f3e43a41833d068f350e58c0723283c91d8a86f7a26",
+      "pass": true
+    },
+    {
+      "before": "core/pattern_shower.h",
+      "after": "packages/core/core/pattern_shower.h",
+      "sha256": "f0b7350f468e748c56b51274824a5c4af0eb17ebb7d2dbb1a4696b07ca9ceb2c",
+      "pass": true
+    },
+    {
+      "before": "core/patterns.c",
+      "after": "packages/core/core/patterns.c",
+      "sha256": "1d8a0e36cb5d77e5f768468d813ea11c97a4bd682ed87cea64379a8a4866bcd5",
+      "pass": true
+    },
+    {
+      "before": "core/patterns.h",
+      "after": "packages/core/core/patterns.h",
+      "sha256": "042a8d121852b4bf683253d6c622835c0e7b264ebce5ef402985058cdaeadb9d",
+      "pass": true
+    },
+    {
+      "before": "core/projectiles.c",
+      "after": "packages/core/core/projectiles.c",
+      "sha256": "f2ad3ad38ad02c9212847aecee3bc17e10fee3c6c004914625bef199571bc5b0",
+      "pass": true
+    },
+    {
+      "before": "core/projectiles.h",
+      "after": "packages/core/core/projectiles.h",
+      "sha256": "0f601caf7a2a24ddc19e3558410585998dc10e1659184aa9341db245937fc062",
+      "pass": true
+    },
+    {
+      "before": "core/rng.c",
+      "after": "packages/core/core/rng.c",
+      "sha256": "d7394d229c91b4bdaee96e8c4ef0fd39ffe0d12cd801fc7f56bbfbd18f4262bb",
+      "pass": true
+    },
+    {
+      "before": "core/student_fire.c",
+      "after": "packages/core/core/student_fire.c",
+      "sha256": "abfd255e9979d3e24241134cc7d2f56d54ac5427c3b37ac62268e5af51e015e0",
+      "pass": true
+    },
+    {
+      "before": "core/student_fire.h",
+      "after": "packages/core/core/student_fire.h",
+      "sha256": "4410a8ca924bb9d80f02b579c6be8d0cca2fa341859b94fd6708d543ba4327f6",
+      "pass": true
+    },
+    {
+      "before": "core/world.c",
+      "after": "packages/core/core/world.c",
+      "sha256": "6a7fdb2938f6ca62018860512a8e0a2e67eaad249b9eee6147350594341b571e",
+      "pass": true
+    },
+    {
+      "before": "core/world.h",
+      "after": "packages/core/core/world.h",
+      "sha256": "26c7b8672e8463a2ea1885d5436b1ec8f1819ae1a01289e921076afdd43d59da",
+      "pass": true
+    },
+    {
+      "before": "demo/ustc-danmaku.html",
+      "after": "demo/ustc-danmaku.html",
+      "sha256": "9de27925103b644236b736e635932be215ecd0440d095311657c08673d22680d",
+      "pass": true
+    },
+    {
+      "before": "game_main.cpp",
+      "after": "apps/desktop/game_main.cpp",
+      "sha256": "01e9f4d36677c583a2409ad6845b6f3abfb278b959f7e752533348e5429b1e6a",
+      "pass": true
+    },
+    {
+      "before": "platform/input_win.cpp",
+      "after": "apps/desktop/platform/input_win.cpp",
+      "sha256": "3855ebd35cd4fe4254c0d9d8fd665289c458416818ab6feadedbfaf62fa2d7d8",
+      "pass": true
+    },
+    {
+      "before": "platform/input_win.h",
+      "after": "apps/desktop/platform/input_win.h",
+      "sha256": "4e0f89263d4ba280a1b4d1af3c0d1b4b2d061b8f50cde4a064c82063a4caa65d",
+      "pass": true
+    },
+    {
+      "before": "references/project-spec-v3.1.pdf",
+      "after": "references/project-spec-v3.1.pdf",
+      "sha256": "1668d0d3d62a8fa991f6822b85d101925ef434bb8c139370abcace2f6b3b4f7a",
+      "pass": true
+    },
+    {
+      "before": "render/hud.cpp",
+      "after": "apps/desktop/render/hud.cpp",
+      "sha256": "639cb1ef1ccd0395d059ebb97e1bd2693fb4365dcc23b6cbb88f885660076ec3",
+      "pass": true
+    },
+    {
+      "before": "render/hud.h",
+      "after": "apps/desktop/render/hud.h",
+      "sha256": "c8ee4a8d7ec029d9f209b93e1c7161e2c6beaf7cff4503110b8b29494b3165a3",
+      "pass": true
+    },
+    {
+      "before": "render/scene.cpp",
+      "after": "apps/desktop/render/scene.cpp",
+      "sha256": "9189c3bee22c162bc6e6f63bcc8ff18191d270b976db1e336aeff9e80334fdfb",
+      "pass": true
+    },
+    {
+      "before": "render/scene.h",
+      "after": "apps/desktop/render/scene.h",
+      "sha256": "80472f876ac1d32dcf508c5b70b771433d45a4ff82818c52f32d5464394d3709",
+      "pass": true
+    },
+    {
+      "before": "sim/log.c",
+      "after": "apps/sim/log.c",
+      "sha256": "3bec13037b4f34ab124a73a8f63b5af7fc569005034287378867c904e02b3b24",
+      "pass": true
+    },
+    {
+      "before": "sim/log.h",
+      "after": "apps/sim/log.h",
+      "sha256": "0e56d77128dfba79aca8fa19ab13659679876567d3d72666e55fcb44491537d9",
+      "pass": true
+    },
+    {
+      "before": "sim/main.c",
+      "after": "apps/sim/main.c",
+      "sha256": "b48f47ed8c37d58806b40dbf4fa4643be31ef28d2a0bcf7aabc8e0f6deb472af",
+      "pass": true
+    },
+    {
+      "before": "tests/test_actors.c",
+      "after": "tests/test_actors.c",
+      "sha256": "0e6a6beb9eefe24e7386274a0832251c8e6f57c6d3492c34aea47fabba729d07",
+      "pass": true
+    },
+    {
+      "before": "tests/test_aim_release.c",
+      "after": "tests/test_aim_release.c",
+      "sha256": "38f47938d4b5840443e4ffb6df038b3805e17163e0ea433aec6755487e30c5f1",
+      "pass": true
+    },
+    {
+      "before": "tests/test_attack.c",
+      "after": "tests/test_attack.c",
+      "sha256": "96cb7bb5b165f0fb3be9467fcbf9f3fa64a608e1ac2ad71a98ed12f4a4f5bc64",
+      "pass": true
+    },
+    {
+      "before": "tests/test_collision.c",
+      "after": "tests/test_collision.c",
+      "sha256": "4ef99194a1af573317858631a6576ac71aad83583d68ba4f39e4324c863af633",
+      "pass": true
+    },
+    {
+      "before": "tests/test_manual_aim.c",
+      "after": "tests/test_manual_aim.c",
+      "sha256": "3cfa395b7cf9850bbe8210eaf41f964a98c4f67be4b6e508812cf5f61d5f2266",
+      "pass": true
+    },
+    {
+      "before": "tests/test_pattern_roles.c",
+      "after": "tests/test_pattern_roles.c",
+      "sha256": "d60b6988e4a724794f2e3d5fef1f016982f036ea7b1abb094a99a2440a06f984",
+      "pass": true
+    },
+    {
+      "before": "tests/test_pattern_shower.c",
+      "after": "tests/test_pattern_shower.c",
+      "sha256": "38946e3b458204384c9add5f25fe5f31ffe5c0d6ceb167be2817aa88c66ac75b",
+      "pass": true
+    },
+    {
+      "before": "tests/test_projectiles.c",
+      "after": "tests/test_projectiles.c",
+      "sha256": "62c98b6fb6d79a3fe7148208ad0a3ea35c2b6d6d69f74f6957add041cb48dbc5",
+      "pass": true
+    },
+    {
+      "before": "tests/test_rng.c",
+      "after": "tests/test_rng.c",
+      "sha256": "67be036db1cf8c03e4fbdebc06b74314d7d92eead167d089271690170686fb12",
+      "pass": true
+    },
+    {
+      "before": "tests/test_student_fire.c",
+      "after": "tests/test_student_fire.c",
+      "sha256": "ec54cbc2eec0ebb9c68cd1d04d90558bc1929ae59bfd7ca6c7cca072d3d36949",
+      "pass": true
+    },
+    {
+      "before": "tests/web/balance_probe.c",
+      "after": "tests/web/balance_probe.c",
+      "sha256": "368677116c17a7487f8af2278d4b1e67ea79989f7996e9dea17d1edbfd9a3f7d",
+      "pass": true
+    },
+    {
+      "before": "tests/web/endless_replay.c",
+      "after": "tests/web/endless_replay.c",
+      "sha256": "ad90acac1b06c0f914af0c6032aca7b2adc5b04152c29c8229374a74f49dbded",
+      "pass": true
+    },
+    {
+      "before": "tests/web/native_replay.c",
+      "after": "tests/web/native_replay.c",
+      "sha256": "d4c434269f502be745db3c0312563863a2e71786a78e0fa43b26598f6c875b55",
+      "pass": true
+    },
+    {
+      "before": "tests/web/playability_probe.c",
+      "after": "tests/web/playability_probe.c",
+      "sha256": "6f24813424b2d2765f9abc4cba0139e47fd448d4bb15de957525dbf41eea944b",
+      "pass": true
+    },
+    {
+      "before": "tests/web/test_core_regression.c",
+      "after": "tests/web/test_core_regression.c",
+      "sha256": "c7677acdd509910e9e6646428716e14de3d69fdcacc74818fdcc166cf45b833c",
+      "pass": true
+    },
+    {
+      "before": "tests/web/test_endless.c",
+      "after": "tests/web/test_endless.c",
+      "sha256": "17e0270b3c27627b2b28b95d96ac706c190e537dea098869598a9ad472bfde45",
+      "pass": true
+    },
+    {
+      "before": "tests/web/test_field_size.c",
+      "after": "tests/web/test_field_size.c",
+      "sha256": "c41576dfa9b7363539e8555eb3bcca7a052cc309241e548875e6ca5e1b28ae0a",
+      "pass": true
+    },
+    {
+      "before": "wasm/bridge_probe.c",
+      "after": "packages/wasm/bridge_probe.c",
+      "sha256": "791d299c0d2a5f3569c65ef7558a24c70d59410537b0341528a013df54778ded",
+      "pass": true
+    },
+    {
+      "before": "wasm/demo_bridge.c",
+      "after": "packages/wasm/demo_bridge.c",
+      "sha256": "75d0e2b4725af80d7b4df6d167a2757cb27b8a436ea8d606519126b066f55d37",
+      "pass": true
+    },
+    {
+      "before": "wasm/demo_bridge.h",
+      "after": "packages/wasm/demo_bridge.h",
+      "sha256": "7488888264c15e32db47584d24fb19d0c93daa04997b3e69bd51fc0566f1f2dc",
+      "pass": true
+    },
+    {
+      "before": "web/assets/ustc-emblem.jpg",
+      "after": "apps/web/assets/ustc-emblem.jpg",
+      "sha256": "f18400d73b532fad6752b756d608e63717cd495f8f8a72a29f3b7e9ebad50663",
+      "pass": true
+    }
+  ],
+  "webFiles": [
+    {
+      "before": "web/bench.html",
+      "after": "apps/web/bench.html",
+      "gitBlob": "d7ba2e6c7b38f043e589b1da9a47046c4da3fd80",
+      "pass": true
+    },
+    {
+      "before": "web/index.html",
+      "after": "apps/web/index.html",
+      "gitBlob": "d3245ff5f3d7957a836dbc57d1efd152d08250d8",
+      "pass": true
+    },
+    {
+      "before": "web/src/bench.ts",
+      "after": "apps/web/src/bench.ts",
+      "gitBlob": "c3dbb31f1fb4d34bb82d1d92f46e8ee278a9dbe2",
+      "pass": true
+    },
+    {
+      "before": "web/src/input/browserInput.ts",
+      "after": "apps/web/src/input/browserInput.ts",
+      "gitBlob": "14348c0fe98fcb5450786caa13a52a5cd1867562",
+      "pass": true
+    },
+    {
+      "before": "web/src/main.ts",
+      "after": "apps/web/src/main.ts",
+      "gitBlob": "9da6b7796871dffa8a15de0ab01f5fe8f93ed57f",
+      "pass": true
+    },
+    {
+      "before": "web/src/render/aimPreview.ts",
+      "after": "apps/web/src/render/aimPreview.ts",
+      "gitBlob": "f5ede36070348b6b908c8de9f08909cfe979e8d6",
+      "pass": true
+    },
+    {
+      "before": "web/src/render/projectiles.ts",
+      "after": "apps/web/src/render/projectiles.ts",
+      "gitBlob": "f4e49aaf404650f01e3297b8f5a76fbfecad6f78",
+      "pass": true
+    },
+    {
+      "before": "web/src/render/scene.ts",
+      "after": "apps/web/src/render/scene.ts",
+      "gitBlob": "d9f1581505efe2d5ca59477e1548deaa073babca",
+      "pass": true
+    },
+    {
+      "before": "web/src/render/warnings.ts",
+      "after": "apps/web/src/render/warnings.ts",
+      "gitBlob": "3d72c9891bfef58d629414fb93647de0f1aa2379",
+      "pass": true
+    },
+    {
+      "before": "web/src/runtime/gameLoop.ts",
+      "after": "apps/web/src/runtime/gameLoop.ts",
+      "gitBlob": "fe211b125b05dfe8ebd0c42512e6194ebbabe550",
+      "pass": true
+    },
+    {
+      "before": "web/src/style.css",
+      "after": "apps/web/src/style.css",
+      "gitBlob": "5e979313a8a4eed7cca6a37d7aec34f5b9fe600c",
+      "pass": true
+    },
+    {
+      "before": "web/src/types.ts",
+      "after": "apps/web/src/types.ts",
+      "gitBlob": "45ea817c6d77815aded9344fdf48b33649d2c9b0",
+      "pass": true
+    },
+    {
+      "before": "web/src/ui/hud.css",
+      "after": "apps/web/src/ui/hud.css",
+      "gitBlob": "f863a176d2bf27d633d07cfed1481a668a49f73b",
+      "pass": true
+    },
+    {
+      "before": "web/src/ui/hud.ts",
+      "after": "apps/web/src/ui/hud.ts",
+      "gitBlob": "5667c355ce575d164bdcb64c621fbcb72e216165",
+      "pass": true
+    },
+    {
+      "before": "web/src/wasm/client.ts",
+      "after": "apps/web/src/wasm/client.ts",
+      "gitBlob": "92f2638f8a548d797718ff48211f9adbc6049fd9",
+      "pass": true
+    },
+    {
+      "before": "web/tsconfig.json",
+      "after": "apps/web/tsconfig.json",
+      "gitBlob": "47fb6772178be25056bb69de74d04dfc17220295",
+      "pass": true
+    },
+    {
+      "before": "web/vite.config.ts",
+      "after": "apps/web/vite.config.ts",
+      "gitBlob": "4dc8e0c457343a22ccabf9eb9e9787d755114fee",
+      "pass": true
+    }
+  ],
+  "dependencyCount": 81,
+  "thirdPartyVersionsUnchanged": true,
+  "sourcePackage": {
+    "path": "build/monorepo-source-package-final",
+    "files": 264,
+    "soleLock": "package-lock.json",
+    "excludedCaches": true,
+    "existingOutputRefused": true,
+    "manifestUnchangedOnRefusal": true,
+    "sourceHashesVerified": true,
+    "existingBinaryHashesVerified": true,
+    "existingBinaryProvenance": "existing-unverified"
+  },
+  "primaryTestSha256": "c05d035f60c58b7ad9fdeaca7e6db526397cddc5d6e2ae2a5e85ab4b582f9c51",
+  "pdfSha256": "1668d0d3d62a8fa991f6822b85d101925ef434bb8c139370abcace2f6b3b4f7a",
+  "wasmSha256": "9dbd096c2eac3792de2c22b5af54725591fd99502f6239b16a41257a13c21b93",
+  "htmlSha256": "9de27925103b644236b736e635932be215ecd0440d095311657c08673d22680d",
+  "htmlByteIdenticalToPublishedDelivery": true
+}

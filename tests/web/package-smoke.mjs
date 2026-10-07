@@ -1,4 +1,4 @@
-import { chromium } from '../../web/node_modules/@playwright/test/index.mjs';
+import { chromium } from '@playwright/test';
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import path from 'node:path';

@@ -1,4 +1,4 @@
-import { chromium } from '../../web/node_modules/@playwright/test/index.mjs';
+import { chromium } from '@playwright/test';
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import path from 'node:path';

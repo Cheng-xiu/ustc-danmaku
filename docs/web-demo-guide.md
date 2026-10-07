@@ -25,35 +25,40 @@
 
 ## 构建
 
-需要 Node 22.12+、npm、固定 Emscripten 6.0.11。从仓库根执行：
+需要 Node 22.12+、npm 10+、固定 Emscripten 6.0.11。原生回归另需 CMake 3.16+ 和 C/C++ 编译器；当前 Windows 脚本可使用 MinGW，浏览器验收使用本机 Chrome。从仓库根执行：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts/setup-web-toolchain.ps1
-powershell -ExecutionPolicy Bypass -File scripts/build-wasm.ps1
-Set-Location web
 npm.cmd ci
+npm.cmd run setup:wasm
 npm.cmd run build
-Set-Location ..
-node scripts/build-standalone.mjs demo/ustc-danmaku.html
 ```
 
-修改 C 后必须先重建 Wasm。原生与 Wasm 共用根 CMake 的16个C/AI源文件，TypeScript只做显示与输入。原始web/index.html需Vite/HTTP；可双击的交付文件是生成后的单文件。
+`setup:wasm` 安装/激活固定 SDK；已安装同版本时无需重复执行。`build` 依次构建共享 C 的 Wasm、`apps/web` 网页和自包含单文件，输出 `build/release/ustc-danmaku-endless.html`。根目录安装后，依赖使用根 `node_modules/`，不在 `apps/web/` 再运行 `npm ci`。
 
-开发时在web目录运行npm.cmd run dev，生产预览用npm.cmd run preview -- --port 4173。最终自包含HTML无需服务器，发布方式见[Pages指南](github-pages.md)。
+原生与 Wasm 读取 `packages/core/sources.txt` 的同一 16 个 C/AI 源文件，TypeScript 只做显示与输入。原始 `apps/web/index.html` 需 Vite/HTTP；可双击交付文件是生成后的单文件。应用和共享包职责、旧路径对应关系见 [monorepo 指南](monorepo.md)。
+
+开发先运行 `npm.cmd run build:wasm`，再运行根 `npm.cmd run dev`；网页生产输出在 `apps/web/dist/`，使用根 `npm.cmd run preview -- --port 4173` 预览。修改 C 后先重建 Wasm。最终单文件无需服务器；已提交交付物为 `demo/ustc-danmaku.html`，更新它前先验收构建输出，发布方式见 [Pages 指南](github-pages.md)。
 
 ## 验证与复跑
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts/build-native.ps1
-./build/native/web_bridge_probe.exe
-node tests/web/compare-core.mjs
-node tests/web/aim-input-probe.mjs
-node tests/web/aim-browser-smoke.mjs demo/ustc-danmaku.html
-node tests/web/aim-endless-smoke.mjs demo/ustc-danmaku.html
+npm.cmd test
 ```
+
+完整入口先构建，再执行原生 CTest、输入、逐 tick Native/Wasm 对照、浏览器和无尽回放；失败会停止后续步骤。已有构建时，可从根逐项复跑：
+
+```powershell
+npm.cmd run build:native
+npm.cmd run test:input
+npm.cmd run test:core
+npm.cmd run test:browser
+npm.cmd run test:endless
+```
+
+迁移或修改构建/打包入口时，另运行 `npm.cmd run test:monorepo`，检查开发、生产预览、仓库服务器及下载包服务器的真实启动与发招；每次创建一个新试玩包。源码包可运行 `npm.cmd run package:source -- -OutDir build/release-monorepo-source`，选择未存在的输出路径。
 
 浏览器脚本需要本机 Chrome，使用真实鼠标/键盘与受控时钟；QA 只读。aim-browser-smoke 检查三种窗口、按住/松手/取消、四招 C 预瞄与接受后弹道、真实首发弹、HUD 拖出释放、方向稳定、新一次按住对准当前鼠标、缩放和生命周期。aim-endless-smoke 验证当前手动操作的清波和下一波出生。受控时钟用于逻辑验收，不作为 FPS 测量。
 
-当前证据见 [v6 工程验证](web-demo-validation.md) 和 [瞄准规则与玩法建议](validation/aim-v6.md)。此前 [v5 平衡报告](web-balance-findings-v5.md) 记录旧自动方向弹形，不能替代 v6 手动瞄准的真人平衡验收；历史脚本与报告独立保留。
+目录迁移后已按上述根入口重新构建并通过原生、输入、对照、单文件浏览器与无尽回放，见 [迁移复验](monorepo-validation.md)。当前玩法的既有证据见 [v6 工程验证](web-demo-validation.md) 和 [瞄准规则与玩法建议](validation/aim-v6.md)。此前 [v5 平衡报告](web-balance-findings-v5.md) 记录旧自动方向弹形，不能替代 v6 手动瞄准的真人平衡验收；历史脚本与报告独立保留。
 
-可选打包：`powershell -ExecutionPolicy Bypass -File scripts/package-web.ps1 -OutputRoot build/release-v6`。输出目录和ZIP存在时明确拒绝覆盖。加载错误时重新完整构建并使用支持WebAssembly/WebGL的浏览器，不放宽ABI校验。
+可选打包：`npm.cmd run package:web -- -OutputRoot build/release-v6`（先完成构建和验收）。输出目录和 ZIP 存在时明确拒绝覆盖。加载错误时重新完整构建并使用支持 WebAssembly/WebGL 的浏览器，不放宽 ABI 校验。

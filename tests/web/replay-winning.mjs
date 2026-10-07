@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const replay = JSON.parse(readFileSync(root + 'build/web-validation/winning-inputs.json', 'utf8'));
-const factory = (await import(pathToFileURL(root + 'web/public/wasm/demo-core.mjs').href)).default;
+const factory = (await import(pathToFileURL(root + 'apps/web/public/wasm/demo-core.mjs').href)).default;
 const core = await factory();
 if (!core._demo_reset(replay.seed_lo, replay.seed_hi, replay.students)) throw Error('Reset failed');
 for (const [tick, input] of replay.inputs.entries()) {

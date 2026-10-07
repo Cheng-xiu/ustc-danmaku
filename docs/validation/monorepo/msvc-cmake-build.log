@@ -1,0 +1,148 @@
+CMake is re-running because C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/cmake-msvc-monorepo/CMakeFiles/generate.stamp is out-of-date.
+  the file 'C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/CMakeLists.txt'
+  is newer than 'C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/cmake-msvc-monorepo/CMakeFiles/generate.stamp.depend'
+  result='-1'
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26200.
+-- Configuring done (0.1s)
+-- Generating done (0.6s)
+-- Build files have been written to: C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/cmake-msvc-monorepo
+适用于 .NET Framework MSBuild 版本 17.14.60+43b635718
+
+  1>Checking Build System
+  Building Custom Rule C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/CMakeLists.txt
+  demo_config.c
+  field_config.c
+  rng.c
+  collision.c
+  test_attack.c
+  actors.c
+  projectiles.c
+  attack.c
+  attack.c
+  pattern_aim.c
+  patterns.c
+  demo_config.c
+  pattern_aim.c
+  rng.c
+  pattern_ring.c
+  projectiles.c
+  pattern_course.c
+  正在生成代码...
+  pattern_mine.c
+  pattern_shower.c
+  student_fire.c
+  world.c
+  student_bot.c
+  正在生成代码...
+  test_attack.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\test_attack.exe
+  demo_core.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\packages\core\Release\demo_core.lib
+  Building Custom Rule C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/CMakeLists.txt
+  Building Custom Rule C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/CMakeLists.txt
+  Building Custom Rule C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/CMakeLists.txt
+  Building Custom Rule C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/CMakeLists.txt
+  Building Custom Rule C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/CMakeLists.txt
+  Building Custom Rule C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/CMakeLists.txt
+  Building Custom Rule C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/CMakeLists.txt
+  test_student_fire.c
+  bridge_probe.c
+  test_actors.c
+  test_core_regression.c
+  balance_probe.c
+  game_main.cpp
+  demo_bridge.c
+C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\packages\wasm\bridge_probe.c(33,13): warning C4244: “函数”: 从“int”转换到“float”，可能丢失数据 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\web_bridge_probe.vcxproj]
+  正在生成代码...
+C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\packages\wasm\bridge_probe.c(52,13): warning C4244: “函数”: 从“int”转换到“float”，可能丢失数据 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\web_bridge_probe.vcxproj]
+C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\tests\web\balance_probe.c(70,33): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\web_balance_probe.vcxproj]
+C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\tests\web\balance_probe.c(139,69): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\web_balance_probe.vcxproj]
+C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\tests\web\balance_probe.c(150,67): warning C4244: “=”: 从“int”转换到“float”，可能丢失数据 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\web_balance_probe.vcxproj]
+C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\tests\web\balance_probe.c(170,52): warning C4389: “!=”: 有符号/无符号不匹配 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\web_balance_probe.vcxproj]
+  test_rng.c
+  Building Custom Rule C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/CMakeLists.txt
+  test_web_core.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\test_web_core.exe
+  test_pattern_shower.c
+  test_student_fire.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\test_student_fire.exe
+C:\Users\jhsly\.dsh\toolchains\easyx-26.9.25\include\easyx.h(330,3): warning C4201: 使用了非标准扩展: 无名称的结构/联合 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\apps\desktop\ustc_danmaku.vcxproj]
+  (编译源文件“../../apps/desktop/game_main.cpp”)
+  
+C:\Users\jhsly\.dsh\toolchains\easyx-26.9.25\include\easyx.h(343,3): warning C4201: 使用了非标准扩展: 无名称的结构/联合 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\apps\desktop\ustc_danmaku.vcxproj]
+  (编译源文件“../../apps/desktop/game_main.cpp”)
+  
+C:\Users\jhsly\.dsh\toolchains\easyx-26.9.25\include\easyx.h(355,3): warning C4201: 使用了非标准扩展: 无名称的结构/联合 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\apps\desktop\ustc_danmaku.vcxproj]
+  (编译源文件“../../apps/desktop/game_main.cpp”)
+  
+  input_win.cpp
+  native_replay.c
+  test_actors.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\test_actors.exe
+  demo_bridge.c
+  test_rng.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\test_rng.exe
+  正在生成代码...
+  web_bridge_probe.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\web_bridge_probe.exe
+  Building Custom Rule C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/CMakeLists.txt
+  test_projectiles.c
+  Building Custom Rule C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/CMakeLists.txt
+  web_balance_probe.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\web_balance_probe.exe
+  test_manual_aim.c
+C:\Users\jhsly\.dsh\toolchains\easyx-26.9.25\include\easyx.h(330,3): warning C4201: 使用了非标准扩展: 无名称的结构/联合 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\apps\desktop\ustc_danmaku.vcxproj]
+  (编译源文件“../../apps/desktop/platform/input_win.cpp”)
+  
+C:\Users\jhsly\.dsh\toolchains\easyx-26.9.25\include\easyx.h(343,3): warning C4201: 使用了非标准扩展: 无名称的结构/联合 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\apps\desktop\ustc_danmaku.vcxproj]
+  (编译源文件“../../apps/desktop/platform/input_win.cpp”)
+  
+C:\Users\jhsly\.dsh\toolchains\easyx-26.9.25\include\easyx.h(355,3): warning C4201: 使用了非标准扩展: 无名称的结构/联合 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\apps\desktop\ustc_danmaku.vcxproj]
+  (编译源文件“../../apps/desktop/platform/input_win.cpp”)
+  
+  scene.cpp
+  test_pattern_shower.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\test_pattern_shower.exe
+  web_native_replay.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\web_native_replay.exe
+  Building Custom Rule C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/CMakeLists.txt
+  test_pattern_roles.c
+  Building Custom Rule C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/CMakeLists.txt
+  test_manual_aim.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\test_manual_aim.exe
+C:\Users\jhsly\.dsh\toolchains\easyx-26.9.25\include\easyx.h(330,3): warning C4201: 使用了非标准扩展: 无名称的结构/联合 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\apps\desktop\ustc_danmaku.vcxproj]
+  (编译源文件“../../apps/desktop/render/scene.cpp”)
+  
+C:\Users\jhsly\.dsh\toolchains\easyx-26.9.25\include\easyx.h(343,3): warning C4201: 使用了非标准扩展: 无名称的结构/联合 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\apps\desktop\ustc_danmaku.vcxproj]
+  (编译源文件“../../apps/desktop/render/scene.cpp”)
+  
+C:\Users\jhsly\.dsh\toolchains\easyx-26.9.25\include\easyx.h(355,3): warning C4201: 使用了非标准扩展: 无名称的结构/联合 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\apps\desktop\ustc_danmaku.vcxproj]
+  (编译源文件“../../apps/desktop/render/scene.cpp”)
+  
+  hud.cpp
+  test_endless.c
+C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\tests\web\test_endless.c(118,5): warning C4127: 条件表达式是常量 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\test_endless.vcxproj]
+C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\tests\web\test_endless.c(119,5): warning C4127: 条件表达式是常量 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\test_endless.vcxproj]
+  test_projectiles.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\test_projectiles.exe
+  test_pattern_roles.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\test_pattern_roles.exe
+  Building Custom Rule C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/CMakeLists.txt
+  test_field_size.c
+  Building Custom Rule C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/CMakeLists.txt
+C:\Users\jhsly\.dsh\toolchains\easyx-26.9.25\include\easyx.h(330,3): warning C4201: 使用了非标准扩展: 无名称的结构/联合 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\apps\desktop\ustc_danmaku.vcxproj]
+  (编译源文件“../../apps/desktop/render/hud.cpp”)
+  
+C:\Users\jhsly\.dsh\toolchains\easyx-26.9.25\include\easyx.h(343,3): warning C4201: 使用了非标准扩展: 无名称的结构/联合 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\apps\desktop\ustc_danmaku.vcxproj]
+  (编译源文件“../../apps/desktop/render/hud.cpp”)
+  
+C:\Users\jhsly\.dsh\toolchains\easyx-26.9.25\include\easyx.h(355,3): warning C4201: 使用了非标准扩展: 无名称的结构/联合 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\apps\desktop\ustc_danmaku.vcxproj]
+  (编译源文件“../../apps/desktop/render/hud.cpp”)
+  
+  test_endless.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\test_endless.exe
+  正在生成代码...
+  Building Custom Rule C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/CMakeLists.txt
+  test_aim_release.c
+C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\tests\test_aim_release.c(20,66): warning C4244: “=”: 从“unsigned int”转换到“float”，可能丢失数据 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\test_aim_release.vcxproj]
+  main.c
+  log.c
+  test_collision.c
+  Building Custom Rule C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/CMakeLists.txt
+  正在生成代码...
+  test_field_size.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\test_field_size.exe
+  endless_replay.c
+  demo_bridge.c
+  正在生成代码...
+  test_aim_release.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\test_aim_release.exe
+  test_collision.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\test_collision.exe
+  sim.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\sim.exe
+  endless_native_replay.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\endless_native_replay.exe
+  ustc_danmaku.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\ustc_danmaku.exe
+  Building Custom Rule C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/CMakeLists.txt

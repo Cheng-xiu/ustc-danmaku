@@ -2,6 +2,8 @@
 
 更新：2026-10-07。状态：**当前源码为配置 v6、Web ABI v5 的手动瞄准无尽网页 Demo。** 本轮加入按住预瞄、松手释放、空格取消及可转向四招；原生 13/13、手动几何/事务测试与 10 场景累计 36,010 快照 Native/Wasm 对照通过，最终离线 HTML 和真实浏览器验收以 [v6 登记](validation/aim-v6.md) 及 [工程报告](web-demo-validation.md) 为准。单文件离线交付与顶部全屏布局保留。真人、新几何平衡、跨设备及原生图形性能对比仍待开展；v6 已发布 Pages，游戏来源与线上字节证据见 [发布记录](github-pages.md)；后续文档提交不改变部署的游戏身份。
 
+用户随后要求改为 **monorepo**：现版目录为 `apps/web`、`apps/sim`、`apps/desktop` 与 `packages/core`、`packages/wasm`，详细职责和旧路径映射见 [monorepo 指南](monorepo.md)。根 npm workspace 只包含 `@ustc-danmaku/web`，根锁文件和 `packages/core/sources.txt` 分别为依赖与 16 个共享 C/AI 源文件的唯一权威入口。目录迁移保持 cfg6/ABI5 和现有玩法；其构建、原生、输入、对照及最终单文件浏览器复验已通过，见 [迁移复验](monorepo-validation.md)。下表的 v6 通过项仍按既有修订登记。
+
 ## 本轮实施状态
 
 网页迁移与本轮更新由 Codex 及子代理在独立工作树执行；没有使用外部 DeepSeek 路由。以提交 `753a9f6` 的纯 C Demo 为来源，保留原始主工作树及其未提交文件；基线缺陷见 [核心修复](web-core-fixes.md)。配置 v2／ABI v1 是有限局迁移历史，v3／ABI v2 是首版无尽历史，v4／ABI v3 是收敛 GPA 和圆形校徽版本，v5／ABI v4 是自动目标四招与全屏版；当前 v6／ABI v5 为手动方向版。原 v5 规划已 [逐字归档](archive/web-demo-plan-v5-20261007.md)，旧验收按原版本保存。
@@ -18,12 +20,12 @@ v6 沿用费用 **25／50／20／100** 与原预警/攻击时序，几何改为�
 
 | 任务 | 本轮结果 | 实际产物 |
 | --- | --- | --- |
-| M00/W01 | 接口、源文件清单及固定工具链完成 | `wasm/CMakeLists.txt`、构建脚本、[工具链](web-toolchain.md) |
-| W02/W03 | 生命周期、快照、公开预警、无尽/GPA/sized reset；v6增加manual step与独立纯预瞄缓冲区 | `wasm/demo_bridge.c/.h`、[ABI v5](web-abi.md) |
-| W04 | 载入、严格解码、内存复制完成；解码与客户端同文件 | `web/src/wasm/client.ts` |
-| W05/W06 | v6方向缓存、按住/松手/取消、键鼠owner与固定时钟已接入，当前候选真实输入验收通过；隐藏生命周期补充按登记 | `web/src/input/`、`runtime/gameLoop.ts`、`main.ts` |
-| W07/W08/W09 | 圆形校徽、预警/出生预告与顶部HUD保留；C候选预瞄、拖按钮释放、三尺寸与固定提示高度的当前浏览器检查通过 | `web/src/render/aimPreview.ts`、`scene.ts`、`web/src/ui/` |
-| W10 | 各版本原生/Wasm 逐 tick 对照与当前平衡脚本结果按版本记录；旧本机常规与 800 Sprite 夹具采样保留历史身份 | `tests/web/`、`web/bench.html`、`docs/validation/` |
+| M00/W01 | 接口、源文件清单及固定工具链完成 | `packages/wasm/CMakeLists.txt`、构建脚本、[工具链](web-toolchain.md) |
+| W02/W03 | 生命周期、快照、公开预警、无尽/GPA/sized reset；v6增加manual step与独立纯预瞄缓冲区 | `packages/wasm/demo_bridge.c/.h`、[ABI v5](web-abi.md) |
+| W04 | 载入、严格解码、内存复制完成；解码与客户端同文件 | `apps/web/src/wasm/client.ts` |
+| W05/W06 | v6方向缓存、按住/松手/取消、键鼠owner与固定时钟已接入，当前候选真实输入验收通过；隐藏生命周期补充按登记 | `apps/web/src/input/`、`runtime/gameLoop.ts`、`main.ts` |
+| W07/W08/W09 | 圆形校徽、预警/出生预告与顶部HUD保留；C候选预瞄、拖按钮释放、三尺寸与固定提示高度的当前浏览器检查通过 | `apps/web/src/render/aimPreview.ts`、`scene.ts`、`apps/web/src/ui/` |
+| W10 | 各版本原生/Wasm 逐 tick 对照与当前平衡脚本结果按版本记录；旧本机常规与 800 Sprite 夹具采样保留历史身份 | `tests/web/`、`apps/web/bench.html`、`docs/validation/` |
 | W11 | v6原生13/13、10场景36010快照对照及当前离线浏览器282/282通过；最终hash、死亡/GPA补充与待测范围按登记 | [v6登记](validation/aim-v6.md)、[工程报告](web-demo-validation.md) |
 | W12 | 可双击离线运行的单文件 HTML、可选 HTTP 静态版、指南与空白试玩模板 | `scripts/build-standalone.mjs`、[指南](web-demo-guide.md)、[试玩模板](web-demo-playtest.md) |
 
@@ -37,7 +39,7 @@ v6 沿用费用 **25／50／20／100** 与原预警/攻击时序，几何改为�
 
 用户已提供 `ustc-danmaku-demo-package/` 及同名 ZIP，内含源码和编写、调试记录。本地还存在 `demo/minimal-playable` 分支；规划更新时其已提交 HEAD 为 `753a9f6`。这些是待核对的迁移来源，**不代表 GitHub 主线已包含相同源码，也不代表已独立验收**。旧报告包含修订指纹和未执行项，不能将其结果继承为 Web 验收。
 
-实施母代理先核实当前源码与包的差异、未提交修改、构建入口和历史失败，选定并记录一个可复现的基线。优先复用 `core/`、`ai/`，不得只因换前端就重新编写碰撞、四招、AI 或胜负规则。若当前 checkout 尚无 Demo 源码，先从已提供来源核对并纳入基线，再开始网页任务；不要照旧提示词从零再造游戏。
+实施母代理先核实当前源码与包的差异、未提交修改、构建入口和历史失败，选定并记录一个可复现的基线。优先复用 `packages/core/core/`、`packages/core/ai/`，不得只因换前端就重新编写碰撞、四招、AI 或胜负规则。若当前 checkout 尚无 Demo 源码，先从已提供来源核对并纳入基线，再开始网页任务；不要照旧提示词从零再造游戏。
 
 本轮不要求完成机器学习训练平台、模型训练、联网、排行榜、课程全量计分、GA、旧 Q 表、技能场或擦弹系统。网站对外托管是独立交付步骤；当前优先交付无需安装工具和启动服务器的单文件 HTML，源码开发仍保留 HTTP 静态版。
 
@@ -45,14 +47,14 @@ v6 沿用费用 **25／50／20／100** 与原预警/攻击时序，几何改为�
 
 | 层 | 方案与职责 | 边界 |
 | --- | --- | --- |
-| 游戏核心 | C99/C11；既有 `core/*.c` 与 `ai/*.c` | 唯一裁决运动、扫掠命中、能量、攻击计划、学生脚本、随机数和终局 |
+| 游戏核心 | C99/C11；既有 `packages/core/core/*.c` 与 `packages/core/ai/*.c` | 唯一裁决运动、扫掠命中、能量、攻击计划、学生脚本、随机数和终局 |
 | 网页核心构建 | Emscripten 将同一批 C 源码编译成 Wasm | 不包含 EasyX、Win32 输入、窗口或原生日志文件代码 |
 | 跨语言适配 | 薄 C 导出层 + TypeScript 客户端 | 明确版本、容量、有效期和错误状态；按批读取显示数据 |
 | 游戏画面 | PixiJS 8.x，首版使用 WebGL | 只读显示快照；角色、弹幕、预警和视觉反馈均不裁决物理 |
 | 网页交互 | TypeScript；菜单和 HUD 优先 HTML/CSS | 输入、布局、暂停、开始、重开和错误提示；不另写游戏规则 |
 | 原生仿真与后续训练 | 同一 C 核心的原生无界面构建 | 可以按逻辑 tick 加速、重放和并行；不依赖 Pixi Ticker 或显示刷新率 |
 
-前端使用 Vite；已冻结 PixiJS 8.22.0、TypeScript 5.9.3、Vite 7.1.12、Emscripten 6.0.11，实测 Node 24.19.0、npm 11.17.0，提交锁文件及构建命令。不得混用 PixiJS v7 与 v8 的初始化、Ticker 和粒子 API。
+前端使用 Vite；已冻结 PixiJS 8.22.0、TypeScript 5.9.3、Vite 7.1.12、Emscripten 6.0.11，实测 Node 24.19.0、npm 11.17.0，最低入口为 Node 22.12+/npm 10+。从根 `npm ci` 安装，提交唯一根锁文件；`npm run build` 依次构建 Wasm、Web、单文件，`npm test` 执行完整复验。分步命令见 monorepo 指南，不在应用内另建锁或另行安装。不得混用 PixiJS v7 与 v8 的初始化、Ticker 和粒子 API。
 
 PixiJS 是 2D 渲染引擎，游戏流程需由项目组织；UI、音频等可按需要接入生态库。首版不引入通用 ECS、编辑器、重型 UI 框架或自制插件系统。若加入音频，遵守浏览器用户手势解锁要求，音效失败不阻塞游戏。
 
@@ -77,7 +79,7 @@ PixiJS 是 2D 渲染引擎，游戏流程需由项目组织；UI、音频等可�
 
 ### C/Wasm 接口
 
-母代理在并行前冻结接口文档和 C/TS 共有类型。当前桥接提供初始化/重置、按尺寸初始化 `demo_reset_sized`、释放、固定 tick 推进、批量快照、`demo_step_aim`手动方向释放及`demo_preview`/`demo_preview_size`独立预瞄。原生和 Wasm 共用冻结的 16 个 C/AI 源文件，v6新增 `core/pattern_aim.c`，与既有 `core/field_config.c`一并由纯C编译。实际字段、导出和有效期以 [ABI v5](web-abi.md) 为准。
+母代理在并行前冻结接口文档和 C/TS 共有类型。当前桥接提供初始化/重置、按尺寸初始化 `demo_reset_sized`、释放、固定 tick 推进、批量快照、`demo_step_aim`手动方向释放及`demo_preview`/`demo_preview_size`独立预瞄。原生和 Wasm 共用 `packages/core/sources.txt` 冻结的 16 个 C/AI 源文件，v6新增 `packages/core/core/pattern_aim.c`，与既有 `packages/core/core/field_config.c`一并由纯C编译。CMake 和脚本读取该清单，不另写完整列表。实际字段、导出和有效期以 [ABI v5](web-abi.md) 为准。
 
 - 既有 `WorldView` 含指向核心内部的 C 指针，不能直接作为 JavaScript 对象。适配层导出活跃实体的连续数组、数量、血量/能量/攻击状态、公开预警和事件；不导出隐藏随机流或未公开的未来状态。已经公布的预警所需后续波次几何与时序允许只读投影；显示快照与 AI 观察分别规定可见字段。
 - 固定容量与缓冲有效期写入契约；容量不足、版本不符或数据损坏须报错，不静默截断。`uint64_t` seed/实体 ID/计划 ID 使用高低两个 `uint32_t` 或明确 BigInt 契约，不能无条件转换成 JS `number`。
@@ -116,24 +118,24 @@ PixiJS 是 2D 渲染引擎，游戏流程需由项目组织；UI、音频等可�
 
 | ID | 小任务与单一产出 | 建议实现文件 | 依赖 | 验收要点 |
 | --- | --- | --- | --- | --- |
-| W01 | 可复现 C/Wasm 构建 | `scripts/build-wasm.ps1`、`wasm/CMakeLists.txt` | M00 | 同一核心清单、纯 C 编译；母代理提供的最小核心探针可加载，不用 EasyX |
-| W02 | 生命周期与 tick 桥接 | `wasm/demo_bridge.c` | W01 | 重置、固定步、终局停止、64 位值、边沿与事件汇总 |
-| W03 | 批量快照与公开预警 | `wasm/render_snapshot.c` | W02 | 活跃实体/容量/事件/预警；无 C 指针或隐藏状态泄漏 |
-| W04 | TS 加载与解码 | `web/src/wasm/client.ts`、`decoder.ts` | W03 | 初始化等待、ABI 校验、内存视图有效期、错误提示 |
-| W05 | 浏览器输入 | `web/src/input/browserInput.ts` | M00 | hold/release/Space、owner、独立朝向缓存与窗口指针；移动不停、失焦清输入；不计算规则 |
-| W06 | 固定步与页面生命周期 | `web/src/runtime/gameLoop.ts` | W04、W05 | 零/多 tick、事件不丢、暂停、隐藏页面、重开 |
-| W07 | 角色与弹幕绘制 | `web/src/render/scene.ts`、`projectiles.ts` | W04 | 对象复用、稳定身份、显示与核心坐标一致 |
-| W08 | 四招预警/预瞄绘制 | `web/src/render/warnings.ts`、`aimPreview.ts` | W03、W07 | 只读C rays；已接受方向/原点不迁移；拒绝仍显示箭头；不重写算法 |
-| W09 | 顶部 HUD 与开局技能介绍 | `web/src/ui/hud.ts`、`hud.css` | W04、W05 | 明显能量与共享CD/四招/拒绝/生命/暂停/结果一致；按钮走统一输入，其余区域留给战场 |
-| W10 | 原生/Wasm 对照及性能 | `tests/web/` 下明确授权文件、`web/bench/` | W02–W09、母代理整机集成 | 同种子输入逐 tick 对照；800 发压力采样与限制说明 |
+| W01 | 可复现 C/Wasm 构建 | `scripts/build-wasm.ps1`、`packages/wasm/CMakeLists.txt` | M00 | 同一核心清单、纯 C 编译；母代理提供的最小核心探针可加载，不用 EasyX |
+| W02 | 生命周期与 tick 桥接 | `packages/wasm/demo_bridge.c` | W01 | 重置、固定步、终局停止、64 位值、边沿与事件汇总 |
+| W03 | 批量快照与公开预警 | `packages/wasm/render_snapshot.c` | W02 | 活跃实体/容量/事件/预警；无 C 指针或隐藏状态泄漏 |
+| W04 | TS 加载与解码 | `apps/web/src/wasm/client.ts`、`decoder.ts` | W03 | 初始化等待、ABI 校验、内存视图有效期、错误提示 |
+| W05 | 浏览器输入 | `apps/web/src/input/browserInput.ts` | M00 | hold/release/Space、owner、独立朝向缓存与窗口指针；移动不停、失焦清输入；不计算规则 |
+| W06 | 固定步与页面生命周期 | `apps/web/src/runtime/gameLoop.ts` | W04、W05 | 零/多 tick、事件不丢、暂停、隐藏页面、重开 |
+| W07 | 角色与弹幕绘制 | `apps/web/src/render/scene.ts`、`projectiles.ts` | W04 | 对象复用、稳定身份、显示与核心坐标一致 |
+| W08 | 四招预警/预瞄绘制 | `apps/web/src/render/warnings.ts`、`aimPreview.ts` | W03、W07 | 只读C rays；已接受方向/原点不迁移；拒绝仍显示箭头；不重写算法 |
+| W09 | 顶部 HUD 与开局技能介绍 | `apps/web/src/ui/hud.ts`、`hud.css` | W04、W05 | 明显能量与共享CD/四招/拒绝/生命/暂停/结果一致；按钮走统一输入，其余区域留给战场 |
+| W10 | 原生/Wasm 对照及性能 | `tests/web/` 下明确授权文件、`apps/web/bench/` | W02–W09、母代理整机集成 | 同种子输入逐 tick 对照；800 发压力采样与限制说明 |
 | W11 | 独立网页验收 | `docs/web-demo-validation.md`、`web-demo-findings.md` | W10、母代理整机集成 | 干净构建、离线 HTML、实际操作、四招、攻防、清波/GPA/死亡、暂停重开 |
 | W12 | 运行与试玩交付 | `docs/web-demo-guide.md`、`web-demo-playtest.md` | W11、实际产物 | 可复制命令、相对路径静态包、已知问题、待收集试玩 |
 
 波次：M00 → W01/W05 → W02 → W03 → W04 → W06/W07/W09 → W08 → 母代理整机集成 → W10 → W11 → W12。W10 的核心对照可在桥接完成后提前准备，整机性能验收必须等待集成。先集成一招闭环，再补全四招；各任务可用注明来源的夹具独立开发，但验收必须连真实核心。
 
-为避免构建与桥接互等，M00 由母代理提供 `wasm/build_probe.c` 和最小导出清单；W01 仅验收核心探针可构建、加载和调用，不等待完整桥接实现，也不算玩法验收。W02/W03 完成后由母代理更新完整导出清单，再验证正式网页模块。
+为避免构建与桥接互等，M00 由母代理提供 `packages/wasm/build_probe.c` 和最小导出清单；W01 仅验收核心探针可构建、加载和调用，不等待完整桥接实现，也不算玩法验收。W02/W03 完成后由母代理更新完整导出清单，再验证正式网页模块。
 
-母代理独占公共 C 头/TS 类型、规则配置、导出清单、依赖锁文件、前端构建配置、网页入口、公共样式、任务板和共享构建入口。W01 的构建文件须有单独授权，完成后收回写权限。每个文件同一时间一个写入者；孙任务必须是父任务范围内不重叠的小产出。总并发建议最多 4 个，包含母、子、孙。
+母代理独占公共 C 头/TS 类型、规则配置、`packages/core/sources.txt`、导出清单、根 workspace 与唯一锁文件、前端构建配置、网页入口、公共样式、任务板和共享构建入口。W01 的构建文件须有单独授权，完成后收回写权限。每个文件同一时间一个写入者；孙任务必须是父任务范围内不重叠的小产出。总并发建议最多 4 个，包含母、子、孙。
 
 共享 checkout 的分支切换、暂存、提交、推送和回退由母代理统一执行。子/孙不得操作共享 index，不得使用 `reset`、`clean` 或 `checkout --` 清理或回退他人修改；使用独立工作树时，在任务卡明确允许的 Git 操作及集成方式。
 
@@ -149,7 +151,7 @@ PixiJS 是 2D 渲染引擎，游戏流程需由项目组织；UI、音频等可�
 
 ## 8. 对后续训练的影响
 
-离线训练继续链接同一 C 核心的原生无界面构建，不让浏览器帧率或暂停决定训练时间。`sim` 脚本回放不是已经完成的 RL 环境；观察、动作、决策周期、奖励、重置、终止/实验截断、批量环境和模型导入仍须在后续阶段设计。
+离线训练继续链接同一 C 核心的原生无界面构建，不让浏览器帧率或暂停决定训练时间。`apps/sim/` 脚本回放不是已经完成的 RL 环境；观察、动作、决策周期、奖励、重置、终止/实验截断、批量环境和模型导入仍须在后续阶段设计。
 
 渲染快照只用于显示，不能直接代替学习观察。后续训练冻结核心、配置、对手策略和种子分组，依 [机器学习平衡规划](ai-balance-plan.md) 实施；网页用于真人试玩与回放展示。用户后续希望用训练更新更多的 AI 学生提升难度，但本轮仍是脚本学生，训练算法、奖励系数与更新定义尚未实施。技术迁移本身未批准训练方案；用户已另行授权本轮自行调试并平衡四招和人数难度，按证据完成统一配置调整。
 

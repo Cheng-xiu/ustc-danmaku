@@ -61,21 +61,34 @@ if ($Toolchain -eq 'auto') {
 
 if (-not $OutDir) { $OutDir = Join-Path $RepoRoot "build\$Toolchain" }
 $OutDir = [System.IO.Path]::GetFullPath($OutDir)
-if (-not $OutDir.StartsWith([System.IO.Path]::GetFullPath($RepoRoot))) {
+$RepoPrefix = [System.IO.Path]::GetFullPath($RepoRoot).TrimEnd('\', '/') + [System.IO.Path]::DirectorySeparatorChar
+if (-not $OutDir.StartsWith($RepoPrefix, [StringComparison]::OrdinalIgnoreCase)) {
     throw "OutDir must be inside the repository: $OutDir"
 }
-if ($Clean -and (Test-Path $OutDir)) { Remove-Item -Recurse -Force $OutDir }
+if ($Clean -and (Test-Path -LiteralPath $OutDir)) {
+    $ResolvedOutput = [System.IO.Path]::GetFullPath((Resolve-Path -LiteralPath $OutDir).Path)
+    if (-not $ResolvedOutput.StartsWith($RepoPrefix, [StringComparison]::OrdinalIgnoreCase)) {
+        throw 'Refusing to remove an output directory outside the repository.'
+    }
+    Remove-Item -LiteralPath $ResolvedOutput -Recurse -Force
+}
 New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
 
-$CoreSources = @(
-    'core/demo_config.c', 'core/field_config.c', 'core/rng.c', 'core/collision.c', 'core/actors.c',
-    'core/projectiles.c', 'core/attack.c', 'core/patterns.c', 'core/pattern_aim.c',
-    'core/pattern_ring.c', 'core/pattern_course.c', 'core/pattern_mine.c',
-    'core/pattern_shower.c', 'core/student_fire.c', 'core/world.c'
-)
-$AiSources = @('ai/student_bot.c')
-$SimSources = @('sim/main.c', 'sim/log.c')
-$GameSources = @('game_main.cpp', 'platform/input_win.cpp', 'render/scene.cpp', 'render/hud.cpp')
+$CoreRoot = Join-Path $RepoRoot 'packages/core'
+$CoreRelative = @(Get-Content -LiteralPath (Join-Path $CoreRoot 'sources.txt') -Encoding utf8)
+if ($CoreRelative.Count -ne 16 -or @($CoreRelative | Select-Object -Unique).Count -ne 16) {
+    throw 'Expected the shared 16-file C/AI source list.'
+}
+$CoreSources = @($CoreRelative | ForEach-Object {
+    if ($_ -notmatch '^(core|ai)/[A-Za-z0-9_]+\.c$') { throw "Invalid core source: $_" }
+    "packages/core/$_"
+})
+$AiSources = @() # AI 已包含在唯一清单中，不保留第二份构建清单。
+$SimSources = @('apps/sim/main.c', 'apps/sim/log.c')
+$GameSources = @('apps/desktop/game_main.cpp', 'apps/desktop/platform/input_win.cpp',
+    'apps/desktop/render/scene.cpp', 'apps/desktop/render/hud.cpp')
+$AttackUnitSources = @('core/attack.c', 'core/pattern_aim.c', 'core/demo_config.c',
+    'core/rng.c', 'core/projectiles.c') | ForEach-Object { "packages/core/$_" }
 
 function Get-MissingSources([string[]]$Files) {
     $missing = @()
@@ -99,7 +112,7 @@ function Build-MinGW {
         $obj = Join-Path $OutDir (($src -replace '[\\/]', '_') -replace '\.c$', '.o')
         $coreObjs += $obj
         Write-Host "[mingw] cc $src"
-        & $Gcc -std=c11 -O2 -Wall -Wextra -I "$RepoRoot\core" -I "$RepoRoot\ai" -c (Join-Path $RepoRoot $src) -o $obj
+        & $Gcc -std=c11 -O2 -Wall -Wextra -I "$CoreRoot\core" -I "$CoreRoot\ai" -c (Join-Path $RepoRoot $src) -o $obj
         if ($LASTEXITCODE -ne 0) { throw "compile failed: $src" }
     }
 
@@ -109,7 +122,7 @@ function Build-MinGW {
             $obj = Join-Path $OutDir (($src -replace '[\\/]', '_') -replace '\.c$', '.o')
             $simObjs += $obj
             Write-Host "[mingw] cc $src"
-            & $Gcc -std=c11 -O2 -Wall -Wextra -I "$RepoRoot\core" -I "$RepoRoot\ai" -I "$RepoRoot\sim" -c (Join-Path $RepoRoot $src) -o $obj
+            & $Gcc -std=c11 -O2 -Wall -Wextra -I "$CoreRoot\core" -I "$CoreRoot\ai" -I "$RepoRoot\apps\sim" -c (Join-Path $RepoRoot $src) -o $obj
             if ($LASTEXITCODE -ne 0) { throw "compile failed: $src" }
         }
         Write-Host "[mingw] link sim.exe"
@@ -121,8 +134,14 @@ function Build-MinGW {
         $tests = Get-ChildItem (Join-Path $RepoRoot 'tests') -Filter 'test_*.c' -ErrorAction SilentlyContinue
         foreach ($t in $tests) {
             Write-Host "[mingw] test $($t.Name)"
-            & $Gcc -std=c11 -O2 -Wall -Wextra -I "$RepoRoot\core" -I "$RepoRoot\ai" -I "$RepoRoot\tests" `
-                $t.FullName $coreObjs -o (Join-Path $OutDir ($t.BaseName + '.exe'))
+            $testObjects = $coreObjs
+            if ($t.BaseName -eq 'test_attack') {
+                $testObjects = @($AttackUnitSources | ForEach-Object {
+                    Join-Path $OutDir (($_ -replace '[\\/]', '_') -replace '\.c$', '.o')
+                })
+            }
+            & $Gcc -std=c11 -O2 -Wall -Wextra -I "$CoreRoot\core" -I "$CoreRoot\ai" -I "$RepoRoot\tests" `
+                $t.FullName $testObjects -lm -o (Join-Path $OutDir ($t.BaseName + '.exe'))
             if ($LASTEXITCODE -ne 0) { throw "test compile failed: $($t.Name)" }
         }
     }
@@ -147,12 +166,14 @@ function Build-Msvc {
         Write-Host "[msvc] missing core sources: $($missing -join ', ')" -ForegroundColor Yellow
     }
     $allSources = @(($CoreSources + $AiSources) | Where-Object { Test-Path (Join-Path $RepoRoot $_) })
-    $inc = "/I`"$RepoRoot\core`" /I`"$RepoRoot\ai`""
+    $inc = "/I`"$CoreRoot\core`" /I`"$CoreRoot\ai`""
 
     $lines = @()
     $lines += "call `"$vcvars`" >nul"
     $lines += "cd /d `"$RepoRoot`""
-    $lines += "if exist `"$OutDir\*.obj`" del /q `"$OutDir\*.obj`""
+    Get-ChildItem -LiteralPath $OutDir -Filter '*.obj' -File | ForEach-Object {
+        Remove-Item -LiteralPath $_.FullName -Force
+    }
     $lines += "set FAILED=0"
 
     # 1) 核心按 C 编译。逐文件调用 cl：/Fo 只接受单一输出路径，多源文件会报 D8036。
@@ -165,7 +186,7 @@ function Build-Msvc {
     if ($Target -in @('all', 'sim') -and (Get-MissingSources $SimSources).Count -eq 0) {
         foreach ($src in $SimSources) {
             $base = [System.IO.Path]::GetFileNameWithoutExtension($src)
-            $lines += "cl /nologo /TC /std:c11 /O2 /W4 /utf-8 $inc /I`"$RepoRoot\sim`" /Fo`"$OutDir\sim_$base.obj`" /c `"$($src.Replace('/','\'))`" || set FAILED=1"
+            $lines += "cl /nologo /TC /std:c11 /O2 /W4 /utf-8 $inc /I`"$RepoRoot\apps\sim`" /Fo`"$OutDir\sim_$base.obj`" /c `"$($src.Replace('/','\'))`" || set FAILED=1"
         }
         $lines += "link /nologo /OUT:`"$OutDir\sim.exe`" `"$OutDir\core_*.obj`" `"$OutDir\sim_*.obj`" || set FAILED=1"
     }
@@ -175,7 +196,14 @@ function Build-Msvc {
         $tests = Get-ChildItem (Join-Path $RepoRoot 'tests') -Filter 'test_*.c' -ErrorAction SilentlyContinue
         foreach ($t in $tests) {
             $lines += "cl /nologo /TC /std:c11 /O2 /W4 /utf-8 $inc /I`"$RepoRoot\tests`" /Fo`"$OutDir\tobj_$($t.BaseName).obj`" /c `"tests\\$($t.Name)`" || set FAILED=1"
-            $lines += "link /nologo /OUT:`"$OutDir\$($t.BaseName).exe`" `"$OutDir\core_*.obj`" `"$OutDir\tobj_$($t.BaseName).obj`" || set FAILED=1"
+            $testCoreObjects = "`"$OutDir\core_*.obj`""
+            if ($t.BaseName -eq 'test_attack') {
+                $testCoreObjects = ($AttackUnitSources | ForEach-Object {
+                    $base = [System.IO.Path]::GetFileNameWithoutExtension($_)
+                    "`"$OutDir\core_$base.obj`""
+                }) -join ' '
+            }
+            $lines += "link /nologo /OUT:`"$OutDir\$($t.BaseName).exe`" $testCoreObjects `"$OutDir\tobj_$($t.BaseName).obj`" || set FAILED=1"
         }
     }
 
@@ -187,9 +215,12 @@ function Build-Msvc {
         } elseif ($missingGame.Count -gt 0) {
             Write-Host "[msvc] missing game sources: $($missingGame -join ', ')" -ForegroundColor Yellow
         } else {
-            $lines += "cl /nologo /std:c++17 /EHsc /O2 /W4 /DUNICODE /D_UNICODE /utf-8 " +
-                "/I`"$easyxInclude`" /I`"$RepoRoot\core`" /I`"$RepoRoot\ai`" /I`"$RepoRoot\platform`" /I`"$RepoRoot\render`" /c " +
-                (($GameSources | ForEach-Object { "`"$($_.Replace('/','\'))`"" }) -join ' ') + " /Fo`"$OutDir\game_`" || set FAILED=1"
+            foreach ($src in $GameSources) {
+                $base = [System.IO.Path]::GetFileNameWithoutExtension($src)
+                $lines += "cl /nologo /std:c++17 /EHsc /O2 /W4 /DUNICODE /D_UNICODE /utf-8 " +
+                    "/I`"$easyxInclude`" /I`"$CoreRoot\core`" /I`"$CoreRoot\ai`" /I`"$RepoRoot\apps\desktop\platform`" /I`"$RepoRoot\apps\desktop\render`" " +
+                    "/Fo`"$OutDir\game_$base.obj`" /c `"$($src.Replace('/','\'))`" || set FAILED=1"
+            }
             # /SUBSYSTEM:CONSOLE 保留控制台便于诊断；EasyX 仍创建图形窗口
             $lines += "link /nologo /SUBSYSTEM:CONSOLE /OUT:`"$OutDir\ustc_danmaku.exe`" `"$OutDir\core_*.obj`" `"$OutDir\game_*.obj`" " +
                 "/LIBPATH:`"$easyxLibDir`" user32.lib gdi32.lib winmm.lib shell32.lib || set FAILED=1"
@@ -201,7 +232,7 @@ function Build-Msvc {
     $bat = Join-Path $OutDir '_build.bat'
     $lines -join "`r`n" | Set-Content -Path $bat -Encoding ASCII
     Write-Host "[msvc] run $bat"
-    & cmd.exe /c "`"$bat`""
+    & cmd.exe /c "`"$bat`"" | Out-Host
     if ($LASTEXITCODE -ne 0) { throw 'MSVC build failed' }
     return 0
 }
@@ -212,12 +243,17 @@ function Build-CMake([string]$Generator) {
     $cmake = Get-CMakePath
     if (-not $cmake) { throw 'cmake.exe not found' }
     $cmakeArgs = @('-S', $RepoRoot, '-B', $OutDir)
-    if ($Generator) { $cmakeArgs += @('-G', $Generator, '-A', 'x64') }
+    if ($Generator) { $cmakeArgs += @('-G', $Generator) }
+    if ($Generator -like 'Visual Studio*') { $cmakeArgs += @('-A', 'x64') }
+    if ($Generator -eq 'MinGW Makefiles') {
+        $cmakeArgs += @("-DCMAKE_C_COMPILER=$Gcc", "-DCMAKE_CXX_COMPILER=$(Join-Path $MinGWBin 'g++.exe')",
+            "-DCMAKE_MAKE_PROGRAM=$(Join-Path $MinGWBin 'mingw32-make.exe')", '-DDEMO_BUILD_GAME=OFF')
+    }
     if ($EasyXRoot) { $cmakeArgs += "-DEASYX_ROOT=$EasyXRoot" }
     Write-Host "[cmake] $cmake $($cmakeArgs -join ' ')"
-    & $cmake @cmakeArgs
+    & $cmake @cmakeArgs | Out-Host
     if ($LASTEXITCODE -ne 0) { throw 'cmake configure failed' }
-    & $cmake --build $OutDir --config Release
+    & $cmake --build $OutDir --config Release | Out-Host
     if ($LASTEXITCODE -ne 0) { throw 'cmake build failed' }
     return 0
 }

@@ -1,0 +1,874 @@
+{
+  "method": "Actual root npm dev/preview, repository static server, and a freshly built downloadable package. Real browser navigation, keyboard and mouse input, C/Wasm snapshots and resource hashes. Controlled RAF clock is not a performance measurement. No core/world state or RNG injection.",
+  "configVersion": 6,
+  "abiVersion": 5,
+  "startedAt": "2026-10-07T15:58:22.266Z",
+  "checks": [
+    {
+      "name": "package output is fresh and preserves previous deliveries",
+      "passed": true
+    },
+    {
+      "name": "package metadata retains cfg6, ABI5 and all shared C sources",
+      "passed": true
+    },
+    {
+      "name": "package manifest verifies every delivered file",
+      "passed": true
+    },
+    {
+      "name": "packaged standalone preserves the verified game bytes",
+      "passed": true
+    },
+    {
+      "name": "all production dependency licenses are included without workspace links",
+      "passed": true
+    },
+    {
+      "name": "download preserves its web/dist layout and both startup branches",
+      "passed": true
+    },
+    {
+      "name": "root npm dev: requested HTTP port is served",
+      "passed": true,
+      "detail": {
+        "port": 5187
+      }
+    },
+    {
+      "name": "root npm dev: menu boots cfg6 and the release-aware client",
+      "passed": true
+    },
+    {
+      "name": "root npm dev: separate Wasm and module load through HTTP",
+      "passed": true
+    },
+    {
+      "name": "root npm dev: correct Wasm MIME and shared compiled bytes",
+      "passed": true
+    },
+    {
+      "name": "root npm dev: all HTTP resources stay on the selected local origin",
+      "passed": true
+    },
+    {
+      "name": "root npm dev: start enters the actual C world",
+      "passed": true
+    },
+    {
+      "name": "root npm dev: holding selects and draws C candidate rays",
+      "passed": true
+    },
+    {
+      "name": "root npm dev: pre-aim costs no energy and submits no attack",
+      "passed": true
+    },
+    {
+      "name": "root npm dev: movement preserves the mouse-selected angle",
+      "passed": true
+    },
+    {
+      "name": "root npm dev: keyup releases exactly once with its C cost and direction",
+      "passed": true
+    },
+    {
+      "name": "root npm dev: released warning geometry matches preview",
+      "passed": true
+    },
+    {
+      "name": "root npm dev: release clears the selection and preview",
+      "passed": true
+    },
+    {
+      "name": "root npm dev: first C wave emits and does not repeat the release",
+      "passed": true
+    },
+    {
+      "name": "root npm dev: cancellation generates no extra release",
+      "passed": true
+    },
+    {
+      "name": "root npm dev: no runtime, resource or HTTP errors",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "failedRequests": [],
+        "httpErrors": []
+      }
+    },
+    {
+      "name": "root npm preview: requested HTTP port is served",
+      "passed": true,
+      "detail": {
+        "port": 5188
+      }
+    },
+    {
+      "name": "root npm preview: menu boots cfg6 and the release-aware client",
+      "passed": true
+    },
+    {
+      "name": "root npm preview: separate Wasm and module load through HTTP",
+      "passed": true
+    },
+    {
+      "name": "root npm preview: correct Wasm MIME and shared compiled bytes",
+      "passed": true
+    },
+    {
+      "name": "root npm preview: all HTTP resources stay on the selected local origin",
+      "passed": true
+    },
+    {
+      "name": "root npm preview: start enters the actual C world",
+      "passed": true
+    },
+    {
+      "name": "root npm preview: holding selects and draws C candidate rays",
+      "passed": true
+    },
+    {
+      "name": "root npm preview: pre-aim costs no energy and submits no attack",
+      "passed": true
+    },
+    {
+      "name": "root npm preview: movement preserves the mouse-selected angle",
+      "passed": true
+    },
+    {
+      "name": "root npm preview: keyup releases exactly once with its C cost and direction",
+      "passed": true
+    },
+    {
+      "name": "root npm preview: released warning geometry matches preview",
+      "passed": true
+    },
+    {
+      "name": "root npm preview: release clears the selection and preview",
+      "passed": true
+    },
+    {
+      "name": "root npm preview: first C wave emits and does not repeat the release",
+      "passed": true
+    },
+    {
+      "name": "root npm preview: cancellation generates no extra release",
+      "passed": true
+    },
+    {
+      "name": "root npm preview: no runtime, resource or HTTP errors",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "failedRequests": [],
+        "httpErrors": []
+      }
+    },
+    {
+      "name": "repository default static server: requested HTTP port is served",
+      "passed": true,
+      "detail": {
+        "port": 4173
+      }
+    },
+    {
+      "name": "repository default static server: menu boots cfg6 and the release-aware client",
+      "passed": true
+    },
+    {
+      "name": "repository default static server: separate Wasm and module load through HTTP",
+      "passed": true
+    },
+    {
+      "name": "repository default static server: correct Wasm MIME and shared compiled bytes",
+      "passed": true
+    },
+    {
+      "name": "repository default static server: all HTTP resources stay on the selected local origin",
+      "passed": true
+    },
+    {
+      "name": "repository default static server: start enters the actual C world",
+      "passed": true
+    },
+    {
+      "name": "repository default static server: holding selects and draws C candidate rays",
+      "passed": true
+    },
+    {
+      "name": "repository default static server: pre-aim costs no energy and submits no attack",
+      "passed": true
+    },
+    {
+      "name": "repository default static server: movement preserves the mouse-selected angle",
+      "passed": true
+    },
+    {
+      "name": "repository default static server: keyup releases exactly once with its C cost and direction",
+      "passed": true
+    },
+    {
+      "name": "repository default static server: released warning geometry matches preview",
+      "passed": true
+    },
+    {
+      "name": "repository default static server: release clears the selection and preview",
+      "passed": true
+    },
+    {
+      "name": "repository default static server: first C wave emits and does not repeat the release",
+      "passed": true
+    },
+    {
+      "name": "repository default static server: cancellation generates no extra release",
+      "passed": true
+    },
+    {
+      "name": "repository default static server: no runtime, resource or HTTP errors",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "failedRequests": [],
+        "httpErrors": []
+      }
+    },
+    {
+      "name": "download default static server: requested HTTP port is served",
+      "passed": true,
+      "detail": {
+        "port": 4173
+      }
+    },
+    {
+      "name": "download default static server: menu boots cfg6 and the release-aware client",
+      "passed": true
+    },
+    {
+      "name": "download default static server: separate Wasm and module load through HTTP",
+      "passed": true
+    },
+    {
+      "name": "download default static server: correct Wasm MIME and shared compiled bytes",
+      "passed": true
+    },
+    {
+      "name": "download default static server: all HTTP resources stay on the selected local origin",
+      "passed": true
+    },
+    {
+      "name": "download default static server: start enters the actual C world",
+      "passed": true
+    },
+    {
+      "name": "download default static server: holding selects and draws C candidate rays",
+      "passed": true
+    },
+    {
+      "name": "download default static server: pre-aim costs no energy and submits no attack",
+      "passed": true
+    },
+    {
+      "name": "download default static server: movement preserves the mouse-selected angle",
+      "passed": true
+    },
+    {
+      "name": "download default static server: keyup releases exactly once with its C cost and direction",
+      "passed": true
+    },
+    {
+      "name": "download default static server: released warning geometry matches preview",
+      "passed": true
+    },
+    {
+      "name": "download default static server: release clears the selection and preview",
+      "passed": true
+    },
+    {
+      "name": "download default static server: first C wave emits and does not repeat the release",
+      "passed": true
+    },
+    {
+      "name": "download default static server: cancellation generates no extra release",
+      "passed": true
+    },
+    {
+      "name": "download default static server: no runtime, resource or HTTP errors",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "failedRequests": [],
+        "httpErrors": []
+      }
+    }
+  ],
+  "servers": [
+    {
+      "name": "root npm dev",
+      "command": "npm run dev -- --port 5187 --strictPort",
+      "url": "http://127.0.0.1:5187/",
+      "cwd": "C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\",
+      "errors": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "resources": [
+        {
+          "url": "http://127.0.0.1:5187/?qa=1",
+          "status": 200,
+          "contentType": "text/html"
+        },
+        {
+          "url": "http://127.0.0.1:5187/src/main.ts",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/src/style.css",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/@vite/client",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/src/wasm/client.ts",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/src/input/browserInput.ts",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/src/runtime/gameLoop.ts",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/src/render/scene.ts",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/src/ui/hud.ts",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/@fs/C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/node_modules/vite/dist/client/env.mjs",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/src/render/projectiles.ts",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/src/render/warnings.ts",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/src/render/aimPreview.ts",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/src/ui/hud.css",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/assets/ustc-emblem.jpg?import&inline",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/node_modules/.vite/deps/pixi__js.js?v=4a0de085",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/node_modules/.vite/deps/chunk-WLGFUANO.js?v=988a81cc",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/node_modules/.vite/deps/chunk-L4E6DYZY.js?v=988a81cc",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/node_modules/.vite/deps/chunk-OSUH4JS6.js?v=988a81cc",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/node_modules/.vite/deps/chunk-BZPW4YHD.js?v=988a81cc",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/node_modules/.vite/deps/chunk-SGIN474L.js?v=988a81cc",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/node_modules/.vite/deps/chunk-U6GXFDC7.js?v=988a81cc",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/node_modules/.vite/deps/chunk-DVYBGCEL.js?v=988a81cc",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/node_modules/.vite/deps/chunk-JJ2HMEGT.js?v=988a81cc",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/node_modules/.vite/deps/chunk-YMP6ZB44.js?v=988a81cc",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/node_modules/.vite/deps/chunk-G2YYV6TC.js?v=988a81cc",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/node_modules/.vite/deps/chunk-CQHS6PCD.js?v=988a81cc",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/node_modules/.vite/deps/chunk-GR54PJLM.js?v=988a81cc",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/node_modules/.vite/deps/chunk-CJUX7CN3.js?v=988a81cc",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/node_modules/.vite/deps/chunk-XK3EHPAV.js?v=988a81cc",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/node_modules/.vite/deps/chunk-MA7P5PO5.js?v=988a81cc",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/wasm/demo-core.mjs",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/node_modules/.vite/deps/WebGLRenderer-2G4AK5PQ.js?v=988a81cc",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/wasm/demo-core.wasm",
+          "status": 200,
+          "contentType": "application/wasm"
+        },
+        {
+          "url": "http://127.0.0.1:5187/node_modules/.vite/deps/browserAll-WZYVVANX.js?v=988a81cc",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5187/node_modules/.vite/deps/chunk-RC2V26HY.js?v=988a81cc",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "blob:http://127.0.0.1:5187/f530e811-7d3a-4c18-9bd4-e11f95e5a95e",
+          "status": 200,
+          "contentType": "application/javascript"
+        },
+        {
+          "url": "blob:http://127.0.0.1:5187/5d8e2814-e404-4db5-a6ad-538b0348baf5",
+          "status": 200,
+          "contentType": "application/javascript"
+        }
+      ],
+      "accepted": {
+        "cost": 50,
+        "tick": 7,
+        "dirX": 0.6000002026557922,
+        "dirY": -0.7999998331069946,
+        "warningRays": 48,
+        "firstEmissionTick": 68,
+        "bulletsEmitted": 24
+      },
+      "output": "\n> ustc-danmaku-monorepo@0.6.0 dev\n> npm run dev --workspace @ustc-danmaku/web -- --port 5187 --strictPort\n\n\n> @ustc-danmaku/web@0.6.0 dev\n> vite --host 127.0.0.1 --port 5187 --strictPort\n\n23:58:33 [vite] (client) Re-optimizing dependencies because vite config has changed\n\n  VITE v7.1.12  ready in 631 ms\n\n  ➜  Local:   http://127.0.0.1:5187/\n",
+      "wasmSha256": "9dbd096c2eac3792de2c22b5af54725591fd99502f6239b16a41257a13c21b93",
+      "stopped": true
+    },
+    {
+      "name": "root npm preview",
+      "command": "npm run preview -- --port 5188 --strictPort",
+      "url": "http://127.0.0.1:5188/",
+      "cwd": "C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\",
+      "errors": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "resources": [
+        {
+          "url": "http://127.0.0.1:5188/?qa=1",
+          "status": 200,
+          "contentType": "text/html"
+        },
+        {
+          "url": "http://127.0.0.1:5188/assets/game-CWGedabp.css",
+          "status": 200,
+          "contentType": "text/css"
+        },
+        {
+          "url": "http://127.0.0.1:5188/assets/game-BRypiAVK.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5188/assets/scene-J0aQWLe6.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5188/wasm/demo-core.mjs",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5188/assets/Filter-Dmr41YTo.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5188/assets/getTexelRangeRects-CXHfDEcW.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5188/assets/RenderTargetSystem-DoYNdVLf.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5188/assets/WebGLRenderer-B5epE4eQ.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5188/wasm/demo-core.wasm",
+          "status": 200,
+          "contentType": "application/wasm"
+        },
+        {
+          "url": "http://127.0.0.1:5188/assets/webworkerAll-BL8Dxyou.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:5188/assets/browserAll-C_OIcQlP.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "blob:http://127.0.0.1:5188/dd0249ec-8698-4c03-9c8a-d07a1d5666e8",
+          "status": 200,
+          "contentType": "application/javascript"
+        },
+        {
+          "url": "blob:http://127.0.0.1:5188/2e1388cc-d4e4-4265-a2c8-f5cee24a7ca0",
+          "status": 200,
+          "contentType": "application/javascript"
+        }
+      ],
+      "accepted": {
+        "cost": 50,
+        "tick": 7,
+        "dirX": 0.6000002026557922,
+        "dirY": -0.7999998331069946,
+        "warningRays": 48,
+        "firstEmissionTick": 68,
+        "bulletsEmitted": 24
+      },
+      "output": "\n> ustc-danmaku-monorepo@0.6.0 preview\n> npm run preview --workspace @ustc-danmaku/web -- --port 5188 --strictPort\n\n\n> @ustc-danmaku/web@0.6.0 preview\n> vite preview --host 127.0.0.1 --port 5188 --strictPort\n\n  ➜  Local:   http://127.0.0.1:5188/\n",
+      "wasmSha256": "9dbd096c2eac3792de2c22b5af54725591fd99502f6239b16a41257a13c21b93",
+      "stopped": true
+    },
+    {
+      "name": "repository default static server",
+      "command": "node scripts/serve-web.mjs",
+      "url": "http://127.0.0.1:4173/",
+      "cwd": "C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\",
+      "errors": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "resources": [
+        {
+          "url": "http://127.0.0.1:4173/?qa=1",
+          "status": 200,
+          "contentType": "text/html; charset=utf-8"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/game-BRypiAVK.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/game-CWGedabp.css",
+          "status": 200,
+          "contentType": "text/css"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/scene-J0aQWLe6.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:4173/wasm/demo-core.mjs",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/getTexelRangeRects-CXHfDEcW.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/WebGLRenderer-B5epE4eQ.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/Filter-Dmr41YTo.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/RenderTargetSystem-DoYNdVLf.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:4173/wasm/demo-core.wasm",
+          "status": 200,
+          "contentType": "application/wasm"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/webworkerAll-BL8Dxyou.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/browserAll-C_OIcQlP.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/f85c8c83-df1b-40a4-8fdc-48c3121fbe03",
+          "status": 200,
+          "contentType": "application/javascript"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/79418a46-f425-4c51-a9ef-3121278164a0",
+          "status": 200,
+          "contentType": "application/javascript"
+        }
+      ],
+      "accepted": {
+        "cost": 50,
+        "tick": 7,
+        "dirX": 0.6000002026557922,
+        "dirY": -0.7999998331069946,
+        "warningRays": 48,
+        "firstEmissionTick": 68,
+        "bulletsEmitted": 24
+      },
+      "output": "Demo: http://127.0.0.1:4173/\nPress Ctrl+C to stop.\n",
+      "wasmSha256": "9dbd096c2eac3792de2c22b5af54725591fd99502f6239b16a41257a13c21b93",
+      "stopped": true
+    },
+    {
+      "name": "download default static server",
+      "command": "node scripts/serve-web.mjs (package cwd)",
+      "url": "http://127.0.0.1:4173/",
+      "cwd": "C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\build\\monorepo-package\\2026-10-07T15-58-22-264Z\\ustc-danmaku-endless-v6",
+      "errors": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "resources": [
+        {
+          "url": "http://127.0.0.1:4173/?qa=1",
+          "status": 200,
+          "contentType": "text/html; charset=utf-8"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/game-BRypiAVK.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/game-CWGedabp.css",
+          "status": 200,
+          "contentType": "text/css"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/scene-J0aQWLe6.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:4173/wasm/demo-core.mjs",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/getTexelRangeRects-CXHfDEcW.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/Filter-Dmr41YTo.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/WebGLRenderer-B5epE4eQ.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/RenderTargetSystem-DoYNdVLf.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:4173/wasm/demo-core.wasm",
+          "status": 200,
+          "contentType": "application/wasm"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/webworkerAll-BL8Dxyou.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "http://127.0.0.1:4173/assets/browserAll-C_OIcQlP.js",
+          "status": 200,
+          "contentType": "text/javascript"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/d6d7f7dd-51eb-49ce-894e-9c1a2eac4849",
+          "status": 200,
+          "contentType": "application/javascript"
+        },
+        {
+          "url": "blob:http://127.0.0.1:4173/b3b5c70e-20de-43fe-9cfb-a3435f87fef7",
+          "status": 200,
+          "contentType": "application/javascript"
+        }
+      ],
+      "accepted": {
+        "cost": 50,
+        "tick": 7,
+        "dirX": 0.6000002026557922,
+        "dirY": -0.7999998331069946,
+        "warningRays": 48,
+        "firstEmissionTick": 68,
+        "bulletsEmitted": 24
+      },
+      "output": "Demo: http://127.0.0.1:4173/\nPress Ctrl+C to stop.\n",
+      "wasmSha256": "9dbd096c2eac3792de2c22b5af54725591fd99502f6239b16a41257a13c21b93",
+      "stopped": true
+    }
+  ],
+  "package": {
+    "root": "C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\build\\monorepo-package\\2026-10-07T15-58-22-264Z\\ustc-danmaku-endless-v6",
+    "log": "{\n  \"output\": \"C:\\\\Users\\\\jhsly\\\\Documents\\\\Codex\\\\2026-10-06\\\\cheng-xiu-ustc-danmaku-https-github-12\\\\work\\\\ustc-danmaku-web-demo\\\\build\\\\monorepo-package\\\\2026-10-07T15-58-22-264Z\\\\ustc-danmaku-endless-v6\\\\ustc-danmaku.html\",\n  \"bytes\": 1168141,\n  \"embeddedWasmBytes\": 62152\n}\nPackage: C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\build\\monorepo-package\\2026-10-07T15-58-22-264Z\\ustc-danmaku-endless-v6\nZIP: C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\build\\monorepo-package\\2026-10-07T15-58-22-264Z\\ustc-danmaku-endless-v6.zip\n\r\nAlgorithm Hash                                                             Path                                        \r\n--------- ----                                                             ----                                        \r\nSHA256    E38669AB76EEF185FA21604B2166DE5AE5C60D764AF6190B7E35ECF1443342DC C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06...\r\n\r\n\r\n",
+    "files": 149,
+    "licenses": [
+      {
+        "name": "node_modules/@pixi/colord",
+        "version": "2.9.6",
+        "license": "MIT"
+      },
+      {
+        "name": "node_modules/@types/earcut",
+        "version": "3.0.0",
+        "license": "MIT"
+      },
+      {
+        "name": "node_modules/@webgpu/types",
+        "version": "0.1.74",
+        "license": "BSD-3-Clause"
+      },
+      {
+        "name": "node_modules/@xmldom/xmldom",
+        "version": "0.8.15",
+        "license": "MIT"
+      },
+      {
+        "name": "node_modules/earcut",
+        "version": "3.2.4",
+        "license": "ISC"
+      },
+      {
+        "name": "node_modules/eventemitter3",
+        "version": "5.0.4",
+        "license": "MIT"
+      },
+      {
+        "name": "node_modules/gifuct-js",
+        "version": "2.1.2",
+        "license": "MIT"
+      },
+      {
+        "name": "node_modules/ismobilejs",
+        "version": "1.1.1",
+        "license": "MIT"
+      },
+      {
+        "name": "node_modules/js-binary-schema-parser",
+        "version": "2.0.3",
+        "license": "MIT"
+      },
+      {
+        "name": "node_modules/parse-svg-path",
+        "version": "0.2.0",
+        "license": "MIT"
+      },
+      {
+        "name": "node_modules/pixi.js",
+        "version": "8.22.0",
+        "license": "MIT"
+      },
+      {
+        "name": "node_modules/tiny-lru",
+        "version": "11.4.7",
+        "license": "BSD-3-Clause"
+      }
+    ],
+    "htmlSha256": "9de27925103b644236b736e635932be215ecd0440d095311657c08673d22680d",
+    "htmlBytes": 1168141,
+    "zip": "C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\build\\monorepo-package\\2026-10-07T15-58-22-264Z\\ustc-danmaku-endless-v6.zip",
+    "zipBytes": 3460559,
+    "zipSha256": "e38669ab76eef185fa21604b2166de5ae5c60d764af6190b7e35ecf1443342dc"
+  },
+  "passed": true,
+  "browser": "154.0.8037.98",
+  "finishedAt": "2026-10-07T15:58:47.622Z",
+  "checksPassed": 66
+}

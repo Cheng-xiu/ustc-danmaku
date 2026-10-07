@@ -4,7 +4,7 @@ import path from 'node:path';
 const directory=path.resolve('build/web-validation');
 const replay=JSON.parse(readFileSync(path.join(directory,'endless-inputs.json'),'utf8'));
 const native=readFileSync(path.join(directory,'endless-native-snapshots.bin'));
-const factory=(await import(pathToFileURL(path.resolve('web/public/wasm/demo-core.mjs')).href)).default;
+const factory=(await import(pathToFileURL(path.resolve('apps/web/public/wasm/demo-core.mjs')).href)).default;
 const core=await factory();
 let position=0,compared=0,maxFloatDelta=0;
 function compare(tick) {

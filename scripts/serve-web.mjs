@@ -1,9 +1,12 @@
 import http from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
-const directory = path.resolve(process.argv[2] ?? fileURLToPath(new URL('../web/dist', import.meta.url)));
+// Repository builds and the downloadable ZIP intentionally use different layouts.
+const defaults = ['../apps/web/dist', '../web/dist'].map(relative => fileURLToPath(new URL(relative, import.meta.url)));
+const directory = path.resolve(process.argv[2] ?? defaults.find(candidate => existsSync(path.join(candidate, 'index.html'))) ?? defaults[0]);
 const port = Number(process.argv[3] ?? 4173);
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.mjs': 'text/javascript', '.wasm': 'application/wasm', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json', '.png': 'image/png' };
 const server = http.createServer(async (req, res) => {

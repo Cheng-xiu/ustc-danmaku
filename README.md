@@ -23,17 +23,20 @@
 
 ## 修改与复现
 
-在仓库根目录构建 Wasm，再安装和构建前端：
+项目采用 monorepo：网页在 `apps/web/`，原生仿真在 `apps/sim/`，原 Windows 图形入口在 `apps/desktop/`；共享 C/AI 核心在 `packages/core/`，Wasm 桥接在 `packages/wasm/`。目录职责、旧路径映射与构建约定见 [monorepo 指南](docs/monorepo.md)。
 
-    powershell -ExecutionPolicy Bypass -File scripts/setup-web-toolchain.ps1
-    powershell -ExecutionPolicy Bypass -File scripts/build-wasm.ps1
-    Set-Location web
-    npm.cmd ci
-    npm.cmd run build
-    npm.cmd run build:standalone
-    Set-Location ..
+需要 Node 22.12+、npm 10+；Wasm 使用固定 Emscripten 6.0.11。始终从仓库根目录安装和运行：
 
-单文件输出为 build/release/ustc-danmaku-endless.html。单文件生成器不请求 CDN；修改 C 后须先重建 Wasm。原生测试和后续离线训练使用同一批 C 源码，不依赖浏览器帧率。
+```powershell
+npm.cmd ci
+npm.cmd run setup:wasm
+npm.cmd run build
+npm.cmd test
+```
+
+`npm run build` 顺序构建 Wasm、网页和单文件，输出 `build/release/ustc-danmaku-endless.html`；`npm test` 从构建开始执行原生、输入、Native/Wasm 对照和真实浏览器检查。开发时运行 `npm.cmd run build:wasm` 后执行 `npm.cmd run dev`。详细工具要求见 [运行指南](docs/web-demo-guide.md)。
+
+根 `package-lock.json` 是唯一 npm 锁文件；`packages/core/sources.txt` 是共享核心 16 个 C/AI 源文件的唯一清单。原生与 Wasm 都读取该清单，不复制物理实现。[迁移复验](docs/monorepo-validation.md) 已通过根构建、原生、输入、Native/Wasm 对照及最终单文件浏览器检查；已有 v6 报告保留当时的路径和修订身份。
 
 ## 规划与依据
 

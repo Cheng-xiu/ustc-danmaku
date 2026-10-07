@@ -2,6 +2,8 @@
 
 更新：2026-10-07。可全文交给负责实施的母代理。仓库 <https://github.com/Cheng-xiu/ustc-danmaku> 当前无尽网页源码为 cfg6 / ABI5，新增按住手动预瞄、松手释放及方向四招。原生13/13、手动几何338288断言、释放事务1774断言与10场景36010快照Native/Wasm对照通过；最终HTML和真实浏览器状态读 `docs/validation/aim-v6.md`、`docs/web-demo-validation.md`。原v5提示词已归档 `docs/archive/web-demo-agent-prompt-v5-20261007.md`，旧平衡/浏览器证据不自动继承。本提示词用于增量任务，先识别已完成工作，不从零重复迁移。
 
+用户随后要求改为 monorepo。现版应用路径为 `apps/web/`、`apps/sim/`、`apps/desktop/`，共享包为 `packages/core/` 与 `packages/wasm/`；先读 `docs/monorepo.md`。唯一 JavaScript workspace 是 `apps/web`（`@ustc-danmaku/web`），根 `package-lock.json` 维护 npm 依赖，`packages/core/sources.txt` 维护 16 个共享 C/AI 源文件。目录迁移不改变 cfg6/ABI5 和玩法；上述 v6 通过数是迁移前证据，本轮实际构建与回归已通过，见 `docs/monorepo-validation.md`。历史归档、报告与原始 JSON/日志保留旧路径及身份，不批量重写，按映射表定位现版代码。
+
 ## 一、身份、模型与层级
 
 你是实施母代理，使用 `deepseek账号/deepseek-flash`。所有子代理和孙代理必须使用 `a6api/deepseek-v4.1-flash`。代理树最多三层：
@@ -28,6 +30,7 @@
 3. 已提供 Demo 的 `docs/demo-rules.md`、`demo-interfaces.md`、`demo-guide.md`、`demo-validation.md` 和 `demo-findings.md`，以及实际 C 源码。
 4. 当前 README 和文档索引。旧 Windows 实施提示词只作历史说明，不能继续作为新任务派发入口。
 5. `docs/validation/aim-v6.md`：当前手动规则、真实测试范围及待测项；`docs/web-balance-findings-v5.md`仅用于核对旧版，不作为v6平衡已通过依据。
+6. `docs/monorepo.md`、根 `package.json` 和 `packages/core/sources.txt`：当前路径、构建入口、应用/包依赖方向与唯一源清单。
 
 用户已批准 PixiJS + TypeScript + C/Wasm，不再询问是否开始、是否可以用网页方案。用户明确指令优先；规则已有答复直接沿用，不重问。剩余会改变玩法的歧义核对当前记录并集中说明，独立技术工作继续推进。
 
@@ -47,7 +50,7 @@
 
 用户已批准顶部HUD，其余为游戏区域，开始前单独介绍技能。能量与共享CD要明显；CD来自C的预警/攻击状态，不新增四套独立冷却。鼠标移出Canvas/进入顶栏仍跟随窗口指针；真正失焦或隐藏则自动暂停，继续键盘方向操作遵守同一规则。
 
-每个新局按战场视口比例配置C场地，保持面积960*720；原生默认960×720仍保留。ABI5保留demo_reset_sized并新增demo_step_aim和demo_preview/size，根清单为16个共享C/AI源文件，新增pattern_aim.c；TS不写出生、边界、碰撞或技能几何。用户已确认进行中改变比例本局等比缩放、允许留边，圆形贴图/已公开计划/保存朝向保持；重开按新比例铺满。直接沿用，不重复询问；最终尺寸/按住输入仍须真实检查。
+每个新局按战场视口比例配置C场地，保持面积960*720；原生默认960×720仍保留。ABI5保留demo_reset_sized并新增demo_step_aim和demo_preview/size，`packages/core/sources.txt`为16个共享C/AI源文件的唯一清单，新增pattern_aim.c；TS不写出生、边界、碰撞或技能几何。用户已确认进行中改变比例本局等比缩放、允许留边，圆形贴图/已公开计划/保存朝向保持；重开按新比例铺满。直接沿用，不重复询问；最终尺寸/按住输入仍须真实检查。
 
 
 用 PixiJS 8.x/WebGL 绘制，TypeScript 处理网页输入和流程，菜单/HUD 优先 HTML/CSS；同一批纯 C 源码通过 Emscripten 编译为 Wasm。原生无界面 C 仿真保留给回归和以后训练。
@@ -66,7 +69,8 @@
 
 - 记录选定源码基线、配置版本、已有失败、工具链和可复跑命令。必要修复独立记录，不把“历史报告通过”当成当前检查。
 - 冻结依赖/锁文件、同一16文件纯C清单、demo_reset_sized/demo_step_aim/demo_preview等ABI5导出；记录初始化、尺寸、拒绝和buffer有效期。显示可以投影已公布波次及玩家候选rays，不导出隐藏RNG或AI不该知道的未来；AI观察另定。
-- 你先提供 `wasm/build_probe.c` 和最小导出清单，让 W01 独立验证核心探针；W01 不等待 W02/W03 的完整桥接实现。正式导出清单随桥接完成后更新，探针不能算玩法验收。
+- 冻结根 workspace 与命令：Node 22.12+/npm 10+，只在根运行 `npm ci`，不在 `apps/web` 另建锁或另行安装。`npm run build` 顺序构建 Wasm→Web→单文件 `build/release/ustc-danmaku-endless.html`；`npm test` 顺序构建、原生、输入、Native/Wasm 对照、浏览器与无尽。CMake/PowerShell 读取 `packages/core/sources.txt`；仅沿用现有 npm/CMake，不引入 Turbo/Nx 或臆造 ML 应用、自动 CI。
+- 你先提供 `packages/wasm/build_probe.c` 和最小导出清单，让 W01 独立验证核心探针；W01 不等待 W02/W03 的完整桥接实现。正式导出清单随桥接完成后更新，探针不能算玩法验收。
 - 公共桥接头、TS 共有类型、预警字段和任务卡由你维护。已有 `WorldView` 含 C 指针，必须有明确批量快照，不猜偏移和对齐。
 - 64 位 seed/ID 采用明确高低位或 BigInt 协议；Wasm 内存增长后更新视图。状态、事件、预警和溢出诊断都要覆盖。
 - 冻结唯一主循环与输入消费契约：固定 60 Hz；零 tick 保留边沿，多 tick 不重复出招且事件不丢；隐藏页面自动暂停，玩家继续时清零积压。
@@ -118,9 +122,9 @@
 
 | 小任务 | 子代理内容及边界 | 必须检查 |
 | --- | --- | --- |
-| V61 纯C手动几何 | `core/pattern_aim.c/.h`、`tests/test_manual_aim.c`；不写公共头/配置/World/bridge。母代理先冻结字段、数值和16源清单 | 2×24/160°/guard20、2×24投影三带、3×9/40°/120、五波51密度/120扫描；三尺寸八方向中心/四角、近轴斜弦、不叠弹/越界；配置冻结、纯RNG、拒绝不改out |
-| V62 输入与owner | `web/src/input/browserInput.ts`、`tests/web/aim-input-probe.mjs`；不写main/scene/core | 即时hold、一次release、Space保留移动、最新按下替换；旧up/capture不影响新owner；静止鼠标/Boss/resize不转向、实际鼠标变化才更新；释放包防后续鼠标改写 |
-| V63 HUD与预瞄显示 | `web/src/ui/hud.ts/.css`、`web/src/render/aimPreview.ts`及明确授权的scene接线；不写main/types/core | buttons pointerdown/up/cancel捕获、拖到战场释放、无click重复发射；busy/无能量可看；C rays/当前原点箭头/空带，真实弹上层；zero tick、取消/重开清理；notice固定高度 |
+| V61 纯C手动几何 | `packages/core/core/pattern_aim.c/.h`、`tests/test_manual_aim.c`；不写公共头/配置/World/bridge。母代理先冻结字段、数值和16源清单 | 2×24/160°/guard20、2×24投影三带、3×9/40°/120、五波51密度/120扫描；三尺寸八方向中心/四角、近轴斜弦、不叠弹/越界；配置冻结、纯RNG、拒绝不改out |
+| V62 输入与owner | `apps/web/src/input/browserInput.ts`、`tests/web/aim-input-probe.mjs`；不写main/scene/core | 即时hold、一次release、Space保留移动、最新按下替换；旧up/capture不影响新owner；静止鼠标/Boss/resize不转向、实际鼠标变化才更新；释放包防后续鼠标改写 |
+| V63 HUD与预瞄显示 | `apps/web/src/ui/hud.ts/.css`、`apps/web/src/render/aimPreview.ts`及明确授权的scene接线；不写main/types/core | buttons pointerdown/up/cancel捕获、拖到战场释放、无click重复发射；busy/无能量可看；C rays/当前原点箭头/空带，真实弹上层；zero tick、取消/重开清理；notice固定高度 |
 | V64 Bridge与事务验证 | 独立`tests/test_aim_release.c`及母代理指定bridge/parity测试文件；母代理维护bridge/client/main/公共types/导出 | repeatedpreview不改World/能量/RNG/plan ID/已接受计划；四招preview=warning=实际发弹；cost/busy/no-target/几何拒绝原子性；manual Native/Wasm逐tick对照 |
 | V65 最终浏览器验收 | `tests/web/aim-browser-smoke.mjs`、独立只读审查与证据；不改被验收产品文件；报告真实输入与受控时钟方式 | 最终离线HTML三尺寸、四招方向/费用/时序、零tickhold、松手/Space、鼠标拖按钮、按键owner混用、方向静止/实际变化、pause/reset/GPA、无外部请求或JS错误；失败不放宽断言 |
 | V66 规则与交付文档 | 先保存v5原文，再按母代理指定文档归属更新v6规则/规划/验证；提交/发布仍归母代理 | 旧平衡不冒充新几何，夹具不冒充真人；记录最终HTML/hash/版本、构建/对照/浏览器已执行项和限制；缺失的真人/跨设备/性能明确待测 |
@@ -164,6 +168,8 @@ v6最终输入验收使用 `tests/web/aim-browser-smoke.mjs`；v5 `fullscreen-sm
 
 性能检查使用 Release，在明确机器、浏览器、DPR、分辨率和时长下测常规对局、持续预瞄四招及800发夹具，分开报告核心tick、preview生成/解码、绘制、整帧和原生吞吐。tick计时不包含preview时必须说明，不能写预瞄零开销；不能只有平均FPS，也不能将未执行写成通过。
 
-训练继续用原生 C 核心。手动版动作还包含方向和释放时机，不能用旧最近目标脚本宣称等价策略。后续仍需设计观察、动作、决策调度、奖励、重置、终止/截断和批量环境；渲染快照不是训练观察，脚本sim不是已完成的RL环境。
+训练继续用原生 C 核心。手动版动作还包含方向和释放时机，不能用旧最近目标脚本宣称等价策略。后续仍需设计观察、动作、决策调度、奖励、重置、终止/截断和批量环境；渲染快照不是训练观察，`apps/sim/` 脚本不是已完成的RL环境。
 
 最后交付：源码与锁文件、可复制构建/HTTP试玩命令、静态包、真实键位、旧调试记录索引、独立验收报告和已知问题。最终回复说明已实现、已验证和待测的内容，给实际产物位置；仅有计划或截图不能宣称网页可玩版完成。
+
+目录或工具更新时，从根 `npm test` 复验当前输出，不把已提交旧 HTML 当作本次构建产物。验收后由母代理同步 `demo/ustc-danmaku.html` 并提交；发布仍执行根 `node scripts/publish-pages.mjs`，读取已提交交付物。GitHub Pages 当前 v6 可继续试玩，源码迁移、产物生成和线上发布分别报告。

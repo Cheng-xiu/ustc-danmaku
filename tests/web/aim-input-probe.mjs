@@ -4,12 +4,12 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import vm from 'node:vm';
-import ts from '../../web/node_modules/typescript/lib/typescript.js';
+import ts from 'typescript';
 
 // EventTarget fixture for the real input class. This verifies event ownership
 // and packets, not gameplay rules or a rendered browser session.
 const root = fileURLToPath(new URL('../../', import.meta.url));
-const sourcePath = path.join(root, 'web/src/input/browserInput.ts');
+const sourcePath = path.join(root, 'apps/web/src/input/browserInput.ts');
 const source = readFileSync(sourcePath, 'utf8');
 const compiled = ts.transpileModule(source, {
   compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS },

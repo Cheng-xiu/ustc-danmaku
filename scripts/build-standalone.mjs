@@ -1,9 +1,9 @@
-import { build } from '../web/node_modules/esbuild/lib/main.js';
+import { build } from 'esbuild';
 import { readFile, readdir, mkdir, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 const root = fileURLToPath(new URL('../', import.meta.url));
-const web = path.join(root, 'web');
+const web = path.join(root, 'apps/web');
 const output = path.resolve(process.argv[2] ?? path.join(root, 'build/release/ustc-danmaku-endless.html'));
 const bytesBase64 = (await readFile(path.join(web, 'public/wasm/demo-core.wasm'))).toString('base64');
 const bundle = await build({
@@ -26,11 +26,11 @@ const bundle = await build({
 const js = bundle.outputFiles.find(file => file.path.endsWith('.js'))?.text;
 const css = bundle.outputFiles.find(file => file.path.endsWith('.css'))?.text ?? '';
 if (!js) throw Error('Standalone JavaScript missing');
-const lock=JSON.parse(await readFile(path.join(web,'package-lock.json'),'utf8'));
+const lock=JSON.parse(await readFile(path.join(root,'package-lock.json'),'utf8'));
 let notices='Production dependency licenses\n';
 for (const [name,info] of Object.entries(lock.packages)) {
-  if (!name||info.dev) continue;
-  const directory=path.join(web,name);
+  if (!name.split('/').includes('node_modules') || info.dev || info.link) continue;
+  const directory=path.join(root,name);
   const license=(await readdir(directory)).find(file=>/^(LICENSE|LICENCE|COPYING)(\.|$)/i.test(file));
   const text=license?await readFile(path.join(directory,license),'utf8'):name==='node_modules/@pixi/colord'?await readFile(path.join(root,'references/licenses/colord-LICENSE.md'),'utf8'):null;
   if (!text) throw Error(`Missing license: ${name}`);

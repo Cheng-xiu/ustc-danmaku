@@ -6,7 +6,7 @@ const root = fileURLToPath(new URL('../../', import.meta.url));
 const out = path.join(root, 'build', 'web-validation');
 mkdirSync(out, { recursive: true });
 const executable = process.env.NATIVE_REPLAY ?? path.join(root, 'build', 'native', 'web_native_replay.exe');
-const factory = (await import(pathToFileURL(path.join(root, 'web/public/wasm/demo-core.mjs')).href)).default;
+const factory = (await import(pathToFileURL(path.join(root, 'apps/web/public/wasm/demo-core.mjs')).href)).default;
 const module = await factory();
 const wasmSnapshot = () => {
   const ptr = module._demo_snapshot();

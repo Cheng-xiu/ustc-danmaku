@@ -13,6 +13,16 @@
 - 首次承担项目任务时通读完整 PDF 和上述当前规划；网页任务同时阅读桥接、时钟、输入和任务所有权约定。修改玩法、物理、计分、AI 或交付要求前，核对相关章节及其相互约定。
 - README、聊天摘要、精简版 PDF 和 demo 图仅作索引或说明，不能替代完整规范。原规范中的 demo 图是设计示意，不能当作已运行或实测证据；已提供的 Windows Demo 源码及运行记录另按实际修订核对。
 
+## Monorepo 目录与构建约定
+
+- 当前仓库按应用和共享包组织：`apps/web/` 为 PixiJS 网页，`apps/sim/` 为原生无界面仿真，`apps/desktop/` 为原 Windows/EasyX 入口及平台、渲染代码；`packages/core/` 内的 `core/` 和 `ai/` 是唯一游戏逻辑实现，`packages/wasm/` 为薄桥接。职责与旧路径映射见 `docs/monorepo.md`。
+- 根 `package.json` 是 npm workspace 和用户命令入口；当前唯一 JavaScript workspace 为 `apps/web`，名为 `@ustc-danmaku/web`。`apps/sim`、`apps/desktop` 和 C 包由 CMake 管理，不为它们制造空 npm 包。
+- 只在仓库根运行 `npm ci`，使用唯一根 `package-lock.json` 和根 `node_modules/`。依赖或脚本变更由母代理统一处理，不在 `apps/web` 另建锁文件、不另行安装，不引入未授权的 Turbo/Nx 等调度层。
+- `packages/core/sources.txt` 是 16 个共享 C/AI 源文件的唯一权威清单；相对路径以 `packages/core/` 为根。CMake 与 PowerShell 构建/打包脚本读取它，禁止另放一套完整清单，禁止让 Web 与仿真使用不同核心实现。
+- 根构建命令为 `npm run build`（Wasm → Web → 单文件）和 `npm run build:native`；根 `npm test` 执行构建、原生测试、输入、Native/Wasm 对照、浏览器与无尽回放。分步入口见 `docs/monorepo.md`，脚本行为与本轮实际日志为最终依据。
+- `demo/ustc-danmaku.html` 是已提交交付物，常规构建生成 `build/release/ustc-danmaku-endless.html`；验收后才同步提交交付物并按 `scripts/publish-pages.mjs` 发布。配置 v6、ABI v5 及玩法不因目录迁移升级。
+- `docs/archive/`、旧版本验证报告、原始 JSON/日志和 `references/` 保留原路径与字节，不因迁移批量改写；日常指南使用新目录，历史路径按映射表解释。原 PDF 不改。迁移本身不代表完成机器学习环境、训练或自动 CI。
+
 ## 不清楚的地方先问用户
 
 - 文档未规定、前后冲突或存在会影响实现的歧义时，说明具体疑点并询问用户；不要自行补全关键需求。

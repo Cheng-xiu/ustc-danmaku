@@ -1,0 +1,637 @@
+
+> ustc-danmaku-monorepo@0.6.0 test
+> npm run build && npm run build:native && npm run test:input && npm run test:core && npm run test:browser && npm run test:endless
+
+
+> ustc-danmaku-monorepo@0.6.0 build
+> npm run build:wasm && npm run build:web && npm run build:standalone
+
+
+> ustc-danmaku-monorepo@0.6.0 build:wasm
+> node scripts/run-powershell.mjs build-wasm
+
+emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.11 (a0014542110d6078c3a1a7941fa1ddb3a2281f16)
+Copyright (C) 2026 the Emscripten authors (see AUTHORS.txt)
+This is free and open source software under the MIT license.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+Built C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\apps\web\public\wasm\demo-core.mjs (same core/ai sources as native).
+
+> ustc-danmaku-monorepo@0.6.0 build:web
+> npm run build --workspace @ustc-danmaku/web
+
+
+> @ustc-danmaku/web@0.6.0 build
+> tsc --noEmit && vite build
+
+vite v7.1.12 building for production...
+transforming...
+✓ 739 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/bench.html                               0.59 kB │ gzip:   0.48 kB
+dist/index.html                               1.05 kB │ gzip:   0.70 kB
+dist/assets/game-CWGedabp.css                12.31 kB │ gzip:   3.38 kB
+dist/assets/Filter-Dmr41YTo.js                0.90 kB │ gzip:   0.48 kB
+dist/assets/bench-RydgGzVv.js                 1.07 kB │ gzip:   0.70 kB
+dist/assets/getTexelRangeRects-CXHfDEcW.js   11.40 kB │ gzip:   2.99 kB
+dist/assets/BitmapFont-DBZiMW9c.js           12.77 kB │ gzip:   4.65 kB
+dist/assets/webworkerAll-BL8Dxyou.js         15.02 kB │ gzip:   4.70 kB
+dist/assets/CanvasRenderer-BeqYUBJL.js       17.88 kB │ gzip:   5.99 kB
+dist/assets/game-BRypiAVK.js                 26.58 kB │ gzip:   9.97 kB
+dist/assets/browserAll-C_OIcQlP.js           43.93 kB │ gzip:  11.40 kB
+dist/assets/RenderTargetSystem-DoYNdVLf.js   53.48 kB │ gzip:  14.64 kB
+dist/assets/WebGPURenderer-DCNRWl6Z.js       55.88 kB │ gzip:  15.98 kB
+dist/assets/WebGLRenderer-B5epE4eQ.js        73.63 kB │ gzip:  20.14 kB
+dist/assets/scene-J0aQWLe6.js               728.99 kB │ gzip: 385.46 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 8.20s
+
+> ustc-danmaku-monorepo@0.6.0 build:standalone
+> node scripts/build-standalone.mjs
+
+{
+  "output": "C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\build\\release\\ustc-danmaku-endless.html",
+  "bytes": 1168141,
+  "embeddedWasmBytes": 62152
+}
+
+> ustc-danmaku-monorepo@0.6.0 build:native
+> node scripts/run-powershell.mjs build-native
+
+-- Configuring done (0.1s)
+-- Generating done (0.8s)
+-- Build files have been written to: C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native
+[  1%] Building C object packages/core/CMakeFiles/demo_core.dir/core/demo_config.c.obj
+[  3%] Building C object packages/core/CMakeFiles/demo_core.dir/core/field_config.c.obj
+[  4%] Building C object packages/core/CMakeFiles/demo_core.dir/core/rng.c.obj
+[  6%] Building C object CMakeFiles/test_attack.dir/tests/test_attack.c.obj
+[  8%] Building C object packages/core/CMakeFiles/demo_core.dir/core/collision.c.obj
+[  9%] Building C object CMakeFiles/test_attack.dir/packages/core/core/attack.c.obj
+[ 11%] Building C object CMakeFiles/test_attack.dir/packages/core/core/pattern_aim.c.obj
+[ 12%] Building C object packages/core/CMakeFiles/demo_core.dir/core/actors.c.obj
+[ 14%] Building C object packages/core/CMakeFiles/demo_core.dir/core/projectiles.c.obj
+[ 16%] Building C object CMakeFiles/test_attack.dir/packages/core/core/demo_config.c.obj
+[ 17%] Building C object CMakeFiles/test_attack.dir/packages/core/core/rng.c.obj
+[ 19%] Building C object CMakeFiles/test_attack.dir/packages/core/core/projectiles.c.obj
+[ 20%] Building C object packages/core/CMakeFiles/demo_core.dir/core/attack.c.obj
+[ 22%] Building C object packages/core/CMakeFiles/demo_core.dir/core/patterns.c.obj
+[ 24%] Building C object packages/core/CMakeFiles/demo_core.dir/core/pattern_aim.c.obj
+[ 25%] Linking C executable test_attack.exe
+[ 27%] Building C object packages/core/CMakeFiles/demo_core.dir/core/pattern_ring.c.obj
+[ 29%] Building C object packages/core/CMakeFiles/demo_core.dir/core/pattern_course.c.obj
+[ 29%] Built target test_attack
+[ 30%] Building C object packages/core/CMakeFiles/demo_core.dir/core/pattern_mine.c.obj
+[ 32%] Building C object packages/core/CMakeFiles/demo_core.dir/core/pattern_shower.c.obj
+[ 33%] Building C object packages/core/CMakeFiles/demo_core.dir/core/student_fire.c.obj
+[ 35%] Building C object packages/core/CMakeFiles/demo_core.dir/core/world.c.obj
+[ 37%] Building C object packages/core/CMakeFiles/demo_core.dir/ai/student_bot.c.obj
+[ 38%] Linking C static library libdemo_core.a
+[ 38%] Built target demo_core
+[ 40%] Building C object CMakeFiles/test_aim_release.dir/tests/test_aim_release.c.obj
+[ 41%] Building C object CMakeFiles/test_actors.dir/tests/test_actors.c.obj
+[ 43%] Building C object CMakeFiles/test_collision.dir/tests/test_collision.c.obj
+[ 45%] Building C object CMakeFiles/test_manual_aim.dir/tests/test_manual_aim.c.obj
+[ 46%] Linking C executable test_aim_release.exe
+[ 48%] Linking C executable test_collision.exe
+[ 50%] Linking C executable test_manual_aim.exe
+[ 51%] Linking C executable test_actors.exe
+[ 51%] Built target test_aim_release
+[ 51%] Built target test_collision
+[ 51%] Built target test_manual_aim
+[ 53%] Building C object CMakeFiles/test_pattern_roles.dir/tests/test_pattern_roles.c.obj
+[ 53%] Built target test_actors
+[ 54%] Building C object CMakeFiles/test_pattern_shower.dir/tests/test_pattern_shower.c.obj
+[ 56%] Building C object CMakeFiles/test_projectiles.dir/tests/test_projectiles.c.obj
+[ 58%] Building C object CMakeFiles/test_rng.dir/tests/test_rng.c.obj
+[ 59%] Linking C executable test_pattern_roles.exe
+[ 61%] Linking C executable test_rng.exe
+[ 62%] Linking C executable test_projectiles.exe
+[ 62%] Built target test_pattern_roles
+[ 64%] Building C object CMakeFiles/test_student_fire.dir/tests/test_student_fire.c.obj
+[ 64%] Built target test_rng
+[ 64%] Built target test_projectiles
+[ 66%] Building C object CMakeFiles/test_endless.dir/tests/web/test_endless.c.obj
+[ 67%] Building C object CMakeFiles/test_web_core.dir/tests/web/test_core_regression.c.obj
+[ 69%] Linking C executable test_student_fire.exe
+[ 70%] Linking C executable test_pattern_shower.exe
+[ 70%] Built target test_student_fire
+[ 72%] Linking C executable test_web_core.exe
+[ 74%] Linking C executable test_endless.exe
+[ 74%] Built target test_pattern_shower
+[ 75%] Building C object CMakeFiles/test_field_size.dir/tests/web/test_field_size.c.obj
+[ 75%] Built target test_web_core
+[ 75%] Built target test_endless
+[ 77%] Building C object CMakeFiles/web_native_replay.dir/tests/web/native_replay.c.obj
+[ 79%] Building C object CMakeFiles/web_native_replay.dir/packages/wasm/demo_bridge.c.obj
+[ 80%] Linking C executable test_field_size.exe
+[ 82%] Building C object CMakeFiles/endless_native_replay.dir/tests/web/endless_replay.c.obj
+[ 83%] Building C object CMakeFiles/web_bridge_probe.dir/packages/wasm/bridge_probe.c.obj
+[ 85%] Linking C executable web_native_replay.exe
+[ 85%] Built target test_field_size
+[ 87%] Building C object CMakeFiles/endless_native_replay.dir/packages/wasm/demo_bridge.c.obj
+[ 88%] Building C object CMakeFiles/web_bridge_probe.dir/packages/wasm/demo_bridge.c.obj
+[ 88%] Built target web_native_replay
+[ 90%] Building C object CMakeFiles/web_balance_probe.dir/tests/web/balance_probe.c.obj
+[ 91%] Linking C executable endless_native_replay.exe
+[ 93%] Linking C executable web_bridge_probe.exe
+[ 95%] Building C object apps/sim/CMakeFiles/sim.dir/main.c.obj
+[ 96%] Linking C executable web_balance_probe.exe
+[ 96%] Built target web_bridge_probe
+[ 96%] Built target endless_native_replay
+[ 98%] Building C object apps/sim/CMakeFiles/sim.dir/log.c.obj
+[ 98%] Built target web_balance_probe
+[100%] Linking C executable ..\..\sim.exe
+[100%] Built target sim
+Test project C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native
+      Start  1: test_actors
+ 1/13 Test  #1: test_actors ......................   Passed    0.10 sec
+      Start  2: test_aim_release
+ 2/13 Test  #2: test_aim_release .................   Passed    0.21 sec
+      Start  3: test_attack
+ 3/13 Test  #3: test_attack ......................   Passed    0.10 sec
+      Start  4: test_collision
+ 4/13 Test  #4: test_collision ...................   Passed    0.07 sec
+      Start  5: test_manual_aim
+ 5/13 Test  #5: test_manual_aim ..................   Passed    0.09 sec
+      Start  6: test_pattern_roles
+ 6/13 Test  #6: test_pattern_roles ...............   Passed    0.07 sec
+      Start  7: test_pattern_shower
+ 7/13 Test  #7: test_pattern_shower ..............   Passed    0.08 sec
+      Start  8: test_projectiles
+ 8/13 Test  #8: test_projectiles .................   Passed    0.08 sec
+      Start  9: test_rng
+ 9/13 Test  #9: test_rng .........................   Passed    0.22 sec
+      Start 10: test_student_fire
+10/13 Test #10: test_student_fire ................   Passed    0.05 sec
+      Start 11: test_web_core
+11/13 Test #11: test_web_core ....................   Passed    0.10 sec
+      Start 12: test_endless
+12/13 Test #12: test_endless .....................   Passed    0.09 sec
+      Start 13: test_field_size
+13/13 Test #13: test_field_size ..................   Passed    0.09 sec
+
+100% tests passed out of 13
+
+Total Test time (real) =   1.41 sec
+
+> ustc-danmaku-monorepo@0.6.0 test:input
+> node tests/web/aim-input-probe.mjs
+
+{
+  "cases": 54,
+  "assertions": 431,
+  "passed": true,
+  "failed": []
+}
+
+> ustc-danmaku-monorepo@0.6.0 test:core
+> node tests/web/compare-core.mjs
+
+{
+  "nativeCompiler": "see web-demo-validation.md",
+  "floatAbsoluteTolerance": 0.002,
+  "maxFloatDelta": 0.000003814697265625,
+  "ticksCompared": 36010,
+  "cases": [
+    {
+      "manual": false,
+      "seedLo": 20261006,
+      "seedHi": 0,
+      "students": 3,
+      "fieldW": 960,
+      "fieldH": 720,
+      "tick": 1528,
+      "status": 2,
+      "accepted": 4,
+      "bossBullets": 224,
+      "studentBullets": 51
+    },
+    {
+      "manual": false,
+      "seedLo": 12345,
+      "seedHi": 0,
+      "students": 1,
+      "fieldW": 960,
+      "fieldH": 720,
+      "tick": 2281,
+      "status": 2,
+      "accepted": 6,
+      "bossBullets": 336,
+      "studentBullets": 42
+    },
+    {
+      "manual": false,
+      "seedLo": 2596069104,
+      "seedHi": 305419896,
+      "students": 8,
+      "fieldW": 960,
+      "fieldH": 720,
+      "tick": 597,
+      "status": 2,
+      "accepted": 2,
+      "bossBullets": 96,
+      "studentBullets": 61
+    },
+    {
+      "manual": false,
+      "seedLo": 20261007,
+      "seedHi": 0,
+      "students": 3,
+      "fieldW": 1120,
+      "fieldH": 617.1428833007812,
+      "tick": 1421,
+      "status": 2,
+      "accepted": 4,
+      "bossBullets": 239,
+      "studentBullets": 45
+    },
+    {
+      "manual": false,
+      "seedLo": 7654321,
+      "seedHi": 0,
+      "students": 8,
+      "fieldW": 1280,
+      "fieldH": 540,
+      "tick": 859,
+      "status": 2,
+      "accepted": 3,
+      "bossBullets": 162,
+      "studentBullets": 75
+    },
+    {
+      "manual": false,
+      "seedLo": 13579,
+      "seedHi": 0,
+      "students": 3,
+      "fieldW": 650,
+      "fieldH": 1063.3846435546875,
+      "tick": 1018,
+      "status": 2,
+      "accepted": 3,
+      "bossBullets": 146,
+      "studentBullets": 40
+    },
+    {
+      "manual": true,
+      "seedLo": 20261006,
+      "seedHi": 0,
+      "students": 3,
+      "fieldW": 960,
+      "fieldH": 720,
+      "tick": 1132,
+      "status": 2,
+      "accepted": 3,
+      "bossBullets": 160,
+      "studentBullets": 39
+    },
+    {
+      "manual": true,
+      "seedLo": 20261007,
+      "seedHi": 0,
+      "students": 3,
+      "fieldW": 1120,
+      "fieldH": 617.1428833007812,
+      "tick": 1419,
+      "status": 2,
+      "accepted": 4,
+      "bossBullets": 239,
+      "studentBullets": 51
+    },
+    {
+      "manual": true,
+      "seedLo": 7654321,
+      "seedHi": 0,
+      "students": 8,
+      "fieldW": 1280,
+      "fieldH": 540,
+      "tick": 1138,
+      "status": 2,
+      "accepted": 3,
+      "bossBullets": 206,
+      "studentBullets": 103
+    },
+    {
+      "manual": true,
+      "seedLo": 13579,
+      "seedHi": 0,
+      "students": 3,
+      "fieldW": 650,
+      "fieldH": 1063.3846435546875,
+      "tick": 1350,
+      "status": 2,
+      "accepted": 4,
+      "bossBullets": 194,
+      "studentBullets": 49
+    }
+  ]
+}
+
+> ustc-danmaku-monorepo@0.6.0 test:browser
+> node tests/web/aim-browser-smoke.mjs build/release/ustc-danmaku-endless.html
+
+{
+  "passed": true,
+  "checks": 282,
+  "attacks": 15,
+  "elapsedSeconds": 34.5295431,
+  "errors": [],
+  "report": "C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\build\\web-validation\\v6-aim-browser-smoke.json"
+}
+
+> ustc-danmaku-monorepo@0.6.0 test:endless
+> node tests/web/aim-endless-smoke.mjs build/release/ustc-danmaku-endless.html
+
+{
+  "method": "Actual offline cfg6/ABI5 single HTML, real WASD, mouse movement and Digit2 hold/release browser input. One logical tick observed at a time; movement reconsidered every6ticks using only current public actors and student bullets. Every cast holds through a rendered preview tick before release. Clock installed and paused before navigation. No state injection, HP changes, RNG, planned rays, copied-world rollout or native-input fixture. Automatic public-state control is not human playtesting or reinforcement learning.",
+  "controller": "chase current nearest student at150px; eight legal directions plus stop; 0.45s visible-bullet risk, weight4; current-body boundary penalty; course-only manual casts every12ticks when C available[] permits. Aim towards current nearest alive student with a real mouse move, hold Digit2 for one observed logical tick, then release. Candidate ray geometry does not influence controller decisions.",
+  "abiEvidence": "The bundled strict client accepts only ABI5 snapshots and successfully invokes the ABI5 manual-step and independent-preview exports.",
+  "htmlPath": "C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\build\\release\\ustc-danmaku-endless.html",
+  "htmlSha256": "9de27925103b644236b736e635932be215ecd0440d095311657c08673d22680d",
+  "configVersion": 6,
+  "abiVersion": 5,
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "checks": [
+    {
+      "name": "offline actual cfg6 core loads through strict ABI5 client",
+      "pass": true
+    },
+    {
+      "name": "real start is playing tick0 with three students and zero GPA",
+      "pass": true
+    },
+    {
+      "name": "current round matches window battlefield aspect and fixed area",
+      "pass": true,
+      "detail": {
+        "arena": {
+          "x": 0,
+          "y": 122,
+          "width": 1440,
+          "height": 778
+        },
+        "fieldW": 1131.0799560546875,
+        "fieldH": 611.0973510742188
+      }
+    },
+    {
+      "name": "first wave truly clears and remains playing without victory",
+      "pass": true,
+      "detail": {
+        "tick": 866,
+        "status": 0,
+        "wave": 1,
+        "wavePhase": 1,
+        "wavesCleared": 1,
+        "kills": 3,
+        "gpaHundredths": 56,
+        "hp": 3,
+        "energy": 54,
+        "accepted": 3,
+        "rejected": 0,
+        "studentHits": 9,
+        "fieldW": 1131.0799560546875,
+        "fieldH": 611.0973510742188
+      }
+    },
+    {
+      "name": "all controller casts used real held previews and manual releases",
+      "pass": true,
+      "detail": {
+        "manualCasts": 3,
+        "heldPreviews": 3
+      }
+    },
+    {
+      "name": "clear GPA is floor(430*3/23)=56",
+      "pass": true
+    },
+    {
+      "name": "clear publishes four fixed markers with exact120tick due time",
+      "pass": true,
+      "detail": {
+        "clearTick": 866,
+        "due": 986,
+        "markers": [
+          {
+            "x": 233.47216796875,
+            "y": 255.15773010253906
+          },
+          {
+            "x": 897.6077880859375,
+            "y": 255.15773010253906
+          },
+          {
+            "x": 565.5399780273438,
+            "y": 364.3381042480469
+          },
+          {
+            "x": 186.03390502929688,
+            "y": 137.578857421875
+          }
+        ]
+      }
+    },
+    {
+      "name": "clear does not show death or victory overlay",
+      "pass": true
+    },
+    {
+      "name": "all120preview snapshots retain exact markers through one tick before birth",
+      "pass": true,
+      "detail": {
+        "observed": 120,
+        "tick": 985,
+        "due": 986
+      }
+    },
+    {
+      "name": "four students spawn on precisely tick clear+120",
+      "pass": true
+    },
+    {
+      "name": "real student birth origins equal all four public markers",
+      "pass": true,
+      "detail": {
+        "students": [
+          {
+            "id": 103,
+            "alive": true,
+            "x": 233.47216796875,
+            "y": 255.15773010253906,
+            "radius": 20,
+            "hp": 3,
+            "hpMax": 3,
+            "invuln": 0,
+            "faction": 2
+          },
+          {
+            "id": 104,
+            "alive": true,
+            "x": 897.6077880859375,
+            "y": 255.15773010253906,
+            "radius": 20,
+            "hp": 3,
+            "hpMax": 3,
+            "invuln": 0,
+            "faction": 2
+          },
+          {
+            "id": 105,
+            "alive": true,
+            "x": 565.5399780273438,
+            "y": 364.3381042480469,
+            "radius": 20,
+            "hp": 3,
+            "hpMax": 3,
+            "invuln": 0,
+            "faction": 2
+          },
+          {
+            "id": 106,
+            "alive": true,
+            "x": 186.03390502929688,
+            "y": 137.578857421875,
+            "radius": 20,
+            "hp": 3,
+            "hpMax": 3,
+            "invuln": 0,
+            "faction": 2
+          }
+        ],
+        "markers": [
+          {
+            "x": 233.47216796875,
+            "y": 255.15773010253906
+          },
+          {
+            "x": 897.6077880859375,
+            "y": 255.15773010253906
+          },
+          {
+            "x": 565.5399780273438,
+            "y": 364.3381042480469
+          },
+          {
+            "x": 186.03390502929688,
+            "y": 137.578857421875
+          }
+        ]
+      }
+    },
+    {
+      "name": "birth retains cumulative kills and kill-only GPA",
+      "pass": true
+    },
+    {
+      "name": "second wave continues playing for30ticks",
+      "pass": true
+    },
+    {
+      "name": "HUD shows current kill-only GPA",
+      "pass": true
+    },
+    {
+      "name": "actual R restart clears score kills and waves",
+      "pass": true
+    },
+    {
+      "name": "HTML did not change during the validation",
+      "pass": true
+    },
+    {
+      "name": "offline HTML makes zero external network requests",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "browser reports zero runtime errors",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "controls": "148 decisions saved in v6-browser-endless.json",
+  "errors": [],
+  "externalRequests": [],
+  "rafAdvances": 1060,
+  "zeroTickFrames": 44,
+  "logicalTicksObserved": 1016,
+  "previewSnapshotsObserved": 120,
+  "aimPreviewsObserved": 3,
+  "manualCastsObserved": 3,
+  "passed": true,
+  "browser": "154.0.8037.98",
+  "url": "file:///C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/release/ustc-danmaku-endless.html?qa=1",
+  "initial": {
+    "tick": 0,
+    "status": 0,
+    "wave": 1,
+    "wavePhase": 0,
+    "wavesCleared": 0,
+    "kills": 0,
+    "gpaHundredths": 0,
+    "hp": 6,
+    "energy": 60,
+    "accepted": 0,
+    "rejected": 0,
+    "studentHits": 0,
+    "fieldW": 1131.0799560546875,
+    "fieldH": 611.0973510742188
+  },
+  "clear": {
+    "tick": 866,
+    "status": 0,
+    "wave": 1,
+    "wavePhase": 1,
+    "wavesCleared": 1,
+    "kills": 3,
+    "gpaHundredths": 56,
+    "hp": 3,
+    "energy": 54,
+    "accepted": 3,
+    "rejected": 0,
+    "studentHits": 9,
+    "fieldW": 1131.0799560546875,
+    "fieldH": 611.0973510742188
+  },
+  "birth": {
+    "tick": 986,
+    "status": 0,
+    "wave": 2,
+    "wavePhase": 0,
+    "wavesCleared": 1,
+    "kills": 3,
+    "gpaHundredths": 56,
+    "hp": 3,
+    "energy": 74,
+    "accepted": 3,
+    "rejected": 0,
+    "studentHits": 9,
+    "fieldW": 1131.0799560546875,
+    "fieldH": 611.0973510742188
+  },
+  "final": {
+    "tick": 1016,
+    "status": 0,
+    "wave": 2,
+    "wavePhase": 0,
+    "wavesCleared": 1,
+    "kills": 3,
+    "gpaHundredths": 56,
+    "hp": 3,
+    "energy": 79,
+    "accepted": 3,
+    "rejected": 0,
+    "studentHits": 9,
+    "fieldW": 1131.0799560546875,
+    "fieldH": 611.0973510742188
+  },
+  "elapsedSeconds": 9.2572923
+}

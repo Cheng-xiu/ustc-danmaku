@@ -10,21 +10,26 @@ $SdkRoot = [IO.Path]::GetFullPath($SdkRoot)
 $Emcc = Join-Path $SdkRoot 'upstream/emscripten/emcc.exe'
 if (-not (Test-Path -LiteralPath $Emcc)) { throw 'Run scripts/setup-web-toolchain.ps1 first.' }
 . (Join-Path $SdkRoot 'emsdk_env.ps1') | Out-Null
-if (-not $OutDir) { $OutDir = Join-Path $RepoRoot 'web/public/wasm' }
+if (-not $OutDir) { $OutDir = Join-Path $RepoRoot 'apps/web/public/wasm' }
 $OutDir = [IO.Path]::GetFullPath($OutDir)
 $RepoPrefix = [IO.Path]::GetFullPath($RepoRoot).TrimEnd('\', '/') + [IO.Path]::DirectorySeparatorChar
 if (-not $OutDir.StartsWith($RepoPrefix, [StringComparison]::OrdinalIgnoreCase)) {
     throw 'OutDir must be a child directory of this repository.'
 }
 New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
-$RootCmake = Get-Content -LiteralPath (Join-Path $RepoRoot 'CMakeLists.txt') -Raw
-$Block = [regex]::Match($RootCmake, 'set\(DEMO_CORE_SOURCES[^)]*\)').Value
-$Core = @([regex]::Matches($Block, '(core|ai)/[A-Za-z0-9_]+\.c') | ForEach-Object { Join-Path $RepoRoot $_.Value })
-if ($Core.Count -ne 16) { throw 'Expected the frozen 16-file core/ai source list.' }
-$Bridge = Join-Path $RepoRoot 'wasm/demo_bridge.c'
+$CoreRoot = Join-Path $RepoRoot 'packages/core'
+$CoreRelative = @(Get-Content -LiteralPath (Join-Path $CoreRoot 'sources.txt') -Encoding utf8)
+if ($CoreRelative.Count -ne 16 -or @($CoreRelative | Select-Object -Unique).Count -ne 16) {
+    throw 'Expected the shared 16-file C/AI source list.'
+}
+$Core = @($CoreRelative | ForEach-Object {
+    if ($_ -notmatch '^(core|ai)/[A-Za-z0-9_]+\.c$') { throw "Invalid core source: $_" }
+    Join-Path $CoreRoot $_
+})
+$Bridge = Join-Path $RepoRoot 'packages/wasm/demo_bridge.c'
 $Output = Join-Path $OutDir 'demo-core.mjs'
-$Arguments = @('-std=c11', '-O2', '-Wall', '-Wextra', '--no-entry', '-I', (Join-Path $RepoRoot 'core'),
-    '-I', (Join-Path $RepoRoot 'ai')) + $Core + @($Bridge, '-lm', '-o', $Output,
+$Arguments = @('-std=c11', '-O2', '-Wall', '-Wextra', '--no-entry', '-I', (Join-Path $CoreRoot 'core'),
+    '-I', (Join-Path $CoreRoot 'ai')) + $Core + @($Bridge, '-lm', '-o', $Output,
     '-sMODULARIZE=1', '-sEXPORT_ES6=1', '-sENVIRONMENT=web,node', '-sFILESYSTEM=0',
     '-sALLOW_MEMORY_GROWTH=1', '-sSTACK_SIZE=1048576', '-sINITIAL_MEMORY=16777216',
     '-sMAXIMUM_MEMORY=67108864',
