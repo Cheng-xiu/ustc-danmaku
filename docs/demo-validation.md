@@ -1,5 +1,7 @@
 # demo 独立验收记录（第三方验收代理）
 
+> 2026-10-07 状态注记：以下保留原 Windows/EasyX 验收对象、修订指纹、结果和未执行项，不继承为网页验收。网页待验收范围见 [网页规划](web-demo-plan.md)，后续报告单独保存为 `docs/web-demo-validation.md`。
+
 - 验收代理：独立验收子代理，路由请求 `a6api/deepseek-v4.1-flash`
 - 验收时间：2026-10-06 23:3x–23:4x（本地）
 - 验收对象：`work/ustc-danmaku`（仓库根）

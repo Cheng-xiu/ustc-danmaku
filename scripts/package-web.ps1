@@ -1,0 +1,49 @@
+param([string]$OutputRoot = '')
+$ErrorActionPreference = 'Stop'
+$taskRoot = Split-Path -Parent $PSScriptRoot
+if (!$OutputRoot) { $OutputRoot = Join-Path $taskRoot 'build/release' }
+$taskOutput = [IO.Path]::GetFullPath($OutputRoot)
+$taskPackage = Join-Path $taskOutput 'ustc-danmaku-web-demo'
+$taskZip = "$taskPackage.zip"
+if ((Test-Path -LiteralPath $taskPackage) -or (Test-Path -LiteralPath $taskZip)) {
+    throw 'Output already exists. Choose another OutputRoot to preserve the previous package.'
+}
+if (!(Test-Path -LiteralPath (Join-Path $taskRoot 'web/dist/wasm/demo-core.wasm'))) {
+    throw 'Build the Wasm core and web production output first.'
+}
+New-Item -ItemType Directory -Path (Join-Path $taskPackage 'web'), (Join-Path $taskPackage 'scripts'), (Join-Path $taskPackage 'docs') -Force | Out-Null
+Copy-Item -LiteralPath (Join-Path $taskRoot 'web/dist') -Destination (Join-Path $taskPackage 'web') -Recurse
+Copy-Item -LiteralPath (Join-Path $taskRoot 'Start-Web-Demo.bat') -Destination $taskPackage
+Copy-Item -LiteralPath (Join-Path $taskRoot 'scripts/serve-web.mjs') -Destination (Join-Path $taskPackage 'scripts')
+foreach ($taskName in @('web-demo-guide.md','web-demo-validation.md','web-demo-playtest.md','web-playability-findings.md')) {
+    Copy-Item -LiteralPath (Join-Path $taskRoot "docs/$taskName") -Destination (Join-Path $taskPackage 'docs')
+}
+Copy-Item -LiteralPath (Join-Path $taskRoot 'docs/validation') -Destination (Join-Path $taskPackage 'docs') -Recurse
+Copy-Item -LiteralPath (Join-Path $taskRoot 'docs/web-package-readme.md') -Destination (Join-Path $taskPackage 'README.md')
+
+# Preserve the licenses of the production dependency tree distributed in the bundle.
+$taskList = & node -e 'const data=require(process.argv[1]); process.stdout.write(JSON.stringify(Object.entries(data.packages).filter(([name,value])=>name&&!value.dev).map(([name,value])=>({name,version:value.version,license:value.license}))));' (Join-Path $taskRoot 'web/package-lock.json')
+if ($LASTEXITCODE) { throw 'Cannot read production dependency manifest.' }
+$taskPackages = $taskList | ConvertFrom-Json
+$taskNotices = [Collections.Generic.List[string]]::new()
+$taskNotices.Add('Third-party notices for the production dependency tree')
+foreach ($taskEntry in $taskPackages) {
+    $taskDependency = Join-Path (Join-Path $taskRoot 'web') $taskEntry.Name
+    $taskLicense = Get-ChildItem -LiteralPath $taskDependency -File | Where-Object { $_.Name -match '^(LICENSE|LICENCE|COPYING)(\.|$)' } | Select-Object -First 1
+    if (!$taskLicense -and $taskEntry.Name -eq 'node_modules/@pixi/colord') {
+        $taskLicense = Get-Item -LiteralPath (Join-Path $taskRoot 'references/licenses/colord-LICENSE.md')
+    }
+    $taskNotices.Add("`n=== $($taskEntry.Name) $($taskEntry.version) ($($taskEntry.license)) ===`n")
+    if ($taskLicense) { $taskNotices.Add((Get-Content -LiteralPath $taskLicense.FullName -Raw -Encoding utf8)) }
+    else { throw "Missing production license text: $($taskEntry.Name)" }
+}
+$taskNotices -join "`n" | Set-Content -LiteralPath (Join-Path $taskPackage 'THIRD-PARTY-NOTICES.txt') -Encoding utf8
+
+$taskManifest = @(Get-ChildItem -LiteralPath $taskPackage -Recurse -File | ForEach-Object {
+    [ordered]@{ path = $_.FullName.Substring($taskPackage.Length + 1).Replace('\','/'); bytes = $_.Length; sha256 = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash }
+})
+[ordered]@{ configVersion = 2; abiVersion = 1; files = $taskManifest } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $taskPackage 'manifest.json') -Encoding utf8
+Compress-Archive -LiteralPath $taskPackage -DestinationPath $taskZip -CompressionLevel Optimal
+Write-Host "Package: $taskPackage"
+Write-Host "ZIP: $taskZip"
+Get-FileHash -LiteralPath $taskZip -Algorithm SHA256

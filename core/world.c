@@ -590,7 +590,7 @@ void world_step(World *world, const BossInput *input) {
     event_reset(&world->events);
     memset(&world->last_result, 0, sizeof(world->last_result));
 
-    if (world->status != DEMO_STATUS_RUNNING) {
+    if (world->status != DEMO_STATUS_RUNNING || world->truncated) {
         /* 终局或已截断: 逻辑停止, 不推进 tick, 不产生新事件 */
         world->last_result.event_count = world->events.count;
         return;

@@ -1,0 +1,33 @@
+{
+  "method": "Real browser input handlers: WASD and digit keys; controlled RAF; QA reads only.",
+  "configVersion": 2,
+  "seedLo": 20261006,
+  "seedHi": 0,
+  "students": 3,
+  "expected": {
+    "status": 1,
+    "tick": 1470,
+    "boss_hp": 1,
+    "boss_hits": 5,
+    "student_hits": 9
+  },
+  "success": true,
+  "errors": [],
+  "inputsReplayed": 1470,
+  "rafAdvances": 1533,
+  "zeroTickFrames": 63,
+  "browser": "154.0.8037.93",
+  "actual": {
+    "phase": "over",
+    "status": 1,
+    "tick": 1470,
+    "boss_hp": 1,
+    "boss_hits": 5,
+    "student_hits": 9,
+    "accepted": 7,
+    "rejected": 0,
+    "studentsAlive": 0,
+    "hudTitle": "校园 Boss，胜出。"
+  },
+  "elapsedSeconds": 43.5920309
+}

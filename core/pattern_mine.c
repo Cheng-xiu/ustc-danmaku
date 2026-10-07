@@ -1,6 +1,6 @@
 /* pattern_mine.c - 招 2 一教金矿·绩点淘金（低消耗·追击/局部打击）
  * 接口版本 2、配置版本 1
- * 几何: 矿点定在目标位置沿"目标→Boss"方向偏移 spawn_safety_radius 处, 夹紧到场地内;
+ * 几何: 矿点定在目标位置沿"Boss→目标"方向偏移 spawn_safety_radius 处, 夹紧到场地内;
  *       三个扇面从矿点向外喷射, 扇面之间有间隙 (gap_span_deg)。
  * 计划编码: origin = 锁定矿点; aim = 目标位置; gap_angle_deg = 中心扇面方向(度);
  *           corridor_width = 扇面间隙(度); wave_offset = 扇面数。
@@ -57,11 +57,8 @@ bool pattern_mine_make_plan(const PatternRequest *request, const DemoConfig *con
         float sy = request->student_y[i] - mine_y;
         float d = sqrtf(sx * sx + sy * sy);
         if (d < pc->spawn_safety_radius - 1e-3f && d > 1e-3f) {
-            /* 允许目标学生恰好等于安全距离; 其他学生更近则拒绝 */
-            if (request->student_x[i] != request->target_x ||
-                request->student_y[i] != request->target_y) {
-                return false;
-            }
+            /* 夹紧可能让目标也不足安全距离；拒绝，不移动或重抽矿点。 */
+            return false;
         }
         if (d <= 1e-3f) {
             return false; /* 学生与矿点重叠 */
@@ -103,7 +100,8 @@ bool pattern_mine_emit(const AttackPlan *plan, const DemoConfig *config, uint32_
     if (plan == NULL || config == NULL || out == NULL || !plan->active) {
         return false;
     }
-    int32_t due = plan->start_tick + (int32_t)lroundf(plan->wave_tick[0]);
+    /* 第三个参数是攻击阶段相对 tick，不加接受请求的绝对 tick。 */
+    int32_t due = (int32_t)lroundf(plan->wave_tick[0]);
     if ((int32_t)attack_tick != due) {
         return false;
     }

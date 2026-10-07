@@ -380,7 +380,6 @@ bool pattern_shower_make_plan(const PatternRequest *request, const DemoConfig *c
 
 bool pattern_shower_emit(const AttackPlan *plan, const DemoConfig *config, uint32_t attack_tick,
                          ProjectileSpawnBuffer *out) {
-    int64_t start;
     int64_t now;
     int64_t elapsed;
     float margin;
@@ -428,10 +427,9 @@ bool pattern_shower_emit(const AttackPlan *plan, const DemoConfig *config, uint3
         return false;
     }
 
-    /* 超出攻击时长或早于计划起点: 一律不生成。 */
-    start = (int64_t)plan->start_tick;
+    /* attack_tick 是攻击阶段相对 tick，不再减接受请求的绝对 tick。 */
     now = (int64_t)attack_tick;
-    elapsed = now - start;
+    elapsed = now;
     if (elapsed < 0) {
         return false;
     }

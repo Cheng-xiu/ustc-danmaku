@@ -74,7 +74,7 @@ $CoreSources = @(
     'core/pattern_shower.c', 'core/student_fire.c', 'core/world.c'
 )
 $AiSources = @('ai/student_bot.c')
-$SimSources = @('sim/main.c', 'sim/log.c', 'sim/scenarios.c', 'sim/boss_baselines.c')
+$SimSources = @('sim/main.c', 'sim/log.c')
 $GameSources = @('game_main.cpp', 'platform/input_win.cpp', 'render/scene.cpp', 'render/hud.cpp')
 
 function Get-MissingSources([string[]]$Files) {

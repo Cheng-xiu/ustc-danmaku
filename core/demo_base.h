@@ -344,10 +344,10 @@ typedef struct AttackPlan {
     float corridor_width;         /* 课表/淋浴: 通道或缝隙宽度 */
     int32_t wave_count;
     int32_t shots_per_wave;
-    float wave_tick[DEMO_PATTERN_COUNT * 8]; /* 每波生成相对 tick(相对 start_tick) */
+    float wave_tick[DEMO_PATTERN_COUNT * 8]; /* 每波相对 tick：预警结束、攻击开始为 0 */
     float wave_offset;             /* 通用偏移(列位置/扫描起点) */
     uint64_t geometry_seed;        /* 从 world RNG 抽取的几何种子, 保存在计划内 */
-    bool lock_checked_at_spawn;    /* 生成时是否复查安全距离 */
+    bool lock_checked_at_spawn;    /* 历史名称：接受时检查安全几何；不表示生成时复查 */
 } AttackPlan;
 
 /* 生成计划所需的输入; 由 core/attack.c 组装, 招式模块只读。 */
@@ -372,7 +372,9 @@ typedef struct PatternRequest {
  * 不产生半成品计划, 由调用方回滚能量与状态。 */
 bool pattern_make_plan(const PatternRequest *request, const DemoConfig *config, Rng *rng,
                        AttackPlan *out);
-/* 按计划在 attack_tick(绝对 tick) 生成该 tick 应生成的弹。返回是否生成了波次。 */
+/* 按计划在 attack_tick(预警结束后的攻击阶段相对 tick) 生成该 tick 应生成的弹。
+ * 四招 emit 与 wave_tick[] 都采用此零点；不得再加减 plan.start_tick。
+ * 返回是否生成了波次。 */
 bool pattern_emit(const AttackPlan *plan, const DemoConfig *config, uint32_t attack_tick,
                   Rng *rng, ProjectileSpawnBuffer *out);
 /* 只读: 适用于渲染/AI 的公开预警几何。 */

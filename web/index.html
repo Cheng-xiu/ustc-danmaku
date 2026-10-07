@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#101c30" />
+  <title>科大弹幕录 · Boss 试玩</title>
+  <meta name="description" content="操控 Boss，用四种校园弹幕击倒 AI 学生。最小可玩原型，用于验证走位、能量与招式选择。" />
+</head>
+<body>
+  <main>
+    <header class="page-header"><div><span class="eyebrow">USTC DANMAKU / PLAYABLE PROTOTYPE</span><h1>科大弹幕录 <span>绩点保卫战</span></h1></div><span class="demo-tag">Boss 试玩 · 0.1</span></header>
+    <div class="viewport"><div id="game-shell"><div id="arena"></div><aside id="hud" aria-label="战斗面板"></aside></div></div>
+    <footer><span>鼠标移动 · 1–4 出招 · Esc / 右键暂停 · R 重开</span><span>脚本学生 · 共享 C 核心 · 数值待试玩</span></footer>
+    <p id="load-status" role="status">正在加载游戏核心与画面…</p>
+    <noscript>此游戏需要启用 JavaScript 和 WebAssembly。</noscript>
+  </main>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

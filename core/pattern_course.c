@@ -48,13 +48,14 @@
  *   被封锁列每列发数 per_column = shots_per_wave / 2 (整数除法), 两列合计
  *   2 * per_column; 若 shots_per_wave 为奇数, 差 extra = shots - 2*per_column
  *   (0 或 1)补到第一条被封锁列, 因此每波总发数恰好为 shots_per_wave, 绝不超过。
- *   每列竖直排布: y 从 0 开始, 间隔 field_h / (该列发数) 递增, 即
- *          y_k = k * field_h / n_column
+ *   每列竖直排布: 全部出生点位于已批准的顶部 y=0..100 带，紧凑排列:
+ *          y_k = 100 * k / (n_column - 1), 单发时 y=100。
  *   速度恒为 (vx, vy) = (0, lock_speed): 竖直下落, |v| == lock_speed。
  *
  * ---------------------------------------------------------------- 出生安全距离
  *
- *   本招不要求出生安全距离: 全部弹从场地顶部 y = 0 竖直落下, 生成点不在学生身边,
+ *   本招全部弹从场地顶部 y = 0..100 出生并竖直落下，不再按场高铺满。
+ *   顶部生成带是已批准几何，生成点不随学生或 Boss 移动迁移，
  *   与"环弹/金矿"的 spawn_safety_radius 语义无关。因此即使 req 中某个存活学生与
  *   某一列中心的距离 < student_radius, 也**照常允许生成请求**(不因此返回 false),
  *   且 plan->lock_checked_at_spawn 恒为 false, 如实说明没有做生成时复查。
@@ -94,6 +95,9 @@
 
 /* 每条弹相对本列中心的固定横向抖动(px): 确定性常量, 不使用 rng。 */
 #define COURSE_LANE_JITTER 8.0f
+
+/* 基线曾按场高铺到 y=660，违背顶部出生；只修出生带，不改其余几何。 */
+#define COURSE_TOP_SPAWN_Y 100.0f
 
 /* 四舍五入到最近整数 tick。避免依赖 libm 的 lroundf; 只处理 v >= 0 的已校验输入。
  * 非有限或超出 int32 表示范围时返回 INT32_MIN, 表示"该波次时刻不可用"。 */
@@ -330,8 +334,8 @@ bool pattern_course_emit(const AttackPlan *plan, const DemoConfig *config, uint3
         return false;
     }
 
-    /* 超出攻击时长或早于计划起点: 一律不生成。 */
-    elapsed = (int64_t)attack_tick - (int64_t)plan->start_tick;
+    /* attack_tick 是预警结束后的相对 tick，与 wave_tick 使用同一零点。 */
+    elapsed = (int64_t)attack_tick;
     if (elapsed < 0 || elapsed > (int64_t)plan->active_ticks) {
         return false;
     }
@@ -383,12 +387,12 @@ bool pattern_course_emit(const AttackPlan *plan, const DemoConfig *config, uint3
                 continue;
             }
             cx = colw * ((float)col + 0.5f);     /* 本列中心 x */
-            y_step = config->field_h / (float)n; /* 竖直间隔 = field_h / 本列发数 */
+            y_step = (n > 1) ? COURSE_TOP_SPAWN_Y / (float)(n - 1) : 0.0f;
 
             for (k = 0; k < n; ++k) {
                 Projectile spec;
                 float x = cx + course_lane_offset(k); /* 固定常量抖动, 不用 rng */
-                float y = y_step * (float)k;          /* y 从 0 开始递增 */
+                float y = (n > 1) ? y_step * (float)k : COURSE_TOP_SPAWN_Y;
 
                 memset(&spec, 0, sizeof(spec)); /* id/generation/active 由 pool_spawn 赋值 */
                 spec.faction = DEMO_FACTION_BOSS;

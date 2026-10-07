@@ -1,5 +1,7 @@
 # 最小可玩 Boss demo：任务板
 
+> 2026-10-07 状态注记：下方是原 Windows 阶段的历史任务快照；其中 RUNNING、DONE 和工具链记录不表示网页任务当前状态。新阶段使用 [网页规划](web-demo-plan.md) 的 W01–W12，由实施母代理建立 `docs/web-demo-tasks.md`，如实记录新任务的模型路由、层级、依赖及证据。
+
 更新：2026-10-06。状态取值：`TODO` / `BLOCKED` / `RUNNING` / `REVIEW` / `DONE`。
 **子代理宣布完成只进入 `REVIEW`；母代理验证后才记 `DONE`。**
 

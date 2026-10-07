@@ -25,3 +25,7 @@ __pycache__/
 
 # Agent work areas (per-task build/log/temp dirs, not part of the deliverable)
 work/
+web/node_modules/
+web/dist/
+web/public/wasm/
+test-results/

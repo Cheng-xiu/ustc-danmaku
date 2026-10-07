@@ -61,14 +61,17 @@ add_library(demo_core STATIC ${DEMO_CORE_SOURCES})
 target_include_directories(demo_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/core
                                             ${CMAKE_CURRENT_SOURCE_DIR}/ai)
 target_compile_definitions(demo_core PUBLIC DEMO_CORE_BUILD=1)
+if(NOT MSVC)
+    target_link_libraries(demo_core PUBLIC m)
+endif()
 
 # 核心必须是 C：显式设置语言，防止 CMake 误判为 C++
 set_source_files_properties(${DEMO_CORE_SOURCES} PROPERTIES LANGUAGE C)
 
 # ---------------------------------------------------------------- headless sim
 
-add_executable(sim sim/main.c sim/log.c sim/scenarios.c sim/boss_baselines.c)
-set_source_files_properties(sim/main.c sim/log.c sim/scenarios.c sim/boss_baselines.c
+add_executable(sim sim/main.c sim/log.c)
+set_source_files_properties(sim/main.c sim/log.c
                             PROPERTIES LANGUAGE C)
 target_link_libraries(sim PRIVATE demo_core)
 target_include_directories(sim PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/sim)
@@ -85,11 +88,27 @@ if(DEMO_BUILD_TESTS)
         get_filename_component(TEST_NAME ${TEST_SOURCE} NAME_WE)
         add_executable(${TEST_NAME} ${TEST_SOURCE})
         set_source_files_properties(${TEST_SOURCE} PROPERTIES LANGUAGE C)
-        target_link_libraries(${TEST_NAME} PRIVATE demo_core)
+        if(TEST_NAME STREQUAL "test_attack")
+            # 历史窄单元测试自带 pattern/event 桩，只链接所需真实模块。
+            target_sources(${TEST_NAME} PRIVATE core/attack.c core/demo_config.c core/rng.c core/projectiles.c)
+            target_include_directories(${TEST_NAME} PRIVATE core ai)
+            if(NOT MSVC)
+                target_link_libraries(${TEST_NAME} PRIVATE m)
+            endif()
+        else()
+            target_link_libraries(${TEST_NAME} PRIVATE demo_core)
+        endif()
         target_include_directories(${TEST_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/tests)
         add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
     endforeach()
+    add_executable(test_web_core tests/web/test_core_regression.c)
+    target_link_libraries(test_web_core PRIVATE demo_core)
+    add_test(NAME test_web_core COMMAND test_web_core)
 endif()
+
+add_executable(web_native_replay tests/web/native_replay.c wasm/demo_bridge.c)
+target_link_libraries(web_native_replay PRIVATE demo_core)
+target_include_directories(web_native_replay PRIVATE wasm)
 
 # ---------------------------------------------------------------- EasyX 图形游戏
 

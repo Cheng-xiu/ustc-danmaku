@@ -150,7 +150,8 @@ bool pattern_ring_emit(const AttackPlan *plan, const DemoConfig *config, uint32_
 
     /* 本 tick 是否正好是某一波的生成 tick; 不是则完全不写 out。 */
     for (i = 0; i < plan->wave_count && i < (int32_t)(DEMO_PATTERN_COUNT * 8); ++i) {
-        long long tick = (long long)plan->start_tick + (long long)lroundf(plan->wave_tick[i]);
+        /* attack_tick 与 wave_tick 都以预警结束、攻击开始为零点。 */
+        long long tick = (long long)lroundf(plan->wave_tick[i]);
 
         if (tick == (long long)attack_tick) {
             wave = i;

@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "manifestFiles": 31,
+  "url": "http://127.0.0.1:4174/ustc-danmaku-web-demo/web/dist/?qa=1",
+  "browser": "154.0.8037.93",
+  "phase": "playing",
+  "tick": 19,
+  "configVersion": 2,
+  "accepted": 1,
+  "warnings": 80,
+  "errors": []
+}

@@ -274,8 +274,8 @@ static bool build_plan(const PatternRequest *req, const DemoConfig *cfg, uint64_
     return pattern_shower_make_plan(req, cfg, &rng, out);
 }
 
-/* 第 i 波的生成 tick(绝对): start_tick + round(wave_tick[i])。 */
-static int32_t wave_tick_abs(const AttackPlan *plan, int32_t i)
+/* 第 i 波的攻击阶段相对 tick: round(wave_tick[i])。 */
+static int32_t wave_tick_relative(const AttackPlan *plan, int32_t i)
 {
     float v = plan->wave_tick[i];
     int32_t base = (int32_t)v;
@@ -283,7 +283,7 @@ static int32_t wave_tick_abs(const AttackPlan *plan, int32_t i)
     if ((v - (float)base) >= 0.5f) {
         base += 1;
     }
-    return plan->start_tick + base;
+    return base;
 }
 
 /* 在某 tick 生成一波, 捕获几何。 */
@@ -530,7 +530,7 @@ static void test_lock_no_migration(const DemoConfig *cfg)
     }
 
     for (int32_t i = 0; i < plan.wave_count; ++i) {
-        emit_at(&plan, cfg, (uint32_t)wave_tick_abs(&plan, i), &before[i]);
+        emit_at(&plan, cfg, (uint32_t)wave_tick_relative(&plan, i), &before[i]);
     }
 
     /* 改 request: 换目标、挪原点/瞄准点、学生位置全部变化 */
@@ -548,7 +548,7 @@ static void test_lock_no_migration(const DemoConfig *cfg)
     check(memcmp(&mutated, &req, sizeof(req)) != 0, "request 确实被改动(测试前提有效)");
 
     for (int32_t i = 0; i < plan.wave_count; ++i) {
-        emit_at(&plan, cfg, (uint32_t)wave_tick_abs(&plan, i), &after[i]);
+        emit_at(&plan, cfg, (uint32_t)wave_tick_relative(&plan, i), &after[i]);
     }
 
     for (int32_t i = 0; i < plan.wave_count; ++i) {
@@ -563,7 +563,7 @@ static void test_lock_no_migration(const DemoConfig *cfg)
 
     /* emit 内不得调用 rng: 计划构造后反复 emit, rng 状态必须不变 */
     for (int32_t i = 0; i < plan.wave_count; ++i) {
-        emit_at(&plan, cfg, (uint32_t)wave_tick_abs(&plan, i), NULL);
+        emit_at(&plan, cfg, (uint32_t)wave_tick_relative(&plan, i), NULL);
     }
     check(probe.state == state_after_make, "emit 不消耗 rng 状态(emit 内无 rng 调用)");
     printf("      rng 状态: emit 后=%s, make_plan 后=%s\n", hex64(probe.state, h1),
@@ -590,21 +590,18 @@ static void test_wave_boundaries(const DemoConfig *cfg)
     item_begin("3) 波次边界: 5 个正确 tick 各生成一次, 其他 tick 不生成");
     fill_default_request(&req, cfg);
     check(build_plan(&req, cfg, 11u, 2u, &plan), "make_plan 成功");
-    start = plan.start_tick;
+    start = 0; /* emit 的零点为攻击期开始，计划的绝对 start_tick 保持不变。 */
     last_elapsed = (int32_t)plan.active_ticks;
 
     memset(seen, 0, sizeof(seen));
     for (int32_t e = -8; e <= last_elapsed + 8; ++e) {
-        int32_t abs_tick = start + e;
+        int32_t relative_tick = start + e;
         bool emitted;
         bool expect = false;
         int32_t which = -1;
 
-        if (abs_tick < 0) {
-            continue;
-        }
         for (int32_t i = 0; i < plan.wave_count; ++i) {
-            if (wave_tick_abs(&plan, i) - start == e) {
+            if (wave_tick_relative(&plan, i) - start == e) {
                 expect = true;
                 which = i;
             }
@@ -612,9 +609,9 @@ static void test_wave_boundaries(const DemoConfig *cfg)
         if (expect) {
             expected_true += 1;
         }
-        emitted = emit_at(&plan, cfg, (uint32_t)abs_tick, NULL);
+        emitted = emit_at(&plan, cfg, (uint32_t)relative_tick, NULL);
         if (emitted != expect) {
-            printf("      tick=%d (elapsed=%d): emitted=%d expect=%d\n", (int)abs_tick, (int)e,
+            printf("      tick=%d (elapsed=%d): emitted=%d expect=%d\n", (int)relative_tick, (int)e,
                    emitted ? 1 : 0, expect ? 1 : 0);
         }
         check(emitted == expect, "emit 的返回与计划波次时刻一致");
@@ -683,7 +680,7 @@ static void test_shots_per_wave(const DemoConfig *cfg)
     for (int32_t i = 0; i < plan.wave_count; ++i) {
         WaveGeom g;
 
-        check(emit_at(&plan, cfg, (uint32_t)wave_tick_abs(&plan, i), &g), "该波生成成功");
+        check(emit_at(&plan, cfg, (uint32_t)wave_tick_relative(&plan, i), &g), "该波生成成功");
         check(g.count > 0u, "该波发数 > 0");
         check(g.count <= (uint32_t)plan.shots_per_wave, "该波发数 <= shots_per_wave(不得超额补发)");
         check_u32(g.count, (uint32_t)plan.shots_per_wave, "默认配置下该波发数 == shots_per_wave");
@@ -711,7 +708,7 @@ static void test_corridor(const DemoConfig *cfg)
         float dir = (plan.gap_angle_deg >= 0.0f) ? 1.0f : -1.0f;
         float c_expected = plan.wave_offset + dir * (float)i * pitch;
 
-        check(emit_at(&plan, cfg, (uint32_t)wave_tick_abs(&plan, i), &g), "该波生成成功");
+        check(emit_at(&plan, cfg, (uint32_t)wave_tick_relative(&plan, i), &g), "该波生成成功");
         gap = max_clear_gap(&g, cfg->boss_bullet_radius, 0.0f, cfg->field_w);
         check(gap.width >= plan.corridor_width, "该波最大无弹区间净宽 >= corridor_width(120 px)");
         check(gap.hi > gap.lo, "该波无弹区间宽度为正");
@@ -730,7 +727,7 @@ static void test_corridor(const DemoConfig *cfg)
         ClearGap gap;
         bool none_inside = true;
 
-        emit_at(&plan, cfg, (uint32_t)wave_tick_abs(&plan, 0), &g);
+        emit_at(&plan, cfg, (uint32_t)wave_tick_relative(&plan, 0), &g);
         gap = max_clear_gap(&g, cfg->boss_bullet_radius, 0.0f, cfg->field_w);
         for (uint32_t k = 0u; k < g.count; ++k) {
             float body_lo = g.x_sorted[k] - cfg->boss_bullet_radius;
@@ -767,7 +764,7 @@ static void test_corridor_reachable(const DemoConfig *cfg)
         printf("      seed=%u 方向=%s\n", (unsigned)seed,
                (dir > 0.0f) ? "向右(+x)" : "向左(-x)");
         for (int32_t i = 0; i < plan.wave_count; ++i) {
-            check(emit_at(&plan, cfg, (uint32_t)wave_tick_abs(&plan, i), &g[i]), "该波生成成功");
+            check(emit_at(&plan, cfg, (uint32_t)wave_tick_relative(&plan, i), &g[i]), "该波生成成功");
             gap[i] = max_clear_gap(&g[i], cfg->boss_bullet_radius, 0.0f, cfg->field_w);
         }
         for (int32_t i = 1; i < plan.wave_count; ++i) {
@@ -817,7 +814,7 @@ static void test_scan_shift(const DemoConfig *cfg)
         check(build_plan(&req, cfg, seed, 6u, &plan), "make_plan 成功");
         dir = (plan.gap_angle_deg >= 0.0f) ? 1.0f : -1.0f;
         for (int32_t i = 0; i < plan.wave_count; ++i) {
-            emit_at(&plan, cfg, (uint32_t)wave_tick_abs(&plan, i), &g[i]);
+            emit_at(&plan, cfg, (uint32_t)wave_tick_relative(&plan, i), &g[i]);
             geom_mean_min_max(&g[i], &mean[i], &dummy_lo, &dummy_hi);
             gap[i] = max_clear_gap(&g[i], cfg->boss_bullet_radius, 0.0f, cfg->field_w);
             gap_center[i] = 0.5f * (gap[i].lo + gap[i].hi);
@@ -859,7 +856,7 @@ static void test_velocity(const DemoConfig *cfg)
     for (int32_t i = 0; i < plan.wave_count; ++i) {
         WaveGeom g;
 
-        emit_at(&plan, cfg, (uint32_t)wave_tick_abs(&plan, i), &g);
+        emit_at(&plan, cfg, (uint32_t)wave_tick_relative(&plan, i), &g);
         for (uint32_t k = 0u; k < g.count; ++k) {
             float mag = sqrtf(g.spec[k].vx * g.spec[k].vx + g.spec[k].vy * g.spec[k].vy);
 
@@ -888,7 +885,7 @@ static void test_spawn_origin(const DemoConfig *cfg)
     for (int32_t i = 0; i < plan.wave_count; ++i) {
         WaveGeom g;
 
-        emit_at(&plan, cfg, (uint32_t)wave_tick_abs(&plan, i), &g);
+        emit_at(&plan, cfg, (uint32_t)wave_tick_relative(&plan, i), &g);
         for (uint32_t k = 0u; k < g.count; ++k) {
             check_near(g.spec[k].y, TEST_TOP_SPAWN_Y, 1e-4f, "y == 100(顶部进入)");
             check(g.spec[k].y <= 120.0f, "起点 y <= 120(顶部区域约定)");
@@ -919,7 +916,7 @@ static void test_capacity(const DemoConfig *cfg)
 
         spawn_buffer_init(&buf);
         for (int32_t i = 0; i < plan.wave_count; ++i) {
-            (void)pattern_shower_emit(&plan, cfg, (uint32_t)wave_tick_abs(&plan, i), &buf);
+            (void)pattern_shower_emit(&plan, cfg, (uint32_t)wave_tick_relative(&plan, i), &buf);
         }
         check_u32(buf.count, 80u, "5 波 x 16 发 = 80 发全部进入缓冲");
         check_u32(buf.overflow, 0u, "容量 256 时无 overflow");
@@ -937,7 +934,7 @@ static void test_capacity(const DemoConfig *cfg)
         buf.capacity = 4u;
         memset(&buf.spec[4], 0x5A, sizeof(Projectile) * 8u); /* 越界哨兵 */
         for (int32_t w = 0; w < plan.wave_count; ++w) {
-            (void)pattern_shower_emit(&plan, cfg, (uint32_t)wave_tick_abs(&plan, w), &buf);
+            (void)pattern_shower_emit(&plan, cfg, (uint32_t)wave_tick_relative(&plan, w), &buf);
         }
         check_u32(buf.count, 4u, "容量 4 时只保留 4 发");
         check_u32(buf.overflow, 76u, "其余 76 发计入 overflow(5*16-4)");
@@ -961,7 +958,7 @@ static void test_capacity(const DemoConfig *cfg)
         pool_init(&pool, cfg->projectile_cap);
         for (int32_t w = 0; w < plan.wave_count; ++w) {
             ProjectileSpawnBuffer buf;
-            uint32_t tick = (uint32_t)wave_tick_abs(&plan, w);
+            uint32_t tick = (uint32_t)wave_tick_relative(&plan, w);
 
             spawn_buffer_init(&buf);
             (void)pattern_shower_emit(&plan, cfg, tick, &buf);
@@ -1029,7 +1026,7 @@ static void test_capacity(const DemoConfig *cfg)
         pool_init(&pool, 8u);
         for (int32_t w = 0; w < plan.wave_count; ++w) {
             ProjectileSpawnBuffer buf;
-            uint32_t tick = (uint32_t)wave_tick_abs(&plan, w);
+            uint32_t tick = (uint32_t)wave_tick_relative(&plan, w);
 
             spawn_buffer_init(&buf);
             (void)pattern_shower_emit(&plan, cfg, tick, &buf);
@@ -1189,11 +1186,11 @@ static void test_invalid(const DemoConfig *cfg)
 
         check(build_plan(&req, cfg, 12u, 12u, &plan), "make_plan 成功");
         spawn_buffer_init(&buf);
-        check(pattern_shower_emit(NULL, cfg, (uint32_t)plan.start_tick, &buf) == false,
+        check(pattern_shower_emit(NULL, cfg, (uint32_t)0, &buf) == false,
               "emit: plan == NULL");
-        check(pattern_shower_emit(&plan, NULL, (uint32_t)plan.start_tick, &buf) == false,
+        check(pattern_shower_emit(&plan, NULL, (uint32_t)0, &buf) == false,
               "emit: config == NULL");
-        check(pattern_shower_emit(&plan, cfg, (uint32_t)plan.start_tick, NULL) == false,
+        check(pattern_shower_emit(&plan, cfg, (uint32_t)0, NULL) == false,
               "emit: out == NULL");
         check_u32(buf.count, 0u, "emit 失败时缓冲未被写");
 
@@ -1202,20 +1199,20 @@ static void test_invalid(const DemoConfig *cfg)
 
             broken.wave_count = 0;
             spawn_buffer_init(&buf);
-            check(pattern_shower_emit(&broken, cfg, (uint32_t)plan.start_tick, &buf) == false,
+            check(pattern_shower_emit(&broken, cfg, (uint32_t)0, &buf) == false,
                   "emit: wave_count == 0");
             check_u32(buf.count, 0u, "emit 失败时缓冲仍为空");
 
             broken = plan;
             broken.active_ticks = 0;
             spawn_buffer_init(&buf);
-            check(pattern_shower_emit(&broken, cfg, (uint32_t)plan.start_tick, &buf) == false,
+            check(pattern_shower_emit(&broken, cfg, (uint32_t)0, &buf) == false,
                   "emit: active_ticks == 0");
 
             broken = plan;
             broken.wave_count = 99; /* 超出 wave_tick[] 容量: 不得越界读 */
             spawn_buffer_init(&buf);
-            (void)pattern_shower_emit(&broken, cfg, (uint32_t)plan.start_tick, &buf);
+            (void)pattern_shower_emit(&broken, cfg, (uint32_t)0, &buf);
             check(buf.count <= DEMO_MAX_ACTIVE_PLAN_PROJECTILES,
                   "emit: wave_count 被伪造为 99 时仍不越界读 wave_tick[]");
         }
@@ -1285,7 +1282,7 @@ static void test_scenario_evidence(const DemoConfig *cfg)
            (plan_c.gap_angle_deg >= 0.0f) ? "向右(+x)" : "向左(-x)", (double)plan_c.wave_offset,
            (double)plan_c.corridor_width);
     for (i = 0; i < plan_c.wave_count; ++i) {
-        emit_at(&plan_c, cfg, (uint32_t)wave_tick_abs(&plan_c, i), &g);
+        emit_at(&plan_c, cfg, (uint32_t)wave_tick_relative(&plan_c, i), &g);
         gap = max_clear_gap(&g, cfg->boss_bullet_radius, 0.0f, cfg->field_w);
         print_coverage("聚拢", i, &g, &gap, &clustered);
     }
@@ -1298,7 +1295,7 @@ static void test_scenario_evidence(const DemoConfig *cfg)
            (plan_s.gap_angle_deg >= 0.0f) ? "向右(+x)" : "向左(-x)", (double)plan_s.wave_offset,
            (double)plan_s.corridor_width);
     for (i = 0; i < plan_s.wave_count; ++i) {
-        emit_at(&plan_s, cfg, (uint32_t)wave_tick_abs(&plan_s, i), &g);
+        emit_at(&plan_s, cfg, (uint32_t)wave_tick_relative(&plan_s, i), &g);
         gap = max_clear_gap(&g, cfg->boss_bullet_radius, 0.0f, cfg->field_w);
         print_coverage("分散", i, &g, &gap, &spread);
     }
@@ -1311,8 +1308,8 @@ static void test_scenario_evidence(const DemoConfig *cfg)
         WaveGeom gc;
         WaveGeom gs;
 
-        emit_at(&plan_c, cfg, (uint32_t)wave_tick_abs(&plan_c, i), &gc);
-        emit_at(&plan_s, cfg, (uint32_t)wave_tick_abs(&plan_s, i), &gs);
+        emit_at(&plan_c, cfg, (uint32_t)wave_tick_relative(&plan_c, i), &gc);
+        emit_at(&plan_s, cfg, (uint32_t)wave_tick_relative(&plan_s, i), &gs);
         check(memcmp(gc.x_sorted, gs.x_sorted, sizeof(float) * gc.count) == 0,
               "同一波在聚拢/分散场景下弹幕 x 完全相同");
     }
@@ -1322,7 +1319,7 @@ static void test_scenario_evidence(const DemoConfig *cfg)
     for (i = 0; i < plan_c.wave_count; ++i) {
         int32_t wave_threat = 0;
 
-        emit_at(&plan_c, cfg, (uint32_t)wave_tick_abs(&plan_c, i), &g);
+        emit_at(&plan_c, cfg, (uint32_t)wave_tick_relative(&plan_c, i), &g);
         gap = max_clear_gap(&g, cfg->boss_bullet_radius, 0.0f, cfg->field_w);
         for (s = 0u; s < clustered.student_count; ++s) {
             bool threatened = false;

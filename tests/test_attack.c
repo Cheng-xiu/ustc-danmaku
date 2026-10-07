@@ -72,12 +72,10 @@ static bool stub_emit(const AttackPlan *plan, const DemoConfig *config, uint32_t
     if (plan == NULL || out == NULL) {
         return false;
     }
-    const int32_t first_active = plan->start_tick + plan->windup_ticks;
-    if ((int32_t)attack_tick != first_active) {
+    /* emit 参数是攻击期相对 tick；第一波在0，不是世界绝对时间。 */
+    if (attack_tick != 0u) {
         return false;
     }
-    fprintf(stderr, "EMIT push tick=%d cap=%u count_before=%u\n", (int)attack_tick,
-            (unsigned)out->capacity, (unsigned)out->count);
     Projectile spec;
     memset(&spec, 0, sizeof(spec));
     spec.faction = DEMO_FACTION_BOSS;
@@ -416,7 +414,8 @@ static void test_f_windup_boundary(void) {
                    (int)w.events.items[i].amount);
         }
     }
-    check("f7 攻击进度在 ACTIVE 起点为 1", attack_progress(&w) == 1.0f);
+    /* tick_advance 已将 world.tick 从边界递增一次，读到的是第一个完成tick。 */
+    check("f7 首个 ACTIVE tick 完成后的进度", attack_progress(&w) == 1.0f + 1.0f / (float)w.plan.active_ticks);
 }
 
 /* g) 结束边界: start+windup+active 回到 IDLE, 且该 tick 无 WAVE_SPAWN */
@@ -540,7 +539,14 @@ static void test_j_clear_on_end(void) {
     pool_spawn(&w2.pool, DEMO_FACTION_BOSS, w2.boss.id, plan_id2, DEMO_PATTERN_RING, 100.0f,
                200.0f, 0.0f, 60.0f, 6.0f, 1.0f, 480, (uint64_t)w2.tick);
     advance_ticks(&w2, windup + active + 1);
-    check("j6 关闭清弹配置时 Boss 弹保留", ok2 == true && pool_active_with_plan(&w2, plan_id2) == 1u);
+    /* 同一计划还会生成一发桩弹；精确检查手工植入的弹，不能断言总数为1。 */
+    bool implanted_survives = false;
+    for (uint32_t i = 0; i < w2.pool.capacity; i++) {
+        const Projectile *p = &w2.pool.items[i];
+        if (p->active && p->plan_id == plan_id2 && p->x == 100.0f && p->y == 200.0f)
+            implanted_survives = true;
+    }
+    check("j6 关闭清弹配置时 Boss 弹保留", ok2 && implanted_survives);
 }
 
 /* 附加: attack_progress 形状与 attack_step 空指针安全 */

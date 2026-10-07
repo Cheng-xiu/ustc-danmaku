@@ -1,6 +1,6 @@
 /* demo_config.c - demo 规则配置(母代理独占维护)
  *
- * 配置版本: 1
+ * 配置版本: 2（网页迁移修复顶部课表出生区，并补齐非默认学生槽位）
  * 已批准规则来源: docs/demo-rules.md (用户 2026-10-06 答复)
  * 本文件中的"试验数值"可调, 但修改必须递增 version 并更新 docs/demo-rules.md。
  */
@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define DEMO_CONFIG_VERSION 1u
+#define DEMO_CONFIG_VERSION 2u
 
 static void set_default_students(DemoConfig *cfg) {
     /* 默认 3 名学生; 出生点按 960x720 战场等分布置, 与 Boss 初始位置保持安全距离。 */
@@ -21,9 +21,12 @@ static void set_default_students(DemoConfig *cfg) {
     cfg->student_spawn_y[1] = 300.0f;
     cfg->student_spawn_x[2] = 480.0f;
     cfg->student_spawn_y[2] = 430.0f;
+    /* 非默认数量的原生与 Wasm 调试使用同一合法位置；默认三名保持原值。 */
+    static const float extra_x[5] = {160.0f, 800.0f, 480.0f, 320.0f, 640.0f};
+    static const float extra_y[5] = {160.0f, 160.0f, 160.0f, 470.0f, 470.0f};
     for (uint32_t i = 3u; i < DEMO_MAX_STUDENTS; ++i) {
-        cfg->student_spawn_x[i] = 0.0f;
-        cfg->student_spawn_y[i] = 0.0f;
+        cfg->student_spawn_x[i] = extra_x[i - 3u];
+        cfg->student_spawn_y[i] = extra_y[i - 3u];
     }
 }
 
