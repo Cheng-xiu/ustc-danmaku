@@ -1,0 +1,31 @@
+# GitHub Pages 试玩站
+
+公开试玩地址：[科大弹幕录](https://cheng-xiu.github.io/ustc-danmaku/)。
+
+站点采用仓库的 `gh-pages` 分支根目录发布，关闭 Jekyll 处理。`index.html` 是已验收的 `demo/ustc-danmaku.html` 原始字节；不在发布时重新构建游戏，JavaScript、Wasm、CSS 与校徽均已内嵌。项目路径 `/ustc-danmaku/` 不需要额外资源路径配置。
+
+`gh-pages` 只包含游戏入口、`.nojekyll`、保护 HTML 字节的 `.gitattributes` 和公开的 `deployment.json`。后者记录游戏来源提交、HTML 大小和 SHA256，不包含凭据。源代码仍在开发分支，原有草稿 PR 独立保留。
+
+## 更新游戏
+
+先按 [构建指南](web-demo-guide.md) 重建 Wasm 和单文件 HTML，完成必要试玩检查，把最终产物更新至 `demo/ustc-danmaku.html` 并提交。然后在仓库根目录运行：
+
+```powershell
+node scripts/publish-pages.mjs
+```
+
+脚本需要 Node 和可用的 Git 推送权限。它直接创建发布 Git 对象并正常推送 `gh-pages`，不切换当前工作树；拒绝发布未提交的 HTML、替换非本项目的发布分支或覆盖额外文件。重复发布相同来源与相同文件时保持原发布提交；并发更新造成冲突时 Git 会拒绝非快进推送。
+
+网站由 GitHub Pages 在发布分支变化后更新。GitHub 仓库 Settings → Pages 应保持 `Deploy from a branch`、分支 `gh-pages`、目录 `/ (root)`，启用 HTTPS；不需要自定义域名。
+
+若本机 Git 不能直接联网，可使用本机已有代理，或先配置 Git 的网络连接；代理地址属于本机环境，不写入游戏仓库。脚本不会保存或打印 GitHub 令牌。
+
+## 核对上线
+
+- 等待 Pages 构建与部署成功，打开上述地址；首次发布可能需要几分钟。
+- 确认菜单可开始、显示圆形校徽和三个学生，1–4 出招、暂停与重开正常，控制台没有运行异常或失败的游戏资源请求。
+- 在线 HTML 的 SHA256 应与已提交的 `demo/ustc-danmaku.html` 和 `deployment.json` 一致。试玩页不传输玩家数据，也没有服务器端存档。
+
+后续机器学习训练继续使用原生 C 核心；网站只是现有游戏的浏览器入口。本次托管不改变玩法或设备支持范围。
+
+[GitHub 官方发布源说明](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)。

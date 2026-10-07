@@ -4,6 +4,8 @@
 
 ## 直接试玩
 
+[在线试玩：GitHub Pages](https://cheng-xiu.github.io/ustc-danmaku/)。网站发布与更新方式见 [Pages 指南](docs/github-pages.md)。
+
 下载仓库的 [单文件 HTML](demo/ustc-danmaku.html)，用 Chrome 或 Edge 双击打开即可。JavaScript、Wasm、官方科大圆形校徽和许可证都已内嵌；试玩不需要安装 Node、编译器或启动服务器。
 
 鼠标朝指针移动；WASD / 方向键备用；1–4 出招；Esc / 右键暂停；R 重开。初始 3 名学生，每清一波预告 2 秒并增加 1 名，最多 8 名后持续刷新。只有 Boss 死亡结束，没有胜利终点。
@@ -41,4 +43,4 @@
 
 [完整原规范 Markdown](docs/project-spec-v3.1.md) 与 [原 PDF](references/project-spec-v3.1.pdf) 保留原始内容。用户后续的 Boss、无尽、GPA 等决定覆盖旧学生视角与有限胜局设计。开发者遵守 [AGENTS.md](AGENTS.md)。
 
-本轮交付本地 HTML 和仓库源码，尚未发布到公共网站。自动化脚本和浏览器检查支持继续试玩，不替代真人体验或全部设备的性能验证。
+提供本地 HTML、仓库源码与 GitHub Pages 试玩入口。自动化脚本和浏览器检查支持继续试玩，不替代真人体验或全部设备的性能验证。
