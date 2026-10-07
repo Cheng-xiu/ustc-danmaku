@@ -1,0 +1,14 @@
+{
+  "configVersion": 6,
+  "abiVersion": 5,
+  "coreSourceCount": 16,
+  "htmlBytes": 1168141,
+  "htmlSha256": "9de27925103b644236b736e635932be215ecd0440d095311657c08673d22680d",
+  "wasmBytes": 62152,
+  "wasmSha256": "9dbd096c2eac3792de2c22b5af54725591fd99502f6239b16a41257a13c21b93",
+  "embeddedWasmMatchesCompiled": true,
+  "emblemSha256": "f18400d73b532fad6752b756d608e63717cd495f8f8a72a29f3b7e9ebad50663",
+  "embeddedEmblemMatchesSource": true,
+  "externalScriptOrLink": false,
+  "thirdPartyNotices": true
+}

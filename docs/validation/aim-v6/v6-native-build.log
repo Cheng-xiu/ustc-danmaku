@@ -1,0 +1,43 @@
+[  1%] Building C object CMakeFiles/demo_core.dir/core/field_config.c.obj
+[  3%] Building C object CMakeFiles/test_attack.dir/core/attack.c.obj
+[  4%] Building C object CMakeFiles/demo_core.dir/core/attack.c.obj
+[  6%] Linking C static library libdemo_core.a
+[  8%] Linking C executable test_attack.exe
+[ 30%] Built target demo_core
+[ 38%] Built target test_attack
+[ 40%] Linking C executable test_actors.exe
+[ 41%] Linking C executable sim.exe
+[ 43%] Linking C executable test_aim_release.exe
+[ 45%] Linking C executable test_collision.exe
+[ 46%] Built target test_actors
+[ 50%] Built target sim
+[ 51%] Built target test_aim_release
+[ 53%] Built target test_collision
+[ 54%] Linking C executable test_manual_aim.exe
+[ 56%] Linking C executable test_pattern_shower.exe
+[ 58%] Linking C executable test_pattern_roles.exe
+[ 59%] Linking C executable test_projectiles.exe
+[ 61%] Built target test_manual_aim
+[ 62%] Built target test_pattern_shower
+[ 64%] Built target test_pattern_roles
+[ 66%] Built target test_projectiles
+[ 67%] Linking C executable test_rng.exe
+[ 69%] Linking C executable test_student_fire.exe
+[ 70%] Linking C executable test_web_core.exe
+[ 72%] Linking C executable test_endless.exe
+[ 74%] Built target test_rng
+[ 75%] Built target test_web_core
+[ 77%] Built target test_student_fire
+[ 79%] Built target test_endless
+[ 80%] Building C object CMakeFiles/test_field_size.dir/tests/web/test_field_size.c.obj
+[ 82%] Linking C executable web_native_replay.exe
+[ 83%] Linking C executable endless_native_replay.exe
+[ 85%] Building C object CMakeFiles/web_bridge_probe.dir/wasm/bridge_probe.c.obj
+[ 87%] Linking C executable test_field_size.exe
+[ 88%] Linking C executable web_bridge_probe.exe
+[ 91%] Built target endless_native_replay
+[ 95%] Built target web_native_replay
+[ 96%] Linking C executable web_balance_probe.exe
+[ 96%] Built target test_field_size
+[ 98%] Built target web_bridge_probe
+[100%] Built target web_balance_probe

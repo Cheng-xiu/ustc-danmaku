@@ -1,6 +1,6 @@
 /* demo_config.c - demo 规则配置(母代理独占维护)
  *
- * 配置版本: 5（四招用途差异；基于公开输入的平衡验证）
+ * 配置版本: 6（鼠标定向预瞄与释放；费用/时序沿用 v5）
  * 已批准规则来源: docs/demo-rules.md (用户 2026-10-06 / 07 指令)
  * 本文件中的"试验数值"可调, 但修改必须递增 version 并更新 docs/demo-rules.md。
  */
@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define DEMO_CONFIG_VERSION 5u
+#define DEMO_CONFIG_VERSION 6u
 
 static void set_default_students(DemoConfig *cfg) {
     /* 默认 3 名学生; 出生点按 960x720 战场等分布置, 与 Boss 初始位置保持安全距离。 */
@@ -44,6 +44,8 @@ static void set_default_patterns(DemoConfig *cfg) {
     ring->spawn_safety_radius = 70.0f; /* 环弹从 Boss 原点放出, 只要求不贴 Boss 自身 */
     ring->first_spawn_sec = 0.0f;
     ring->wave_interval_sec = 0.3f;
+    ring->manual_arc_span_deg = 160.0f;
+    ring->manual_shots_per_wave = 24;
 
     /* 1 选课系统·课表华容道: 中消耗·封路 */
     PatternConfig *course = &cfg->patterns[DEMO_PATTERN_COURSE];
@@ -59,6 +61,8 @@ static void set_default_patterns(DemoConfig *cfg) {
     course->spawn_safety_radius = 90.0f;
     course->first_spawn_sec = 0.0f;
     course->wave_interval_sec = 1.0f;
+    course->manual_shots_per_wave = 24;
+    course->manual_entry_inset_px = 100.0f;
 
     /* 2 一教金矿·绩点淘金: 低消耗·追击 */
     PatternConfig *mine = &cfg->patterns[DEMO_PATTERN_MINE];
@@ -73,6 +77,8 @@ static void set_default_patterns(DemoConfig *cfg) {
     mine->spawn_safety_radius = 120.0f; /* v4: 仍检查全部学生与矿点的安全距离 */
     mine->first_spawn_sec = 0.0f;
     mine->wave_interval_sec = 0.3f;
+    mine->manual_arc_span_deg = 40.0f;
+    mine->manual_shots_per_wave = 9;
 
     /* 3 期末总评·绩点淋浴: 高消耗·多目标压制 */
     PatternConfig *shower = &cfg->patterns[DEMO_PATTERN_SHOWER];
@@ -87,6 +93,9 @@ static void set_default_patterns(DemoConfig *cfg) {
     shower->spawn_safety_radius = 60.0f;
     shower->first_spawn_sec = 0.0f;
     shower->wave_interval_sec = 0.4f;
+    shower->manual_shots_per_wave = 16;
+    shower->manual_entry_inset_px = 100.0f;
+    shower->manual_density_pitch_px = 51.0f;
 }
 
 bool demo_config_init(DemoConfig *cfg) {
@@ -299,9 +308,23 @@ bool demo_config_validate(const DemoConfig *cfg, char *err, size_t err_cap) {
         if (pc->wave_count <= 0 || pc->wave_count > 8) {
             FAIL("pattern wave count out of range");
         }
-        if (pc->first_spawn_sec < 0.0f || pc->wave_interval_sec < 0.0f) {
+        if (!is_finite_f(pc->first_spawn_sec) || !is_finite_f(pc->wave_interval_sec) ||
+            pc->first_spawn_sec < 0.0f || pc->wave_interval_sec < 0.0f) {
             FAIL("pattern wave timing must be non-negative");
         }
+        if (!is_finite_f(pc->manual_arc_span_deg) || pc->manual_arc_span_deg < 0.0f ||
+            pc->manual_arc_span_deg >= 180.0f || pc->manual_shots_per_wave < 1 ||
+            pc->manual_shots_per_wave > (int32_t)DEMO_MAX_ACTIVE_PLAN_PROJECTILES ||
+            !is_finite_f(pc->manual_entry_inset_px) || pc->manual_entry_inset_px < 0.0f ||
+            !is_finite_f(pc->manual_density_pitch_px) || pc->manual_density_pitch_px < 0.0f) {
+            FAIL("manual pattern geometry invalid");
+        }
+    }
+    if (cfg->patterns[DEMO_PATTERN_RING].manual_arc_span_deg <= 0.0f ||
+        cfg->patterns[DEMO_PATTERN_MINE].manual_arc_span_deg <= 0.0f ||
+        cfg->patterns[DEMO_PATTERN_COURSE].manual_shots_per_wave < 2 ||
+        cfg->patterns[DEMO_PATTERN_SHOWER].manual_density_pitch_px <= 0.0f) {
+        FAIL("manual arc span, wall count and rain density must be positive");
     }
     /* 环弹每圈发数不得超过计划几何容量 */
     const PatternConfig *course = &cfg->patterns[DEMO_PATTERN_COURSE];

@@ -11,13 +11,13 @@ static int write_snapshot(FILE *file) {
     return data && length && fwrite(&length, 4, 1, file) == 1 && fwrite(data, 1, length, file) == length;
 }
 int main(int argc, char **argv) {
-    if (argc != 5 && argc != 7) { fprintf(stderr, "usage: native_replay path seedLo seedHi students [width height]\n"); return 2; }
+    if (argc != 5 && argc != 7 && argc != 8) { fprintf(stderr, "usage: native_replay path seedLo seedHi students [width height [manual]]\n"); return 2; }
     FILE *file = fopen(argv[1], "wb");
     if (!file) return 3;
     uint32_t lo = (uint32_t)strtoul(argv[2], NULL, 10);
     uint32_t hi = (uint32_t)strtoul(argv[3], NULL, 10);
     uint32_t students = (uint32_t)strtoul(argv[4], NULL, 10);
-    const int reset = argc == 7
+    const int reset = argc >= 7
         ? demo_reset_sized(lo, hi, students, strtof(argv[5], NULL), strtof(argv[6], NULL))
         : demo_reset(lo, hi, students);
     if (!reset || !write_snapshot(file)) return 4;
@@ -31,7 +31,12 @@ int main(int argc, char **argv) {
         int pointer = (tick / 300) % 3 == 1;
         float px = tick % 600 < 300 ? 260.0f : 720.0f;
         float py = tick % 480 < 240 ? 540.0f : 180.0f;
-        demo_step(mx, my, pointer, px, py, attacks);
+        const float dirs[8][2] = {{1,0},{0.70710677f,0.70710677f},{0,1},{-0.70710677f,0.70710677f},
+            {-1,0},{-0.70710677f,-0.70710677f},{0,-1},{0.70710677f,-0.70710677f}};
+        if (argc == 8 && atoi(argv[7])) {
+            const uint32_t direction = (tick / 300) % 8;
+            demo_step_aim(mx, my, pointer, px, py, attacks, dirs[direction][0], dirs[direction][1]);
+        } else demo_step(mx, my, pointer, px, py, attacks);
         if (!write_snapshot(file)) return 5;
     }
     demo_dispose();

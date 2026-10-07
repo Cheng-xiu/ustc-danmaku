@@ -4,7 +4,7 @@ import { BrowserInput } from './input/browserInput';
 import { FixedStepClock } from './runtime/gameLoop';
 import { GameScene } from './render/scene';
 import { HUD } from './ui/hud';
-import type { CoreClient, Phase, Snapshot, GameEvent } from './types';
+import type { CoreClient, Phase, Snapshot, GameEvent, AimPreview } from './types';
 
 const arena = document.querySelector<HTMLElement>('#arena')!;
 const loading = document.querySelector<HTMLElement>('#load-status')!;
@@ -13,15 +13,17 @@ let phase: Phase = 'menu';
 let reason = '';
 let reasonUntil = 0;
 let snapshot: Snapshot | null = null;
+let aimPreview: AimPreview | null = null;
 let core: CoreClient;
 let scene: GameScene;
 let input: BrowserInput;
 const clock = new FixedStepClock();
 let lastTime = 0;
 let raf = 0;
+let disposed = false;
 const samples: { interval: number; frame: number; core: number; decode: number; render: number; ticks: number }[] = [];
 function resize() {
-  if (!scene) return;
+  if (!scene || disposed) return;
   const bounds = arena.getBoundingClientRect();
   scene.resize(bounds.width, bounds.height);
 }
@@ -37,6 +39,7 @@ function roundFieldSize() {
 }
 
 function changePhase(next: Phase, message = '') {
+  if (disposed) return;
   phase = next;
   reason = message;
   reasonUntil = message ? Infinity : 0;
@@ -44,9 +47,13 @@ function changePhase(next: Phase, message = '') {
   // Establish the baseline using the next RAF timestamp, from the same clock domain.
   lastTime = 0;
   input?.clear();
+  aimPreview = null;
+  scene?.drawAim(null);
+  hud.renderAim(null, null);
   hud.render(snapshot, phase, reason);
 }
 function restart() {
+  if (disposed) return;
   const field = roundFieldSize();
   try {
     snapshot = core.reset(20261006, 0, 3, field.width, field.height);
@@ -76,7 +83,7 @@ function processEvents(events: GameEvent[], now: number) {
       reason = messages[event.reject] ?? '本次出招未被接受';
       reasonUntil = now + 2000;
     } else if (event.type === 1) {
-      reason = '已锁定目标与弹道，预警后释放';
+      reason = '已锁定方向与弹道，预警后释放';
       reasonUntil = now + 1200;
     } else if (event.type === 14) {
       reason = `下一波 ${event.amount} 名学生即将出场，留意场内出生标记。`;
@@ -88,6 +95,7 @@ function processEvents(events: GameEvent[], now: number) {
   }
 }
 function frame(now: number) {
+  if (disposed) return;
   try {
     const begin = performance.now();
     const delta = lastTime ? now - lastTime : 0;
@@ -119,6 +127,10 @@ function frame(now: number) {
     if (reasonUntil < now) reason = '';
     if (snapshot) scene.draw(snapshot);
     hud.render(snapshot, phase, reason);
+    const selection = phase === 'playing' ? input.getSelection() : null;
+    aimPreview = selection ? core.preview(selection.pattern, selection.dirX, selection.dirY) : null;
+    scene.drawAim(aimPreview);
+    hud.renderAim(selection, aimPreview);
     const renderStart = performance.now();
     scene.render();
     const renderMs = performance.now() - renderStart;
@@ -135,8 +147,12 @@ function frame(now: number) {
 
 async function boot() {
   [core, scene] = await Promise.all([loadCore(), GameScene.create(arena)]);
-  input = new BrowserInput(scene.canvas, { pause: () => pause(), restart }, (x, y) => scene.screenToWorld(x, y));
-  hud.setCallbacks({ start, pause: () => pause(), restart, attack: p => { if (phase === 'playing') input.requestAttack(p); } });
+  input = new BrowserInput(scene.canvas, { pause: () => pause(), restart,
+    isPlaying: () => phase === 'playing', getBoss: () => snapshot?.actors[0] }, (x, y) => scene.screenToWorld(x, y));
+  hud.setCallbacks({ start, pause: () => pause(), restart,
+    beginAim: (pattern, owner) => input.beginSelection(pattern, owner),
+    endAim: owner => input.endSelection(owner),
+    cancelAim: owner => input.cancelSelection(owner) });
   snapshot = core.reset(20261006, 0, 3);
   loading.hidden = true;
   hud.render(snapshot, phase);
@@ -145,7 +161,7 @@ async function boot() {
   raf = requestAnimationFrame(frame);
   // QA only reads the public display snapshot and timings. It cannot alter core state.
   if (new URLSearchParams(location.search).has('qa')) {
-    Object.assign(window, { __demo: { inspect: () => ({ phase, snapshot, samples: [...samples], reason }) } });
+    Object.assign(window, { __demo: { inspect: () => ({ phase, snapshot, samples: [...samples], reason, aim: input.getSelection(), preview: aimPreview }) } });
   }
   document.addEventListener('visibilitychange', () => {
     if (document.hidden && phase === 'playing') changePhase('paused', '页面已隐藏，战斗自动暂停。请点击继续。');
@@ -159,7 +175,7 @@ async function boot() {
     if (event.persisted) {
       if (phase === 'playing') changePhase('paused', '返回页面后，请点击继续对局。');
       input.clear();
-    } else { input.dispose(); core.dispose(); hud.dispose(); scene.destroy(); }
+    } else { disposed = true; input.dispose(); core.dispose(); hud.dispose(); scene.destroy(); }
   });
   window.addEventListener('pageshow', (event: PageTransitionEvent) => {
     if (event.persisted) {

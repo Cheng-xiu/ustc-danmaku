@@ -49,6 +49,7 @@ set(DEMO_CORE_SOURCES
     core/projectiles.c
     core/attack.c
     core/patterns.c
+    core/pattern_aim.c
     core/pattern_ring.c
     core/pattern_course.c
     core/pattern_mine.c
@@ -91,7 +92,7 @@ if(DEMO_BUILD_TESTS)
         set_source_files_properties(${TEST_SOURCE} PROPERTIES LANGUAGE C)
         if(TEST_NAME STREQUAL "test_attack")
             # 历史窄单元测试自带 pattern/event 桩，只链接所需真实模块。
-            target_sources(${TEST_NAME} PRIVATE core/attack.c core/demo_config.c core/rng.c core/projectiles.c)
+            target_sources(${TEST_NAME} PRIVATE core/attack.c core/pattern_aim.c core/demo_config.c core/rng.c core/projectiles.c)
             target_include_directories(${TEST_NAME} PRIVATE core ai)
             if(NOT MSVC)
                 target_link_libraries(${TEST_NAME} PRIVATE m)

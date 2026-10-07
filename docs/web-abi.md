@@ -1,6 +1,6 @@
-# Web ABI v4
+# Web ABI v5
 
-当前配置 v5。v4 新增可变场地重开导出 `demo_reset_sized`，64-word 快照布局保留 v3，word 29/30 为本局真实场宽高。客户端严格要求 v4 及新导出，拒绝旧模块。v3 曾将 word 55 改为 GPA 半饱和击倒数。原生和 Wasm 共用桥接源码，不 memcpy C 结构体。
+当前配置 v6。v5 新增手动方向步进与独立纯 C 预瞄；v4 曾新增可变场地重开导出 `demo_reset_sized`，64-word 快照布局保留 v3，word 29/30 为本局真实场宽高。客户端严格要求 v5 及新导出，拒绝旧模块。v3 曾将 word 55 改为 GPA 半饱和击倒数。原生和 Wasm 共用桥接源码，不 memcpy C 结构体。
 
 ## 导出与所有权
 
@@ -8,7 +8,11 @@ demo_reset(uint32 seedLo, uint32 seedHi, uint32 students) 返回 1/0；students 
 
 `demo_reset_sized(seedLo, seedHi, students, float width, float height)` 返回 1/0，场地验证与适配由共享 C 完成；非法尺寸返回 0 并保留当前世界。`demo_reset` 仍是默认 960×720 兼容入口。网页新局按战场比例保持面积 960×720；本局窗口缩放只影响显示，已公开计划与预告点不变。
 
-缓冲在下一次 snapshot/reset/dispose 时失效。TypeScript 每次重新获取 HEAPU8 并复制，再严格检查 magic、版本、容量、连续偏移和字段。64 位 ID/seed 以十进制字符串保存。内存增长后不复用旧视图。
+`demo_step_aim(mx,my,pointerValid,px,py,attackMask,dirX,dirY)` 将一 tick 的松手请求作为手动方向输入；由 C 用 double hypot 归一化有限非零向量，按原子事务验证后接受。方向是向量，鼠标移动目标是坐标，两者分开。Web 界面只使用此入口释放技能；legacy demo_step 保留旧自动目标诊断兼容。
+
+`demo_preview(pattern,dirX,dirY)` 返回独立候选缓冲，`demo_preview_size()` 返回其长度。C 使用同一个 attack_build_aim_plan 工厂与真实 pattern_emit 生成全部波次射线；不推进 tick、不消费 RNG、不改变世界、能量、事件或已接受计划。读取预瞄不破坏快照缓冲。
+
+快照缓冲在下一次 snapshot/reset/dispose 时失效，预瞄缓冲在下一次 preview/reset/dispose 时失效。TypeScript 每次重新获取 HEAPU8 并复制，再严格检查 magic、版本、容量、连续偏移和字段。64 位 ID/seed 以十进制字符串保存。内存增长后不复用旧视图。
 
 ## 头部
 
@@ -16,7 +20,7 @@ demo_reset(uint32 seedLo, uint32 seedHi, uint32 students) 返回 1/0；students 
 
 | Word | 值或意义 |
 | --- | --- |
-| 0 / 1 / 2 | magic 0x55444331 / ABI 4 / 总字节数 |
+| 0 / 1 / 2 | magic 0x55444331 / ABI 5 / 总字节数 |
 | 3 / 4 / 5 | tick / status / config version |
 | 6–9 | 学生数 / 活弹数 / 公开预警数 / 本 tick 事件数 |
 | 10 / 11 | 能量 / 上限 |
@@ -32,7 +36,8 @@ demo_reset(uint32 seedLo, uint32 seedHi, uint32 students) 返回 1/0；students 
 | 50 / 51 / 52 | GPA 百分位整数 / 累计真实击倒 / 累计派出学生 |
 | 53 / 54 | 出生点预告数 / 预告数组字节偏移 |
 | 55 / 56 | GPA 半饱和击倒数（20）/ 极限百分位值（430） |
-| 57–63 | 保留，必须0 |
+| 57 / 58 / 59 | float 已接受手动方向 x/y / manualAim boolean；无活动手动计划时均0 |
+| 60–63 | 保留，必须0 |
 
 status 枚举 0 running / 1 win / 2 lose / 3 draw 保留用于历史有限夹具。产品无尽默认只运行或死亡失败。windup/active 为 1/2，idle 为0；pattern 为0..3。
 
@@ -49,6 +54,23 @@ Warnings 每条8 words：float x/y/vx/vy/radius、int absoluteSpawnTick、waveIn
 Events 每条9 words：type、int tick、sourceId、targetId、pattern、reject、int amount、float x/y。事件类型13清波、14下一波预告、15新波开始；其余事件沿用定义。追赶显示帧收集每 tick 事件。
 
 Spawn preview 每条2 words：float x/y。2秒预告点在清波时冻结，学生实际在对应 tick、对应位置出生，不因 Boss 后来走近而迁移。
+
+## 候选预瞄二进制
+
+16 个小端 32 位 word，紧接与 Warnings 一致的 8-word ray 数组，最大8192条。
+
+| Word | 值或意义 |
+| --- | --- |
+| 0 / 1 / 2 | magic 0x55445031 / preview version1 / 总字节数 |
+| 3 / 4 / 5 | pattern / ready boolean / reject reason |
+| 6 / 7 | float Boss 原点 x/y |
+| 8 / 9 | float 已归一化方向 x/y |
+| 10 / 11 | ray 数 / ray 偏移64字节 |
+| 12 / 13 / 14 / 15 | 当前tick / float 场宽 / float 场高 / reserved0 |
+
+`AimPreview.valid` 表示当前可接受（ready），不是单独的几何合法标志。reason0且readyfalse、0rays表示几何不安全；reason1能量不足、2忙碌、3无存活目标。能量/CD不足仍可有合法候选射线，界面显示灰色；合法就绪候选才为彩色。客户端严格检查边界、容量、方向、连续布局、ray波次/出生tick与有限字段，不复用 Wasm 内存视图。
+
+预瞄显示帧可0逻辑tick也刷新，只读第一波方向线；松手时 C 重新检查当前世界并冻结接受计划。移动在接受之后发生，预瞄原点与对应接受tick的原点一致。按住不扣费，取消清边沿而不清WASD；release仅消费一次，拒绝不自动排队。
 
 ## 时钟与计分
 

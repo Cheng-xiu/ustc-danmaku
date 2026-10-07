@@ -14,7 +14,7 @@ const wasmSnapshot = () => {
   if (!ptr || !size) throw new Error('Invalid Wasm snapshot');
   return Buffer.from(module.HEAPU8.subarray(ptr, ptr + size));
 };
-const floats = new Set([29, 30]);
+const floats = new Set([29, 30, 57, 58]);
 function floatSlots(buffer) {
   const result = new Set(floats);
   const groups = [
@@ -29,11 +29,12 @@ function floatSlots(buffer) {
 }
 let maxFloatDelta = 0, ticksCompared = 0;
 const cases = [[20261006, 0, 3, 960, 720], [12345, 0, 1, 960, 720], [0x9abcdef0, 0x12345678, 8, 960, 720],
-  [20261007, 0, 3, 1120, 617.1428833], [7654321, 0, 8, 1280, 540], [13579, 0, 3, 650, 1063.38464]];
+  [20261007, 0, 3, 1120, 617.1428833], [7654321, 0, 8, 1280, 540], [13579, 0, 3, 650, 1063.38464],
+  [20261006,0,3,960,720,1], [20261007,0,3,1120,617.1428833,1], [7654321,0,8,1280,540,1], [13579,0,3,650,1063.38464,1]];
 const reports = [];
-for (const [lo, hi, students, width, height] of cases) {
-  const filename = path.join(out, `native-${lo}-${hi}-${students}-${width}.bin`);
-  const run = spawnSync(executable, [filename, String(lo), String(hi), String(students), String(width), String(height)], { encoding: 'utf8' });
+for (const [lo, hi, students, width, height, manual = 0] of cases) {
+  const filename = path.join(out, `native-${lo}-${hi}-${students}-${width}-${manual}.bin`);
+  const run = spawnSync(executable, [filename, String(lo), String(hi), String(students), String(width), String(height), String(manual)], { encoding: 'utf8' });
   if (run.status !== 0) throw new Error(`Native replay failed ${run.status}: ${run.stderr}`);
   const native = readFileSync(filename);
   let position = 0;
@@ -66,11 +67,15 @@ for (const [lo, hi, students, width, height] of cases) {
     let attacks = tick % 240 === 0 ? 1 << (Math.floor(tick / 240) % 4) : 0;
     if (tick % 240 === 10) attacks = 8;
     const pointer = Math.floor(tick / 300) % 3 === 1 ? 1 : 0;
-    module._demo_step(mx, my, pointer, tick % 600 < 300 ? 260 : 720, tick % 480 < 240 ? 540 : 180, attacks);
+    const dirs = [[1,0],[Math.fround(.70710677),Math.fround(.70710677)],[0,1],[-Math.fround(.70710677),Math.fround(.70710677)],
+      [-1,0],[-Math.fround(.70710677),-Math.fround(.70710677)],[0,-1],[Math.fround(.70710677),-Math.fround(.70710677)]];
+    const args = [mx, my, pointer, tick % 600 < 300 ? 260 : 720, tick % 480 < 240 ? 540 : 180, attacks];
+    if (manual) module._demo_step_aim(...args, ...dirs[Math.floor(tick / 300) % 8]);
+    else module._demo_step(...args);
     final = compare(tick);
   }
   if (position !== native.length) throw new Error('Unconsumed native records');
-  reports.push({ seedLo: lo, seedHi: hi, students, fieldW: final.readFloatLE(29 * 4), fieldH: final.readFloatLE(30 * 4), tick: final.readUInt32LE(12), status: final.readUInt32LE(16), accepted: final.readUInt32LE(88), bossBullets: final.readUInt32LE(104), studentBullets: final.readUInt32LE(108) });
+  reports.push({ manual: Boolean(manual), seedLo: lo, seedHi: hi, students, fieldW: final.readFloatLE(29 * 4), fieldH: final.readFloatLE(30 * 4), tick: final.readUInt32LE(12), status: final.readUInt32LE(16), accepted: final.readUInt32LE(88), bossBullets: final.readUInt32LE(104), studentBullets: final.readUInt32LE(108) });
 }
 module._demo_dispose();
 const report = { nativeCompiler: 'see web-demo-validation.md', floatAbsoluteTolerance: 0.002, maxFloatDelta, ticksCompared, cases: reports };

@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 static uint32_t u32(const uint8_t *bytes, uint32_t word) {
     const uint8_t *p = bytes + word * 4u;
@@ -35,7 +36,7 @@ int main(void) {
         CHECK(demo_step(0, 0, 0, 0, 0, 1u << pattern) == 1);
         bytes = demo_snapshot();
         CHECK(bytes != NULL && u32(bytes, 22u) == 1u && u32(bytes, 8u) > 0u);
-        CHECK(u32(bytes, 0u) == 0x55444331u && u32(bytes, 1u) == 4u);
+        CHECK(u32(bytes, 0u) == 0x55444331u && u32(bytes, 1u) == 5u);
         CHECK(u32(bytes, 2u) == demo_snapshot_size() && u32(bytes, 15u) == start_tick);
         uint32_t predicted[512] = {0};
         uint32_t count = u32(bytes, 8u), offset = u32(bytes, 42u) / 4u;
@@ -69,6 +70,24 @@ int main(void) {
         if (u32(bytes, 4u) == 0u && u32(bytes, 46u) == 0u) CHECK(actual == count);
         printf("pattern=%u warnings=%u real_spawn=%u waves=%u late_start=%u OK\n",
                pattern, count, actual, waves, start_tick);
+    }
+    for (uint32_t pattern=0;pattern<4;pattern++) {
+        CHECK(demo_reset(12345,0,3)==1);
+        for(unsigned i=0;i<240;i++) CHECK(demo_step(0,0,0,0,0,0)==1);
+        bytes=demo_snapshot(); const unsigned length=demo_snapshot_size();
+        uint8_t *saved=malloc(length); CHECK(saved); memcpy(saved,bytes,length);
+        const uint8_t *preview=demo_preview(pattern,0.70710677f,-0.70710677f);
+        CHECK(preview && u32(preview,0)==0x55445031u && u32(preview,1)==1);
+        CHECK(u32(preview,2)==demo_preview_size() && u32(preview,4)==1 && u32(preview,5)==0);
+        const unsigned rays=u32(preview,10), ray_bytes=rays*32;
+        uint8_t *saved_rays=malloc(ray_bytes); CHECK(saved_rays); memcpy(saved_rays,preview+64,ray_bytes);
+        CHECK(length==demo_snapshot_size() && memcmp(saved,demo_snapshot(),length)==0);
+        CHECK(demo_step_aim(1,0,0,0,0,1u<<pattern,0.70710677f,-0.70710677f)==1);
+        bytes=demo_snapshot(); CHECK(u32(bytes,59)==1 && u32(bytes,22)==1 && u32(bytes,8)==rays);
+        CHECK(memcmp(saved_rays,bytes+u32(bytes,42),ray_bytes)==0);
+        preview=demo_preview(pattern,1,0); CHECK(preview && u32(preview,4)==0 && u32(preview,5)==2 && u32(preview,10)>0);
+        printf("manual pattern=%u rays=%u pure_preview=OK locked_rays_byte_equal=OK busy_preview=OK\n",pattern,rays);
+        free(saved_rays); free(saved);
     }
     CHECK(demo_reset(12345u, 0u, 3u) == 1);
     bytes = demo_snapshot();

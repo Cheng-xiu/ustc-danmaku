@@ -1,0 +1,1244 @@
+{
+  "method": "Actual offline cfg6/ABI5 single HTML, real WASD, mouse movement and Digit2 hold/release browser input. One logical tick observed at a time; movement reconsidered every6ticks using only current public actors and student bullets. Every cast holds through a rendered preview tick before release. Clock installed and paused before navigation. No state injection, HP changes, RNG, planned rays, copied-world rollout or native-input fixture. Automatic public-state control is not human playtesting or reinforcement learning.",
+  "controller": "chase current nearest student at150px; eight legal directions plus stop; 0.45s visible-bullet risk, weight4; current-body boundary penalty; course-only manual casts every12ticks when C available[] permits. Aim towards current nearest alive student with a real mouse move, hold Digit2 for one observed logical tick, then release. Candidate ray geometry does not influence controller decisions.",
+  "abiEvidence": "The bundled strict client accepts only ABI5 snapshots and successfully invokes the ABI5 manual-step and independent-preview exports.",
+  "htmlPath": "C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\demo\\ustc-danmaku.html",
+  "htmlSha256": "9de27925103b644236b736e635932be215ecd0440d095311657c08673d22680d",
+  "configVersion": 6,
+  "abiVersion": 5,
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "checks": [
+    {
+      "name": "offline actual cfg6 core loads through strict ABI5 client",
+      "pass": true
+    },
+    {
+      "name": "real start is playing tick0 with three students and zero GPA",
+      "pass": true
+    },
+    {
+      "name": "current round matches window battlefield aspect and fixed area",
+      "pass": true,
+      "detail": {
+        "arena": {
+          "x": 0,
+          "y": 122,
+          "width": 1440,
+          "height": 778
+        },
+        "fieldW": 1131.0799560546875,
+        "fieldH": 611.0973510742188
+      }
+    },
+    {
+      "name": "first wave truly clears and remains playing without victory",
+      "pass": true,
+      "detail": {
+        "tick": 866,
+        "status": 0,
+        "wave": 1,
+        "wavePhase": 1,
+        "wavesCleared": 1,
+        "kills": 3,
+        "gpaHundredths": 56,
+        "hp": 3,
+        "energy": 54,
+        "accepted": 3,
+        "rejected": 0,
+        "studentHits": 9,
+        "fieldW": 1131.0799560546875,
+        "fieldH": 611.0973510742188
+      }
+    },
+    {
+      "name": "all controller casts used real held previews and manual releases",
+      "pass": true,
+      "detail": {
+        "manualCasts": 3,
+        "heldPreviews": 3
+      }
+    },
+    {
+      "name": "clear GPA is floor(430*3/23)=56",
+      "pass": true
+    },
+    {
+      "name": "clear publishes four fixed markers with exact120tick due time",
+      "pass": true,
+      "detail": {
+        "clearTick": 866,
+        "due": 986,
+        "markers": [
+          {
+            "x": 233.47216796875,
+            "y": 255.15773010253906
+          },
+          {
+            "x": 897.6077880859375,
+            "y": 255.15773010253906
+          },
+          {
+            "x": 565.5399780273438,
+            "y": 364.3381042480469
+          },
+          {
+            "x": 186.03390502929688,
+            "y": 137.578857421875
+          }
+        ]
+      }
+    },
+    {
+      "name": "clear does not show death or victory overlay",
+      "pass": true
+    },
+    {
+      "name": "all120preview snapshots retain exact markers through one tick before birth",
+      "pass": true,
+      "detail": {
+        "observed": 120,
+        "tick": 985,
+        "due": 986
+      }
+    },
+    {
+      "name": "four students spawn on precisely tick clear+120",
+      "pass": true
+    },
+    {
+      "name": "real student birth origins equal all four public markers",
+      "pass": true,
+      "detail": {
+        "students": [
+          {
+            "id": 103,
+            "alive": true,
+            "x": 233.47216796875,
+            "y": 255.15773010253906,
+            "radius": 20,
+            "hp": 3,
+            "hpMax": 3,
+            "invuln": 0,
+            "faction": 2
+          },
+          {
+            "id": 104,
+            "alive": true,
+            "x": 897.6077880859375,
+            "y": 255.15773010253906,
+            "radius": 20,
+            "hp": 3,
+            "hpMax": 3,
+            "invuln": 0,
+            "faction": 2
+          },
+          {
+            "id": 105,
+            "alive": true,
+            "x": 565.5399780273438,
+            "y": 364.3381042480469,
+            "radius": 20,
+            "hp": 3,
+            "hpMax": 3,
+            "invuln": 0,
+            "faction": 2
+          },
+          {
+            "id": 106,
+            "alive": true,
+            "x": 186.03390502929688,
+            "y": 137.578857421875,
+            "radius": 20,
+            "hp": 3,
+            "hpMax": 3,
+            "invuln": 0,
+            "faction": 2
+          }
+        ],
+        "markers": [
+          {
+            "x": 233.47216796875,
+            "y": 255.15773010253906
+          },
+          {
+            "x": 897.6077880859375,
+            "y": 255.15773010253906
+          },
+          {
+            "x": 565.5399780273438,
+            "y": 364.3381042480469
+          },
+          {
+            "x": 186.03390502929688,
+            "y": 137.578857421875
+          }
+        ]
+      }
+    },
+    {
+      "name": "birth retains cumulative kills and kill-only GPA",
+      "pass": true
+    },
+    {
+      "name": "second wave continues playing for30ticks",
+      "pass": true
+    },
+    {
+      "name": "HUD shows current kill-only GPA",
+      "pass": true
+    },
+    {
+      "name": "actual R restart clears score kills and waves",
+      "pass": true
+    },
+    {
+      "name": "HTML did not change during the validation",
+      "pass": true
+    },
+    {
+      "name": "offline HTML makes zero external network requests",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "browser reports zero runtime errors",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "controls": [
+    {
+      "tick": 0,
+      "moveX": 0,
+      "moveY": -1,
+      "attack": null
+    },
+    {
+      "tick": 0,
+      "attack": 2,
+      "targetId": 102,
+      "expectedDirection": {
+        "dirX": 0,
+        "dirY": -1
+      },
+      "displayed": {
+        "selection": {
+          "pattern": 1,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "preview": {
+          "pattern": 1,
+          "valid": true,
+          "reason": 0,
+          "rays": 48,
+          "dirX": 0,
+          "dirY": -1
+        }
+      },
+      "acceptedDirection": {
+        "dirX": 0,
+        "dirY": -1
+      }
+    },
+    {
+      "tick": 6,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 12,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 18,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 24,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 30,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 36,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 42,
+      "moveX": 0,
+      "moveY": -1,
+      "attack": null
+    },
+    {
+      "tick": 48,
+      "moveX": 0,
+      "moveY": 1,
+      "attack": null
+    },
+    {
+      "tick": 54,
+      "moveX": 0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 60,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 66,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 72,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 78,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 84,
+      "moveX": -0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 90,
+      "moveX": 0,
+      "moveY": -1,
+      "attack": null
+    },
+    {
+      "tick": 96,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 102,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 108,
+      "moveX": 0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 114,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 120,
+      "moveX": 1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 126,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 132,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 138,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 144,
+      "moveX": 0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 150,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 156,
+      "moveX": -1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 162,
+      "moveX": 0,
+      "moveY": -1,
+      "attack": null
+    },
+    {
+      "tick": 168,
+      "moveX": -1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 174,
+      "moveX": 0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 180,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 186,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 192,
+      "moveX": 0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 198,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 204,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 210,
+      "moveX": 0,
+      "moveY": 1,
+      "attack": null
+    },
+    {
+      "tick": 216,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 222,
+      "moveX": 0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 228,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 234,
+      "moveX": 0,
+      "moveY": 1,
+      "attack": null
+    },
+    {
+      "tick": 240,
+      "moveX": -1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 246,
+      "moveX": 0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 252,
+      "moveX": -0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 258,
+      "moveX": -0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 264,
+      "moveX": -0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 270,
+      "moveX": 1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 276,
+      "moveX": 1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 282,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 288,
+      "moveX": 0,
+      "moveY": 1,
+      "attack": null
+    },
+    {
+      "tick": 294,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 300,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 302,
+      "attack": 2,
+      "targetId": 102,
+      "expectedDirection": {
+        "dirX": 0.5379465766874881,
+        "dirY": -0.8429789324948831
+      },
+      "displayed": {
+        "selection": {
+          "pattern": 1,
+          "dirX": 0.537946651293055,
+          "dirY": -0.8429788848853739
+        },
+        "preview": {
+          "pattern": 1,
+          "valid": true,
+          "reason": 0,
+          "rays": 48,
+          "dirX": 0.5379466414451599,
+          "dirY": -0.8429788947105408
+        }
+      },
+      "acceptedDirection": {
+        "dirX": 0.5379466414451599,
+        "dirY": -0.8429788947105408
+      }
+    },
+    {
+      "tick": 306,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 312,
+      "moveX": 0,
+      "moveY": -1,
+      "attack": null
+    },
+    {
+      "tick": 318,
+      "moveX": 0,
+      "moveY": 1,
+      "attack": null
+    },
+    {
+      "tick": 324,
+      "moveX": 0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 330,
+      "moveX": 0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 336,
+      "moveX": 0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 342,
+      "moveX": 0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 348,
+      "moveX": 0,
+      "moveY": 1,
+      "attack": null
+    },
+    {
+      "tick": 354,
+      "moveX": 0,
+      "moveY": -1,
+      "attack": null
+    },
+    {
+      "tick": 360,
+      "moveX": 0,
+      "moveY": -1,
+      "attack": null
+    },
+    {
+      "tick": 366,
+      "moveX": 1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 372,
+      "moveX": 1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 378,
+      "moveX": 1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 384,
+      "moveX": 0,
+      "moveY": 1,
+      "attack": null
+    },
+    {
+      "tick": 390,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 396,
+      "moveX": 0,
+      "moveY": 1,
+      "attack": null
+    },
+    {
+      "tick": 402,
+      "moveX": 1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 408,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 414,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 420,
+      "moveX": -1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 426,
+      "moveX": 0,
+      "moveY": -1,
+      "attack": null
+    },
+    {
+      "tick": 432,
+      "moveX": 0,
+      "moveY": -1,
+      "attack": null
+    },
+    {
+      "tick": 438,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 444,
+      "moveX": 0,
+      "moveY": 1,
+      "attack": null
+    },
+    {
+      "tick": 450,
+      "moveX": 0,
+      "moveY": 1,
+      "attack": null
+    },
+    {
+      "tick": 456,
+      "moveX": -1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 462,
+      "moveX": 0,
+      "moveY": -1,
+      "attack": null
+    },
+    {
+      "tick": 468,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 474,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 480,
+      "moveX": -0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 486,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 492,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 498,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 504,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 510,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 516,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 522,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 528,
+      "moveX": 0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 534,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 540,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 546,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 552,
+      "moveX": -1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 558,
+      "moveX": -1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 564,
+      "moveX": 0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 570,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 576,
+      "moveX": 0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 582,
+      "moveX": 0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 588,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 594,
+      "moveX": 0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 600,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 604,
+      "attack": 2,
+      "targetId": 102,
+      "expectedDirection": {
+        "dirX": 0.8894226349782424,
+        "dirY": -0.45708574292834847
+      },
+      "displayed": {
+        "selection": {
+          "pattern": 1,
+          "dirX": 0.8894226050716892,
+          "dirY": -0.45708580112216357
+        },
+        "preview": {
+          "pattern": 1,
+          "valid": true,
+          "reason": 0,
+          "rays": 48,
+          "dirX": 0.889422595500946,
+          "dirY": -0.4570857882499695
+        }
+      },
+      "acceptedDirection": {
+        "dirX": 0.889422595500946,
+        "dirY": -0.4570857882499695
+      }
+    },
+    {
+      "tick": 606,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 612,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 618,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 624,
+      "moveX": 0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 630,
+      "moveX": -1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 636,
+      "moveX": 0,
+      "moveY": -1,
+      "attack": null
+    },
+    {
+      "tick": 642,
+      "moveX": 0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 648,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 654,
+      "moveX": -1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 660,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 666,
+      "moveX": -1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 672,
+      "moveX": -1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 678,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 684,
+      "moveX": -1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 690,
+      "moveX": 1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 696,
+      "moveX": -1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 702,
+      "moveX": 1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 708,
+      "moveX": 0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 714,
+      "moveX": 1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 720,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 726,
+      "moveX": 0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 732,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 738,
+      "moveX": 0,
+      "moveY": -1,
+      "attack": null
+    },
+    {
+      "tick": 744,
+      "moveX": 0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 750,
+      "moveX": 0,
+      "moveY": 1,
+      "attack": null
+    },
+    {
+      "tick": 756,
+      "moveX": 0,
+      "moveY": -1,
+      "attack": null
+    },
+    {
+      "tick": 762,
+      "moveX": 0,
+      "moveY": 1,
+      "attack": null
+    },
+    {
+      "tick": 768,
+      "moveX": 0,
+      "moveY": 1,
+      "attack": null
+    },
+    {
+      "tick": 774,
+      "moveX": 0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 780,
+      "moveX": -0.7071067811865476,
+      "moveY": 0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 786,
+      "moveX": 1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 792,
+      "moveX": 1,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 798,
+      "moveX": 0.7071067811865476,
+      "moveY": -0.7071067811865476,
+      "attack": null
+    },
+    {
+      "tick": 804,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 810,
+      "moveX": 0,
+      "moveY": 1,
+      "attack": null
+    },
+    {
+      "tick": 816,
+      "moveX": 0,
+      "moveY": 1,
+      "attack": null
+    },
+    {
+      "tick": 822,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 828,
+      "moveX": 0,
+      "moveY": 1,
+      "attack": null
+    },
+    {
+      "tick": 834,
+      "moveX": 0,
+      "moveY": 1,
+      "attack": null
+    },
+    {
+      "tick": 840,
+      "moveX": 0,
+      "moveY": 0,
+      "attack": null
+    },
+    {
+      "tick": 846,
+      "moveX": 0,
+      "moveY": 1,
+      "attack": null
+    },
+    {
+      "tick": 852,
+      "moveX": 0,
+      "moveY": 1,
+      "attack": null
+    },
+    {
+      "tick": 858,
+      "moveX": 0,
+      "moveY": 1,
+      "attack": null
+    },
+    {
+      "tick": 864,
+      "moveX": 1,
+      "moveY": 0,
+      "attack": null
+    }
+  ],
+  "errors": [],
+  "externalRequests": [],
+  "rafAdvances": 1060,
+  "zeroTickFrames": 44,
+  "logicalTicksObserved": 1016,
+  "previewSnapshotsObserved": 120,
+  "aimPreviewsObserved": 3,
+  "manualCastsObserved": 3,
+  "passed": true,
+  "browser": "154.0.8037.98",
+  "url": "file:///C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/demo/ustc-danmaku.html?qa=1",
+  "initial": {
+    "tick": 0,
+    "status": 0,
+    "wave": 1,
+    "wavePhase": 0,
+    "wavesCleared": 0,
+    "kills": 0,
+    "gpaHundredths": 0,
+    "hp": 6,
+    "energy": 60,
+    "accepted": 0,
+    "rejected": 0,
+    "studentHits": 0,
+    "fieldW": 1131.0799560546875,
+    "fieldH": 611.0973510742188
+  },
+  "clear": {
+    "tick": 866,
+    "status": 0,
+    "wave": 1,
+    "wavePhase": 1,
+    "wavesCleared": 1,
+    "kills": 3,
+    "gpaHundredths": 56,
+    "hp": 3,
+    "energy": 54,
+    "accepted": 3,
+    "rejected": 0,
+    "studentHits": 9,
+    "fieldW": 1131.0799560546875,
+    "fieldH": 611.0973510742188
+  },
+  "birth": {
+    "tick": 986,
+    "status": 0,
+    "wave": 2,
+    "wavePhase": 0,
+    "wavesCleared": 1,
+    "kills": 3,
+    "gpaHundredths": 56,
+    "hp": 3,
+    "energy": 74,
+    "accepted": 3,
+    "rejected": 0,
+    "studentHits": 9,
+    "fieldW": 1131.0799560546875,
+    "fieldH": 611.0973510742188
+  },
+  "final": {
+    "tick": 1016,
+    "status": 0,
+    "wave": 2,
+    "wavePhase": 0,
+    "wavesCleared": 1,
+    "kills": 3,
+    "gpaHundredths": 56,
+    "hp": 3,
+    "energy": 79,
+    "accepted": 3,
+    "rejected": 0,
+    "studentHits": 9,
+    "fieldW": 1131.0799560546875,
+    "fieldH": 611.0973510742188
+  },
+  "elapsedSeconds": 5.9676817
+}

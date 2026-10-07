@@ -3,7 +3,7 @@ $ErrorActionPreference = 'Stop'
 $taskRoot = Split-Path -Parent $PSScriptRoot
 if (!$OutputRoot) { $OutputRoot = Join-Path $taskRoot 'build/release' }
 $taskOutput = [IO.Path]::GetFullPath($OutputRoot)
-$taskPackage = Join-Path $taskOutput 'ustc-danmaku-endless-v5'
+$taskPackage = Join-Path $taskOutput 'ustc-danmaku-endless-v6'
 $taskZip = "$taskPackage.zip"
 if ((Test-Path -LiteralPath $taskPackage) -or (Test-Path -LiteralPath $taskZip)) {
     throw 'Output already exists. Choose another OutputRoot to preserve the previous package.'
@@ -14,8 +14,8 @@ if (!(Test-Path -LiteralPath (Join-Path $taskRoot 'web/dist/wasm/demo-core.wasm'
 $taskCmakeSource = Get-Content -LiteralPath (Join-Path $taskRoot 'CMakeLists.txt') -Raw -Encoding utf8
 $taskSourceBlock = [regex]::Match($taskCmakeSource, '(?s)set\(DEMO_CORE_SOURCES(?<sources>[^)]*)\)')
 $taskCoreSourceCount = [regex]::Matches($taskSourceBlock.Groups['sources'].Value, '(core|ai)/[A-Za-z0-9_]+\.c').Count
-if (!$taskSourceBlock.Success -or $taskCoreSourceCount -ne 15) {
-    throw 'Expected the v5 shared 15-file C/AI source list.'
+if (!$taskSourceBlock.Success -or $taskCoreSourceCount -ne 16) {
+    throw 'Expected the v6 shared 16-file C/AI source list.'
 }
 New-Item -ItemType Directory -Path (Join-Path $taskPackage 'web'), (Join-Path $taskPackage 'scripts'), (Join-Path $taskPackage 'docs') -Force | Out-Null
 Copy-Item -LiteralPath (Join-Path $taskRoot 'web/dist') -Destination (Join-Path $taskPackage 'web') -Recurse
@@ -56,7 +56,7 @@ $taskNotices -join "`n" | Set-Content -LiteralPath (Join-Path $taskPackage 'THIR
 $taskManifest = @(Get-ChildItem -LiteralPath $taskPackage -Recurse -File | ForEach-Object {
     [ordered]@{ path = $_.FullName.Substring($taskPackage.Length + 1).Replace('\','/'); bytes = $_.Length; sha256 = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash }
 })
-[ordered]@{ configVersion = 5; abiVersion = 4; coreSourceCount = $taskCoreSourceCount; files = $taskManifest } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $taskPackage 'manifest.json') -Encoding utf8
+[ordered]@{ configVersion = 6; abiVersion = 5; coreSourceCount = $taskCoreSourceCount; files = $taskManifest } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $taskPackage 'manifest.json') -Encoding utf8
 Compress-Archive -LiteralPath $taskPackage -DestinationPath $taskZip -CompressionLevel Optimal
 Write-Host "Package: $taskPackage"
 Write-Host "ZIP: $taskZip"

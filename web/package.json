@@ -1,6 +1,6 @@
 {
   "name": "ustc-danmaku-web-demo",
-  "version": "0.4.0",
+  "version": "0.6.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,7 +9,7 @@
     "preview": "vite preview --host 127.0.0.1",
     "build:standalone": "node ../scripts/build-standalone.mjs",
     "test:core": "node ../tests/web/compare-core.mjs",
-    "test:browser": "node ../tests/web/fullscreen-smoke.mjs"
+    "test:browser": "node ../tests/web/aim-browser-smoke.mjs"
   },
   "dependencies": { "pixi.js": "8.22.0" },
   "devDependencies": { "typescript": "5.9.3", "vite": "7.1.12", "@playwright/test": "1.56.1", "esbuild": "0.25.12" },

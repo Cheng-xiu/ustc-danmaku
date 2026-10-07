@@ -8,8 +8,8 @@ file(READ "${DEMO_ROOT}/CMakeLists.txt" ROOT_CMAKE)
 string(REGEX MATCH "set\\(DEMO_CORE_SOURCES[^)]*\\)" SOURCE_BLOCK "${ROOT_CMAKE}")
 string(REGEX MATCHALL "(core|ai)/[A-Za-z0-9_]+\\.c" CORE_RELATIVE "${SOURCE_BLOCK}")
 list(LENGTH CORE_RELATIVE CORE_COUNT)
-if(NOT CORE_COUNT EQUAL 15)
-    message(FATAL_ERROR "Expected the frozen 15-file core/ai source list")
+if(NOT CORE_COUNT EQUAL 16)
+    message(FATAL_ERROR "Expected the frozen 16-file core/ai source list")
 endif()
 set(CORE_ABSOLUTE "")
 foreach(SOURCE IN LISTS CORE_RELATIVE)
@@ -23,7 +23,7 @@ if(EMSCRIPTEN)
         "-sMODULARIZE=1" "-sEXPORT_ES6=1" "-sENVIRONMENT=web,node"
         "-sFILESYSTEM=0" "-sALLOW_MEMORY_GROWTH=1" "-sSTACK_SIZE=1048576"
         "-sINITIAL_MEMORY=16777216" "-sMAXIMUM_MEMORY=67108864"
-        "-sEXPORTED_FUNCTIONS=['_demo_reset','_demo_reset_sized','_demo_step','_demo_snapshot','_demo_snapshot_size','_demo_dispose']"
+        "-sEXPORTED_FUNCTIONS=['_demo_reset','_demo_reset_sized','_demo_step','_demo_step_aim','_demo_preview','_demo_preview_size','_demo_snapshot','_demo_snapshot_size','_demo_dispose']"
         "-sEXPORTED_RUNTIME_METHODS=['HEAPU8']")
     target_link_libraries(demo-core PRIVATE m)
     set_target_properties(demo-core PROPERTIES SUFFIX ".mjs")

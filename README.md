@@ -1,6 +1,6 @@
 # 科大弹幕录：绩点保卫战
 
-玩家控制 Boss，主动选择四招，对抗会躲弹和反击的脚本学生。当前为无尽网页 Demo，配置 v5、ABI v4；实现使用 PixiJS + TypeScript + 共享 C/Wasm 核心。
+玩家控制 Boss，主动选择四招，对抗会躲弹和反击的脚本学生。当前为无尽网页 Demo，配置 v6、ABI v5；实现使用 PixiJS + TypeScript + 共享 C/Wasm 核心。
 
 ## 直接试玩
 
@@ -8,18 +8,18 @@
 
 下载仓库的 [单文件 HTML](demo/ustc-danmaku.html)，用 Chrome 或 Edge 双击打开即可。JavaScript、Wasm、官方科大圆形校徽和许可证都已内嵌；试玩不需要安装 Node、编译器或启动服务器。
 
-界面铺满窗口，顶部显示能量和共享 CD，开始前展示四招介绍。鼠标移到顶部栏仍控制方向；WASD / 方向键优先；1–4 出招；Esc / 右键暂停；R 重开。初始 3 名学生，每清一波预告 2 秒并增加 1 名，最多 8 名后持续刷新。只有 Boss 死亡结束，没有胜利终点。
+界面铺满窗口，顶部显示能量和共享 CD，开始前展示四招介绍。鼠标移到顶部栏仍控制方向；WASD / 方向键优先；按住 1–4 或技能按钮预瞄，松开释放，Space 取消；Esc / 右键暂停；R 重开。初始 3 名学生，每清一波预告 2 秒并增加 1 名，最多 8 名后持续刷新。只有 Boss 死亡结束，没有胜利终点。
 
 四招分别为快速双环（25）、分列弹墙（50）、单目标窄扇三连（20）、全场扫描雨（100）。GPA = 4.30 × 累计击倒数 /（累计击倒数 + 20），越往后增长越慢，显示向下保留两位；时间、受伤和波次不参与计分。
 
 - [运行与构建指南](docs/web-demo-guide.md)
 - [当前权威规则与试验参数](docs/demo-rules.md)
-- [本轮平衡实测与玩法建议](docs/web-balance-findings-v5.md)
+- [本轮瞄准实测与玩法建议](docs/validation/aim-v6.md)
 - [工程验证](docs/web-demo-validation.md)
 - [真人试玩模板](docs/web-demo-playtest.md)
 - [官方校徽来源](docs/ustc-emblem-source.md)
 
-![全窗口实际游戏画面](docs/assets/fullscreen-playing-v5.png)
+![当前预瞄实际画面](docs/assets/aim-v6-1440.png)
 
 ## 修改与复现
 

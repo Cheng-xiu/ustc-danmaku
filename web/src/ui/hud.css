@@ -56,10 +56,17 @@
 .demo-skill.unavailable .demo-skill-status { color:#ddb189; }
 .demo-skill.selected { border-color:var(--skill-color); background:#293d50; box-shadow:inset 0 0 0 1px var(--skill-color); color:#f4f8ff; }
 .demo-skill.selected .demo-skill-status { color:var(--skill-color); }
+.demo-skill { touch-action:none; user-select:none; }
+.demo-skill.aiming { border-color:var(--skill-color); border-style:dashed; background:#30445b; color:#fff; box-shadow:0 0 0 1px var(--skill-color),inset 0 0 12px #a8cfff15; }
+.demo-skill.aiming .demo-skill-status { color:var(--skill-color); }
+.demo-skill.aiming.aim-blocked { background:#382d35; }
+.demo-skill.aiming.aim-blocked .demo-skill-status { color:#ffc2aa; }
 .demo-skill:disabled { cursor:default; opacity:.55; }
 .demo-notice { grid-area:notice; align-self:center; min-width:0; height:36px; min-height:36px; max-height:36px; margin:0; padding:5px 8px; border-left:2px solid #536d89; background:#102039; color:#a0b5ce; font-size:10px; line-height:1.3; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; overflow-wrap:anywhere; }
 .demo-notice[data-kind="rejected"] { border-color:#e89972; color:#ffbc9b; }
 .demo-notice[data-kind="accepted"] { border-color:#86c49e; color:#b2e2c4; }
+.demo-notice[data-kind="aiming"] { border-color:#97cfff; color:#cee9ff; }
+.demo-notice[data-kind="aim-rejected"] { border-color:#ea9c89; color:#ffc5b1; }
 .demo-system-buttons { grid-area:system; display:flex; justify-content:flex-end; gap:6px; align-items:stretch; }
 .demo-system-buttons button { border:1px solid #40516a; background:#17243a; color:#b9c9dc; border-radius:5px; cursor:pointer; padding:5px 12px; font-size:10px; }
 .demo-system-buttons button:enabled:hover { background:#263851; color:#fff; }

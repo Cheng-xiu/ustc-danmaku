@@ -452,9 +452,12 @@ static void boss_control(World *world, const BossInput *input) {
 
 /* ---------------------------------------------------------------- 出招请求 */
 
-static DemoRejectReason request_attack(World *world, DemoPattern pattern) {
+static DemoRejectReason request_attack(World *world, DemoPattern pattern, const BossInput *input) {
     DemoRejectReason reason = DEMO_REJECT_NONE;
-    if (!attack_try_request(world, pattern, &reason)) {
+    const bool accepted = input && input->manual_aim
+        ? attack_try_request_aim(world, pattern, input->aim_dir_x, input->aim_dir_y, &reason)
+        : attack_try_request(world, pattern, &reason);
+    if (!accepted) {
         world->attack_reject_count++;
         push_event(world, DEMO_EVENT_ATTACK_REJECTED, world->boss.id, 0u, 0, world->boss.x,
                    world->boss.y, pattern, reason);
@@ -475,7 +478,7 @@ static void consume_requests(World *world, const BossInput *input) {
     /* 同 tick 多个请求: 招式 ID 小者优先, 只接受一个 */
     for (int p = 0; p < (int)DEMO_PATTERN_COUNT; ++p) {
         if (input->attack_requested[p]) {
-            (void)request_attack(world, (DemoPattern)p);
+            (void)request_attack(world, (DemoPattern)p, input);
             return;
         }
     }

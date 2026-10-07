@@ -1,0 +1,698 @@
+{
+  "method": "Final HTML exact embedded Wasm instantiated via its public factory. Real exported sized-reset, manual-step, snapshot and pure-preview calls; no core/world state injection. Snapshot bytes are copied before comparison.",
+  "htmlSha256": "9de27925103b644236b736e635932be215ecd0440d095311657c08673d22680d",
+  "htmlBytes": 1168141,
+  "embeddedWasmBytes": 62152,
+  "embeddedWasmSha256": "9dbd096c2eac3792de2c22b5af54725591fd99502f6239b16a41257a13c21b93",
+  "configVersion": 6,
+  "abiVersion": 5,
+  "checks": [
+    {
+      "name": "HTML matches final frozen SHA256",
+      "pass": true
+    },
+    {
+      "name": "Embedded Wasm matches final public asset",
+      "pass": true
+    },
+    {
+      "name": "Initial real reset succeeds",
+      "pass": true
+    },
+    {
+      "name": "Manual course starts a real existing match",
+      "pass": true
+    },
+    {
+      "name": "Preserved match has actual manual state and current ABI5/cfg6",
+      "pass": true
+    },
+    {
+      "name": "1800x384 rejected before disposing match",
+      "pass": true
+    },
+    {
+      "name": "1800x384 rejection preserves snapshot byte-for-byte",
+      "pass": true
+    },
+    {
+      "name": "384x1800 rejected before disposing match",
+      "pass": true
+    },
+    {
+      "name": "384x1800 rejection preserves snapshot byte-for-byte",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 minimum corridor field accepted",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern1 dir(1,0) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern1 dir(1,0) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern1 dir(1,1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern1 dir(1,1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern1 dir(0,1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern1 dir(0,1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern1 dir(-1,1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern1 dir(-1,1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern1 dir(-1,0) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern1 dir(-1,0) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern1 dir(-1,-1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern1 dir(-1,-1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern1 dir(0,-1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern1 dir(0,-1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern1 dir(1,-1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern1 dir(1,-1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern3 dir(1,0) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern3 dir(1,0) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern3 dir(1,1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern3 dir(1,1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern3 dir(0,1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern3 dir(0,1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern3 dir(-1,1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern3 dir(-1,1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern3 dir(-1,0) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern3 dir(-1,0) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern3 dir(-1,-1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern3 dir(-1,-1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern3 dir(0,-1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern3 dir(0,-1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern3 dir(1,-1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "390x1772.3076923076924 pattern3 dir(1,-1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 minimum corridor field accepted",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern1 dir(1,0) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern1 dir(1,0) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern1 dir(1,1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern1 dir(1,1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern1 dir(0,1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern1 dir(0,1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern1 dir(-1,1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern1 dir(-1,1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern1 dir(-1,0) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern1 dir(-1,0) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern1 dir(-1,-1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern1 dir(-1,-1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern1 dir(0,-1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern1 dir(0,-1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern1 dir(1,-1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern1 dir(1,-1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern3 dir(1,0) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern3 dir(1,0) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern3 dir(1,1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern3 dir(1,1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern3 dir(0,1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern3 dir(0,1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern3 dir(-1,1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern3 dir(-1,1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern3 dir(-1,0) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern3 dir(-1,0) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern3 dir(-1,-1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern3 dir(-1,-1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern3 dir(0,-1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern3 dir(0,-1) actual rays remain in-field and forward",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern3 dir(1,-1) has legal pure-C geometry",
+      "pass": true
+    },
+    {
+      "name": "1772.3076923076924x390 pattern3 dir(1,-1) actual rays remain in-field and forward",
+      "pass": true
+    }
+  ],
+  "previews": [
+    {
+      "w": 390,
+      "h": 1772.3076923076924,
+      "pattern": 1,
+      "direction": [
+        1,
+        0
+      ],
+      "ready": 1,
+      "reason": 0,
+      "rays": 48
+    },
+    {
+      "w": 390,
+      "h": 1772.3076923076924,
+      "pattern": 1,
+      "direction": [
+        1,
+        1
+      ],
+      "ready": 1,
+      "reason": 0,
+      "rays": 48
+    },
+    {
+      "w": 390,
+      "h": 1772.3076923076924,
+      "pattern": 1,
+      "direction": [
+        0,
+        1
+      ],
+      "ready": 1,
+      "reason": 0,
+      "rays": 48
+    },
+    {
+      "w": 390,
+      "h": 1772.3076923076924,
+      "pattern": 1,
+      "direction": [
+        -1,
+        1
+      ],
+      "ready": 1,
+      "reason": 0,
+      "rays": 48
+    },
+    {
+      "w": 390,
+      "h": 1772.3076923076924,
+      "pattern": 1,
+      "direction": [
+        -1,
+        0
+      ],
+      "ready": 1,
+      "reason": 0,
+      "rays": 48
+    },
+    {
+      "w": 390,
+      "h": 1772.3076923076924,
+      "pattern": 1,
+      "direction": [
+        -1,
+        -1
+      ],
+      "ready": 1,
+      "reason": 0,
+      "rays": 48
+    },
+    {
+      "w": 390,
+      "h": 1772.3076923076924,
+      "pattern": 1,
+      "direction": [
+        0,
+        -1
+      ],
+      "ready": 1,
+      "reason": 0,
+      "rays": 48
+    },
+    {
+      "w": 390,
+      "h": 1772.3076923076924,
+      "pattern": 1,
+      "direction": [
+        1,
+        -1
+      ],
+      "ready": 1,
+      "reason": 0,
+      "rays": 48
+    },
+    {
+      "w": 390,
+      "h": 1772.3076923076924,
+      "pattern": 3,
+      "direction": [
+        1,
+        0
+      ],
+      "ready": 0,
+      "reason": 1,
+      "rays": 160
+    },
+    {
+      "w": 390,
+      "h": 1772.3076923076924,
+      "pattern": 3,
+      "direction": [
+        1,
+        1
+      ],
+      "ready": 0,
+      "reason": 1,
+      "rays": 135
+    },
+    {
+      "w": 390,
+      "h": 1772.3076923076924,
+      "pattern": 3,
+      "direction": [
+        0,
+        1
+      ],
+      "ready": 0,
+      "reason": 1,
+      "rays": 50
+    },
+    {
+      "w": 390,
+      "h": 1772.3076923076924,
+      "pattern": 3,
+      "direction": [
+        -1,
+        1
+      ],
+      "ready": 0,
+      "reason": 1,
+      "rays": 135
+    },
+    {
+      "w": 390,
+      "h": 1772.3076923076924,
+      "pattern": 3,
+      "direction": [
+        -1,
+        0
+      ],
+      "ready": 0,
+      "reason": 1,
+      "rays": 160
+    },
+    {
+      "w": 390,
+      "h": 1772.3076923076924,
+      "pattern": 3,
+      "direction": [
+        -1,
+        -1
+      ],
+      "ready": 0,
+      "reason": 1,
+      "rays": 135
+    },
+    {
+      "w": 390,
+      "h": 1772.3076923076924,
+      "pattern": 3,
+      "direction": [
+        0,
+        -1
+      ],
+      "ready": 0,
+      "reason": 1,
+      "rays": 50
+    },
+    {
+      "w": 390,
+      "h": 1772.3076923076924,
+      "pattern": 3,
+      "direction": [
+        1,
+        -1
+      ],
+      "ready": 0,
+      "reason": 1,
+      "rays": 135
+    },
+    {
+      "w": 1772.3076923076924,
+      "h": 390,
+      "pattern": 1,
+      "direction": [
+        1,
+        0
+      ],
+      "ready": 1,
+      "reason": 0,
+      "rays": 48
+    },
+    {
+      "w": 1772.3076923076924,
+      "h": 390,
+      "pattern": 1,
+      "direction": [
+        1,
+        1
+      ],
+      "ready": 1,
+      "reason": 0,
+      "rays": 48
+    },
+    {
+      "w": 1772.3076923076924,
+      "h": 390,
+      "pattern": 1,
+      "direction": [
+        0,
+        1
+      ],
+      "ready": 1,
+      "reason": 0,
+      "rays": 48
+    },
+    {
+      "w": 1772.3076923076924,
+      "h": 390,
+      "pattern": 1,
+      "direction": [
+        -1,
+        1
+      ],
+      "ready": 1,
+      "reason": 0,
+      "rays": 48
+    },
+    {
+      "w": 1772.3076923076924,
+      "h": 390,
+      "pattern": 1,
+      "direction": [
+        -1,
+        0
+      ],
+      "ready": 1,
+      "reason": 0,
+      "rays": 48
+    },
+    {
+      "w": 1772.3076923076924,
+      "h": 390,
+      "pattern": 1,
+      "direction": [
+        -1,
+        -1
+      ],
+      "ready": 1,
+      "reason": 0,
+      "rays": 48
+    },
+    {
+      "w": 1772.3076923076924,
+      "h": 390,
+      "pattern": 1,
+      "direction": [
+        0,
+        -1
+      ],
+      "ready": 1,
+      "reason": 0,
+      "rays": 48
+    },
+    {
+      "w": 1772.3076923076924,
+      "h": 390,
+      "pattern": 1,
+      "direction": [
+        1,
+        -1
+      ],
+      "ready": 1,
+      "reason": 0,
+      "rays": 48
+    },
+    {
+      "w": 1772.3076923076924,
+      "h": 390,
+      "pattern": 3,
+      "direction": [
+        1,
+        0
+      ],
+      "ready": 0,
+      "reason": 1,
+      "rays": 50
+    },
+    {
+      "w": 1772.3076923076924,
+      "h": 390,
+      "pattern": 3,
+      "direction": [
+        1,
+        1
+      ],
+      "ready": 0,
+      "reason": 1,
+      "rays": 135
+    },
+    {
+      "w": 1772.3076923076924,
+      "h": 390,
+      "pattern": 3,
+      "direction": [
+        0,
+        1
+      ],
+      "ready": 0,
+      "reason": 1,
+      "rays": 160
+    },
+    {
+      "w": 1772.3076923076924,
+      "h": 390,
+      "pattern": 3,
+      "direction": [
+        -1,
+        1
+      ],
+      "ready": 0,
+      "reason": 1,
+      "rays": 135
+    },
+    {
+      "w": 1772.3076923076924,
+      "h": 390,
+      "pattern": 3,
+      "direction": [
+        -1,
+        0
+      ],
+      "ready": 0,
+      "reason": 1,
+      "rays": 50
+    },
+    {
+      "w": 1772.3076923076924,
+      "h": 390,
+      "pattern": 3,
+      "direction": [
+        -1,
+        -1
+      ],
+      "ready": 0,
+      "reason": 1,
+      "rays": 135
+    },
+    {
+      "w": 1772.3076923076924,
+      "h": 390,
+      "pattern": 3,
+      "direction": [
+        0,
+        -1
+      ],
+      "ready": 0,
+      "reason": 1,
+      "rays": 160
+    },
+    {
+      "w": 1772.3076923076924,
+      "h": 390,
+      "pattern": 3,
+      "direction": [
+        1,
+        -1
+      ],
+      "ready": 0,
+      "reason": 1,
+      "rays": 135
+    }
+  ],
+  "passed": true
+}

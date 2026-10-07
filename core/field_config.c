@@ -1,6 +1,7 @@
 #include "field_config.h"
 
 #include "pattern_course.h"
+#include "pattern_aim.h"
 #include "pattern_shower.h"
 
 #include <math.h>
@@ -36,7 +37,30 @@ static bool field_patterns_legal(const DemoConfig *config) {
     memset(&plan, 0, sizeof(plan));
     request.pattern = DEMO_PATTERN_SHOWER;
     rng_seed(&rng, UINT64_C(20261007), UINT64_C(1));
-    return pattern_shower_make_plan(&request, config, &rng, &plan);
+    if (!pattern_shower_make_plan(&request, config, &rng, &plan)) return false;
+    /* Manual walls/rain use the rectangle's transverse projection, not just
+     * its width. Its extrema are min(W,H) on an axis and hypot(W,H) on the
+     * diagonal perpendicular to a corner-to-corner vector. Check both axes
+     * and that maximum; all intermediate widths lie between these bounds.
+     * Actual factories remain the authority for gap, pitch, count and origin
+     * legality, so acceptance never silently shrinks a configured corridor. */
+    const double diagonal = hypot((double)config->field_w, (double)config->field_h);
+    if (!isfinite(diagonal) || diagonal <= 0.0) return false;
+    const float directions[3][2] = {
+        {1.0f, 0.0f}, {0.0f, 1.0f},
+        {(float)(config->field_h / diagonal), (float)(config->field_w / diagonal)}
+    };
+    request.manual_aim = true;
+    request.student_radius = config->student_radius;
+    for (unsigned direction = 0u; direction < 3u; ++direction) {
+        request.aim_dir_x = directions[direction][0];
+        request.aim_dir_y = directions[direction][1];
+        request.pattern = DEMO_PATTERN_COURSE;
+        if (!pattern_aim_make_plan(&request, config, &plan)) return false;
+        request.pattern = DEMO_PATTERN_SHOWER;
+        if (!pattern_aim_make_plan(&request, config, &plan)) return false;
+    }
+    return true;
 }
 
 static bool resize_shower(PatternConfig *shower, float old_width, float new_width,

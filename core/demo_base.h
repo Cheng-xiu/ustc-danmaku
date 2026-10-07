@@ -121,6 +121,11 @@ typedef struct PatternConfig {
     float spawn_safety_radius;/* 环弹/金矿: 生成点与学生安全距离 */
     float first_spawn_sec;    /* 第一波生成时刻(相对攻击开始) */
     float wave_interval_sec;  /* 相邻波次间隔 */
+    /* 手动定向版本；旧自动锁定生成器不读取这些字段。 */
+    float manual_arc_span_deg;
+    int32_t manual_shots_per_wave;
+    float manual_entry_inset_px;
+    float manual_density_pitch_px;
 } PatternConfig;
 
 typedef enum DemoOutcomeRule {
@@ -232,6 +237,9 @@ typedef struct BossInput {
     float pointer_deadzone;  /* 死区（战场像素）; <=0 时用核心默认值 */
     float pointer_saturate;  /* 达到全速的距离; <=0 时用核心默认值 */
     bool attack_requested[DEMO_PATTERN_COUNT];
+    bool manual_aim; /* Explicit release direction; false retains native legacy inputs. */
+    float aim_dir_x;
+    float aim_dir_y;
     bool pause_requested;   /* 由外层状态机消费, 核心不处理暂停 */
     bool restart_requested;
     bool quit_requested;
@@ -337,6 +345,7 @@ bool segment_hits_circle(const Segment *s, float cx, float cy, float radius);
 /* 计划在"接受请求"时一次生成, 之后不可变: 预警与攻击读取同一份数据。 */
 typedef struct AttackPlan {
     bool active;
+    bool manual_aim;
     uint64_t plan_id;      /* 单调递增, 整局唯一 */
     DemoPattern pattern;
     DemoEntityId target_id;
@@ -361,11 +370,21 @@ typedef struct AttackPlan {
     float wave_offset;             /* 通用偏移(列位置/扫描起点) */
     uint64_t geometry_seed;        /* 从 world RNG 抽取的几何种子, 保存在计划内 */
     bool lock_checked_at_spawn;    /* 历史名称：接受时检查安全几何；不表示生成时复查 */
+    /* 手动计划锁定的场地和弹体；预瞄及生成不再读取可变配置几何。 */
+    float manual_field_w, manual_field_h;
+    float manual_transverse_min, manual_transverse_max;
+    float manual_entry_inset_px;
+    float manual_bullet_radius, manual_bullet_damage;
+    int32_t manual_bullet_lifetime_ticks;
+    float manual_scan_step_px;
 } AttackPlan;
 
 /* 生成计划所需的输入; 由 core/attack.c 组装, 招式模块只读。 */
 typedef struct PatternRequest {
     DemoPattern pattern;
+    bool manual_aim;
+    float aim_dir_x;
+    float aim_dir_y;
     DemoEntityId target_id;
     float origin_x;
     float origin_y;

@@ -118,7 +118,7 @@ static void test_sweeping_rain(const DemoConfig *cfg) {
     CHECK(columns[0] && columns[1] && columns[2]);
 }
 int main(void) {
-    DemoConfig cfg; CHECK(demo_config_init(&cfg)); CHECK(cfg.version==5);
+    DemoConfig cfg; CHECK(demo_config_init(&cfg)); CHECK(cfg.version==6);
     char error[256]; CHECK(demo_config_validate(&cfg,error,sizeof(error)));
     test_local_ring(&cfg); test_column_walls(&cfg); test_target_fan(&cfg); test_sweeping_rain(&cfg);
     printf("v5 pattern roles: %u checks, %u failures\n",checks,failures);

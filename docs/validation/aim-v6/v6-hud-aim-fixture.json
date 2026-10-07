@@ -1,0 +1,53 @@
+{
+  "fixture": true,
+  "method": "Synthetic snapshot/preview data; real DOM pointer capture and mouse events. This does not validate C preview geometry or gameplay.",
+  "checks": [
+    {
+      "name": "real pointerdown begins preview without release",
+      "pass": true
+    },
+    {
+      "name": "zero-tick aim notice and selected button update",
+      "pass": true
+    },
+    {
+      "name": "dragging from button to field releases exactly once",
+      "pass": true
+    },
+    {
+      "name": "Space cancellation prevents later pointerup release",
+      "pass": true
+    },
+    {
+      "name": "old pointer capture loss does not cancel replacement keyboard owner",
+      "pass": true
+    },
+    {
+      "name": "old pointerup does not release replacement selection",
+      "pass": true
+    },
+    {
+      "name": "replacement owner releases once",
+      "pass": true
+    },
+    {
+      "name": "unavailable skill still allows preview",
+      "pass": true
+    },
+    {
+      "name": "C reason appears without changing real energy or CD",
+      "pass": true
+    },
+    {
+      "name": "cancel unavailable preview does not create release",
+      "pass": true
+    },
+    {
+      "name": "no browser runtime errors",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "passed": true
+}

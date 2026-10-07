@@ -1,7 +1,8 @@
 import { Application, Assets, Container, Graphics, Rectangle, Sprite, Text, type Texture } from 'pixi.js';
-import type { Actor, Snapshot } from '../types';
+import type { Actor, AimPreview, Snapshot } from '../types';
 import { ProjectileLayer } from './projectiles';
 import { PATTERN_COLORS, WarningLayer } from './warnings';
+import { AimPreviewLayer } from './aimPreview';
 import emblemUrl from '../../assets/ustc-emblem.jpg?inline';
 
 type ActorDisplay = { container: Container; sprite: Sprite; mask: Graphics | null; label: Text; health: Graphics; outline: Graphics; hpKey: string };
@@ -19,6 +20,7 @@ export class GameScene {
   private fieldH = 720;
   private readonly actorDisplays = new Map<number, ActorDisplay>();
   private readonly warnings = new WarningLayer();
+  private readonly aimPreview = new AimPreviewLayer();
   private readonly targets = new Graphics();
   private readonly spawnMarkers = new Graphics();
   private readonly spawnLabel = new Text({ text: '', style: { fontFamily: 'Microsoft YaHei, Arial, sans-serif', fontSize: 14, fill: 0xb7deef, fontWeight: '600' } });
@@ -53,7 +55,7 @@ export class GameScene {
     const studentBullet = this.makeBulletTexture(0xff7698, 4);
     this.projectiles = new ProjectileLayer(bulletTextures, studentBullet);
     this.makeBackground();
-    app.stage.addChild(this.warnings, this.spawnMarkers, this.projectiles, this.actorLayer, this.targets, this.hitEffects);
+    app.stage.addChild(this.aimPreview, this.warnings, this.spawnMarkers, this.projectiles, this.actorLayer, this.targets, this.hitEffects);
     this.attackLabel.anchor.set(0.5, 0);
     this.attackLabel.position.set(480, 34);
     this.targetLabel.anchor.set(0.5, 0);
@@ -117,8 +119,8 @@ export class GameScene {
     caption('TAOLI GARDEN', 115 * sx, 103 * sy, 9, 0x658373, 0.38);
     caption('TEACHING BUILDING', 699 * sx, 103 * sy, 9, 0x7797ac, 0.38);
     caption('USTC', 427 * sx, 119 * sy, 24, 0x7193a6, 0.12);
-    caption('MOVE • WAIT • CAST', 40, h - 49, 9, 0x547086, 0.65);
-    caption('AUTO ○   LOCK ◇', Math.max(40, w - 161), 38, 9, 0xa7b292, 0.62);
+    caption('MOVE • AIM • RELEASE', 40, h - 49, 9, 0x547086, 0.65);
+    caption('HOLD · AIM · RELEASE', Math.max(40, w - 161), 38, 9, 0xa7b292, 0.62);
   }
 
   /** Resize the display only. The accepted plan and this round's field stay frozen. */
@@ -177,6 +179,9 @@ export class GameScene {
     if (this.attackLabel.text !== text) this.attackLabel.text = text;
     this.attackLabel.style.fill = PATTERN_COLORS[snapshot.pattern] ?? 0xc2d4e4;
   }
+
+  /** C provides candidate geometry; this layer only displays it before release. */
+  drawAim(preview: AimPreview | null): void { this.aimPreview.update(preview); }
 
   private drawActor(actor: Actor, tick: number): void {
     let display = this.actorDisplays.get(actor.id);
@@ -265,6 +270,7 @@ export class GameScene {
     this.hits = [];
     this.lastTick = -1;
     this.warnings.reset();
+    this.aimPreview.reset();
     this.warnings.visible = false;
     this.projectiles.update([]);
     this.targets.clear();
@@ -278,6 +284,7 @@ export class GameScene {
   render(): void { this.app.render(); }
 
   destroy(): void {
+    this.aimPreview.reset();
     this.app.destroy({ removeView: true }, { children: true, texture: false, textureSource: false });
     for (const texture of this.textures) texture.destroy(true);
     this.textures.length = 0;
