@@ -40,7 +40,7 @@ foreach ($f in @('game_main.cpp', 'CMakeLists.txt', '.gitignore', 'AGENTS.md')) 
 }
 
 Write-Host "[2/6] 文档（规则 / 接口 / 任务板 / 手册 / 验收 / 问题清单 / 试玩模板）"
-Copy-Tree (Join-Path $RepoRoot 'docs') (Join-Path $OutRoot 'docs') ($ExObj + @('demo-tasks.md'))
+Copy-Tree (Join-Path $RepoRoot 'docs') (Join-Path $OutRoot 'docs') $ExObj
 # 参考规范与配图归入 references
 $refDocs = @('project-spec-v3.1.md')
 New-Item -ItemType Directory -Force -Path (Join-Path $OutRoot 'references\assets') | Out-Null
