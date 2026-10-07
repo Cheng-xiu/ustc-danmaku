@@ -1,3 +1,5 @@
+* text=auto eol=lf
+*.pdf -text
 # Preserve the verified bytes of the generated, self-contained release bundle.
 # Review editable game sources and build-standalone.mjs instead of vendored output.
 demo/*.html -text -diff
