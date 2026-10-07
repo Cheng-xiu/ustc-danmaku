@@ -4,7 +4,7 @@
 
 站点采用仓库的 `gh-pages` 分支根目录发布，关闭 Jekyll 处理。`index.html` 是已验收的 `demo/ustc-danmaku.html` 原始字节；不在发布时重新构建游戏，JavaScript、Wasm、CSS 与校徽均已内嵌。项目路径 `/ustc-danmaku/` 不需要额外资源路径配置。
 
-`gh-pages` 只包含游戏入口、`.nojekyll`、保护 HTML 字节的 `.gitattributes` 和公开的 `deployment.json`。后者记录游戏来源提交、HTML 大小和 SHA256，不包含凭据。源代码仍在开发分支，原有草稿 PR 独立保留。
+`gh-pages` 只包含游戏入口、`.nojekyll`、保护 HTML 字节的 `.gitattributes` 和公开的 `deployment.json`。后者记录游戏来源提交、HTML 大小和 SHA256，不包含凭据。完整 monorepo 源码及现行文档统一由 `main` 提供，本轮同步通过 [PR #2](https://github.com/Cheng-xiu/ustc-danmaku/pull/2)，实际合并状态与复验见 [最新版同步说明](repository-sync.md)。
 
 ## 更新游戏
 
@@ -55,4 +55,8 @@ node scripts/publish-pages.mjs
 
 HTML 1168141字节，SHA256 `9de27925103b644236b736e635932be215ecd0440d095311657c08673d22680d`，与最终离线文件和包含的Wasm/JPG逐字一致。三尺寸真实Chrome在线52/52检查通过，核对HTTPS200、完整响应hash、当前cfg6/ABI5、菜单/布局/移动、长按预瞄无扣费、Space取消、释放方向与C候选/锁定弹道、实际首发、暂停和重开；运行错误、失败资源、HTTP错误均0。来源证据见[validation/github-pages-v6](validation/github-pages-v6/)，复跑 `node tests/web/pages-smoke.mjs`。
 
-在线和离线均按住1–4或技能按钮预瞄、松开释放、Space取消；新hold从当前角色指向鼠标，持有移动不会自动转向。完整离线四招/无尽回放见[工程验证](web-demo-validation.md)。同一游戏字节只发布一次，随后更新文档不重新部署。
+在线和离线均按住1–4或技能按钮预瞄、松开释放、Space取消；新hold从当前角色指向鼠标，持有移动不会自动转向。完整离线四招/无尽回放见[工程验证](web-demo-validation.md)。本节记录2026-10-07的原始发布身份；其后的文档更新未改变当时游戏字节。
+
+## 最新主线对应关系
+
+2026-10-08 按用户要求统一最新版入口，源码和说明使用 monorepo 主线，Pages 仍为 cfg6/ABI5。发布时在已同步的 `main` 上运行脚本，把 `deployment.json` 的来源更新到实际主线提交；相同 HTML 的内容哈希保持不变。线上当前身份始终以 [deployment.json](https://cheng-xiu.github.io/ustc-danmaku/deployment.json) 为准，[本轮同步说明](repository-sync.md)登记源码与线上核对结果，之前的 v4/v5/v6 发布证据保留原身份。

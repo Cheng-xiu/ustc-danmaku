@@ -1,6 +1,6 @@
 # 最小可玩 Demo 提示词入口
 
-更新：2026-10-07。当前阶段为 **PixiJS + TypeScript + C/Wasm 网页迁移**，用户已批准技术方案。
+更新：2026-10-08。当前已实现 **PixiJS + TypeScript + C/Wasm 的 cfg6/ABI5 monorepo 网页 Demo**；后续按现有代码开展增量工作，目录、构建和验证入口见 [monorepo 指南](monorepo.md)，主线对应关系见 [最新版同步说明](repository-sync.md)。
 
 请把 [网页 Demo 母代理执行提示词](web-demo-agent-prompt.md) 全文交给母代理；技术分工、W01–W12 小任务和验收门槛见 [网页 Demo 规划](web-demo-plan.md)。
 

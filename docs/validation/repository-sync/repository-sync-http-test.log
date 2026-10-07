@@ -1,0 +1,74 @@
+
+> ustc-danmaku-monorepo@0.6.0 test:monorepo
+> node tests/web/monorepo-smoke.mjs
+
+{
+  "passed": true,
+  "checksPassed": 73,
+  "checks": 73,
+  "servers": [
+    {
+      "name": "root npm dev",
+      "stopped": true,
+      "resources": 38,
+      "accepted": {
+        "cost": 50,
+        "tick": 7,
+        "dirX": 0.6000002026557922,
+        "dirY": -0.7999998331069946,
+        "warningRays": 48,
+        "firstEmissionTick": 68,
+        "bulletsEmitted": 24
+      }
+    },
+    {
+      "name": "root npm preview",
+      "stopped": true,
+      "resources": 14,
+      "accepted": {
+        "cost": 50,
+        "tick": 7,
+        "dirX": 0.6000002026557922,
+        "dirY": -0.7999998331069946,
+        "warningRays": 48,
+        "firstEmissionTick": 68,
+        "bulletsEmitted": 24
+      }
+    },
+    {
+      "name": "repository default static server",
+      "stopped": true,
+      "resources": 14,
+      "accepted": {
+        "cost": 50,
+        "tick": 7,
+        "dirX": 0.6000002026557922,
+        "dirY": -0.7999998331069946,
+        "warningRays": 48,
+        "firstEmissionTick": 68,
+        "bulletsEmitted": 24
+      }
+    },
+    {
+      "name": "download default static server",
+      "stopped": true,
+      "resources": 14,
+      "accepted": {
+        "cost": 50,
+        "tick": 7,
+        "dirX": 0.6000002026557922,
+        "dirY": -0.7999998331069946,
+        "warningRays": 48,
+        "firstEmissionTick": 68,
+        "bulletsEmitted": 24
+      }
+    }
+  ],
+  "package": {
+    "root": "C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\build\\monorepo-package\\2026-10-07T16-11-58-581Z\\ustc-danmaku-endless-v6",
+    "files": 172,
+    "licenses": 12,
+    "zipBytes": 4896232
+  },
+  "report": "C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\build\\monorepo-http-smoke.json"
+}

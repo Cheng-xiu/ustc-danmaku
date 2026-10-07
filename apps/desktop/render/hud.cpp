@@ -1,6 +1,7 @@
-/* hud.cpp - S15 右侧 320 px HUD 与界面文案（只读绘制）
+/* apps/desktop/render/hud.cpp - 原生兼容 HUD（历史 S15；只读绘制）
  *
- * 接口版本: 2（docs/demo-interfaces.md）　配置版本: 1（demo-config-v1）
+ * 历史界面接口 v2（docs/demo-interfaces.md）；实际配置读取 demo_config_version_string()。
+ * 原生输入沿用按键直接出招；完整预瞄与 GPA 展示由当前网页提供。
  * 权威规则: docs/demo-rules.md
  *
  * 设计边界（与任务卡逐条对应）:
@@ -14,7 +15,7 @@
  *     并补省略号（见 draw_units_fit）。按 UTF-16 代码单元切分 —— EasyX 的
  *     LPCTSTR 即 wchar_t，中文与 ASCII 各占一个代码单元，切分不会切坏字符。
  *     中文文案不写死宽度估算，因此不会因字体回退而算错。
- *  4. 从不显示 GPA、训练次数、“正在学习”等未实现内容；结果文字只来自
+ *  4. 此兼容 HUD 未接入 GPA 显示与训练状态；结果文字只来自
  *     view->status / view->truncated，界面不自行判定。
  *  5. pattern_name() 返回的是 UTF-8 字节串（源文件 UTF-8 + /utf-8），
  *     必须经 widen_utf8() 转成 UTF-16 再绘制，否则中文会变成乱码。
@@ -492,14 +493,14 @@ void hud_draw_panel(const HudInput *in) {
 
     /* ---- 标题：明确标识 Boss demo / 脚本 AI ---- */
     settextstyle(kFsTitle, 0, kFont);
-    put_line_center(kContentX, kContentW, y, L"Boss demo / 脚本 AI", kText);
+    put_line_center(kContentX, kContentW, y, L"原生兼容调试 / 脚本 AI", kText);
     y += 24;
     settextstyle(kFsSmall, 0, kFont);
     {
         wchar_t ver[64];
         wchar_t buf[128];
         widen_utf8(demo_config_version_string(), ver, 64);
-        std::swprintf(buf, 128, L"接口 v2 · %ls", ver);
+        std::swprintf(buf, 128, L"原生兼容界面 · %ls", ver);
         put_line_center(kContentX, kContentW, y, buf, kTextFaint);
     }
     y += 18;
@@ -674,7 +675,7 @@ void hud_draw_panel(const HudInput *in) {
                           kContentW, 2, 15, kWarn);
     } else if (v->status != DEMO_STATUS_RUNNING) {
         settextstyle(kFsSmall, 0, kFont);
-        y += draw_wrapped(kContentX, y, L"R 重开 · Esc 返回 / 关闭窗口退出。", kContentW, 1, 15,
+        y += draw_wrapped(kContentX, y, L"R 重开 · 关闭窗口退出。", kContentW, 1, 15,
                           kTextFaint);
     } else if (hud_is_paused(in)) {
         settextstyle(kFsSmall, 0, kFont);
@@ -692,20 +693,20 @@ void hud_draw_intro(void) {
 
     int y = 92;
     settextstyle(34, 0, kFont);
-    put_line_center(0, HUD_FIELD_W, y, L"Boss demo · 脚本 AI 对手", kText);
+    put_line_center(0, HUD_FIELD_W, y, L"原生兼容调试 · 脚本 AI 对手", kText);
     y += 46;
 
     settextstyle(kFsSection, 0, kFont);
-    put_line_center(0, HUD_FIELD_W, y, L"你是 Boss：击倒全部学生即获胜", kAccent);
+    put_line_center(0, HUD_FIELD_W, y, L"清波后继续派出学生；仅 Boss 死亡结束，无胜利终点", kAccent);
     y += 40;
 
     settextstyle(kFsBody, 0, kFont);
     const wchar_t *lines[] = {
-        L"操作：鼠标移动（朝指针走，到指针处停）；无鼠标时用 WASD / 方向键。",
-        L"出招：1 环弹（30）· 2 课表（35）· 3 金矿（15）· 4 淋浴（60）。",
-        L"能量：一条共享能量，按逻辑时间每秒恢复 10；出招扣一次，不足则拒绝、不排队。",
-        L"出招后先有 1.2 秒预警，再进入攻击；同一时间只执行一招。",
-        L"暂停：Esc 或鼠标右键；重开：R。Boss 生命耗尽即失败。",
+        L"操作：鼠标朝指针移动；也可用 WASD / 方向键。",
+        L"按键直接出招：1 环弹（25）· 2 课表（50）· 3 金矿（20）· 4 淋浴（100）。",
+        L"共享能量按逻辑时间恢复；出招扣一次，不足则拒绝、不排队。",
+        L"各招先预警再攻击，时序依共享配置；同一时间只执行一招。",
+        L"Esc 或鼠标右键暂停；R 重开。清波后继续，Boss 生命耗尽时结束。",
     };
     const int n = (int)(sizeof(lines) / sizeof(lines[0]));
     for (int i = 0; i < n; ++i) {
@@ -715,12 +716,12 @@ void hud_draw_intro(void) {
 
     y += 18;
     settextstyle(kFsBody, 0, kFont);
-    put_line_center(0, HUD_FIELD_W, y, L"按空格 / 左键 / 1-4 开始", kOk);
+    put_line_center(0, HUD_FIELD_W, y, L"按 1-4 / Esc / 鼠标右键开始", kOk);
 
     y += 32;
     settextstyle(kFsSmall, 0, kFont);
     put_line_center(0, HUD_FIELD_W, y,
-                    L"说明：对手是可复现脚本 AI，不是训练模型；界面不显示未实现的数值。",
+                    L"脚本 AI 未训练；本入口用于兼容调试，完整预瞄与 GPA 展示请使用网页 Demo。",
                     kTextFaint);
 }
 
@@ -770,7 +771,7 @@ void hud_draw_result(const HudInput *in) {
         put_line_center(cx - 210, 420, cy - 8, buf, kTextDim);
     }
     settextstyle(kFsSmall, 0, kFont);
-    put_line_center(cx - 210, 420, cy + 22, L"R 重开 · Esc 返回 / 关闭窗口退出", kTextFaint);
+    put_line_center(cx - 210, 420, cy + 22, L"R 重开 · 关闭窗口退出", kTextFaint);
 }
 
 /* ================================================================ 组合入口 */
@@ -813,9 +814,9 @@ int hud_fit_preview(const wchar_t *text, int max_width, wchar_t *out, int out_ca
 /* ================================================================
  * UI 元素 → 读取的 WorldView 字段（验收条件 3）
  *
- * 面板标题 “Boss demo / 脚本 AI”
+ * 面板标题 “原生兼容调试 / 脚本 AI”
  *      固定文案（模块常量），不读任何 WorldView 字段；
- *      配置行读 demo_config_version_string()（配置 v1）。
+ *      配置行读 demo_config_version_string()（实际运行配置）。
  * 状态横幅
  *      view->status、view->truncated、view->paused（并与调用方传入的 paused 取或）、
  *      view->attack_state、view->plan_start_tick、view->plan_windup_ticks、

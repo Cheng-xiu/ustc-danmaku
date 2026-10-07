@@ -6,11 +6,16 @@ if errorlevel 1 (
   pause
   exit /b 1
 )
-set "DEMO_WEB_DIR=apps\web\dist"
-if exist "%DEMO_WEB_DIR%\index.html" goto serve
+if exist "apps\web\package.json" goto monorepo
 set "DEMO_WEB_DIR=web\dist"
 if exist "%DEMO_WEB_DIR%\index.html" goto serve
-echo Build the demo first. See docs\web-demo-guide.md.
+echo Download package missing web\dist\index.html. Extract the full ZIP or open ustc-danmaku.html.
+pause
+exit /b 1
+:monorepo
+set "DEMO_WEB_DIR=apps\web\dist"
+if exist "%DEMO_WEB_DIR%\index.html" goto serve
+echo Monorepo build missing apps\web\dist\index.html. Run npm run build from the repository root.
 pause
 exit /b 1
 :serve

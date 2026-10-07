@@ -1,7 +1,7 @@
 import { chromium } from '@playwright/test';
 import { spawn, spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import net from 'node:net';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -15,7 +15,7 @@ const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
 const report = {
   method: 'Actual root npm dev/preview, repository static server, and a freshly built downloadable package. Real browser navigation, keyboard and mouse input, C/Wasm snapshots and resource hashes. Controlled RAF clock is not a performance measurement. No core/world state or RNG injection.',
   configVersion: 6, abiVersion: 5, startedAt: new Date().toISOString(),
-  checks: [], servers: [], package: { root: packageRoot }, passed: false,
+  checks: [], servers: [], startupLayouts: [], package: { root: packageRoot }, passed: false,
 };
 const children = new Set();
 let browser;
@@ -99,6 +99,84 @@ function npmCli() {
   if (!cli) throw Error('Cannot locate npm-cli.js. Run this test via the root npm test:monorepo entry.');
   return cli;
 }
+async function startupLayoutChecks() {
+  const buildRoot = path.join(root, 'build');
+  mkdirSync(buildRoot, { recursive: true });
+  const fixtureRoot = mkdtempSync(path.join(buildRoot, 'startup-layout-'));
+  const source = path.join(fixtureRoot, 'checkout'), download = path.join(fixtureRoot, 'download');
+  const record = { root: fixtureRoot, retainedForInspection: true,
+    method: 'Copied real static server and launcher run in fresh independent layouts. Plain HTTP markers identify selected directories. On Windows only, a node.cmd probe reports the batch-selected directory and prevents --open from launching a browser. This fixture does not exercise gameplay.',
+    commands: [], launcher: process.platform === 'win32' ? 'cmd.exe with node.cmd directory probe' : 'not executed on this platform' };
+  report.startupLayouts.push(record);
+  function write(relative, data) {
+    const filename = path.join(fixtureRoot, relative);
+    mkdirSync(path.dirname(filename), { recursive: true });
+    writeFileSync(filename, data);
+  }
+  for (const directory of [source, download]) {
+    mkdirSync(path.join(directory, 'scripts'), { recursive: true });
+    copyFileSync(path.join(root, 'scripts/serve-web.mjs'), path.join(directory, 'scripts/serve-web.mjs'));
+    copyFileSync(path.join(root, 'Start-Web-Demo.bat'), path.join(directory, 'Start-Web-Demo.bat'));
+    if (process.platform === 'win32') {
+      writeFileSync(path.join(directory, 'node.cmd'), '@echo off\r\necho LAUNCHER_WEB_DIR=%~2\r\nexit /b 0\r\n');
+    }
+  }
+  function launcher(directory, expectedDirectory, missing = false) {
+    if (process.platform !== 'win32') return;
+    const result = spawnSync('cmd.exe', ['/d', '/c', 'Start-Web-Demo.bat'], {
+      cwd: directory, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'], encoding: 'utf8', timeout: 5000,
+    });
+    const text = (result.stdout ?? '') + (result.stderr ?? '');
+    record.commands.push({ name: 'Windows launcher', cwd: directory, status: result.status, output: text });
+    if (missing) {
+      check('checkout launcher rejects a missing current build without selecting leftover web/dist', !result.error
+        && result.status === 1 && text.includes('apps\\web\\dist\\index.html')
+        && text.includes('npm run build') && !text.includes('LAUNCHER_WEB_DIR='), { status: result.status, output: text, error: result.error?.message });
+    } else {
+      check(`launcher selects ${expectedDirectory} for its layout`, !result.error && result.status === 0
+        && text.includes('LAUNCHER_WEB_DIR=' + expectedDirectory), { status: result.status, output: text, error: result.error?.message });
+    }
+  }
+  async function served(directory, args, expected, name) {
+    await requireFreePort(4173);
+    const job = nodeTask([path.join(directory, 'scripts/serve-web.mjs'), ...args], directory);
+    try {
+      await ready(job, 'http://127.0.0.1:4173/');
+      const response = await fetch('http://127.0.0.1:4173/', { signal: AbortSignal.timeout(3000) });
+      const text = await response.text();
+      check(name, response.status === 200 && text === expected, { status: response.status, body: text });
+    } finally {
+      await stop(job);
+      record.commands.push({ name, cwd: directory, args, output: job.log,
+        stopped: job.child.exitCode !== null || job.child.signalCode !== null });
+    }
+  }
+  const stale = 'STALE_PRE_MONOREPO_BUILD', current = 'CURRENT_MONOREPO_BUILD', packaged = 'CURRENT_DOWNLOAD_BUILD';
+  write('checkout/apps/web/package.json', '{"name":"@ustc-danmaku/web","private":true}\n');
+  write('checkout/web/dist/index.html', stale);
+  await requireFreePort(4173);
+  const rejected = nodeTask([path.join(source, 'scripts/serve-web.mjs')], source);
+  try {
+    const status = await withTimeout(rejected.closed, 5000, 'Default server served or hung on a missing monorepo build.');
+    check('checkout default server rejects a missing current build instead of serving leftover web/dist', status === 1
+      && rejected.log.includes('apps/web/dist/index.html') && rejected.log.includes('npm run build')
+      && !rejected.log.includes('Demo:'), { status, output: rejected.log });
+  } finally {
+    await stop(rejected);
+    record.commands.push({ name: 'missing checkout build', cwd: source, output: rejected.log,
+      stopped: rejected.child.exitCode !== null || rejected.child.signalCode !== null });
+  }
+  await requireFreePort(4173);
+  launcher(source, null, true);
+  write('checkout/apps/web/dist/index.html', current);
+  await served(source, [], current, 'checkout default server chooses current apps/web/dist with stale web/dist present');
+  launcher(source, 'apps\\web\\dist');
+  await served(source, ['web/dist'], stale, 'explicit directory remains a deliberate user choice');
+  write('download/web/dist/index.html', packaged);
+  await served(download, [], packaged, 'download default server chooses its web/dist layout');
+  launcher(download, 'web\\dist');
+}
+
 async function exercise(server) {
   const record = { name: server.name, command: server.command, url: server.url, cwd: server.cwd ?? root,
     errors: [], failedRequests: [], httpErrors: [], resources: [], accepted: null };
@@ -196,6 +274,7 @@ async function exercise(server) {
 }
 
 try {
+  await startupLayoutChecks();
   check('package output is fresh and preserves previous deliveries', !existsSync(packageRoot) && !existsSync(packageRoot + '.zip'));
   const packageLog = await runTask([path.join(root, 'scripts/run-powershell.mjs'), 'package-web', '-OutputRoot', packageOutput], 'package:web');
   report.package.log = packageLog;

@@ -1,0 +1,40 @@
+CMake is re-running because C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/cmake-msvc-monorepo/CMakeFiles/generate.stamp is out-of-date.
+  the file 'C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/CMakeLists.txt'
+  is newer than 'C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/cmake-msvc-monorepo/CMakeFiles/generate.stamp.depend'
+  result='-1'
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.26200.
+-- Configuring done (0.1s)
+-- Generating done (1.4s)
+-- Build files have been written to: C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/cmake-msvc-monorepo
+适用于 .NET Framework MSBuild 版本 17.14.60+43b635718
+
+  1>Checking Build System
+  demo_core.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\packages\core\Release\demo_core.lib
+  game_main.cpp
+C:\Users\jhsly\.dsh\toolchains\easyx-26.9.25\include\easyx.h(330,3): warning C4201: 使用了非标准扩展: 无名称的结构/联合 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\apps\desktop\ustc_danmaku.vcxproj]
+  (编译源文件“../../../../apps/desktop/game_main.cpp”)
+  
+C:\Users\jhsly\.dsh\toolchains\easyx-26.9.25\include\easyx.h(343,3): warning C4201: 使用了非标准扩展: 无名称的结构/联合 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\apps\desktop\ustc_danmaku.vcxproj]
+  (编译源文件“../../../../apps/desktop/game_main.cpp”)
+  
+C:\Users\jhsly\.dsh\toolchains\easyx-26.9.25\include\easyx.h(355,3): warning C4201: 使用了非标准扩展: 无名称的结构/联合 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\apps\desktop\ustc_danmaku.vcxproj]
+  (编译源文件“../../../../apps/desktop/game_main.cpp”)
+  
+  hud.cpp
+C:\Users\jhsly\.dsh\toolchains\easyx-26.9.25\include\easyx.h(330,3): warning C4201: 使用了非标准扩展: 无名称的结构/联合 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\apps\desktop\ustc_danmaku.vcxproj]
+  (编译源文件“../../../../apps/desktop/render/hud.cpp”)
+  
+C:\Users\jhsly\.dsh\toolchains\easyx-26.9.25\include\easyx.h(343,3): warning C4201: 使用了非标准扩展: 无名称的结构/联合 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\apps\desktop\ustc_danmaku.vcxproj]
+  (编译源文件“../../../../apps/desktop/render/hud.cpp”)
+  
+C:\Users\jhsly\.dsh\toolchains\easyx-26.9.25\include\easyx.h(355,3): warning C4201: 使用了非标准扩展: 无名称的结构/联合 [C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\apps\desktop\ustc_danmaku.vcxproj]
+  (编译源文件“../../../../apps/desktop/render/hud.cpp”)
+  
+  正在生成代码...
+  ustc_danmaku.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\ustc_danmaku.exe
+适用于 .NET Framework MSBuild 版本 17.14.60+43b635718
+
+  1>Checking Build System
+  demo_core.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\packages\core\Release\demo_core.lib
+  main.c
+  sim.vcxproj -> C:\Users\jhsly\Documents\Codex\2026-10-06\cheng-xiu-ustc-danmaku-https-github-12\work\ustc-danmaku-web-demo\build\cmake-msvc-monorepo\Release\sim.exe

@@ -1,4 +1,6 @@
-/* sim/main.c - ustc-danmaku headless 仿真入口 (S16)
+/* apps/sim/main.c - 原生脚本仿真/兼容调试入口（历史 S16 接口）
+ * 实际配置由共享核心提供，帮助和日志读取 demo_config_version_string()；
+ * 此入口不提供网页的完整预瞄交互。
  *
  * 职责: 参数解析 -> demo_config_init/validate -> world_reset -> 逐 tick 脚本动作
  *       -> world_step -> 日志 + 回放行 + 结果摘要。
@@ -165,7 +167,7 @@ static bool parse_u64(const char *s, uint64_t *out) {
 static void print_usage(FILE *f) {
     (void)fprintf(f,
                   "用法: sim.exe [选项]\n"
-                  "  --config <name>            配置版本, 目前只接受 default (配置版本 1)\n"
+                  "  --config <name>            目前只接受 default (运行配置 %s)\n"
                   "  --seed <n>                 随机种子 (无符号整数; 缺省 cfg.seed_default)\n"
                   "  --scenario <name>          场景名 (仅作为日志标签记录)\n"
                   "  --max-ticks <n>            最大 tick 数; 到达仍未结束时记 TRUNCATED/未完成\n"
@@ -177,7 +179,7 @@ static void print_usage(FILE *f) {
                   "  --tick-log <path>          额外逐 tick 详细日志文件\n"
                   "  --help                     打印本用法并退出 0\n"
                   "退出码: 0 正常结束(含 TRUNCATED); 1 配置/世界初始化失败; 2 参数错误\n",
-                  SIM_DEFAULT_REPLAY_INTERVAL);
+                  demo_config_version_string(), SIM_DEFAULT_REPLAY_INTERVAL);
 }
 
 /* ------------------------------------------------------------ 脚本动作 */
@@ -442,8 +444,8 @@ int main(int argc, char **argv) {
 
     if (strcmp(config_name, "default") != 0) {
         (void)fprintf(stderr,
-                      "错误: --config 目前只接受 'default' (配置版本 1), 收到 '%s'\n",
-                      config_name);
+                      "错误: --config 目前只接受 'default' (运行配置 %s), 收到 '%s'\n",
+                      demo_config_version_string(), config_name);
         return 2;
     }
 

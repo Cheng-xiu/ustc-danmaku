@@ -5,3 +5,4 @@
 demo/*.html -text -diff
 # 原始构建日志保留工具输出空白，不按源码检查行尾空格。
 docs/validation/monorepo/*.log -whitespace
+docs/validation/repository-sync/*.log -whitespace

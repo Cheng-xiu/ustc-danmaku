@@ -1,8 +1,9 @@
-/* game_main.cpp - 图形薄入口（母代理独占维护）
+/* apps/desktop/game_main.cpp - 原生兼容图形调试入口（历史界面接口 v2）
+ * 运行配置读取共享核心；完整预瞄交互由 apps/web 提供。
  *
  * 职责: 创建窗口、固定步累积器、暂停/重开/退出状态、调用 world_step、调用渲染层。
  * 不实现任何游戏规则: 移动、能量、出招、碰撞、终局都在 core 内; 渲染只读 WorldView。
- * 输入由 platform/input_win.cpp 提供。
+ * 输入由 apps/desktop/platform/input_win.cpp 提供。
  */
 #include <graphics.h>
 
@@ -37,16 +38,18 @@ const char *status_text(DemoWorldStatus s) {
 
 void print_banner(const DemoConfig &cfg) {
     std::printf("==================================================\n");
-    std::printf("  科大弹幕录: 最小可玩 Boss demo (原型)\n");
+    std::printf("  科大弹幕录: 原生兼容调试入口\n");
     std::printf("  操作: 鼠标移动 Boss(朝指针方向, 越近越慢)\n");
-    std::printf("        WASD/方向键等价; 1/2/3/4 出招\n");
+    std::printf("        也可用 WASD/方向键; 1/2/3/4 按键直接出招\n");
     std::printf("        Esc 或鼠标右键 暂停/继续; R 重开\n");
-    std::printf("  目标: 在自己血量耗尽前击倒全部脚本 AI 学生\n");
+    std::printf("  目标: 清波后继续派出学生; Boss 生命耗尽结束, 无胜利终点\n");
     std::printf("  能量: 共享能量按逻辑时间恢复, 接受一次出招扣一次\n");
-    std::printf("  说明: AI 为可复现脚本未经训练; 本 demo 不等于 v3.1 全量交付\n");
+    std::printf("  费用: 1=%d  2=%d  3=%d  4=%d 能量\n", cfg.patterns[0].cost,
+                cfg.patterns[1].cost, cfg.patterns[2].cost, cfg.patterns[3].cost);
+    std::printf("  说明: 脚本 AI 未训练; 完整预瞄及 GPA 展示请使用网页 Demo\n");
     std::printf("  学生数=%u  Boss血量=%d  能量上限=%d\n", cfg.student_count, cfg.boss_hp,
                 cfg.energy_max);
-    std::printf("  配置=%s  接口版本=2\n", demo_config_version_string());
+    std::printf("  运行配置=%s  原生兼容界面 (历史接口 v2)\n", demo_config_version_string());
     std::printf("  按 1/2/3/4 或 Esc 开始\n");
     std::printf("==================================================\n");
 }

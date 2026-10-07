@@ -1,0 +1,13 @@
+用法: sim.exe [选项]
+  --config <name>            目前只接受 default (运行配置 demo-config-v6)
+  --seed <n>                 随机种子 (无符号整数; 缺省 cfg.seed_default)
+  --scenario <name>          场景名 (仅作为日志标签记录)
+  --max-ticks <n>            最大 tick 数; 到达仍未结束时记 TRUNCATED/未完成
+  --log <path>               日志文件路径 (NULL/缺省: 只输出 stdout)
+  --replay <path>            回放状态行文件
+  --script <patrol|dodge|mixed|wait>
+                             脚本动作 (缺省 mixed)
+  --replay-interval <n>      回放行间隔 tick (缺省 60)
+  --tick-log <path>          额外逐 tick 详细日志文件
+  --help                     打印本用法并退出 0
+退出码: 0 正常结束(含 TRUNCATED); 1 配置/世界初始化失败; 2 参数错误

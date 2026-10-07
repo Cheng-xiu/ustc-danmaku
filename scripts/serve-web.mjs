@@ -4,9 +4,18 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
-// Repository builds and the downloadable ZIP intentionally use different layouts.
-const defaults = ['../apps/web/dist', '../web/dist'].map(relative => fileURLToPath(new URL(relative, import.meta.url)));
-const directory = path.resolve(process.argv[2] ?? defaults.find(candidate => existsSync(path.join(candidate, 'index.html'))) ?? defaults[0]);
+// Source checkouts never fall back to ignored builds left by the old layout.
+// Downloadable ZIPs have web/dist and no apps/web/package.json marker.
+const root = fileURLToPath(new URL('../', import.meta.url));
+const repositoryLayout = existsSync(path.join(root, 'apps/web/package.json'));
+const selectedDefault = repositoryLayout ? 'apps/web/dist' : 'web/dist';
+const directory = path.resolve(process.argv[2] ?? path.join(root, selectedDefault));
+if (process.argv[2] === undefined && !existsSync(path.join(directory, 'index.html'))) {
+  console.error(repositoryLayout
+    ? 'Monorepo build missing apps/web/dist/index.html. Run npm run build from the repository root.'
+    : 'Download package missing web/dist/index.html. Extract the full ZIP or open ustc-danmaku.html.');
+  process.exit(1);
+}
 const port = Number(process.argv[3] ?? 4173);
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.mjs': 'text/javascript', '.wasm': 'application/wasm', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json', '.png': 'image/png' };
 const server = http.createServer(async (req, res) => {

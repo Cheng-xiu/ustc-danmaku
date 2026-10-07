@@ -1,8 +1,8 @@
 # 网页最小可玩 Demo：PixiJS 实施规划
 
-更新：2026-10-07。状态：**当前源码为配置 v6、Web ABI v5 的手动瞄准无尽网页 Demo。** 本轮加入按住预瞄、松手释放、空格取消及可转向四招；原生 13/13、手动几何/事务测试与 10 场景累计 36,010 快照 Native/Wasm 对照通过，最终离线 HTML 和真实浏览器验收以 [v6 登记](validation/aim-v6.md) 及 [工程报告](web-demo-validation.md) 为准。单文件离线交付与顶部全屏布局保留。真人、新几何平衡、跨设备及原生图形性能对比仍待开展；v6 已发布 Pages，游戏来源与线上字节证据见 [发布记录](github-pages.md)；后续文档提交不改变部署的游戏身份。
+更新：2026-10-08。状态：**当前源码为配置 v6、Web ABI v5 的手动瞄准无尽网页 Demo。** 已实现按住预瞄、松手释放、空格取消及可转向四招；原生 13/13、手动几何/事务测试与 10 场景累计 36,010 快照 Native/Wasm 对照通过，最终离线 HTML 和真实浏览器验收以 [v6 登记](validation/aim-v6.md) 及 [工程报告](web-demo-validation.md) 为准。单文件离线交付与顶部全屏布局保留。真人、新几何平衡、跨设备及原生图形性能对比仍待开展；v6 已发布 Pages，游戏来源与线上字节证据见 [发布记录](github-pages.md)；后续文档提交不改变部署的游戏身份。
 
-用户随后要求改为 **monorepo**：现版目录为 `apps/web`、`apps/sim`、`apps/desktop` 与 `packages/core`、`packages/wasm`，详细职责和旧路径映射见 [monorepo 指南](monorepo.md)。根 npm workspace 只包含 `@ustc-danmaku/web`，根锁文件和 `packages/core/sources.txt` 分别为依赖与 16 个共享 C/AI 源文件的唯一权威入口。目录迁移保持 cfg6/ABI5 和现有玩法；其构建、原生、输入、对照及最终单文件浏览器复验已通过，见 [迁移复验](monorepo-validation.md)。下表的 v6 通过项仍按既有修订登记。
+用户随后要求改为 **monorepo**，并将仓库内容与最新版同步：现版目录为 `apps/web`、`apps/sim`、`apps/desktop` 与 `packages/core`、`packages/wasm`，详细职责和旧路径映射见 [monorepo 指南](monorepo.md)。根 npm workspace 只包含 `@ustc-danmaku/web`，根锁文件和 `packages/core/sources.txt` 分别为依赖与 16 个共享 C/AI 源文件的唯一权威入口。目录迁移保持 cfg6/ABI5 和现有玩法；其构建、原生、输入、对照及最终单文件浏览器复验已通过，见 [迁移复验](monorepo-validation.md)。主线与部署的实际同步状态见 [最新同步记录](repository-sync.md)。下表的 v6 通过项仍按既有修订登记。
 
 ## 本轮实施状态
 
@@ -29,7 +29,7 @@ v6 沿用费用 **25／50／20／100** 与原预警/攻击时序，几何改为�
 | W11 | v6原生13/13、10场景36010快照对照及当前离线浏览器282/282通过；最终hash、死亡/GPA补充与待测范围按登记 | [v6登记](validation/aim-v6.md)、[工程报告](web-demo-validation.md) |
 | W12 | 可双击离线运行的单文件 HTML、可选 HTTP 静态版、指南与空白试玩模板 | `scripts/build-standalone.mjs`、[指南](web-demo-guide.md)、[试玩模板](web-demo-playtest.md) |
 
-后文保留实施约束和任务拆分依据；建议路径与本轮实际合并文件的差异以上表为准。后续不从零重复已完成的迁移任务。
+后文保留实施约束和任务拆分依据，任务入口已按实际合并模块同步。后续只派受影响的增量工作，不从零重复已完成的迁移任务。
 
 用户在讨论网页版引擎后明确选择 **PixiJS + TypeScript + C/WebAssembly**，并要求更新项目规划。本文记录这项技术决定；当前主玩法继续依据 [Boss 规划](boss-mode-plan.md) 和已有 Demo 的获准规则。完整原规范及原 PDF 保留为原始依据。
 
@@ -37,9 +37,9 @@ v6 沿用费用 **25／50／20／100** 与原预警/攻击时序，几何改为�
 
 把已有 Windows/EasyX Demo 迁移为可以通过浏览器试玩的最小版本，用于验证操作、攻防、共享能量和四招用途。迁移已完成，本轮继续交付四招、学生反击、无尽清波、GPA、死亡、暂停和重开，以及可双击离线运行的单文件 HTML。
 
-用户已提供 `ustc-danmaku-demo-package/` 及同名 ZIP，内含源码和编写、调试记录。本地还存在 `demo/minimal-playable` 分支；规划更新时其已提交 HEAD 为 `753a9f6`。这些是待核对的迁移来源，**不代表 GitHub 主线已包含相同源码，也不代表已独立验收**。旧报告包含修订指纹和未执行项，不能将其结果继承为 Web 验收。
+用户提供的 `ustc-danmaku-demo-package/`、同名 ZIP 与早期 `demo/minimal-playable` 分支是迁移来源；当时已提交 HEAD 为 `753a9f6`，原工作目录另有未提交修改。早期 main 仅包含规划，当前完整网页、原生共享核心及 monorepo 构建源码已纳入此修订；最终 main 同步以 [repository-sync.md](repository-sync.md) 的实际记录为准。来源包和旧 Windows 报告保留原修订指纹与未执行项，不自动继承为现版 Web 验收。
 
-实施母代理先核实当前源码与包的差异、未提交修改、构建入口和历史失败，选定并记录一个可复现的基线。优先复用 `packages/core/core/`、`packages/core/ai/`，不得只因换前端就重新编写碰撞、四招、AI 或胜负规则。若当前 checkout 尚无 Demo 源码，先从已提供来源核对并纳入基线，再开始网页任务；不要照旧提示词从零再造游戏。
+增量实施先核实当前修订、未提交修改、构建入口及受影响检查，记录可复现基线。优先复用已纳入仓库的 `packages/core/core/`、`packages/core/ai/`，不得只因换目录或前端重写碰撞、四招、AI、计分或终局；不要照旧提示词从零再造游戏。
 
 本轮不要求完成机器学习训练平台、模型训练、联网、排行榜、课程全量计分、GA、旧 Q 表、技能场或擦弹系统。网站对外托管是独立交付步骤；当前优先交付无需安装工具和启动服务器的单文件 HTML，源码开发仍保留 HTTP 静态版。
 
@@ -114,26 +114,26 @@ PixiJS 是 2D 渲染引擎，游戏流程需由项目组织；UI、音频等可�
 
 母代理：`deepseek账号/deepseek-flash`。全部子代理和孙代理：`a6api/deepseek-v4.1-flash`。最多母→子→孙，孙禁止继续派生；工具不能满足指定路由或派生层级时如实记录，不伪装为已满足。执行细节和任务卡模板见 [网页母代理提示词](web-demo-agent-prompt.md)。
 
-下列路径为建议组织，不代表已存在。母代理先冻结 M00：基线、构建清单、桥接 ABI、公共 TS 类型、输入/时钟契约、所有权及任务板。
+下列路径对应当前实际模块，保留 W01–W12 作为增量工作与验收的拆分依据，不表示这些已完成模块需要重做。母代理先核对 M00：当前基线、构建清单、桥接 ABI、公共 TS 类型、输入/时钟契约、所有权及本轮任务板。
 
-| ID | 小任务与单一产出 | 建议实现文件 | 依赖 | 验收要点 |
+| ID | 小任务与单一产出 | 当前实现入口 | 依赖 | 验收要点 |
 | --- | --- | --- | --- | --- |
-| W01 | 可复现 C/Wasm 构建 | `scripts/build-wasm.ps1`、`packages/wasm/CMakeLists.txt` | M00 | 同一核心清单、纯 C 编译；母代理提供的最小核心探针可加载，不用 EasyX |
+| W01 | 可复现 C/Wasm 构建 | `scripts/build-wasm.ps1`、`packages/wasm/CMakeLists.txt`、`packages/wasm/bridge_probe.c` | M00 | 同一核心清单、纯 C 编译；现有桥接探针验证生命周期、四招与预瞄，不用 EasyX |
 | W02 | 生命周期与 tick 桥接 | `packages/wasm/demo_bridge.c` | W01 | 重置、固定步、终局停止、64 位值、边沿与事件汇总 |
-| W03 | 批量快照与公开预警 | `packages/wasm/render_snapshot.c` | W02 | 活跃实体/容量/事件/预警；无 C 指针或隐藏状态泄漏 |
-| W04 | TS 加载与解码 | `apps/web/src/wasm/client.ts`、`decoder.ts` | W03 | 初始化等待、ABI 校验、内存视图有效期、错误提示 |
+| W03 | 批量快照与公开预警 | `packages/wasm/demo_bridge.c`（与生命周期同文件，由同一写入者维护） | W02 | 活跃实体/容量/事件/预警；无 C 指针或隐藏状态泄漏 |
+| W04 | TS 加载与解码 | `apps/web/src/wasm/client.ts`（加载与解码同文件） | W03 | 初始化等待、ABI 校验、内存视图有效期、错误提示 |
 | W05 | 浏览器输入 | `apps/web/src/input/browserInput.ts` | M00 | hold/release/Space、owner、独立朝向缓存与窗口指针；移动不停、失焦清输入；不计算规则 |
 | W06 | 固定步与页面生命周期 | `apps/web/src/runtime/gameLoop.ts` | W04、W05 | 零/多 tick、事件不丢、暂停、隐藏页面、重开 |
-| W07 | 角色与弹幕绘制 | `apps/web/src/render/scene.ts`、`projectiles.ts` | W04 | 对象复用、稳定身份、显示与核心坐标一致 |
-| W08 | 四招预警/预瞄绘制 | `apps/web/src/render/warnings.ts`、`aimPreview.ts` | W03、W07 | 只读C rays；已接受方向/原点不迁移；拒绝仍显示箭头；不重写算法 |
-| W09 | 顶部 HUD 与开局技能介绍 | `apps/web/src/ui/hud.ts`、`hud.css` | W04、W05 | 明显能量与共享CD/四招/拒绝/生命/暂停/结果一致；按钮走统一输入，其余区域留给战场 |
-| W10 | 原生/Wasm 对照及性能 | `tests/web/` 下明确授权文件、`apps/web/bench/` | W02–W09、母代理整机集成 | 同种子输入逐 tick 对照；800 发压力采样与限制说明 |
-| W11 | 独立网页验收 | `docs/web-demo-validation.md`、`web-demo-findings.md` | W10、母代理整机集成 | 干净构建、离线 HTML、实际操作、四招、攻防、清波/GPA/死亡、暂停重开 |
-| W12 | 运行与试玩交付 | `docs/web-demo-guide.md`、`web-demo-playtest.md` | W11、实际产物 | 可复制命令、相对路径静态包、已知问题、待收集试玩 |
+| W07 | 角色与弹幕绘制 | `apps/web/src/render/scene.ts`、`apps/web/src/render/projectiles.ts` | W04 | 对象复用、稳定身份、显示与核心坐标一致 |
+| W08 | 四招预警/预瞄绘制 | `apps/web/src/render/warnings.ts`、`apps/web/src/render/aimPreview.ts` | W03、W07 | 只读C rays；已接受方向/原点不迁移；拒绝仍显示箭头；不重写算法 |
+| W09 | 顶部 HUD 与开局技能介绍 | `apps/web/src/ui/hud.ts`、`apps/web/src/ui/hud.css` | W04、W05 | 明显能量与共享CD/四招/拒绝/生命/暂停/结果一致；按钮走统一输入，其余区域留给战场 |
+| W10 | 原生/Wasm 对照及性能 | `tests/web/` 下明确授权文件、`apps/web/bench.html`、`apps/web/src/bench.ts` | W02–W09、母代理整机集成 | 同种子输入逐 tick 对照；800 发压力采样与限制说明 |
+| W11 | 独立网页验收 | 当前检查脚本与新一轮独立报告；既有证据见 `docs/monorepo-validation.md`、`docs/web-demo-validation.md` | W10、母代理整机集成 | 干净构建、离线 HTML、实际操作、四招、攻防、清波/GPA/死亡、暂停重开；不覆盖旧报告 |
+| W12 | 运行与试玩交付 | `docs/web-demo-guide.md`、`docs/web-demo-playtest.md` | W11、实际产物 | 可复制命令、相对路径静态包、已知问题、待收集试玩 |
 
 波次：M00 → W01/W05 → W02 → W03 → W04 → W06/W07/W09 → W08 → 母代理整机集成 → W10 → W11 → W12。W10 的核心对照可在桥接完成后提前准备，整机性能验收必须等待集成。先集成一招闭环，再补全四招；各任务可用注明来源的夹具独立开发，但验收必须连真实核心。
 
-为避免构建与桥接互等，M00 由母代理提供 `packages/wasm/build_probe.c` 和最小导出清单；W01 仅验收核心探针可构建、加载和调用，不等待完整桥接实现，也不算玩法验收。W02/W03 完成后由母代理更新完整导出清单，再验证正式网页模块。
+当前正式桥接和探针已存在，M00/W01 复用 `packages/wasm/bridge_probe.c`、实际 ABI v5 导出及根构建入口。W02/W03 的生命周期、快照和预瞄共用 `demo_bridge.c`，必须作为同一文件所有权派发。接口改变后更新导出并重跑探针和正式网页模块；探针不能单独代替玩法验收。
 
 母代理独占公共 C 头/TS 类型、规则配置、`packages/core/sources.txt`、导出清单、根 workspace 与唯一锁文件、前端构建配置、网页入口、公共样式、任务板和共享构建入口。W01 的构建文件须有单独授权，完成后收回写权限。每个文件同一时间一个写入者；孙任务必须是父任务范围内不重叠的小产出。总并发建议最多 4 个，包含母、子、孙。
 

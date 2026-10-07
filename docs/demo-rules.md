@@ -1,8 +1,10 @@
 # 最小可玩 Boss demo：规则与决定记录
 
-更新：2026-10-07。状态：本文件是 demo 规则与数值的**唯一权威来源**。任务卡、接口文档、配置实现必须与本文件一致。当前源码为配置 v6、Web ABI v5 的手动瞄准无尽网页 Demo；原生 13/13、手动几何与释放事务测试、10 场景 36,010 快照 Native/Wasm 对照已通过，最终 HTML 与真实浏览器状态见 [v6 验证登记](validation/aim-v6.md) 和 [工程验证](web-demo-validation.md)。真人、跨设备及新几何平衡仍待开展。原 v5 文本已 [归档](archive/demo-rules-v5-20261007.md)，旧平衡结果只适用于原版本。
+更新：2026-10-08。状态：本文件是 demo 规则与数值的**唯一权威来源**。任务卡、接口文档、配置实现必须与本文件一致。当前源码为配置 v6、Web ABI v5 的手动瞄准无尽网页 Demo；原生 13/13、手动几何与释放事务测试、10 场景 36,010 快照 Native/Wasm 对照已通过，最终 HTML 与真实浏览器状态见 [v6 验证登记](validation/aim-v6.md) 和 [工程验证](web-demo-validation.md)。真人、跨设备及新几何平衡仍待开展。原 v5 文本已 [归档](archive/demo-rules-v5-20261007.md)，旧平衡结果只适用于原版本。
 
 当前交付是可双击离线运行的单文件 HTML，内含 PixiJS、Wasm、样式与官方校徽。以下现行规则覆盖旧文档中的“击倒全部学生获胜”“同死 Boss 胜”“GPA 延后”和 v3 的“每杀 +0.10”；旧版本记录仅作历史依据，不用于当前产品。
+
+当前源码已按 [monorepo](monorepo.md) 组织，迁移未改变配置 v6、ABI v5 或以下参数；实际构建、原生与浏览器复验见 [迁移记录](monorepo-validation.md)，主线及部署同步状态见 [最新同步记录](repository-sync.md)。原生和 Wasm 使用 `packages/core/sources.txt` 唯一列出的16个纯 C/AI 文件。
 
 来源约定：
 - 原规范 `docs/project-spec-v3.1.md` 与完整 PDF `references/project-spec-v3.1.pdf` 是技术与旧玩法依据。
@@ -89,9 +91,9 @@ AI 学生使用可复现脚本，**不声称经过训练**。保留可复用的�
 
 ### 1.8 技术约束（来源：原规范第八章、提示词第五节）
 
-- 核心 `core/*.c` 与 `ai/*.c` 使用 C99/C11，必须由 C 编译器编译；禁止仅改扩展名后仍用 C++ 编译核心。
+- 核心 `packages/core/core/*.c` 与 `packages/core/ai/*.c` 使用 C99/C11，必须由 C 编译器编译；禁止仅改扩展名后仍用 C++ 编译核心。
 - 核心不含 EasyX、Windows 输入 API、窗口 API、墙钟查询、C++ 容器；核心内不绘图、不写日志文件。
-- `game`、`sim`、测试链接同一批核心源码，读取同一规则配置。
+- `apps/desktop/`、`apps/sim/`、测试及 `packages/wasm/` 链接同一 `packages/core/` 核心与规则配置，完整16源清单只维护在 `packages/core/sources.txt`。
 - 逻辑 `60 Hz` 固定步长，`dt = 1/60`；整数 tick；暂停不调用推进函数。
 - 核心使用固定容量数组与明确函数，不使用 ECS/插件框架/脚本语言。
 - 随机数用 SplitMix64 派生 `world`/`bot`/`explore` 三流；不用墙钟或平台 `rand()`。
@@ -100,7 +102,7 @@ AI 学生使用可复现脚本，**不声称经过训练**。保留可复用的�
 ### 1.9 网页迁移技术决定（用户批准 2026-10-07）
 
 - 当前网页方案为 **PixiJS + TypeScript + C/Wasm**，具体实施见 [网页规划](web-demo-plan.md) 和 [网页母代理提示词](web-demo-agent-prompt.md)。
-- 原生 `game`、`sim`、测试和新增 Wasm 前端必须使用同一批 C 核心及规则配置；TypeScript 不另写碰撞、招式、能量、AI 或胜负。
+- 原生图形入口 `apps/desktop/`、仿真 `apps/sim/`、测试和 Wasm 桥接必须使用同一批 C 核心及规则配置；`apps/web/` 的 TypeScript 不另写碰撞、招式、能量、AI 或胜负。
 - PixiJS 首版用 WebGL；网页显示循环按固定 60 Hz 推进核心，批量读取快照，处理缩放、边沿输入、页面隐藏、暂停恢复和重开。
 - 后续离线训练继续使用原生无界面 C 核心；训练环境接口仍待设计，不将网页帧率当作训练速度。
 - 单文件 HTML 必须双击离线可玩，不要求玩家装 Node、Emscripten 或启动服务器；HTTP 静态版保留用于源码开发和托管。构建工具与运行依赖区分说明。
@@ -137,7 +139,7 @@ C 核心的 `world_gpa_for_kills` 用 64 位整数计算 `gpa_hundredths=floor(4
 
 ## 2 试验数值（母代理选定，集中配置，可调）
 
-修改这些数值必须：递增 `core/demo_config.c` 中的配置版本号 → 更新本表 → 重跑受影响的验证。
+修改这些数值必须：递增 `packages/core/core/demo_config.c` 中的配置版本号 → 更新本表 → 重跑受影响的验证。仅目录、构建或文档同步不升级玩法配置版本。
 
 ### 2.1 场地与角色
 
@@ -145,7 +147,7 @@ C 核心的 `world_gpa_for_kills` 用 64 位整数计算 `gpa_hundredths=floor(4
 | --- | --- | --- |
 | 画面 / 战场 / HUD | 窗口铺满 / 等面积且匹配新局比例 / 顶部状态栏 | 2026-10-07 用户明确确认 |
 | 逻辑步进 | 60 Hz | 整数 tick |
-| Boss 半径 / 命中半径 | 22 px / 22 px | 命中半径等于身体半径，落实于 `core/demo_config.c` 的 `boss_hit_radius_equals_body` |
+| Boss 半径 / 命中半径 | 22 px / 22 px | 命中半径等于身体半径，落实于 `packages/core/core/demo_config.c` 的 `boss_hit_radius_equals_body` |
 | Boss 移动区域 | x ∈ [22, W-22]，y ∈ [22, H-22] | 全战场按半径留边 |
 | Boss 初始位置 | 默认 (480, 620)，其他尺寸按可移动区域归一化映射 | 战场下区；由共享 C 设定 |
 | Boss 速度 | 270 px/s | 指针到位置移动的上限速度 |

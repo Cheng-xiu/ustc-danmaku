@@ -1,0 +1,58 @@
+
+> ustc-danmaku-monorepo@0.6.0 build:native
+> node scripts/run-powershell.mjs build-native
+
+-- Configuring done (0.1s)
+-- Generating done (0.9s)
+-- Build files have been written to: C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native
+[ 11%] Built target test_attack
+[ 40%] Built target demo_core
+[ 44%] Built target test_actors
+[ 47%] Built target test_aim_release
+[ 50%] Built target test_collision
+[ 54%] Built target test_manual_aim
+[ 57%] Built target test_pattern_roles
+[ 61%] Built target test_pattern_shower
+[ 64%] Built target test_projectiles
+[ 67%] Built target test_rng
+[ 71%] Built target test_student_fire
+[ 74%] Built target test_web_core
+[ 77%] Built target test_endless
+[ 81%] Built target test_field_size
+[ 84%] Built target web_balance_probe
+[ 89%] Built target web_native_replay
+[ 94%] Building C object apps/sim/CMakeFiles/sim.dir/main.c.obj
+[ 96%] Built target web_bridge_probe
+[ 98%] Linking C executable ..\..\sim.exe
+[100%] Built target sim
+Test project C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native
+      Start  1: test_actors
+ 1/13 Test  #1: test_actors ......................   Passed    0.03 sec
+      Start  2: test_aim_release
+ 2/13 Test  #2: test_aim_release .................   Passed    0.10 sec
+      Start  3: test_attack
+ 3/13 Test  #3: test_attack ......................   Passed    0.02 sec
+      Start  4: test_collision
+ 4/13 Test  #4: test_collision ...................   Passed    0.02 sec
+      Start  5: test_manual_aim
+ 5/13 Test  #5: test_manual_aim ..................   Passed    0.04 sec
+      Start  6: test_pattern_roles
+ 6/13 Test  #6: test_pattern_roles ...............   Passed    0.02 sec
+      Start  7: test_pattern_shower
+ 7/13 Test  #7: test_pattern_shower ..............   Passed    0.03 sec
+      Start  8: test_projectiles
+ 8/13 Test  #8: test_projectiles .................   Passed    0.04 sec
+      Start  9: test_rng
+ 9/13 Test  #9: test_rng .........................   Passed    0.04 sec
+      Start 10: test_student_fire
+10/13 Test #10: test_student_fire ................   Passed    0.02 sec
+      Start 11: test_web_core
+11/13 Test #11: test_web_core ....................   Passed    0.05 sec
+      Start 12: test_endless
+12/13 Test #12: test_endless .....................   Passed    0.04 sec
+      Start 13: test_field_size
+13/13 Test #13: test_field_size ..................   Passed    0.04 sec
+
+100% tests passed out of 13
+
+Total Test time (real) =   0.55 sec

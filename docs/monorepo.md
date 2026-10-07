@@ -74,6 +74,8 @@ npm.cmd test
 
 少数窄单元测试自带桩而仅链接指定核心模块，这是隔离测试的依赖，不是另一套游戏核心。原生图形的 C++/EasyX 源码位于 `apps/desktop`，不进入共享 C 或 Wasm 清单。核心行为修改仍集中到同一配置和 C 实现，并按当前规则更新版本与验证证据。
 
+根 CMake 默认不构建早期 cfg4 的 `endless_native_replay`；历史研究可显式设置 `-DDEMO_BUILD_LEGACY_FIXTURES=ON`，该夹具仍要求匹配的旧版核心。当前 Native/Wasm 对照使用 `web_native_replay` / `test:core`，当前无尽清波验证使用 `test:endless`。源码目录的默认启动器只选 `apps/web/dist`，需要先构建；下载包才使用 `web/dist`，避免旧构建残留被当成最新版。
+
 ## 旧路径映射与历史证据
 
 | 迁移前 | 当前位置 |

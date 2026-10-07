@@ -29,22 +29,15 @@ foreach ($taskSource in $taskCoreSources) {
         throw "Missing shared core source: $taskSource"
     }
 }
-New-Item -ItemType Directory -Path (Join-Path $taskPackage 'web'), (Join-Path $taskPackage 'scripts'), (Join-Path $taskPackage 'docs') -Force | Out-Null
+New-Item -ItemType Directory -Path (Join-Path $taskPackage 'web'), (Join-Path $taskPackage 'scripts') -Force | Out-Null
 Copy-Item -LiteralPath (Join-Path $taskRoot 'apps/web/dist') -Destination (Join-Path $taskPackage 'web') -Recurse
 Copy-Item -LiteralPath (Join-Path $taskRoot 'Start-Web-Demo.bat') -Destination $taskPackage
 & node (Join-Path $taskRoot 'scripts/build-standalone.mjs') (Join-Path $taskPackage 'ustc-danmaku.html')
 if ($LASTEXITCODE) { throw 'Standalone HTML build failed.' }
 Copy-Item -LiteralPath (Join-Path $taskRoot 'scripts/serve-web.mjs') -Destination (Join-Path $taskPackage 'scripts')
-foreach ($taskName in @('monorepo.md','monorepo-validation.md','web-demo-guide.md','web-demo-validation.md','web-demo-playtest.md','web-playability-findings.md','web-balance-findings.md','web-balance-findings-v5.md','demo-rules.md','web-abi.md','ustc-emblem-source.md')) {
-    Copy-Item -LiteralPath (Join-Path $taskRoot "docs/$taskName") -Destination (Join-Path $taskPackage 'docs')
-}
-Copy-Item -LiteralPath (Join-Path $taskRoot 'docs/validation') -Destination (Join-Path $taskPackage 'docs') -Recurse
-foreach ($taskHistoricalFolder in @('archive','assets')) {
-    $taskHistoricalPath = Join-Path $taskRoot "docs/$taskHistoricalFolder"
-    if (Test-Path -LiteralPath $taskHistoricalPath) {
-        Copy-Item -LiteralPath $taskHistoricalPath -Destination (Join-Path $taskPackage 'docs') -Recurse
-    }
-}
+Copy-Item -LiteralPath (Join-Path $taskRoot 'docs') -Destination $taskPackage -Recurse
+Copy-Item -LiteralPath (Join-Path $taskRoot 'references') -Destination $taskPackage -Recurse
+Copy-Item -LiteralPath (Join-Path $taskRoot 'AGENTS.md') -Destination $taskPackage
 Copy-Item -LiteralPath (Join-Path $taskRoot 'docs/web-package-readme.md') -Destination (Join-Path $taskPackage 'README.md')
 
 # Preserve the licenses of the production dependency tree distributed in the bundle.

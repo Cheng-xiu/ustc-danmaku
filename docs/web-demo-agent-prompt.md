@@ -1,6 +1,6 @@
 # PixiJS 网页 Demo 母代理执行提示词
 
-更新：2026-10-07。可全文交给负责实施的母代理。仓库 <https://github.com/Cheng-xiu/ustc-danmaku> 当前无尽网页源码为 cfg6 / ABI5，新增按住手动预瞄、松手释放及方向四招。原生13/13、手动几何338288断言、释放事务1774断言与10场景36010快照Native/Wasm对照通过；最终HTML和真实浏览器状态读 `docs/validation/aim-v6.md`、`docs/web-demo-validation.md`。原v5提示词已归档 `docs/archive/web-demo-agent-prompt-v5-20261007.md`，旧平衡/浏览器证据不自动继承。本提示词用于增量任务，先识别已完成工作，不从零重复迁移。
+更新：2026-10-08。可全文交给负责实施的母代理。仓库 <https://github.com/Cheng-xiu/ustc-danmaku> 当前无尽网页源码为 cfg6 / ABI5，已实现按住手动预瞄、松手释放及方向四招。原生13/13、手动几何338288断言、释放事务1774断言与10场景36010快照Native/Wasm对照通过；最终HTML和真实浏览器状态读 `docs/validation/aim-v6.md`、`docs/web-demo-validation.md`。原v5提示词已归档 `docs/archive/web-demo-agent-prompt-v5-20261007.md`，旧平衡/浏览器证据不自动继承。本提示词用于增量任务，先识别已完成工作，不从零重复迁移。
 
 用户随后要求改为 monorepo。现版应用路径为 `apps/web/`、`apps/sim/`、`apps/desktop/`，共享包为 `packages/core/` 与 `packages/wasm/`；先读 `docs/monorepo.md`。唯一 JavaScript workspace 是 `apps/web`（`@ustc-danmaku/web`），根 `package-lock.json` 维护 npm 依赖，`packages/core/sources.txt` 维护 16 个共享 C/AI 源文件。目录迁移不改变 cfg6/ABI5 和玩法；上述 v6 通过数是迁移前证据，本轮实际构建与回归已通过，见 `docs/monorepo-validation.md`。历史归档、报告与原始 JSON/日志保留旧路径及身份，不批量重写，按映射表定位现版代码。
 
@@ -27,14 +27,14 @@
 
 1. 适用的 `AGENTS.md`；完整 `references/project-spec-v3.1.pdf`，可配合 `docs/project-spec-v3.1.md` 检索。已经完成过阅读可复用，疑问处核对原 PDF。
 2. `docs/web-demo-plan.md`、`docs/boss-mode-plan.md`、`docs/ai-balance-plan.md`。
-3. 已提供 Demo 的 `docs/demo-rules.md`、`demo-interfaces.md`、`demo-guide.md`、`demo-validation.md` 和 `demo-findings.md`，以及实际 C 源码。
+3. 现行 `docs/demo-rules.md` 与实际 C 源码；`docs/demo-interfaces.md`、`demo-guide.md`、`demo-validation.md` 和 `demo-findings.md` 是早期 Windows 来源记录，只用于核对历史，不作为现版 ABI、操作或规则入口。
 4. 当前 README 和文档索引。旧 Windows 实施提示词只作历史说明，不能继续作为新任务派发入口。
 5. `docs/validation/aim-v6.md`：当前手动规则、真实测试范围及待测项；`docs/web-balance-findings-v5.md`仅用于核对旧版，不作为v6平衡已通过依据。
 6. `docs/monorepo.md`、根 `package.json` 和 `packages/core/sources.txt`：当前路径、构建入口、应用/包依赖方向与唯一源清单。
 
 用户已批准 PixiJS + TypeScript + C/Wasm，不再询问是否开始、是否可以用网页方案。用户明确指令优先；规则已有答复直接沿用，不重问。剩余会改变玩法的歧义核对当前记录并集中说明，独立技术工作继续推进。
 
-用户提供的 `ustc-danmaku-demo-package/` 及 ZIP 是迁移来源；当前 checkout 未必已纳入对应源码。本地原 Windows 分支在规划更新时的已提交 HEAD 为 `753a9f6`，并存在未提交修改，不能把它们混作同一个已验证基线。先比对并记录实际选择，不删除、覆盖或顺手提交其他人的工作。
+用户提供的 `ustc-danmaku-demo-package/` 及 ZIP 是历史迁移来源；早期 Windows 分支已提交 HEAD 为 `753a9f6`，原工作目录另有未提交修改，不能混作同一个基线。当前修订已纳入完整网页、共享 C 核心和 monorepo 构建源码；从现有模块做增量工作，核对实际提交与未提交修改，不删除、覆盖或顺手提交其他人的工作。最新 main 与 Pages 同步结果见 `docs/repository-sync.md`，不凭规划文字宣称同步成功。
 
 报告里的通过项、失败项和“未执行”都是特定修订的记录，不自动继承到当前源码或网页。无尽游戏没有胜利条件，预算内存活或清波不能写成胜利；有限脚本也不能代替真人体验结论。
 
@@ -70,7 +70,8 @@
 - 记录选定源码基线、配置版本、已有失败、工具链和可复跑命令。必要修复独立记录，不把“历史报告通过”当成当前检查。
 - 冻结依赖/锁文件、同一16文件纯C清单、demo_reset_sized/demo_step_aim/demo_preview等ABI5导出；记录初始化、尺寸、拒绝和buffer有效期。显示可以投影已公布波次及玩家候选rays，不导出隐藏RNG或AI不该知道的未来；AI观察另定。
 - 冻结根 workspace 与命令：Node 22.12+/npm 10+，只在根运行 `npm ci`，不在 `apps/web` 另建锁或另行安装。`npm run build` 顺序构建 Wasm→Web→单文件 `build/release/ustc-danmaku-endless.html`；`npm test` 顺序构建、原生、输入、Native/Wasm 对照、浏览器与无尽。CMake/PowerShell 读取 `packages/core/sources.txt`；仅沿用现有 npm/CMake，不引入 Turbo/Nx 或臆造 ML 应用、自动 CI。
-- 你先提供 `packages/wasm/build_probe.c` 和最小导出清单，让 W01 独立验证核心探针；W01 不等待 W02/W03 的完整桥接实现。正式导出清单随桥接完成后更新，探针不能算玩法验收。
+- 迁移或修改构建/打包入口后，另跑根 `npm run test:monorepo` 检查真实开发、预览、仓库及下载包 HTTP 入口；源码打包使用 `npm run package:source`。各检查结果关联当前输出和受测修订，不覆盖历史报告。
+- 复用 `packages/wasm/bridge_probe.c` 与当前正式 ABI v5 导出，让 W01 独立验证现有核心/桥接。生命周期、快照、公开预警及预瞄均在 `packages/wasm/demo_bridge.c`，加载和严格解码均在 `apps/web/src/wasm/client.ts`，分别由同一写入者维护。性能入口是 `apps/web/bench.html` 与 `apps/web/src/bench.ts`。接口改变后更新导出并重跑探针，探针不能代替玩法验收。
 - 公共桥接头、TS 共有类型、预警字段和任务卡由你维护。已有 `WorldView` 含 C 指针，必须有明确批量快照，不猜偏移和对齐。
 - 64 位 seed/ID 采用明确高低位或 BigInt 协议；Wasm 内存增长后更新视图。状态、事件、预警和溢出诊断都要覆盖。
 - 冻结唯一主循环与输入消费契约：固定 60 Hz；零 tick 保留边沿，多 tick 不重复出招且事件不丢；隐藏页面自动暂停，玩家继续时清零积压。
@@ -79,7 +80,7 @@
 - 每个文件一个写入者；记录母代理独占文件。公共入口、依赖清单/锁文件、导出和配置只由你改。需要接管实现文件时先收回原写权限。
 - 共享 checkout 的切分支、暂存、提交、推送和回退只由你执行。子/孙不得操作共享 index，不得 `reset`、`clean` 或 `checkout --` 清理或回退他人修改；独立工作树另在任务卡规定 Git 权限与集成方式。
 
-你可提前建立网页入口骨架，但进入 W03/W04 前必须冻结对应接口。接口变化时先暂停受影响编码，更新契约和任务卡，再恢复，不能让各代理各自猜。
+网页入口、主循环与正式桥接已完成，不重新建立骨架。派 W03/W04 的增量工作前核对现有接口；接口变化时先暂停受影响编码，更新契约和任务卡再恢复，不能让各代理各自猜。
 
 ## 五、子代理任务卡
 
