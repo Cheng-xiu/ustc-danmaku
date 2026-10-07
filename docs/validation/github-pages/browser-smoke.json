@@ -1,0 +1,71 @@
+{
+  "url": "https://cheng-xiu.github.io/ustc-danmaku/?qa=1",
+  "checks": [
+    {
+      "name": "deployed page returns HTTPS200",
+      "passed": true
+    },
+    {
+      "name": "deployed current config4 ABI3 endless core",
+      "passed": true
+    },
+    {
+      "name": "menu displays endless and GPA",
+      "passed": true
+    },
+    {
+      "name": "actual start advances core with boss and three students",
+      "passed": true
+    },
+    {
+      "name": "real key accepts ring",
+      "passed": true,
+      "detail": {
+        "phase": "playing",
+        "tick": 7,
+        "accepted": 1,
+        "rejected": 0,
+        "pattern": 0,
+        "energy": 31
+      }
+    },
+    {
+      "name": "ring emits real core bullets",
+      "passed": true
+    },
+    {
+      "name": "pause freezes tick and GPA",
+      "passed": true
+    },
+    {
+      "name": "restart returns first wave zero score",
+      "passed": true
+    },
+    {
+      "name": "fourth attack rejects starting60",
+      "passed": true
+    },
+    {
+      "name": "fourth attack accepts natural100",
+      "passed": true
+    },
+    {
+      "name": "fourth emits real core bullets",
+      "passed": true
+    },
+    {
+      "name": "online game has no runtime or request failures",
+      "passed": true,
+      "detail": {
+        "errors": [],
+        "failedRequests": [],
+        "httpErrors": []
+      }
+    }
+  ],
+  "errors": [],
+  "failedRequests": [],
+  "httpErrors": [],
+  "browser": "154.0.8037.98",
+  "passed": true
+}

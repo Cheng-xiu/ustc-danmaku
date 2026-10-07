@@ -28,4 +28,12 @@ node scripts/publish-pages.mjs
 
 后续机器学习训练继续使用原生 C 核心；网站只是现有游戏的浏览器入口。本次托管不改变玩法或设备支持范围。
 
+## 首次上线记录
+
+2026-10-07 的 [Pages 构建与部署](https://github.com/Cheng-xiu/ustc-danmaku/actions/runs/37630396240) 已成功，HTTPS 强制开启。发布提交为 `cf9743f436cfd8213fb78186e66a7dcc163fde55`，游戏来源提交为 `98a221b9fa2b89c7434ca527dff2dd1d1d756626`。
+
+在线 HTML 返回 200、大小 1,134,675 字节，SHA256 为 `5571dafbce38695f9dce4e3ffba5b68fb777a8d7c2585102dcc7112b6a9ac7ea`，与先前离线验收产物逐字一致。实际 Chrome 154 在线检查 12/12 通过：加载当前核心、菜单、开始推进、环招真实发弹、暂停、重开、第四招初始能量拒绝与自然满能量接受及发弹。运行异常、失败请求和 HTTP 错误均为 0，游戏画面截图另经目视核对。受控时钟仅用于验证交互，不作为网络性能或 FPS 测量。
+
+发布脚本同一来源重复运行返回 `unchanged: true`，发布提交保持不变。原始证据见 [validation/github-pages](validation/github-pages/)；这里只部署现有 v4 游戏，没有新增玩法。后续说明与证据提交不需要重新发布相同的游戏文件。
+
 [GitHub 官方发布源说明](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)。
