@@ -1,0 +1,15 @@
+{
+  "url": "https://cheng-xiu.github.io/ustc-danmaku/",
+  "status": 200,
+  "sha256": "5571dafbce38695f9dce4e3ffba5b68fb777a8d7c2585102dcc7112b6a9ac7ea",
+  "bytes": 1134675,
+  "content_type": "text/html; charset=utf-8",
+  "matches_verified_html": true,
+  "deployment": {
+    "repository": "Cheng-xiu/ustc-danmaku",
+    "publisher": "scripts/publish-pages.mjs",
+    "source_commit": "98a221b9fa2b89c7434ca527dff2dd1d1d756626",
+    "html_sha256": "5571dafbce38695f9dce4e3ffba5b68fb777a8d7c2585102dcc7112b6a9ac7ea",
+    "html_bytes": 1134675
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "baseline": "c401a8a584cce4d8f259ec5e28579618752646ce",
+  "passed": true,
+  "gameAndHistoricalPathsUnchanged": true,
+  "currentRelativeLinks": 154,
+  "relativeLinksPass": true,
+  "currentPackageDocumentationComplete": true,
+  "htmlBytes": 1168141,
+  "htmlSha256": "9de27925103b644236b736e635932be215ecd0440d095311657c08673d22680d",
+  "builtHtmlSha256": "9de27925103b644236b736e635932be215ecd0440d095311657c08673d22680d",
+  "wasmSha256": "9dbd096c2eac3792de2c22b5af54725591fd99502f6239b16a41257a13c21b93",
+  "httpChecks": 73,
+  "packageFiles": 172,
+  "packageZipBytes": 4896232
+}

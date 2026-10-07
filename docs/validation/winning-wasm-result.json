@@ -1,0 +1,15 @@
+{
+  "configVersion": 2,
+  "seedLo": 20261006,
+  "seedHi": 0,
+  "students": 3,
+  "inputs": 1470,
+  "actual": {
+    "status": 1,
+    "tick": 1470,
+    "boss_hp": 1,
+    "boss_hits": 5,
+    "student_hits": 9
+  },
+  "passed": true
+}

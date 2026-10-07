@@ -1,0 +1,39 @@
+{
+  "name": "ustc-danmaku-monorepo",
+  "version": "0.6.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/web"
+  ],
+  "packageManager": "npm@11.17.0",
+  "engines": {
+    "node": ">=22.12.0",
+    "npm": ">=10"
+  },
+  "scripts": {
+    "dev": "npm run dev --workspace @ustc-danmaku/web --",
+    "preview": "npm run preview --workspace @ustc-danmaku/web --",
+    "check": "npm run check --workspace @ustc-danmaku/web",
+    "setup:wasm": "node scripts/run-powershell.mjs setup-web-toolchain",
+    "build:native": "node scripts/run-powershell.mjs build-native",
+    "build:wasm": "node scripts/run-powershell.mjs build-wasm",
+    "build:web": "npm run build --workspace @ustc-danmaku/web",
+    "build:standalone": "node scripts/build-standalone.mjs",
+    "build": "npm run build:wasm && npm run build:web && npm run build:standalone",
+    "test:input": "node tests/web/aim-input-probe.mjs",
+    "test:core": "node tests/web/compare-core.mjs",
+    "test:browser": "node tests/web/aim-browser-smoke.mjs build/release/ustc-danmaku-endless.html",
+    "test:endless": "node tests/web/aim-endless-smoke.mjs build/release/ustc-danmaku-endless.html",
+    "test:monorepo": "node tests/web/monorepo-smoke.mjs",
+    "test": "npm run build && npm run build:native && npm run test:input && npm run test:core && npm run test:browser && npm run test:endless",
+    "package:web": "node scripts/run-powershell.mjs package-web",
+    "package:source": "node scripts/run-powershell.mjs package",
+    "serve": "node scripts/serve-web.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "typescript": "5.9.3",
+    "esbuild": "0.25.12"
+  }
+}

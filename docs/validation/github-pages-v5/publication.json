@@ -1,0 +1,9 @@
+{
+  "repository": "Cheng-xiu/ustc-danmaku",
+  "publisher": "scripts/publish-pages.mjs",
+  "source_commit": "ce07fc266335f6afae1e23d30b960e8e3465b061",
+  "html_sha256": "7c71994fa81c9007b9e13a1f736bf2db69286f04d5deb8799feba1a50d98542c",
+  "html_bytes": 1145405,
+  "commit": "b9260dfa4d2d0c92003f832b134d0f24f913ffd1",
+  "unchanged": false
+}

@@ -1,0 +1,24 @@
+{
+  "name": "@ustc-danmaku/web",
+  "version": "0.6.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "build:standalone": "node ../../scripts/build-standalone.mjs",
+    "test:core": "node ../../tests/web/compare-core.mjs",
+    "test:browser": "node ../../tests/web/aim-browser-smoke.mjs",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "pixi.js": "8.22.0"
+  },
+  "devDependencies": {
+    "vite": "7.1.12"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

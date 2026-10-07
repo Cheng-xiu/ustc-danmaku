@@ -1,0 +1,3434 @@
+Start testing: Oct 07 22:19 �й���׼ʱ��
+----------------------------------------------------------
+1/11 Testing: test_actors
+1/11 Test: test_actors
+Command: "C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native/test_actors.exe"
+Directory: C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native
+"test_actors" start time: Oct 07 22:19 �й���׼ʱ��
+Output:
+----------------------------------------------------------
+S04 角色移动和生命 - 验收测试 (接口版本 1, core/demo_base.h)
+
+== 1) 松开停止: dir=(0,0) 位置不变 ==
+    [PASS] 零向量不改变 x/y
+    [PASS] 零向量在极端 speed/dt 下仍不动
+    [PASS] 非零小幅度向量确实产生移动(慢速语义)
+  -> 1 松开停止: PASS (3 子项, 0 失败)
+
+== 2) 斜向同速: (1,0) 与 (0.70710678,0.70710678) 位移长度相等 ==
+    [PASS] 直向位移 = speed*dt (got=4.5 want=4.5)
+    [PASS] 斜向位移 = speed*dt (got=4.49999428 want=4.5)
+    [PASS] 斜向与直向位移差 <= 1e-3 (got=-5.7220459e-006 want=0)
+    [PASS] 22.5 度斜向同速 (got=4.49999809 want=4.5)
+    [PASS] 长度>1 归一化到 1 (got=4.50000286 want=4.5)
+    [PASS] 极大有限向量坐标保持有限
+    [PASS] 极大有限向量仍归一化为满速(不因溢出被当成不动) (got=4.49999428 want=4.5)
+    [PASS] 极小有限非零向量仍产生移动(不因下溢被当成零向量)
+    [PASS] 极小有限向量坐标保持有限
+    [PASS] 零向量与极小向量行为可区分
+  -> 2 斜向同速: PASS (10 子项, 0 失败)
+
+== 3) 摇杆幅度: dir=(0.5,0) 位移 = speed*dt*0.5 ==
+    [PASS] 半幅位移 = speed*dt*0.5 (got=2.25 want=2.25)
+    [PASS] 半幅不产生 y 位移
+    [PASS] 满幅位移 = speed*dt (got=4.5 want=4.5)
+    [PASS] 满幅位移是半幅的 2 倍 (got=2 want=2)
+    [PASS] 幅度>1 与幅度=1 位移相同 (got=0 want=0)
+  -> 3 摇杆幅度: PASS (5 子项, 0 失败)
+
+== 4) 边界不越界: 朝边界外移动后等于夹紧值; 角落斜向出界两轴都夹紧 ==
+    [PASS] 左边界夹紧到 min_x
+    [PASS] 左边界移动不改变 y
+    [PASS] 右边界夹紧到 max_x
+    [PASS] 上边界夹紧到 min_y
+    [PASS] 下边界夹紧到 max_y
+    [PASS] 左下角斜向出界两轴都夹紧
+    [PASS] 右上角斜向出界两轴都夹紧
+    [PASS] 连续多 tick 越界不穿出
+    [PASS] 角落连续越界不穿出
+  -> 4 边界夹紧: PASS (9 子项, 0 失败)
+
+== 5) 非有限输入: dir=(NaN,0)、dir=(INF,0) 不动且坐标保持有限 ==
+    [PASS] dir=(NaN,0) 位置不变
+    [PASS] dir=(NaN,0) 坐标保持有限
+    [PASS] dir=(+INF,0) 位置不变
+    [PASS] dir=(+INF,0) 坐标保持有限
+    [PASS] dir=(0,NaN) 位置不变
+    [PASS] dir=(-INF,+INF) 位置不变
+    [PASS] 组合非有限输入坐标保持有限
+    [PASS] NULL Actor 调用不崩溃
+    [PASS] 已损坏坐标不被改写成其他 NaN/越界值
+  -> 5 非有限输入: PASS (9 子项, 0 失败)
+
+== 6) move_toward: 远距离/一步内/deadzone/目标出界/目标等于自身 ==
+    [PASS] 远距离每 tick 前进 speed*dt (got=4.5 want=4.5)
+    [PASS] 远距离不产生 y 偏移 (got=400 want=400)
+    [PASS] 斜向远距离位移长度 = speed*dt (got=4.49999285 want=4.5)
+    [PASS] 小于一步时停在目标 x 上 (got=503 want=503)
+    [PASS] 小于一步时 y 不变 (got=400 want=400)
+    [PASS] 不越过目标
+    [PASS] 到达后再次调用不再移动 (got=503 want=503)
+    [PASS] 斜向小于一步停在目标 x (got=501 want=501)
+    [PASS] 斜向小于一步停在目标 y (got=401 want=401)
+    [PASS] deadzone 内完全不移动
+    [PASS] 恰好小于 deadzone 仍不动
+    [PASS] 恰好等于 deadzone 视为到达(任务卡 <= 语义)
+    [PASS] 死区外半步走满一步后落入死区 (got=504.5 want=504.5)
+    [PASS] 落入死区后不再移动(防抖动)
+    [PASS] 停在距目标 1 px 处, 未越过目标 (got=1 want=1)
+    [PASS] 超出 deadzone 后开始移动
+    [PASS] 指针距离 < 12 px 死区时不动
+    [PASS] 死区外一步只移动 speed*dt (got=4.5 want=4.5)
+    [PASS] 指针到位置移动不产生横向漂移 (got=620 want=620)
+    [PASS] 一步后已进入死区, 视为抵达
+    [PASS] 抵达死区后 200 tick 完全不移动(无抖动)
+    [PASS] 停在死区之内
+    [PASS] 远离指针时全速前进 (got=4.5 want=4.5)
+    [PASS] 剩余距离单调不增(不抖动、不越过)
+    [PASS] 最终停在死区之内
+    [PASS] 确实发生了移动
+    [PASS] 从不越过目标点
+    [PASS] 目标在边界外时 x 夹紧到 min_x
+    [PASS] 目标在边界外时 y 夹紧到 min_y
+    [PASS] 目标等于自身时不动
+    [PASS] 目标等于自身时无 NaN
+    [PASS] 极远目标坐标保持有限
+    [PASS] 极远目标仍按 speed*dt 前进 (got=4.5 want=4.5)
+    [PASS] 极远目标最终夹紧在右边界上
+    [PASS] 极远目标收敛后仍无 NaN
+    [PASS] NaN 目标不动
+    [PASS] INF 目标不动
+    [PASS] NaN deadzone 按 0 处理并正常移动
+    [PASS] NULL Actor 调用不崩溃
+  -> 6 move_toward: PASS (39 子项, 0 失败)
+
+== 7) 有效受击: 3->2; 无敌中不扣血不重置; 计时归零后可再受击 ==
+    [PASS] 有效受击返回 true
+    [PASS] hp 从 3 扣到 2
+    [PASS] 非致命受击后仍存活
+    [PASS] 无敌中受击返回 false
+    [PASS] 无敌中 hp 不变
+    [PASS] 无敌中受击不重置 invuln_ticks
+    [PASS] 无敌中再大的伤害也不扣血
+    [PASS] 90 tick 后无敌计时归零
+    [PASS] 无敌归零后可再次受击
+    [PASS] 无敌归零后 hp 扣到 2
+    [PASS] actor_apply_damage 不自行设置无敌计时
+    [PASS] damage=0 返回 false
+    [PASS] damage<0 返回 false
+    [PASS] 非正伤害不扣血
+    [PASS] invuln=1 时仍受保护
+    [PASS] 递减 1 次即归零
+    [PASS] 归零后立刻可受击
+    [PASS] NULL Actor 返回 false 不崩溃
+    [PASS] 超额伤害仍返回 true
+    [PASS] 超额伤害把 hp clamp 到 0
+    [PASS] 超额伤害使角色倒下
+  -> 7 有效受击与无敌: PASS (21 子项, 0 失败)
+
+== 8) 倒下只一次: hp 归零后 alive=false, 再次受击返回 false 且 hp 保持 0 ==
+    [PASS] 3 次有效受击各返回一次 true
+    [PASS] hp 归零
+    [PASS] hp 归零后 alive=false
+    [PASS] 倒下后再次受击返回 false
+    [PASS] 倒下后 hp 保持 0
+    [PASS] 倒下后 alive 保持 false
+    [PASS] 倒下后大伤害同样返回 false
+    [PASS] 倒下后状态完全不变
+    [PASS] tick_timers 不复活角色
+    [PASS] 5 血受 2 伤返回 true
+    [PASS] 5 血受 2 伤剩 3 且存活
+    [PASS] 再受 3 伤返回 true
+    [PASS] 恰好扣到 0 时倒下
+    [PASS] 归零后不再触发第二次倒下
+    [PASS] 归零后状态冻结
+  -> 8 倒下只一次: PASS (15 子项, 0 失败)
+
+== 9) actor_tick_timers: 递减 1, 归零后不为负 ==
+    [PASS] 每次递减恰好 1
+    [PASS] 每次递减恰好 1
+    [PASS] 每次递减恰好 1
+    [PASS] 每次递减恰好 1
+    [PASS] 每次递减恰好 1
+    [PASS] 5 次后归零
+    [PASS] 归零后继续 tick 保持 0, 不为负
+    [PASS] tick_timers 不移动位置
+    [PASS] tick_timers 不改变生命状态
+    [PASS] invuln=0 时保持 0
+    [PASS] NULL Actor 调用不崩溃
+  -> 9 无敌计时: PASS (11 子项, 0 失败)
+
+== 10) 附加) speed<0 视为 0; dt<=0 不动 (任务卡必须保持的行为) ==
+    [PASS] speed<0 不移动
+    [PASS] speed=0 不移动
+    [PASS] dt=0 不移动
+    [PASS] dt<0 不移动
+    [PASS] speed=NaN 不移动
+    [PASS] speed=INF 不移动并保持坐标有限
+    [PASS] 坐标保持有限
+    [PASS] move_toward speed<0 不移动
+    [PASS] move_toward dt=0 不移动
+  -> 10 非正参数: PASS (9 子项, 0 失败)
+
+== 11) 附加) 纯函数式: 相同输入相同输出, 无隐藏状态 ==
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 两次独立调用得到完全相同坐标
+    [PASS] 50 次独立调用的位移长度都等于 speed*dt (got=4.50000286 want=4.5)
+    [PASS] 角落越界夹紧结果稳定
+    [PASS] 角落越界夹紧结果稳定
+    [PASS] 角落越界夹紧结果稳定
+    [PASS] 角落越界夹紧结果稳定
+    [PASS] 角落越界夹紧结果稳定
+    [PASS] 角落越界夹紧结果稳定
+    [PASS] 角落越界夹紧结果稳定
+    [PASS] 角落越界夹紧结果稳定
+    [PASS] 角落越界夹紧结果稳定
+    [PASS] 角落越界夹紧结果稳定
+    [PASS] 角落越界夹紧结果稳定
+    [PASS] 角落越界夹紧结果稳定
+    [PASS] 角落越界夹紧结果稳定
+    [PASS] 角落越界夹紧结果稳定
+    [PASS] 角落越界夹紧结果稳定
+    [PASS] 角落越界夹紧结果稳定
+    [PASS] 角落越界夹紧结果稳定
+    [PASS] 角落越界夹紧结果稳定
+    [PASS] 角落越界夹紧结果稳定
+    [PASS] 角落越界夹紧结果稳定
+  -> 11 确定性: PASS (120 子项, 0 失败)
+
+== 12) 附加) Boss 与学生共用同一移动/生命契约 (批准数值: Boss 6血/270, 学生 3血/150) ==
+    [PASS] Boss 全速位移 = 270*dt (got=4.5 want=4.5)
+    [PASS] Boss 无敌 36 tick 内不扣血
+    [PASS] Boss 无敌期 hp 与计时都不变
+    [PASS] Boss 6 次有效受击
+    [PASS] Boss 6 血扣到 0 后倒下
+    [PASS] 学生全速位移 = 150*dt (got=2.5 want=2.50000024)
+    [PASS] 学生无敌 18 tick 内不扣血
+    [PASS] 学生无敌 18 次递减后归零
+    [PASS] 学生无敌归零后可受击
+    [PASS] 学生 hp 3 -> 2
+    [PASS] 学生再受 2 伤
+    [PASS] 学生 hp 归零后倒下
+    [PASS] 学生倒下后不再受击
+    [PASS] 学生倒下后 hp 保持 0
+    [PASS] Boss 斜向位移 = 270*dt (got=4.5000124 want=4.5)
+    [PASS] 学生斜向位移 = 150*dt (got=2.5 want=2.50000024)
+    [PASS] 移动不改变各自 hp
+  -> 12 Boss/学生同契约: PASS (17 子项, 0 失败)
+
+================ 汇总 ================
+子项总数: 268, 失败: 0
+结果: PASS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_actors" end time: Oct 07 22:19 �й���׼ʱ��
+"test_actors" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/11 Testing: test_attack
+2/11 Test: test_attack
+Command: "C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native/test_attack.exe"
+Directory: C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native
+"test_attack" start time: Oct 07 22:19 �й���׼ʱ��
+Output:
+----------------------------------------------------------
+== test_attack (core/attack.c) ==
+note: pattern vtable + events_* are TEST-LOCAL stubs; core/patterns.c not linked
+PASS  a1 能量不足返回 false
+PASS  a2 reason == DEMO_REJECT_NO_ENERGY
+PASS  a3 能量不变
+PASS  a4 状态仍 IDLE
+PASS  a5 plan 未激活
+PASS  a6 next_plan_id 不变
+PASS  a7 未排队/无波次事件
+PASS  b1 第一次接受
+PASS  b2 第一次能量恰好减 cost
+PASS  b3 第二次返回 false
+PASS  b4 第二次 reason == DEMO_REJECT_BUSY
+PASS  b5 能量只扣一次
+PASS  b6 状态仍 WINDUP(未被再次接受)
+PASS  b7 plan_id 未被覆盖
+PASS  b8 next_plan_id 只前进一次
+PASS  c1 无目标返回 false
+PASS  c2 reason == DEMO_REJECT_NO_TARGET
+PASS  c3 能量不变
+PASS  c4 状态仍 IDLE
+PASS  d1 接受成功
+PASS  d2 reason == DEMO_REJECT_NONE
+PASS  d3 能量恰好减 cost
+PASS  d4 plan.active == true
+PASS  d5 plan_id == next_plan_id(接受前)
+PASS  d6 next_plan_id 递增 1
+PASS  d7 target_id 为最近学生(同距取 id 小者 100)
+PASS  d8 origin 等于接受时 Boss 位置
+PASS  d9 start_tick == 接受 tick
+PASS  d10 状态进入 WINDUP
+PASS  d11 写 WINDUP_START 事件
+PASS  d12 make_plan 失败返回 false
+PASS  d13 make_plan 失败 reason == NONE
+PASS  d14 make_plan 失败能量不变
+PASS  d15 make_plan 失败状态仍 IDLE 且 next_plan_id 不变
+PASS  e0 满能量淋浴请求接受
+PASS  e1 origin_x 不迁移
+PASS  e2 origin_y 不迁移
+PASS  e3 aim 点不迁移
+PASS  e4 target_id 不迁移
+PASS  e5 100 tick 后仍在同一计划内
+PASS  f1 start+windup-1 仍 WINDUP
+PASS  f2 预警期间无 WAVE_SPAWN
+PASS  f3 边界 tick == start+windup
+PASS  f4 start+windup 为 ACTIVE
+PASS  f5 切换 tick 写 1 个 ATTACK_START 事件
+PASS  f6 第一波恰好 1 波
+  [dbg] t_active=24 start=0 windup=24 state=2 progress=1.0111 events=3
+  [dbg] ev[0] type=3 tick=0 amount=25
+  [dbg] ev[1] type=4 tick=24 amount=0
+  [dbg] ev[2] type=5 tick=24 amount=1
+PASS  f7 首个 ACTIVE tick 完成后的进度
+PASS  g1 结束前一 tick 仍 ACTIVE
+PASS  g2 边界 tick == start+windup+active
+PASS  g3 结束 tick 回到 IDLE
+PASS  g4 结束 tick 无 WAVE_SPAWN
+PASS  g5 plan.active == false
+PASS  g6 全程恰好 1 波
+PASS  g7 结束后 attack_progress == 0
+PASS  g8 结束后不再产生波次
+PASS  g9 结束后保持 IDLE
+PASS  h1 三次请求只接受 1 次
+PASS  h2 其余 2 次为 BUSY
+PASS  h3 能量只扣一次
+PASS  h4 next_plan_id 只前进 1
+PASS  h5 只有 1 个 WINDUP_START 事件
+PASS  i1 低能量请求被拒
+PASS  i2 100 tick 后仍 IDLE
+PASS  i3 100 tick 内无波次
+PASS  i4 无 Boss 弹生成
+PASS  i5 next_plan_id 未推进
+PASS  i6 能量补满后仍不自动出招
+PASS  i7 仍无波次
+PASS  i8 plan 仍非激活
+PASS  j1 结束前本招 Boss 弹为 3
+PASS  j2 结束前学生弹(plan_id 0)为 2
+PASS  j3 结束时回到 IDLE
+PASS  j4 本 plan_id 的 Boss 弹被清空
+PASS  j5 plan_id==0 的学生弹仍在(2 发)
+PASS  j6 关闭清弹配置时 Boss 弹保留
+PASS  k1 NULL world 返回 0
+PASS  k2 IDLE 返回 0
+PASS  k3 预警中点约 0.5
+PASS  k4 攻击中点约 1.5
+PASS  k5 结束后回到 0
+PASS  k6 NULL world / 越界 pattern 安全拒绝
+== summary: 81 passed, 0 failed ==
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_attack" end time: Oct 07 22:19 �й���׼ʱ��
+"test_attack" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/11 Testing: test_collision
+3/11 Test: test_collision
+Command: "C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native/test_collision.exe"
+Directory: C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native
+"test_collision" start time: Oct 07 22:19 �й���׼ʱ��
+Output:
+----------------------------------------------------------
+test_collision: S03 扫掠碰撞验收测试 (接口版本 1)
+
+== 1 静止对静止 ==
+  PASS  距离 5 恰等于 radius_sum 5 -> 命中
+  PASS  min_distance == 5
+  PASS  零位移命中时 t_min == 0
+  PASS  静止命中输出无 NaN/Inf
+  PASS  距离 5 > radius_sum 4 -> 不命中
+  PASS  不命中时 min_distance 仍为 5
+  PASS  静止不命中输出无 NaN/Inf
+  PASS  sweep_min_distance 与 sweep_hit 的 min_distance 一致
+
+== 2 相切与略大于半径和 ==
+  PASS  距离恰等于 radius_sum 3 -> 命中(相切)
+  PASS  相切 min_distance == 3
+  PASS  相切 t_min == 0.5
+  PASS  t_min 落在 [0,1]
+  PASS  距离 3.001 > radius_sum 3 -> 不命中
+  PASS  不命中时 min_distance 略大于半径和
+  PASS  min_distance 与解析值 3.001 相符(误差 <= 1e-3)
+
+== 3 平行错过与解析最小距离 ==
+  PASS  平行经过, 最小距离 5 > 4 -> 不命中
+  PASS  min_distance 等于解析值 5(误差 <= 1e-3)
+  PASS  t_min 给出取到最小距离之处 0.5
+  PASS  sweep_min_distance 返回解析值 5
+  PASS  sweep_min_distance 输出 t_min == 0.5
+  PASS  与独立采样最小距离一致(<= 1e-3)
+  PASS  解析最小值不大于采样最小值
+
+== 4 双方同时移动 ==
+  PASS  同向同速: 与静止判定同为不命中
+  PASS  同向同速: 最小距离仍为 10
+  PASS  同向同速: 输出与静止判定逐值一致
+  PASS  同向同速: 与静止判定同为命中
+  PASS  同向同速: 最小距离仍为 10
+  PASS  同向同速: 输出与静止判定逐值一致
+  PASS  正面相对靠近(radius_sum 0) -> 命中
+  PASS  相对靠近 t_min == 0.5
+  PASS  相对靠近 min_distance == 0
+  PASS  同向不同速追及 -> 命中
+  PASS  追及 t_min == 0.7(相对位移 10, 起始间距 10, 半径和 3)
+  PASS  追及最小距离 == 0(相对轨迹终点落在原点)
+
+== 5 高速一步跨过 ==
+  PASS  相对位移 >> 半径和, 端点不在圆内 -> 仍命中
+  PASS  t_min 落在 (0,1) 开区间
+  PASS  t_min == 0.4995(几何解析值, 非端点)
+  PASS  min_distance == 0(正对穿过)
+  PASS  双方高速反向擦过(间距 5 = 半径和) -> 命中
+  PASS  双向高速 t_min 仍落在 (0,1)
+  PASS  双向高速最小距离 == 5
+
+== 6 零相对运动(不除零) ==
+  PASS  相对位移 0 且距离 5 <= radius_sum 5 -> 命中
+  PASS  零相对运动命中时 t_min == 0
+  PASS  零相对运动 min_distance == 5
+  PASS  零相对运动输出无 NaN
+  PASS  相对位移 0 且距离 5 > radius_sum 4 -> 不命中
+  PASS  零相对运动不命中时 t_min 仍在 [0,1]
+  PASS  零相对运动不命中输出无 NaN
+  PASS  零相对运动且完全重合 -> 命中, t_min == 0, min_distance == 0
+  PASS  sweep_min_distance 零相对运动分支: 距离 5, t == 0
+
+== 7 最早交点(进入点而非离开点) ==
+  PASS  先接近又离开的相对线段 -> 命中
+  PASS  给出较早参数 t_min == 0.3(而非离开点 0.7)
+  PASS  t_min 严格小于离开参数
+  PASS  穿透时 min_distance == 0
+  PASS  不同半径和的两条 B 线段都命中
+  PASS  radius_sum 1 -> t_min == 0.45
+  PASS  radius_sum 6 -> t_min == 0.2
+  PASS  更大的半径和给出更早的交点参数(单调)
+  PASS  两种半径和的正对穿过 min_distance 均为 0
+
+== 8 线段-矩形 AABB ==
+  PASS  横穿矩形 -> 命中
+  PASS  一端在内部、一端在外 -> 命中
+  PASS  线段完全在内部 -> 命中
+  PASS  线段完全在外 -> 不命中
+  PASS  平行于边界但与矩形不相接 -> 不命中
+  PASS  贴着上边界(闭区间) -> 命中
+  PASS  贴着下边界(闭区间) -> 命中
+  PASS  贴着左边界(闭区间) -> 命中
+  PASS  在边界外 0.5 px 平行经过 -> 不命中
+  PASS  零长度线段位于角点(闭区间) -> 命中
+  PASS  零长度线段在内部 -> 命中
+  PASS  零长度线段在外部 -> 不命中
+  PASS  完全在外的斜线段 -> 不命中
+  PASS  起点在角点、朝外 -> 命中(闭区间)
+  PASS  同一输入重复调用结果一致(无隐藏状态)
+  PASS  上下界写反时与正序结果一致(线段在内)
+  PASS  上下界写反且线段在外 -> 不命中
+  PASS  零面积矩形(点)落在线段上 -> 命中
+  PASS  零宽度矩形与线段相交 -> 命中
+  PASS  零宽度矩形与线段不相交 -> 不命中
+
+== 9 线段-圆 ==
+  PASS  穿过圆心 -> 命中
+  PASS  恰好相切(距离 == 半径) -> 命中(闭圆)
+  PASS  距离 5.001 > 半径 5 -> 不命中
+  PASS  起点在圆内 -> 命中
+  PASS  整段在圆外 -> 不命中
+  PASS  零长度线段在圆上(距离 == 半径) -> 命中
+  PASS  零长度线段与半径 0 的圆重合 -> 命中
+  PASS  零长度线段在圆外 -> 不命中
+  PASS  圆外线段的最近点(端点)在圆外 -> 不命中
+  PASS  线段穿过圆但两端都在外 -> 命中
+
+== 10 空指针与负半径等防御分支 ==
+  PASS  a == NULL -> false
+  PASS  a == NULL 时输出被置为 0(非 NaN)
+  PASS  b == NULL -> false
+  PASS  b == NULL 时输出有限
+  PASS  两个线段指针与输出指针均为 NULL -> false 不崩溃
+  PASS  输出指针为 NULL 但命中 -> 仍返回 true
+  PASS  sweep_min_distance 输出指针 NULL 不崩溃
+  PASS  sweep_min_distance(a == NULL) 返回 0
+  PASS  sweep_min_distance 空指针: 返回 0 且 t_min == 0, 不是 +INF/NaN
+  PASS  sweep_min_distance(b == NULL): 返回 0 且 t_min == 0
+  PASS  NaN 坐标 -> false
+  PASS  NaN 坐标输出有限
+  PASS  Inf 坐标 -> false
+  PASS  Inf 坐标输出有限
+  PASS  NaN 坐标最小距离返回 0
+  PASS  NaN 坐标 AABB -> false
+  PASS  NaN 坐标圆 -> false
+  PASS  AABB 空线段指针 -> false
+  PASS  圆 空线段指针 -> false
+  PASS  负 radius_sum 视为 0: 重合 -> 命中
+  PASS  负 radius_sum 命中输出 t == 0, d == 0
+  PASS  负 radius_sum 视为 0: 距离 3 -> 不命中
+  PASS  radius_sum == 0: 轨迹真正相交才算命中
+  PASS  圆半径 -3 视为 0: 线段穿过圆心 -> 命中
+  PASS  圆半径 -3 视为 0: 不经过圆心 -> 不命中
+  PASS  FLT_MAX 尺度的高速扫掠仍判定命中(内部 double 不溢出)
+  PASS  FLT_MAX 尺度输出无 NaN/Inf(t 仍有限)
+  PASS  FLT_MAX 尺度 t_min 仍落在 (0,1)
+  PASS  FLT_MAX 尺度 + 负半径和 -> 视为 0 仍命中
+  PASS  FLT_MAX 尺度 + 负半径和输出有限
+  PASS  FLT_MAX 尺度 sweep_min_distance 输出有限
+  PASS  FLT_MAX 尺度正对穿过最小距离为 0
+  PASS  FLT_MAX 尺度线段穿过小矩形 -> 命中
+  PASS  FLT_MAX 尺度线段穿过小圆 -> 命中
+  PASS  防御分支全部输出有限(无 NaN/Inf)
+
+---- 汇总 ----
+PASS: 124
+FAIL: 0
+RESULT: ALL PASS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_collision" end time: Oct 07 22:19 �й���׼ʱ��
+"test_collision" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/11 Testing: test_pattern_roles
+4/11 Test: test_pattern_roles
+Command: "C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native/test_pattern_roles.exe"
+Directory: C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native
+"test_pattern_roles" start time: Oct 07 22:19 �й���׼ʱ��
+Output:
+----------------------------------------------------------
+v5 pattern roles: 1079 checks, 0 failures
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_pattern_roles" end time: Oct 07 22:19 �й���׼ʱ��
+"test_pattern_roles" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/11 Testing: test_pattern_shower
+5/11 Test: test_pattern_shower
+Command: "C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native/test_pattern_shower.exe"
+Directory: C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native
+"test_pattern_shower" start time: Oct 07 22:19 �й���׼ʱ��
+Output:
+----------------------------------------------------------
+S10 绩点淋浴招式验收测试 (招 3 期末总评·绩点淋浴)
+接口版本: 2  配置版本: demo-config-v5
+场地: 960 x 720, 淋浴配置: cost=100 windup=90 active=330 speed=240 wave=5 shots=16 corridor=120 first=0.0s interval=0.4s
+预警: valid=1 pattern=3 target=2 origin=(480,620) aim=(480,300) corridor=120 wave_count=5 gap_angle=90.0(扫描方向编码)
+
+== 1) make_plan 字段与 wave_tick ==
+    [PASS] make_plan 返回 true
+    [PASS] active == true
+    [PASS] pattern == DEMO_PATTERN_SHOWER (got=3 want=3)
+    [PASS] target_id 来自 request (got=2 want=2)
+    [PASS] origin_x 来自 request (got=480 want=480 eps=9.99999975e-005)
+    [PASS] origin_y 来自 request (got=620 want=620 eps=9.99999975e-005)
+    [PASS] aim_x == request.target_x (got=480 want=480 eps=9.99999975e-005)
+    [PASS] aim_y == request.target_y (got=300 want=300 eps=9.99999975e-005)
+    [PASS] lock_speed == config->patterns[SHOWER].bullet_speed (got=240 want=240 eps=9.99999975e-005)
+    [PASS] start_tick 来自 request (got=1000 want=1000)
+    [PASS] windup_ticks 来自配置(72) (got=90 want=90)
+    [PASS] active_ticks 来自配置(300) (got=330 want=330)
+    [PASS] wave_count 来自配置 (got=5 want=5)
+    [PASS] shots_per_wave 来自配置(16) (got=16 want=16)
+    [PASS] corridor_width 来自配置(120) (got=120 want=120 eps=9.99999975e-005)
+    [PASS] corridor_width >= 100 px 硬性下限
+    [PASS] make_plan 保留调用方已填的 plan_id(不生成、不清零)
+      geometry_seed = 0x2B49002761035D48
+    [PASS] gap_angle_deg 为 ±90 (扫描方向编码, 见注释)
+      扫描方向编码 gap_angle_deg = -90.0 => 向左(-x)
+    [PASS] wave_offset(起始缝隙中心 x)落在合法区间内
+    [PASS] wave_offset 落在间距 p 的整数栅格上(缝隙中心 == X_LO + nLeft*p + W/2)
+      margin=12.0 pitch=51.000 step=51.0 c 合法区间=[327.0, 633.0] wave_offset=531.0 (nLeft=9)
+    [PASS] 每波缝隙区间都在可用落点带内
+    [PASS] 每波缝隙两侧都至少有一发弹(不是贴边角落)
+    [PASS] 每波缝隙区间都在可用落点带内
+    [PASS] 每波缝隙两侧都至少有一发弹(不是贴边角落)
+    [PASS] 每波缝隙区间都在可用落点带内
+    [PASS] 每波缝隙两侧都至少有一发弹(不是贴边角落)
+    [PASS] 每波缝隙区间都在可用落点带内
+    [PASS] 每波缝隙两侧都至少有一发弹(不是贴边角落)
+    [PASS] 每波缝隙区间都在可用落点带内
+    [PASS] 每波缝隙两侧都至少有一发弹(不是贴边角落)
+    [PASS] wave_count 与输入配置一致 (got=5 want=5)
+    [PASS] wave_tick[i] 与配置首波/间隔推导的时刻一致 (got=0 want=0 eps=0.00100000005)
+    [PASS] wave_tick[i] 与配置首波/间隔推导的时刻一致 (got=24 want=24 eps=0.00100000005)
+    [PASS] wave_tick[i] 与配置首波/间隔推导的时刻一致 (got=48 want=48 eps=0.00100000005)
+    [PASS] wave_tick[i] 与配置首波/间隔推导的时刻一致 (got=72 want=72 eps=0.00100000005)
+    [PASS] wave_tick[i] 与配置首波/间隔推导的时刻一致 (got=96 want=96 eps=0.00100000005)
+    [PASS] wave_tick 严格递增
+    [PASS] 最后波次时刻与配置一致 (got=96 want=96 eps=0.00100000005)
+    [PASS] 不同种子产生不同的扫描几何(方向/起始 x) => rng 确实被使用
+      12 个种子中与基准不同的数量: 12
+    [PASS] 重复构造成功
+    [PASS] 同 (seed, stream) 得到逐字节相同的计划
+    [PASS] 用于 rng 消耗核验的 make_plan 成功
+    [PASS] 直接传入 rng 的 make_plan 成功
+    [PASS] make_plan 恰好消耗 (bool + unit_f32 + u64) 三次抽取
+  -> 1) make_plan 字段与 wave_tick: PASS (44 子项, 0 失败)
+
+== 2) 锁定不迁移: 改 request 后 emit 几何不变 ==
+    [PASS] make_plan 成功
+    [PASS] 带真实 rng 的 make_plan 成功
+    [PASS] request 确实被改动(测试前提有效)
+    [PASS] 波内发数不变 (got=16 want=16)
+    [PASS] 波内 x 集合逐字节不变
+    [PASS] 波内完整弹规格逐字节不变
+    [PASS] 波内发数不变 (got=16 want=16)
+    [PASS] 波内 x 集合逐字节不变
+    [PASS] 波内完整弹规格逐字节不变
+    [PASS] 波内发数不变 (got=16 want=16)
+    [PASS] 波内 x 集合逐字节不变
+    [PASS] 波内完整弹规格逐字节不变
+    [PASS] 波内发数不变 (got=16 want=16)
+    [PASS] 波内 x 集合逐字节不变
+    [PASS] 波内完整弹规格逐字节不变
+    [PASS] 波内发数不变 (got=16 want=16)
+    [PASS] 波内 x 集合逐字节不变
+    [PASS] 波内完整弹规格逐字节不变
+    [PASS] emit 不改动 AttackPlan 本体
+    [PASS] emit 不消耗 rng 状态(emit 内无 rng 调用)
+      rng 状态: emit 后=0x9206D45B518EDD48, make_plan 后=0x9206D45B518EDD48
+    [PASS] 计划内的 target_id 保持原锁定值 (got=2 want=2)
+    [PASS] 计划内的 origin 保持原锁定值 (got=480 want=480 eps=9.99999975e-005)
+  -> 2) 锁定不迁移: PASS (22 子项, 0 失败)
+
+== 3) 波次边界: 配置中每个正确 tick 各生成一次, 其他 tick 不生成 ==
+    [PASS] make_plan 成功
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] 整个窗口生成 tick 数与配置波数一致 (got=5 want=5)
+    [PASS] 独立预期生成时刻数与配置波数一致 (got=5 want=5)
+    [PASS] 该波次在自己的 tick 上生成过一次
+    [PASS] 该波次在自己的 tick 上生成过一次
+    [PASS] 该波次在自己的 tick 上生成过一次
+    [PASS] 该波次在自己的 tick 上生成过一次
+    [PASS] 该波次在自己的 tick 上生成过一次
+    [PASS] start_tick-1 不生成
+    [PASS] 配置首波时刻生成第 0 波
+    [PASS] elapsed == active_ticks 时不生成
+    [PASS] 超出 active_ticks 返回 false
+    [PASS] 非波次 tick 返回 false
+    [PASS] elapsed == active_ticks 且恰为波次 tick 时仍生成(不算超出)
+    [PASS] 该波按计划发满 (got=16 want=16)
+    [PASS] elapsed > active_ticks 立即返回 false
+    [PASS] 超出后不生成任何弹 (got=0 want=0)
+    [PASS] 后续波次超出收紧的 active_ticks, 被拒绝而不继续生成
+    [PASS] 被拒绝的波次未生成任何弹 (got=0 want=0)
+    [PASS] 最后一个波次同样被拒绝
+  -> 3) 波次边界: PASS (367 子项, 0 失败)
+
+== 4) 每波发数 <= shots_per_wave 且 > 0 ==
+    [PASS] make_plan 成功
+    [PASS] 该波生成成功
+    [PASS] 该波发数 > 0
+    [PASS] 该波发数 <= shots_per_wave(不得超额补发)
+    [PASS] 默认配置下该波发数 == shots_per_wave (got=16 want=16)
+    [PASS] 该波生成成功
+    [PASS] 该波发数 > 0
+    [PASS] 该波发数 <= shots_per_wave(不得超额补发)
+    [PASS] 默认配置下该波发数 == shots_per_wave (got=16 want=16)
+    [PASS] 该波生成成功
+    [PASS] 该波发数 > 0
+    [PASS] 该波发数 <= shots_per_wave(不得超额补发)
+    [PASS] 默认配置下该波发数 == shots_per_wave (got=16 want=16)
+    [PASS] 该波生成成功
+    [PASS] 该波发数 > 0
+    [PASS] 该波发数 <= shots_per_wave(不得超额补发)
+    [PASS] 默认配置下该波发数 == shots_per_wave (got=16 want=16)
+    [PASS] 该波生成成功
+    [PASS] 该波发数 > 0
+    [PASS] 该波发数 <= shots_per_wave(不得超额补发)
+    [PASS] 默认配置下该波发数 == shots_per_wave (got=16 want=16)
+  -> 4) 每波发数: PASS (21 子项, 0 失败)
+
+== 5) 竖向缝隙: 每波存在 >= corridor_width 宽的无弹 x 区间 ==
+    [PASS] make_plan 成功
+    [PASS] 该波生成成功
+    [PASS] 该波最大无弹区间净宽 >= corridor_width(120 px)
+    [PASS] 该波无弹区间宽度为正
+    [PASS] 该波缝隙净空档中心 == c_i(缝隙中心沿扫描方向平移) (got=429 want=429 eps=0.0500000007)
+    [PASS] 该波缝隙净空档 == W + p - 2r(精确值) (got=159 want=159 eps=0.0500000007)
+      wave 0: 缝隙 [349.50, 508.50] 净宽 159.00 px (c_i=429.00), 要求净宽 >= 120.0
+    [PASS] 该波生成成功
+    [PASS] 该波最大无弹区间净宽 >= corridor_width(120 px)
+    [PASS] 该波无弹区间宽度为正
+    [PASS] 该波缝隙净空档中心 == c_i(缝隙中心沿扫描方向平移) (got=480 want=480 eps=0.0500000007)
+    [PASS] 该波缝隙净空档 == W + p - 2r(精确值) (got=159 want=159 eps=0.0500000007)
+      wave 1: 缝隙 [400.50, 559.50] 净宽 159.00 px (c_i=480.00), 要求净宽 >= 120.0
+    [PASS] 该波生成成功
+    [PASS] 该波最大无弹区间净宽 >= corridor_width(120 px)
+    [PASS] 该波无弹区间宽度为正
+    [PASS] 该波缝隙净空档中心 == c_i(缝隙中心沿扫描方向平移) (got=531 want=531 eps=0.0500000007)
+    [PASS] 该波缝隙净空档 == W + p - 2r(精确值) (got=159 want=159 eps=0.0500000007)
+      wave 2: 缝隙 [451.50, 610.50] 净宽 159.00 px (c_i=531.00), 要求净宽 >= 120.0
+    [PASS] 该波生成成功
+    [PASS] 该波最大无弹区间净宽 >= corridor_width(120 px)
+    [PASS] 该波无弹区间宽度为正
+    [PASS] 该波缝隙净空档中心 == c_i(缝隙中心沿扫描方向平移) (got=582 want=582 eps=0.0500000007)
+    [PASS] 该波缝隙净空档 == W + p - 2r(精确值) (got=159 want=159 eps=0.0500000007)
+      wave 3: 缝隙 [502.50, 661.50] 净宽 159.00 px (c_i=582.00), 要求净宽 >= 120.0
+    [PASS] 该波生成成功
+    [PASS] 该波最大无弹区间净宽 >= corridor_width(120 px)
+    [PASS] 该波无弹区间宽度为正
+    [PASS] 该波缝隙净空档中心 == c_i(缝隙中心沿扫描方向平移) (got=633 want=633 eps=0.0500000007)
+    [PASS] 该波缝隙净空档 == W + p - 2r(精确值) (got=159 want=159 eps=0.0500000007)
+      wave 4: 缝隙 [553.50, 712.50] 净宽 159.00 px (c_i=633.00), 要求净宽 >= 120.0
+    [PASS] 第 0 波缝隙区间内没有任何弹体
+  -> 5) 竖向缝隙: PASS (27 子项, 0 失败)
+
+== 6) 缝隙可达: 相邻两波缝隙区间重叠(交集宽度 > 0) ==
+    [PASS] make_plan 成功
+      seed=1 方向=向右(+x)
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 0 ∩ wave 1 = [502.5, 610.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 1 ∩ wave 2 = [553.5, 661.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 2 ∩ wave 3 = [604.5, 712.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 3 ∩ wave 4 = [655.5, 763.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] make_plan 成功
+      seed=2 方向=向左(-x)
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 0 ∩ wave 1 = [400.5, 508.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 1 ∩ wave 2 = [349.5, 457.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 2 ∩ wave 3 = [298.5, 406.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 3 ∩ wave 4 = [247.5, 355.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] make_plan 成功
+      seed=3 方向=向左(-x)
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 0 ∩ wave 1 = [553.5, 661.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 1 ∩ wave 2 = [502.5, 610.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 2 ∩ wave 3 = [451.5, 559.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 3 ∩ wave 4 = [400.5, 508.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] make_plan 成功
+      seed=4 方向=向右(+x)
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 0 ∩ wave 1 = [400.5, 508.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 1 ∩ wave 2 = [451.5, 559.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 2 ∩ wave 3 = [502.5, 610.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 3 ∩ wave 4 = [553.5, 661.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] make_plan 成功
+      seed=5 方向=向右(+x)
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 0 ∩ wave 1 = [553.5, 661.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 1 ∩ wave 2 = [604.5, 712.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 2 ∩ wave 3 = [655.5, 763.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 3 ∩ wave 4 = [706.5, 814.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] make_plan 成功
+      seed=6 方向=向左(-x)
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 该波生成成功
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 0 ∩ wave 1 = [502.5, 610.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 1 ∩ wave 2 = [451.5, 559.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 2 ∩ wave 3 = [400.5, 508.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+    [PASS] 相邻两波缝隙交集宽度 > 0(可达, 不是突变封死)
+    [PASS] 交集宽度 >= W - 2r(扫描步长 = 弹间距 p, 交集与种子无关)
+        wave 3 ∩ wave 4 = [349.5, 457.5] 宽 108.0 px (下界 108.0 = W 120 - 2r 12; 弹间距 p=51.00)
+  -> 6) 缝隙可达: PASS (84 子项, 0 失败)
+
+== 7) 扫描平移: 相邻波弹的 x 中心不同且方向一致 ==
+    [PASS] make_plan 成功
+    [PASS] 相邻波弹的 x 中心不同(确实在扫描)
+    [PASS] 相邻波 x 集合确实不同
+    [PASS] 相邻波缝隙中心不同
+    [PASS] 相邻波缝隙中心平移方向与 gap_angle_deg 编码的扫描方向一致
+      seed=1 wave 0->1: 弹 x 中心 472.50 -> 465.00 (Δ=-7.50), 缝隙中心 531.00 -> 582.00 (Δ=51.00, 方向 +x)
+    [PASS] 相邻波弹的 x 中心不同(确实在扫描)
+    [PASS] 相邻波 x 集合确实不同
+    [PASS] 相邻波缝隙中心不同
+    [PASS] 相邻波缝隙中心平移方向与 gap_angle_deg 编码的扫描方向一致
+      seed=1 wave 1->2: 弹 x 中心 465.00 -> 457.50 (Δ=-7.50), 缝隙中心 582.00 -> 633.00 (Δ=51.00, 方向 +x)
+    [PASS] 相邻波弹的 x 中心不同(确实在扫描)
+    [PASS] 相邻波 x 集合确实不同
+    [PASS] 相邻波缝隙中心不同
+    [PASS] 相邻波缝隙中心平移方向与 gap_angle_deg 编码的扫描方向一致
+      seed=1 wave 2->3: 弹 x 中心 457.50 -> 450.00 (Δ=-7.50), 缝隙中心 633.00 -> 684.00 (Δ=51.00, 方向 +x)
+    [PASS] 相邻波弹的 x 中心不同(确实在扫描)
+    [PASS] 相邻波 x 集合确实不同
+    [PASS] 相邻波缝隙中心不同
+    [PASS] 相邻波缝隙中心平移方向与 gap_angle_deg 编码的扫描方向一致
+      seed=1 wave 3->4: 弹 x 中心 450.00 -> 442.50 (Δ=-7.50), 缝隙中心 684.00 -> 735.00 (Δ=51.00, 方向 +x)
+    [PASS] make_plan 成功
+    [PASS] 相邻波弹的 x 中心不同(确实在扫描)
+    [PASS] 相邻波 x 集合确实不同
+    [PASS] 相邻波缝隙中心不同
+    [PASS] 相邻波缝隙中心平移方向与 gap_angle_deg 编码的扫描方向一致
+      seed=2 wave 0->1: 弹 x 中心 480.00 -> 487.50 (Δ=7.50), 缝隙中心 480.00 -> 429.00 (Δ=-51.00, 方向 -x)
+    [PASS] 相邻波弹的 x 中心不同(确实在扫描)
+    [PASS] 相邻波 x 集合确实不同
+    [PASS] 相邻波缝隙中心不同
+    [PASS] 相邻波缝隙中心平移方向与 gap_angle_deg 编码的扫描方向一致
+      seed=2 wave 1->2: 弹 x 中心 487.50 -> 495.00 (Δ=7.50), 缝隙中心 429.00 -> 378.00 (Δ=-51.00, 方向 -x)
+    [PASS] 相邻波弹的 x 中心不同(确实在扫描)
+    [PASS] 相邻波 x 集合确实不同
+    [PASS] 相邻波缝隙中心不同
+    [PASS] 相邻波缝隙中心平移方向与 gap_angle_deg 编码的扫描方向一致
+      seed=2 wave 2->3: 弹 x 中心 495.00 -> 502.50 (Δ=7.50), 缝隙中心 378.00 -> 327.00 (Δ=-51.00, 方向 -x)
+    [PASS] 相邻波弹的 x 中心不同(确实在扫描)
+    [PASS] 相邻波 x 集合确实不同
+    [PASS] 相邻波缝隙中心不同
+    [PASS] 相邻波缝隙中心平移方向与 gap_angle_deg 编码的扫描方向一致
+      seed=2 wave 3->4: 弹 x 中心 502.50 -> 510.00 (Δ=7.50), 缝隙中心 327.00 -> 276.00 (Δ=-51.00, 方向 -x)
+    [PASS] make_plan 成功
+    [PASS] 相邻波弹的 x 中心不同(确实在扫描)
+    [PASS] 相邻波 x 集合确实不同
+    [PASS] 相邻波缝隙中心不同
+    [PASS] 相邻波缝隙中心平移方向与 gap_angle_deg 编码的扫描方向一致
+      seed=3 wave 0->1: 弹 x 中心 457.50 -> 465.00 (Δ=7.50), 缝隙中心 633.00 -> 582.00 (Δ=-51.00, 方向 -x)
+    [PASS] 相邻波弹的 x 中心不同(确实在扫描)
+    [PASS] 相邻波 x 集合确实不同
+    [PASS] 相邻波缝隙中心不同
+    [PASS] 相邻波缝隙中心平移方向与 gap_angle_deg 编码的扫描方向一致
+      seed=3 wave 1->2: 弹 x 中心 465.00 -> 472.50 (Δ=7.50), 缝隙中心 582.00 -> 531.00 (Δ=-51.00, 方向 -x)
+    [PASS] 相邻波弹的 x 中心不同(确实在扫描)
+    [PASS] 相邻波 x 集合确实不同
+    [PASS] 相邻波缝隙中心不同
+    [PASS] 相邻波缝隙中心平移方向与 gap_angle_deg 编码的扫描方向一致
+      seed=3 wave 2->3: 弹 x 中心 472.50 -> 480.00 (Δ=7.50), 缝隙中心 531.00 -> 480.00 (Δ=-51.00, 方向 -x)
+    [PASS] 相邻波弹的 x 中心不同(确实在扫描)
+    [PASS] 相邻波 x 集合确实不同
+    [PASS] 相邻波缝隙中心不同
+    [PASS] 相邻波缝隙中心平移方向与 gap_angle_deg 编码的扫描方向一致
+      seed=3 wave 3->4: 弹 x 中心 480.00 -> 487.50 (Δ=7.50), 缝隙中心 480.00 -> 429.00 (Δ=-51.00, 方向 -x)
+    [PASS] make_plan 成功
+    [PASS] 相邻波弹的 x 中心不同(确实在扫描)
+    [PASS] 相邻波 x 集合确实不同
+    [PASS] 相邻波缝隙中心不同
+    [PASS] 相邻波缝隙中心平移方向与 gap_angle_deg 编码的扫描方向一致
+      seed=4 wave 0->1: 弹 x 中心 487.50 -> 480.00 (Δ=-7.50), 缝隙中心 429.00 -> 480.00 (Δ=51.00, 方向 +x)
+    [PASS] 相邻波弹的 x 中心不同(确实在扫描)
+    [PASS] 相邻波 x 集合确实不同
+    [PASS] 相邻波缝隙中心不同
+    [PASS] 相邻波缝隙中心平移方向与 gap_angle_deg 编码的扫描方向一致
+      seed=4 wave 1->2: 弹 x 中心 480.00 -> 472.50 (Δ=-7.50), 缝隙中心 480.00 -> 531.00 (Δ=51.00, 方向 +x)
+    [PASS] 相邻波弹的 x 中心不同(确实在扫描)
+    [PASS] 相邻波 x 集合确实不同
+    [PASS] 相邻波缝隙中心不同
+    [PASS] 相邻波缝隙中心平移方向与 gap_angle_deg 编码的扫描方向一致
+      seed=4 wave 2->3: 弹 x 中心 472.50 -> 465.00 (Δ=-7.50), 缝隙中心 531.00 -> 582.00 (Δ=51.00, 方向 +x)
+    [PASS] 相邻波弹的 x 中心不同(确实在扫描)
+    [PASS] 相邻波 x 集合确实不同
+    [PASS] 相邻波缝隙中心不同
+    [PASS] 相邻波缝隙中心平移方向与 gap_angle_deg 编码的扫描方向一致
+      seed=4 wave 3->4: 弹 x 中心 465.00 -> 457.50 (Δ=-7.50), 缝隙中心 582.00 -> 633.00 (Δ=51.00, 方向 +x)
+  -> 7) 扫描平移: PASS (68 子项, 0 失败)
+
+== 8) 速度方向向下且 |v| == lock_speed ==
+    [PASS] make_plan 成功
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vy > 0(向下)
+    [PASS] vy == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] vx == 0(竖直下落, 无横向分量) (got=0 want=0 eps=0.00100000005)
+    [PASS] |v| == lock_speed (got=240 want=240 eps=0.00100000005)
+    [PASS] lock_speed 与配置一致(240 px/s) (got=240 want=240 eps=9.99999975e-005)
+  -> 8) 速度方向: PASS (322 子项, 0 失败)
+
+== 9) 起点 y 在顶部区域(<= 120, 固定约定 y = 100) ==
+    [PASS] make_plan 成功
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=37.5 want=37.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=88.5 want=88.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=139.5 want=139.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=190.5 want=190.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=241.5 want=241.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=292.5 want=292.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=343.5 want=343.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=514.5 want=514.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=565.5 want=565.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=616.5 want=616.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=667.5 want=667.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=718.5 want=718.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=769.5 want=769.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=820.5 want=820.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=871.5 want=871.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=922.5 want=922.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=37.5 want=37.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=88.5 want=88.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=139.5 want=139.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=190.5 want=190.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=241.5 want=241.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=292.5 want=292.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=463.5 want=463.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=514.5 want=514.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=565.5 want=565.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=616.5 want=616.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=667.5 want=667.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=718.5 want=718.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=769.5 want=769.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=820.5 want=820.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=871.5 want=871.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=922.5 want=922.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=37.5 want=37.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=88.5 want=88.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=139.5 want=139.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=190.5 want=190.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=241.5 want=241.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=412.5 want=412.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=463.5 want=463.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=514.5 want=514.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=565.5 want=565.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=616.5 want=616.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=667.5 want=667.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=718.5 want=718.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=769.5 want=769.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=820.5 want=820.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=871.5 want=871.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=922.5 want=922.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=37.5 want=37.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=88.5 want=88.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=139.5 want=139.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=190.5 want=190.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=361.5 want=361.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=412.5 want=412.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=463.5 want=463.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=514.5 want=514.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=565.5 want=565.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=616.5 want=616.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=667.5 want=667.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=718.5 want=718.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=769.5 want=769.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=820.5 want=820.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=871.5 want=871.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=922.5 want=922.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=37.5 want=37.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=88.5 want=88.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=139.5 want=139.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=310.5 want=310.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=361.5 want=361.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=412.5 want=412.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=463.5 want=463.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=514.5 want=514.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=565.5 want=565.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=616.5 want=616.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=667.5 want=667.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=718.5 want=718.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=769.5 want=769.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=820.5 want=820.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=871.5 want=871.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+    [PASS] y == 100(顶部进入) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] 起点 y <= 120(顶部区域约定)
+    [PASS] 起点 y >= 0
+    [PASS] px == x(spawn 语义) (got=922.5 want=922.5 eps=0)
+    [PASS] py == y(spawn 语义) (got=100 want=100 eps=0)
+    [PASS] x 与 px 逐位相同
+    [PASS] y 与 py 逐位相同
+  -> 9) 起点位置: PASS (561 子项, 0 失败)
+
+== 10) 容量: spawn_buffer 与弹池容量边界 overflow 正确不越界 ==
+    [PASS] make_plan 成功
+    [PASS] 配置波数 x 每波发数全部进入缓冲 (got=80 want=80)
+    [PASS] 容量 256 时无 overflow (got=0 want=0)
+    [PASS] 缓冲计数不越界
+    [PASS] 容量 4 时只保留 4 发 (got=4 want=4)
+    [PASS] 整招总发数扣缓冲容量后全部计入 overflow (got=76 want=76)
+    [PASS] 容量 4 时未写入 spec[4..11](哨兵未被破坏, 不越界)
+    [PASS] 真实弹池收下配置中整招总发数 (got=80 want=80)
+    [PASS] live_count 与配置整招总发数一致 (got=80 want=80)
+    [PASS] 无 overflow (got=0 want=0)
+    [PASS] Boss 阵营计数与配置整招总发数一致 (got=80 want=80)
+    [PASS] 无学生弹混入 (got=0 want=0)
+    [PASS] live_count 未超过池容量
+    [PASS] 池内 active 弹数与配置总发数一致 (got=80 want=80)
+    [PASS] 每发弹的 faction/source_id/source_pattern/plan_id/radius/damage/lifetime 正确
+    [PASS] 整招所有弹的 id 两两不同(整局唯一)
+    [PASS] 按计划清弹清掉配置整招全部弹 (got=80 want=80)
+    [PASS] 清弹后 live_count == 0 (got=0 want=0)
+    [PASS] 容量 8 时成功 8 发 (got=8 want=8)
+    [PASS] 总发数扣池容量后的失败数正确 (got=72 want=72)
+    [PASS] live_count == 8 (got=8 want=8)
+    [PASS] overflow_events 与超额发数一致 (got=72 want=72)
+    [PASS] live_count 未超过容量
+    [PASS] 槽位 0 未被覆盖
+    [PASS] 槽位 0 的 x 未被后续 spawn 改写 (got=37.5 want=37.5 eps=9.99999975e-005)
+    [PASS] 整招总发数 <= 计划缓冲
+    [PASS] 整招总发数 <= 弹池上限
+  -> 10) 容量: PASS (27 子项, 0 失败)
+
+== 11) 非法输入返回 false 且不写 out ==
+    [PASS] request == NULL
+    [PASS] request == NULL 时 out 未被写
+    [PASS] config == NULL
+    [PASS] config == NULL 时 out 未被写
+    [PASS] rng == NULL
+    [PASS] rng == NULL 时 out 未被写
+    [PASS] out == NULL
+    [PASS] corridor_width = 99 < 100 硬性下限
+    [PASS] corridor_width = 99 < 100 硬性下限 => out 未被写
+    [PASS] corridor_width = 0
+    [PASS] corridor_width = 0 => out 未被写
+    [PASS] corridor_width < 0
+    [PASS] corridor_width < 0 => out 未被写
+    [PASS] corridor_width = NaN
+    [PASS] corridor_width = NaN => out 未被写
+    [PASS] bullet_speed = 0
+    [PASS] bullet_speed = 0 => out 未被写
+    [PASS] bullet_speed < 0
+    [PASS] bullet_speed < 0 => out 未被写
+    [PASS] wave_count = 0
+    [PASS] wave_count = 0 => out 未被写
+    [PASS] wave_count < 0
+    [PASS] wave_count < 0 => out 未被写
+    [PASS] shots_per_wave = 0
+    [PASS] shots_per_wave = 0 => out 未被写
+    [PASS] shots_per_wave < 0
+    [PASS] shots_per_wave < 0 => out 未被写
+    [PASS] active_ticks = 0
+    [PASS] active_ticks = 0 => out 未被写
+    [PASS] active_ticks < 0
+    [PASS] active_ticks < 0 => out 未被写
+    [PASS] windup_ticks < 0
+    [PASS] windup_ticks < 0 => out 未被写
+    [PASS] wave_interval_sec < 0
+    [PASS] wave_interval_sec < 0 => out 未被写
+    [PASS] first_spawn_sec < 0
+    [PASS] first_spawn_sec < 0 => out 未被写
+    [PASS] 最后一波超出 active_ticks(配置波数不能在攻击窗口内兑现)
+    [PASS] 最后一波超出 active_ticks(配置波数不能在攻击窗口内兑现) => out 未被写
+    [PASS] field_w 太小, 放不下缝隙
+    [PASS] field_w 太小, 放不下缝隙 => out 未被写
+    [PASS] field_w = 0
+    [PASS] field_w = 0 => out 未被写
+    [PASS] boss_bullet_lifetime_ticks = 0
+    [PASS] boss_bullet_lifetime_ticks = 0 => out 未被写
+    [PASS] boss_bullet_damage = NaN
+    [PASS] boss_bullet_damage = NaN => out 未被写
+    [PASS] boss_bullet_radius < 0
+    [PASS] boss_bullet_radius < 0 => out 未被写
+    [PASS] shots_per_wave 过大导致弹间距 < 2r(拒绝伪造密弹)
+    [PASS] shots_per_wave 过大导致弹间距 < 2r(拒绝伪造密弹) => out 未被写
+    [PASS] corridor_width 太大, 自由段放不下弹
+    [PASS] corridor_width 太大, 自由段放不下弹 => out 未被写
+    [PASS] shots_per_wave 过小导致 p >= W - 2r(相邻波缝隙会失去交集)
+    [PASS] shots_per_wave 过小导致 p >= W - 2r(相邻波缝隙会失去交集) => out 未被写
+    [PASS] shots_per_wave < 2*wave_count(扫描全程保不住两侧的弹)
+    [PASS] shots_per_wave < 2*wave_count(扫描全程保不住两侧的弹) => out 未被写
+    [PASS] corridor_width <= 2*boss_bullet_radius(净空档非正, 缝隙形同虚设)
+    [PASS] corridor_width <= 2*boss_bullet_radius(净空档非正, 缝隙形同虚设) => out 未被写
+    [PASS] shots_per_wave 超出计划缓冲上限
+    [PASS] shots_per_wave 超出计划缓冲上限 => out 未被写
+    [PASS] start_tick < 0
+    [PASS] start_tick < 0 时 out 未被写
+    [PASS] origin_x = NaN
+    [PASS] origin_x = NaN 时 out 未被写
+    [PASS] target_y = +Inf
+    [PASS] target_y = +Inf 时 out 未被写
+    [PASS] 失败路径返回 false
+    [PASS] 参数校验失败发生在 rng 抽取之前(不消耗随机数)
+    [PASS] make_plan 成功
+    [PASS] emit: plan == NULL
+    [PASS] emit: config == NULL
+    [PASS] emit: out == NULL
+    [PASS] emit 失败时缓冲未被写 (got=0 want=0)
+    [PASS] emit: wave_count == 0
+    [PASS] emit 失败时缓冲仍为空 (got=0 want=0)
+    [PASS] emit: active_ticks == 0
+    [PASS] emit: wave_count 被伪造为 99 时仍不越界读 wave_tick[]
+    [PASS] warning: plan == NULL 时 valid == false
+    [PASS] warning: 空计划下 pattern 归 0(清零输出)
+    [PASS] warning: out == NULL 不崩溃
+  -> 11) 非法输入: PASS (81 子项, 0 失败)
+
+== 12) 学生聚拢 / 分散两种请求的生成证据 ==
+    [PASS] 聚拢场景 make_plan 成功
+    [聚拢场景] 学生 x = {460, 480, 500}, 目标 (480, 430)
+      扫描方向=向左(-x), 起始缝隙中心 wave_offset=582.0, corridor_width=120.0
+      聚拢 wave 0: 发数=16, 弹 x 范围 [37.5, 922.5] (范围中点 465.0, 非连续覆盖), 缝隙 [502.5, 661.5] 净宽 159.0 px (弹体半径已排除)
+        覆盖带内学生: S0(x=460) S1(x=480) S2(x=500) ; 缝隙内学生: 无
+      聚拢 wave 1: 发数=16, 弹 x 范围 [37.5, 922.5] (范围中点 472.5, 非连续覆盖), 缝隙 [451.5, 610.5] 净宽 159.0 px (弹体半径已排除)
+        覆盖带内学生: 无 ; 缝隙内学生: S0(x=460) S1(x=480) S2(x=500)
+      聚拢 wave 2: 发数=16, 弹 x 范围 [37.5, 922.5] (范围中点 480.0, 非连续覆盖), 缝隙 [400.5, 559.5] 净宽 159.0 px (弹体半径已排除)
+        覆盖带内学生: 无 ; 缝隙内学生: S0(x=460) S1(x=480) S2(x=500)
+      聚拢 wave 3: 发数=16, 弹 x 范围 [37.5, 922.5] (范围中点 487.5, 非连续覆盖), 缝隙 [349.5, 508.5] 净宽 159.0 px (弹体半径已排除)
+        覆盖带内学生: 无 ; 缝隙内学生: S0(x=460) S1(x=480) S2(x=500)
+      聚拢 wave 4: 发数=16, 弹 x 范围 [37.5, 922.5] (范围中点 495.0, 非连续覆盖), 缝隙 [298.5, 457.5] 净宽 159.0 px (弹体半径已排除)
+        覆盖带内学生: S0(x=460) S1(x=480) S2(x=500) ; 缝隙内学生: 无
+    [PASS] 分散场景 make_plan 成功
+    [分散场景] 学生 x = {120, 800, 480}, 目标 (480, 430)
+      扫描方向=向左(-x), 起始缝隙中心 wave_offset=582.0, corridor_width=120.0
+      分散 wave 0: 发数=16, 弹 x 范围 [37.5, 922.5] (范围中点 465.0, 非连续覆盖), 缝隙 [502.5, 661.5] 净宽 159.0 px (弹体半径已排除)
+        覆盖带内学生: S0(x=120) S1(x=800) S2(x=480) ; 缝隙内学生: 无
+      分散 wave 1: 发数=16, 弹 x 范围 [37.5, 922.5] (范围中点 472.5, 非连续覆盖), 缝隙 [451.5, 610.5] 净宽 159.0 px (弹体半径已排除)
+        覆盖带内学生: S0(x=120) S1(x=800) ; 缝隙内学生: S2(x=480)
+      分散 wave 2: 发数=16, 弹 x 范围 [37.5, 922.5] (范围中点 480.0, 非连续覆盖), 缝隙 [400.5, 559.5] 净宽 159.0 px (弹体半径已排除)
+        覆盖带内学生: S0(x=120) S1(x=800) ; 缝隙内学生: S2(x=480)
+      分散 wave 3: 发数=16, 弹 x 范围 [37.5, 922.5] (范围中点 487.5, 非连续覆盖), 缝隙 [349.5, 508.5] 净宽 159.0 px (弹体半径已排除)
+        覆盖带内学生: S0(x=120) S1(x=800) ; 缝隙内学生: S2(x=480)
+      分散 wave 4: 发数=16, 弹 x 范围 [37.5, 922.5] (范围中点 495.0, 非连续覆盖), 缝隙 [298.5, 457.5] 净宽 159.0 px (弹体半径已排除)
+        覆盖带内学生: S0(x=120) S1(x=800) S2(x=480) ; 缝隙内学生: 无
+    [PASS] 聚拢/分散的起始扫描 x 相同(顶部扫描几何不随学生位置改变) (got=582 want=582 eps=0)
+    [PASS] 扫描方向编码相同
+    [PASS] 同一波在聚拢/分散场景下弹幕 x 完全相同
+    [PASS] 同一波在聚拢/分散场景下弹幕 x 完全相同
+    [PASS] 同一波在聚拢/分散场景下弹幕 x 完全相同
+    [PASS] 同一波在聚拢/分散场景下弹幕 x 完全相同
+    [PASS] 同一波在聚拢/分散场景下弹幕 x 完全相同
+        聚拢 wave 0: 被本波弹接触判定的学生数 = 3 / 3
+        聚拢 wave 1: 被本波弹接触判定的学生数 = 1 / 3
+        聚拢 wave 2: 被本波弹接触判定的学生数 = 0 / 3
+        聚拢 wave 3: 被本波弹接触判定的学生数 = 1 / 3
+        聚拢 wave 4: 被本波弹接触判定的学生数 = 3 / 3
+    聚拢场景 5 波合计: 被接触判定的学生-x 计数=8, 安全的计数=7 (共 15 次判定)
+    [PASS] 聚拢场景存在被弹接触判定的学生(有压制压力, 不是空放)
+    [PASS] 聚拢场景也存在安全时刻(缝隙可达, 不是全屏无缝密弹)
+    [PASS] 逐波判定次数 == 波数 x 学生数(没有学生被漏统计)
+  -> 12) 学生聚拢/分散证据: PASS (12 子项, 0 失败)
+
+== 额外参数夹具: 五波扫描, 产品默认配置保持不变 ==
+    [PASS] 显式五波夹具仍满足共享配置约束
+  -> 五波参数夹具初始化: PASS (1 子项, 0 失败)
+
+== 1) make_plan 字段与 wave_tick ==
+    [PASS] make_plan 返回 true
+    [PASS] active == true
+    [PASS] pattern == DEMO_PATTERN_SHOWER (got=3 want=3)
+    [PASS] target_id 来自 request (got=2 want=2)
+    [PASS] origin_x 来自 request (got=480 want=480 eps=9.99999975e-005)
+    [PASS] origin_y 来自 request (got=620 want=620 eps=9.99999975e-005)
+    [PASS] aim_x == request.target_x (got=480 want=480 eps=9.99999975e-005)
+    [PASS] aim_y == request.target_y (got=300 want=300 eps=9.99999975e-005)
+    [PASS] lock_speed == config->patterns[SHOWER].bullet_speed (got=240 want=240 eps=9.99999975e-005)
+    [PASS] start_tick 来自 request (got=1000 want=1000)
+    [PASS] windup_ticks 来自配置(72) (got=90 want=90)
+    [PASS] active_ticks 来自配置(300) (got=330 want=330)
+    [PASS] wave_count 来自配置 (got=5 want=5)
+    [PASS] shots_per_wave 来自配置(16) (got=16 want=16)
+    [PASS] corridor_width 来自配置(120) (got=120 want=120 eps=9.99999975e-005)
+    [PASS] corridor_width >= 100 px 硬性下限
+    [PASS] make_plan 保留调用方已填的 plan_id(不生成、不清零)
+      geometry_seed = 0x2B49002761035D48
+    [PASS] gap_angle_deg 为 ±90 (扫描方向编码, 见注释)
+      扫描方向编码 gap_angle_deg = -90.0 => 向左(-x)
+    [PASS] wave_offset(起始缝隙中心 x)落在合法区间内
+    [PASS] wave_offset 落在间距 p 的整数栅格上(缝隙中心 == X_LO + nLeft*p + W/2)
+      margin=12.0 pitch=51.000 step=51.0 c 合法区间=[327.0, 633.0] wave_offset=531.0 (nLeft=9)
+    [PASS] 每波缝隙区间都在可用落点带内
+    [PASS] 每波缝隙两侧都至少有一发弹(不是贴边角落)
+    [PASS] 每波缝隙区间都在可用落点带内
+    [PASS] 每波缝隙两侧都至少有一发弹(不是贴边角落)
+    [PASS] 每波缝隙区间都在可用落点带内
+    [PASS] 每波缝隙两侧都至少有一发弹(不是贴边角落)
+    [PASS] 每波缝隙区间都在可用落点带内
+    [PASS] 每波缝隙两侧都至少有一发弹(不是贴边角落)
+    [PASS] 每波缝隙区间都在可用落点带内
+    [PASS] 每波缝隙两侧都至少有一发弹(不是贴边角落)
+    [PASS] wave_count 与输入配置一致 (got=5 want=5)
+    [PASS] wave_tick[i] 与配置首波/间隔推导的时刻一致 (got=0 want=0 eps=0.00100000005)
+    [PASS] wave_tick[i] 与配置首波/间隔推导的时刻一致 (got=24 want=24 eps=0.00100000005)
+    [PASS] wave_tick[i] 与配置首波/间隔推导的时刻一致 (got=48 want=48 eps=0.00100000005)
+    [PASS] wave_tick[i] 与配置首波/间隔推导的时刻一致 (got=72 want=72 eps=0.00100000005)
+    [PASS] wave_tick[i] 与配置首波/间隔推导的时刻一致 (got=96 want=96 eps=0.00100000005)
+    [PASS] wave_tick 严格递增
+    [PASS] 最后波次时刻与配置一致 (got=96 want=96 eps=0.00100000005)
+    [PASS] 不同种子产生不同的扫描几何(方向/起始 x) => rng 确实被使用
+      12 个种子中与基准不同的数量: 12
+    [PASS] 重复构造成功
+    [PASS] 同 (seed, stream) 得到逐字节相同的计划
+    [PASS] 用于 rng 消耗核验的 make_plan 成功
+    [PASS] 直接传入 rng 的 make_plan 成功
+    [PASS] make_plan 恰好消耗 (bool + unit_f32 + u64) 三次抽取
+  -> 1) make_plan 字段与 wave_tick: PASS (44 子项, 0 失败)
+
+== 3) 波次边界: 配置中每个正确 tick 各生成一次, 其他 tick 不生成 ==
+    [PASS] make_plan 成功
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] emit 的返回与计划波次时刻一致
+    [PASS] 整个窗口生成 tick 数与配置波数一致 (got=5 want=5)
+    [PASS] 独立预期生成时刻数与配置波数一致 (got=5 want=5)
+    [PASS] 该波次在自己的 tick 上生成过一次
+    [PASS] 该波次在自己的 tick 上生成过一次
+    [PASS] 该波次在自己的 tick 上生成过一次
+    [PASS] 该波次在自己的 tick 上生成过一次
+    [PASS] 该波次在自己的 tick 上生成过一次
+    [PASS] start_tick-1 不生成
+    [PASS] 配置首波时刻生成第 0 波
+    [PASS] elapsed == active_ticks 时不生成
+    [PASS] 超出 active_ticks 返回 false
+    [PASS] 非波次 tick 返回 false
+    [PASS] elapsed == active_ticks 且恰为波次 tick 时仍生成(不算超出)
+    [PASS] 该波按计划发满 (got=16 want=16)
+    [PASS] elapsed > active_ticks 立即返回 false
+    [PASS] 超出后不生成任何弹 (got=0 want=0)
+    [PASS] 后续波次超出收紧的 active_ticks, 被拒绝而不继续生成
+    [PASS] 被拒绝的波次未生成任何弹 (got=0 want=0)
+    [PASS] 最后一个波次同样被拒绝
+  -> 3) 波次边界: PASS (367 子项, 0 失败)
+
+== 10) 容量: spawn_buffer 与弹池容量边界 overflow 正确不越界 ==
+    [PASS] make_plan 成功
+    [PASS] 配置波数 x 每波发数全部进入缓冲 (got=80 want=80)
+    [PASS] 容量 256 时无 overflow (got=0 want=0)
+    [PASS] 缓冲计数不越界
+    [PASS] 容量 4 时只保留 4 发 (got=4 want=4)
+    [PASS] 整招总发数扣缓冲容量后全部计入 overflow (got=76 want=76)
+    [PASS] 容量 4 时未写入 spec[4..11](哨兵未被破坏, 不越界)
+    [PASS] 真实弹池收下配置中整招总发数 (got=80 want=80)
+    [PASS] live_count 与配置整招总发数一致 (got=80 want=80)
+    [PASS] 无 overflow (got=0 want=0)
+    [PASS] Boss 阵营计数与配置整招总发数一致 (got=80 want=80)
+    [PASS] 无学生弹混入 (got=0 want=0)
+    [PASS] live_count 未超过池容量
+    [PASS] 池内 active 弹数与配置总发数一致 (got=80 want=80)
+    [PASS] 每发弹的 faction/source_id/source_pattern/plan_id/radius/damage/lifetime 正确
+    [PASS] 整招所有弹的 id 两两不同(整局唯一)
+    [PASS] 按计划清弹清掉配置整招全部弹 (got=80 want=80)
+    [PASS] 清弹后 live_count == 0 (got=0 want=0)
+    [PASS] 容量 8 时成功 8 发 (got=8 want=8)
+    [PASS] 总发数扣池容量后的失败数正确 (got=72 want=72)
+    [PASS] live_count == 8 (got=8 want=8)
+    [PASS] overflow_events 与超额发数一致 (got=72 want=72)
+    [PASS] live_count 未超过容量
+    [PASS] 槽位 0 未被覆盖
+    [PASS] 槽位 0 的 x 未被后续 spawn 改写 (got=37.5 want=37.5 eps=9.99999975e-005)
+    [PASS] 整招总发数 <= 计划缓冲
+    [PASS] 整招总发数 <= 弹池上限
+  -> 10) 容量: PASS (27 子项, 0 失败)
+
+================ 汇总 ================
+总子项: 2075, 失败: 0
+结果: ALL PASS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_pattern_shower" end time: Oct 07 22:19 �й���׼ʱ��
+"test_pattern_shower" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/11 Testing: test_projectiles
+6/11 Test: test_projectiles
+Command: "C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native/test_projectiles.exe"
+Directory: C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native
+"test_projectiles" start time: Oct 07 22:19 �й���׼ʱ��
+Output:
+----------------------------------------------------------
+S05 弹池与弹运动 验收测试 (接口版本 1, 配置版本 1)
+核心: core/projectiles.c; 头文件: core/demo_base.h(只读)
+
+== 1) 容量: 容量 2 的池 spawn 3 发 ==
+    [PASS] pool_init capacity == 2 (got=2 want=2)
+    [PASS] pool_init live_count == 0 (got=0 want=0)
+    [PASS] pool_init next_generation == 1 (got=1 want=1)
+    [PASS] pool_init overflow_events == 0 (got=0 want=0)
+    [PASS] 第 1 发成功
+    [PASS] 第 2 发成功
+    [PASS] 第 3 发返回 false
+    [PASS] 第 3 发后 overflow_events == 1 (got=1 want=1)
+    [PASS] 第 3 发后 live_count == 2 (got=2 want=2)
+    [PASS] 第 3 发前 live_count == 2 (got=2 want=2)
+    [PASS] 实际 active 槽位仍为 2 (got=2 want=2)
+    [PASS] 原两发仍 active
+    [PASS] 槽位 0 速度未被覆盖
+    [PASS] 槽位 1 速度未被覆盖
+    [PASS] 越界下标 2 未被写入(池容量外不写)
+    [PASS] capacity 夹紧到 DEMO_MAX_PROJECTILES (got=800 want=800)
+    [PASS] capacity == 0 合法 (got=0 want=0)
+    [PASS] 容量 0 时 spawn 失败
+    [PASS] 容量 0 时 overflow_events == 1 (got=1 want=1)
+    [PASS] pool_spawn(NULL) 返回 false
+    [PASS] pool_init(NULL) 不崩溃
+  -> 1) 容量: PASS (21 子项, 0 失败)
+
+== 2) 唯一 ID: 容量内连续复用 200 发 ==
+    [PASS] 200 发全部 spawn 成功(无意外溢出)
+    [PASS] 收集到 200 个 id (got=200 want=200)
+    [PASS] 200 个 id 无重复 (got=0 want=0)
+    [PASS] id 非 0
+    [PASS] 填充阶段 spawn 成功
+    [PASS] 填充阶段 spawn 成功
+    [PASS] 填充阶段 spawn 成功
+    [PASS] 填充阶段 spawn 成功
+    [PASS] 填充阶段 spawn 成功
+    [PASS] 填充阶段 spawn 成功
+    [PASS] 填充阶段 spawn 成功
+    [PASS] 填充阶段 spawn 成功
+    [PASS] 填充后 live_count == 容量 (got=8 want=8)
+    [PASS] 全部寿命结束后 live_count == 0 (got=0 want=0)
+    [PASS] 全部寿命结束后无 active 弹 (got=0 want=0)
+    [PASS] 重填阶段 spawn 成功
+    [PASS] 重填阶段 spawn 成功
+    [PASS] 重填阶段 spawn 成功
+    [PASS] 重填阶段 spawn 成功
+    [PASS] 重填阶段 spawn 成功
+    [PASS] 重填阶段 spawn 成功
+    [PASS] 重填阶段 spawn 成功
+    [PASS] 重填阶段 spawn 成功
+    [PASS] 新旧 id 交叉无冲突(整局唯一) (got=0 want=0)
+    (压力测试: 收集 5000 个 id, 容量 64, 峰值 live 64)
+    [PASS] 5000 发全部成功收集 (got=5000 want=5000)
+    [PASS] 5000 发压力测试: 无 spawn 异常失败 (got=0 want=0)
+    [PASS] 5000 发压力测试: 全对全比较无重复 id (got=0 want=0)
+    [PASS] 5000 发压力测试: 每批都填满全部 64 个槽位 (got=64 want=64)
+    [PASS] 5000 发压力测试: live_count 一致 (got=8 want=8)
+  -> 2) 唯一 ID: PASS (29 子项, 0 失败)
+
+== 3) 复用无混淆: 同一槽位复用后 generation 严格递增 ==
+    [PASS] 槽位 0 复用 5 次全部成功
+    [PASS] 槽位 0 的 generation 严格递增
+    [PASS] generation 从 1 起(0 保留)
+    [PASS] 占位槽位 0 成功
+    [PASS] 槽位 1 复用 3 次全部成功
+    [PASS] 槽位 1 的 generation 严格递增
+    [PASS] 槽位占用关系符合预期
+    [PASS] next_generation 已越过最近发放的 generation
+  -> 3) 复用世代: PASS (8 子项, 0 失败)
+
+== 4) 运动与位置语义: px/py 保存本 tick 起点, 直线积分 ==
+    [PASS] spawn 成功
+    [PASS] spawn 后 px == 起点 x (got=100 want=100 eps=9.99999975e-005)
+    [PASS] spawn 后 py == 起点 y (got=200 want=200 eps=9.99999975e-005)
+    [PASS] spawn 后 x == 起点 x (got=100 want=100 eps=9.99999975e-005)
+    [PASS] spawn 后 y == 起点 y (got=200 want=200 eps=9.99999975e-005)
+    [PASS] advance 后 px == 上一 tick 的 x (got=100 want=100 eps=9.99999975e-005)
+    [PASS] advance 后 py == 上一 tick 的 y (got=200 want=200 eps=9.99999975e-005)
+    [PASS] advance 后 x == px + vx*dt (got=102 want=102 eps=9.99999975e-005)
+    [PASS] advance 后 y == py + vy*dt (got=198.5 want=198.5 eps=9.99999975e-005)
+    [PASS] 单 tick 位移 == vx*dt (got=2 want=2 eps=9.99999975e-005)
+    [PASS] 第二个 tick 的 px == 上一 tick 终点 x (got=102 want=102 eps=9.99999975e-005)
+    [PASS] 第二个 tick 的 py == 上一 tick 终点 y (got=198.5 want=198.5 eps=9.99999975e-005)
+    [PASS] 两 tick 后 x == 起点 + 2*vx*dt (got=104 want=104 eps=9.99999975e-005)
+    [PASS] 两 tick 后 y == 起点 + 2*vy*dt (got=197 want=197 eps=9.99999975e-005)
+    [PASS] vx 不随时间改变 (got=120 want=120 eps=9.99999997e-007)
+    [PASS] vy 不随时间改变 (got=-90 want=-90 eps=9.99999997e-007)
+    [PASS] 静止弹 spawn 成功
+    [PASS] 零速度弹 x 不变 (got=300 want=300 eps=9.99999975e-005)
+    [PASS] 零速度弹 y 不变 (got=300 want=300 eps=9.99999975e-005)
+    [PASS] 零速度弹 px == x (got=300 want=300 eps=9.99999975e-005)
+  -> 4) 运动: PASS (20 子项, 0 失败)
+
+== 5) 寿命: lifetime_ticks = 2 在两次 advance 后被移除 ==
+    [PASS] lifetime = 2 的弹 spawn 成功
+    [PASS] spawn 后 lifetime_ticks == 2
+    [PASS] spawn 后 live_count == 1 (got=1 want=1)
+    [PASS] 第 1 次 advance 后仍 active
+    [PASS] 第 1 次 advance 后 lifetime_ticks == 1
+    [PASS] 第 1 次 advance 后 live_count == 1 (got=1 want=1)
+    [PASS] 第 2 次 advance 后已移除
+    [PASS] 第 2 次 advance 后 lifetime_ticks == 0
+    [PASS] 第 2 次 advance 后 live_count == 0 (got=0 want=0)
+    [PASS] 实际无 active 弹 (got=0 want=0)
+    [PASS] lifetime = 1 的弹 spawn 成功
+    [PASS] lifetime = 1 的弹在一个 tick 后移除
+    [PASS] 移除后槽位可复用
+    [PASS] 复用后寿命正确
+  -> 5) 寿命: PASS (14 子项, 0 失败)
+
+== 6) 出界: 用终点判断, x 与 y 方向都被移除 ==
+    [PASS] +x 弹 spawn 成功
+    [PASS] +x 第 1 tick 终点 x == 1000(仍在场内) (got=1000 want=1000 eps=0.00100000005)
+    [PASS] +x 第 1 tick 未提前移除
+    [PASS] +x 第 2 tick 终点 x == 1100 (got=1100 want=1100 eps=0.00100000005)
+    [PASS] +x 飞出场地后被移除
+    [PASS] +x 移除判据: 终点 x 超出 field+margin
+    [PASS] -y 弹 spawn 成功
+    [PASS] -y 第 1 tick 终点 y == 0(仍在场内) (got=-7.62939453e-006 want=0 eps=0.00100000005)
+    [PASS] -y 第 1 tick 未提前移除
+    [PASS] -y 第 2 tick 终点 y == -100 (got=-100.000015 want=-100 eps=0.00100000005)
+    [PASS] -y 飞出场地后被移除
+    [PASS] -y 移除判据: 终点 y 超出 -margin
+    [PASS] -x 弹 spawn 成功
+    [PASS] -x 飞出场地后被移除
+    [PASS] -x 移除判据: 终点 x 超出 -margin
+    [PASS] +y 弹 spawn 成功
+    [PASS] +y 飞出场地后被移除
+    [PASS] +y 移除判据: 终点 y 超出 field+margin
+    [PASS] 场内弹 spawn 成功
+    [PASS] 场内慢速弹 60 tick 后仍 active
+    [PASS] 场内弹 60 tick 后 x 累计位移正确 (got=510 want=510 eps=0.00999999978)
+    [PASS] 出界测试后仅剩场内弹 (got=1 want=1)
+    [PASS] live_count 与实际 active 数一致 (got=1 want=1)
+  -> 6) 出界: PASS (23 子项, 0 失败)
+
+== 7) 按计划清弹: 只清指定 plan_id, plan_id == 0 非法 ==
+    [PASS] plan 7 第 1 发
+    [PASS] plan 7 第 2 发
+    [PASS] plan 7 第 3 发
+    [PASS] plan 8 第 4 发
+    [PASS] 学生弹 plan_id == 0 第 1 发
+    [PASS] 学生弹 plan_id == 0 第 2 发
+    [PASS] 6 发全部 live (got=6 want=6)
+    [PASS] clear_plan(7) 返回 3 (got=3 want=3)
+    [PASS] 清弹后 live_count == 3 (got=3 want=3)
+    [PASS] 只剩 1 发 Boss 弹(plan 8) (got=1 want=1)
+    [PASS] 2 发学生弹不受影响 (got=2 want=2)
+    [PASS] plan 8 的弹仍在
+    [PASS] 学生弹 1 仍在
+    [PASS] 学生弹 2 仍在
+    [PASS] clear_plan(0) 返回 0 (got=0 want=0)
+    [PASS] clear_plan(0) 后 live_count 不变 (got=3 want=3)
+    [PASS] clear_plan(0) 未清除任何弹(学生弹安全)
+    [PASS] clear_plan(0) 后学生弹计数不变 (got=2 want=2)
+    [PASS] clear_plan(99) 无匹配返回 0 (got=0 want=0)
+    [PASS] clear_plan(99) 后 live_count 不变 (got=3 want=3)
+    [PASS] clear_plan(8) 清掉最后 1 发 Boss 弹 (got=1 want=1)
+    [PASS] 清完 Boss 弹后学生弹仍为 2 (got=2 want=2)
+    [PASS] clear_plan(NULL) 返回 0 (got=0 want=0)
+    [PASS] 清弹后槽位可复用
+    [PASS] 复用后 live_count == 3 (got=3 want=3)
+  -> 7) 按计划清弹: PASS (25 子项, 0 失败)
+
+== 8) count_faction: 两阵营混排各自计数 ==
+    [PASS] 空池 Boss 计数 == 0 (got=0 want=0)
+    [PASS] 空池学生计数 == 0 (got=0 want=0)
+    [PASS] Boss 弹 1
+    [PASS] 学生弹 1
+    [PASS] Boss 弹 2
+    [PASS] Boss 弹 3
+    [PASS] 学生弹 2
+    [PASS] 混排后 Boss 计数 == 3 (got=3 want=3)
+    [PASS] 混排后学生计数 == 2 (got=2 want=2)
+    [PASS] FACTION_NONE 计数 == 0 (got=0 want=0)
+    [PASS] live_count == 5 (got=5 want=5)
+    [PASS] 清 plan 7 后 Boss 计数 == 0 (got=0 want=0)
+    [PASS] 清 plan 7 后学生计数仍 == 2 (got=2 want=2)
+    [PASS] count_faction(NULL) 返回 0 (got=0 want=0)
+    [PASS] advance 后学生计数不变 (got=2 want=2)
+    [PASS] 短寿命学生弹 spawn 成功
+    [PASS] 短寿命学生弹移除后计数 == 2 (got=2 want=2)
+  -> 8) 阵营计数: PASS (17 子项, 0 失败)
+
+== 9) spawn_buffer: 容量边界、overflow 计数、不越界 ==
+    [PASS] init 后 count == 0 (got=0 want=0)
+    [PASS] init capacity == 上限 (got=256 want=256)
+    [PASS] init 后 overflow == 0 (got=0 want=0)
+    [PASS] 推入 256 条后 count == 256 (got=256 want=256)
+    [PASS] 容量未满时 overflow == 0 (got=0 want=0)
+    [PASS] 第 257 条返回 false
+    [PASS] 第 257 条后 count 仍 == 256 (got=256 want=256)
+    [PASS] 第 257 条后 overflow == 1 (got=1 want=1)
+    [PASS] 第 256 条内容正确(未越界覆盖)
+    [PASS] 第 1 条内容未被覆盖
+    [PASS] capacity = 3 时只接受 3 条 (got=3 want=3)
+    [PASS] capacity = 3 时 overflow == 2 (got=2 want=2)
+    [PASS] 第 3 条内容为第 3 个 spec(未越界)
+    [PASS] 下标 3 未被写入(capacity 之外)
+    [PASS] 超大 capacity 仍只存 256 条 (got=256 want=256)
+    [PASS] 超大 capacity 下 overflow == 10 (got=10 want=10)
+    [PASS] push(NULL, spec) 返回 false
+    [PASS] push(buf, NULL) 返回 false
+    [PASS] spawn_buffer_init(NULL) 不崩溃
+  -> 9) 生成缓冲: PASS (19 子项, 0 失败)
+
+== 10) 非法输入: NaN 速度被拒、lifetime <= 0 被拒 ==
+    [PASS] vx = NaN 被拒
+    [PASS] vy = NaN 被拒
+    [PASS] vx = +Inf 被拒
+    [PASS] vy = -Inf 被拒
+    [PASS] x = NaN 被拒
+    [PASS] y = +Inf 被拒
+    [PASS] lifetime_ticks == 0 被拒
+    [PASS] lifetime_ticks < 0 被拒
+    [PASS] 全部非法输入后 live_count == 0 (got=0 want=0)
+    [PASS] 非法输入不计入 overflow_events (got=0 want=0)
+    [PASS] 全部非法输入后无 active 弹 (got=0 want=0)
+    [PASS] 非法输入后正常 spawn 成功
+    [PASS] advance 后坐标有限(无 NaN)
+    [PASS] 合法弹获得非 0 id
+    [PASS] radius < 0 仍然生成
+    [PASS] radius < 0 被夹紧为 0 (got=0 want=0 eps=9.99999997e-007)
+    [PASS] dt = NaN 时不推进(状态不变)
+    [PASS] dt < 0 时不推进(状态不变)
+    [PASS] 非有限 dt 后 id 不变
+    [PASS] pool_advance(NULL) 不崩溃
+  -> 10) 非法输入: PASS (20 子项, 0 失败)
+
+== 11) 附加: 归属字段、init 清零、live_count 一致性 ==
+    [PASS] pool_init 清零全部内容(含 items[])
+    [PASS] pool_init 清零最后一个槽位(整个 items[] 被清零)
+    [PASS] 带完整归属的弹 spawn 成功
+    [PASS] faction 正确 (got=1 want=1)
+    [PASS] source_id 正确 (got=5 want=5)
+    [PASS] plan_id 正确
+    [PASS] vx 正确 (got=60 want=60 eps=9.99999997e-007)
+    [PASS] vy 正确 (got=-30 want=-30 eps=9.99999997e-007)
+    [PASS] radius 正确 (got=6 want=6 eps=9.99999997e-007)
+    [PASS] damage 正确 (got=2 want=2 eps=9.99999997e-007)
+    [PASS] lifetime_ticks 正确
+    [PASS] generation 非 0
+    [PASS] 同 tick 第二发 spawn 成功
+    [PASS] 同 tick 两发 id 不同
+    [PASS] 同 tick 第二发 generation 更大
+    [PASS] 短寿命学生弹 spawn 成功
+    [PASS] spawn 后 live_count 一致 (got=3 want=3)
+    [PASS] advance 后 live_count 一致 (got=2 want=2)
+    [PASS] 清弹后 live_count 一致 (got=0 want=0)
+    [PASS] 清弹后池为空 (got=0 want=0)
+    [PASS] 复用测试第 1 发
+    [PASS] 复用测试第 2 发
+    [PASS] 槽位复用后 source_pattern 被重置(无跨世代脏值)
+    [PASS] 复用后弹有效
+    [PASS] tick 1 弹
+    [PASS] tick 2 弹
+    [PASS] 不同 tick 复用同槽位 id 不同
+  -> 11) 附加覆盖: PASS (27 子项, 0 失败)
+
+================ 汇总 ================
+总子项: 223, 失败: 0
+结果: ALL PASS
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_projectiles" end time: Oct 07 22:19 �й���׼ʱ��
+"test_projectiles" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/11 Testing: test_rng
+7/11 Test: test_rng
+Command: "C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native/test_rng.exe"
+Directory: C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native
+"test_rng" start time: Oct 07 22:19 �й���׼ʱ��
+Output:
+----------------------------------------------------------
+== S02 rng tests (SplitMix64, interface version 1) ==
+PASS  fixed vector A: seed=0 stream=0 (8 x u64)
+PASS  fixed vector B: seed=0x0123456789ABCDEF stream=1 (4 x u64)
+PASS  fixed vector C: seed=42 stream=0xDEADBEEF (2 x u64)
+PASS  fixed vector A[0] exact (= 0xE220A8397B1DCDAF)
+PASS  same (seed, stream) -> identical u64 sequence over 64 draws
+PASS  different stream_id (0 vs 1) -> different sequence
+PASS  different stream_id (0 vs 2) -> different sequence
+PASS  different seed, same stream -> different sequence
+PASS  stream 0 and stream 1 sequences do not overlap
+PASS  stream 1 is not a shifted prefix of stream 0
+PASS  rng_reset repeats the exact sequence (from start and after partial draws)
+PASS  rng_reset restores the seed-origin state (= 0xE220A8397B1DCDAF)
+PASS  double rng_reset is idempotent
+      traced draws: world=266 bot=334 explore=267
+PASS  world stream unaffected by bot/explore consumption (interleaved)
+PASS  bot stream unaffected by world/explore consumption (interleaved)
+PASS  explore stream unaffected by world/bot consumption (interleaved)
+PASS  world stream stays identical under heavy bot/explore noise
+PASS  world/bot interleaving equals each stream used alone
+PASS  rng_below(n=0) returns 0 and consumes no state
+PASS  rng_below(n=1) always returns 0
+PASS  rng_below(n=1) does consume one draw
+PASS  rng_below(n=2) yields only {0,1} and both occur
+PASS  rng_below never returns >= n (200k draws, n = 1..1000)
+PASS  rng_below(n near UINT32_MAX) never returns >= n
+      counts3 = 100225 / 100144 / 99631
+PASS  rng_below(n=3) is uniform within tolerance (rejection sampling)
+      counts7 = 29557 30015 30278 29918 30214 30041 29977
+PASS  rng_below(n=7) is uniform within tolerance (rejection sampling)
+      note: rng_range_i32(lo==hi) consumes one draw
+PASS  rng_range_i32(lo==hi) returns lo (closed interval)
+PASS  rng_range_i32(lo>hi) returns lo
+PASS  rng_range_i32(lo>hi) consumes no state
+PASS  rng_range_i32(INT32_MIN, INT32_MAX) 200k draws advanced the stream
+PASS  rng_range_i32(-3, 3) always inside closed interval (200k draws)
+PASS  rng_range_i32(-3, 3) reaches every value in the interval
+PASS  rng_range_i32(1, 6) always inside closed interval
+PASS  rng_range_i32 spans negative and positive values
+PASS  rng_unit_f32 always in [0, 1) (100k draws)
+PASS  rng_unit_f32 uses the high 24 bits of one u64 draw (exact k/2^24)
+      unit f32 min = 0.000007868, max = 0.999993026
+PASS  rng_unit_f32 covers the low and high ends of [0,1)
+PASS  rng_next_u32 equals the high 32 bits of one u64 draw
+PASS  rng_next_bool yields both true and false
+      bool true count = 50364 / 100000
+PASS  rng_next_bool is balanced within tolerance
+PASS  rng_next_bool equals the top bit of one u64 draw
+PASS  NULL safety: all rng_* return 0/false and do not crash
+PASS  NULL calls do not perturb any live stream
+PASS  instances are independent: no global/static shared state
+PASS  instance replayed from rng_reset matches its own reference
+      re-seed first draw = 0x46CC58E63E003404
+PASS  re-seeding the same instance keeps the same first draw
+== summary: 46 passed, 0 failed ==
+RESULT: PASS
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_rng" end time: Oct 07 22:19 �й���׼ʱ��
+"test_rng" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/11 Testing: test_student_fire
+8/11 Test: test_student_fire
+Command: "C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native/test_student_fire.exe"
+Directory: C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native
+"test_student_fire" start time: Oct 07 22:19 �й���׼ʱ��
+Output:
+----------------------------------------------------------
+test_student_fire (S12 学生反击) - 接口版本 1 / 配置版本 1
+
+== 1 直线瞄准: (100,100) 瞄准 (500,100) 得到纯 +x 速度 ==
+    [PASS] student_fire_try 在同水平线瞄准下返回 true
+    [PASS] 池内恰好新增 1 发弹 (got=1 want=1)
+    [PASS] pool.live_count 与弹数一致 (got=1 want=1)
+    [PASS] 能找到新增的学生弹
+    [PASS] vx == +配置弹速 (got=260 want=260 eps=0.00100000005)
+    [PASS] vy == 0(纯水平) (got=0 want=0 eps=0.00100000005)
+    [PASS] 速度大小 == cfg.student_bullet_speed (got=260 want=260 eps=0.00100000005)
+    [PASS] faction == DEMO_FACTION_STUDENT
+  -> 1 直线瞄准: PASS (8 子项, 0 失败)
+
+== 2 斜向瞄准: (100,100) 瞄准 (400,500) 得到 0.6/0.8 方向 ==
+    [PASS] student_fire_try 在斜向瞄准下返回 true
+    [PASS] 能找到新增的学生弹
+    [PASS] vx == 0.6 * 配置弹速 (got=156 want=156 eps=0.00999999978)
+    [PASS] vy == 0.8 * 配置弹速 (got=208 want=208 eps=0.00999999978)
+    [PASS] 速度大小仍等于配置弹速(方向已归一化) (got=260 want=260 eps=0.00100000005)
+    [PASS] 反斜向瞄准返回 true
+    [PASS] 反斜向 vx == -0.6 * 配置弹速 (got=-156 want=-156 eps=0.00999999978)
+    [PASS] 反斜向 vy == -0.8 * 配置弹速 (got=-208 want=-208 eps=0.00999999978)
+  -> 2 斜向瞄准: PASS (8 子项, 0 失败)
+
+== 3 不追踪: 发射后目标移动, 速度与轨迹不变 ==
+    [PASS] 朝 (500,100) 发射成功
+    [PASS] 定位到弹所在槽位
+    [PASS] 30 tick 后弹仍存活
+    [PASS] 速度 vx 在推进后完全不变(无追踪) (got=260 want=260 eps=0)
+    [PASS] 速度 vy 在推进后完全不变(无追踪) (got=0 want=0 eps=0)
+    [PASS] 位置 == 起点 + 匀速 * 30 tick (got=254.999847 want=255 eps=0.00999999978)
+    [PASS] y 位置同样按匀速直线前进 (got=100 want=100 eps=0.00999999978)
+    [PASS] 水平弹在 30 tick 后仍无任何 y 分量 (got=0 want=0 eps=0)
+  -> 3 不追踪: PASS (8 子项, 0 失败)
+
+== 4 移动意图与射击方向分离 ==
+    [PASS] 发射成功
+    [PASS] 发射不改变学生位置(射击不驱动移动)
+    [PASS] 发射不改变学生 id/alive/hp
+    [PASS] 射击方向只由瞄准决定: 无固定向上分量 (got=0 want=0 eps=0)
+    [PASS] 射击方向指向瞄准点(+x)
+    [PASS] 同一学生改瞄准到右下后方仍可发射
+    [PASS] 射击方向随瞄准改变(vy 现在为负), 不受任何移动轴影响
+  -> 4 移动意图与射击方向分离: PASS (7 子项, 0 失败)
+
+== 5 冷却设置与递减不出现负数 ==
+    [PASS] student_fire_ready(cooldown=0) == true
+    [PASS] student_fire_ready(cooldown=1) == false
+    [PASS] 首发发射成功
+    [PASS] 发射成功后 cooldown == cfg.student_fire_interval_ticks (got=78 want=78)
+    [PASS] cooldown 与 cfg 字段一致 (got=78 want=78)
+    [PASS] 冷却中 ready == false
+    [PASS] 第二次发射成功
+    [PASS] 冷却是赋值而不是累加(cd_after == 间隔) (got=78 want=78)
+    [PASS] 递减 cfg.student_fire_interval_ticks 次后 cooldown == 0 (got=0 want=0)
+    [PASS] 冷却耗尽后 ready == true
+    [PASS] 继续递减 10 次仍为 0(不为负) (got=0 want=0)
+    [PASS] 从 -7 递减后夹回 0(函数后置条件: 结果 >= 0) (got=0 want=0)
+    [PASS] student_fire_tick_cooldown(NULL) 不崩溃
+  -> 5 冷却: PASS (13 子项, 0 失败)
+
+== 6 最小射程内不发射且冷却不变 ==
+    [PASS] 配置版本 4: student_fire_min_range == 50 (got=50 want=50 eps=9.99999997e-007)
+    [PASS] 距离 == 最小射程不发射
+    [PASS] 距离 == 最小射程时冷却完全不变 (got=7 want=7)
+    [PASS] 距离 == 最小射程时池内无新弹 (got=0 want=0)
+    [PASS] 距离 < 最小射程不发射
+    [PASS] 距离 < 最小射程时冷却完全不变 (got=7 want=7)
+    [PASS] 距离 < 最小射程时池内无新弹 (got=0 want=0)
+    [PASS] 距离 > 最小射程发射成功
+    [PASS] 成功发射后冷却被设置为间隔 (got=78 want=78)
+    [PASS] 成功发射后池内 1 发弹 (got=1 want=1)
+  -> 6 最小射程: PASS (10 子项, 0 失败)
+
+== 7 同点目标不发射且无 NaN ==
+    [PASS] 目标与学生同点不发射
+    [PASS] 同点目标时冷却不变 (got=11 want=11)
+    [PASS] 同点目标时池内无弹 (got=0 want=0)
+    [PASS] 池内无任何非有限数值(未产生 NaN)
+    [PASS] 目标 x 为 NaN 时不发射
+    [PASS] NaN 目标时冷却不变 (got=11 want=11)
+    [PASS] 目标 y 为 Inf 时不发射
+    [PASS] Inf 目标时冷却不变 (got=11 want=11)
+    [PASS] 非有限目标时池内始终无弹 (got=0 want=0)
+    [PASS] 学生 x 为 NaN 时不发射
+    [PASS] 学生坐标 NaN 时冷却不变 (got=11 want=11)
+  -> 7 同点目标: PASS (11 子项, 0 失败)
+
+== 8 倒下学生 ready=false 且 fire_try=false ==
+    [PASS] 倒下学生 ready(cooldown=0) == false
+    [PASS] 倒下学生 ready(负冷却) == false
+    [PASS] 倒下学生 fire_try == false
+    [PASS] 倒下学生不设置冷却 (got=0 want=0)
+    [PASS] 倒下学生不写弹池 (got=0 want=0)
+    [PASS] 倒下学生不写 out_bullet_source (got=0 want=0)
+    [PASS] student_fire_ready(NULL) == false
+    [PASS] student == NULL 时 fire_try == false
+  -> 8 倒下学生: PASS (8 子项, 0 失败)
+
+== 9 弹属性与配置一致且 plan_id == 0 ==
+    [PASS] 发射成功
+    [PASS] out_bullet_source == student->id (got=7 want=7)
+    [PASS] 冷却读 cfg.student_fire_interval_ticks(77) (got=77 want=77)
+    [PASS] 能找到新增的学生弹
+    [PASS] faction == DEMO_FACTION_STUDENT
+    [PASS] source_id == student->id
+    [PASS] plan_id == 0(学生弹)
+    [PASS] source_pattern == 0(学生弹无招式归属)
+    [PASS] radius 读 cfg (got=9 want=9 eps=9.99999997e-007)
+    [PASS] damage 读 cfg (got=4 want=4 eps=9.99999997e-007)
+    [PASS] lifetime 读 cfg (got=123 want=123)
+    [PASS] speed 读 cfg (got=333 want=333 eps=0.00100000005)
+    [PASS] 起点 x = 学生 x + (学生半径 + 弹半径) (got=129 want=129 eps=9.99999975e-005)
+    [PASS] 起点 y = 学生 y(沿 +x 外推不改变 y) (got=100 want=100 eps=9.99999975e-005)
+    [PASS] spawn 时 px == x(本 tick 起点) (got=129 want=129 eps=0)
+    [PASS] spawn 时 py == y(本 tick 起点) (got=100 want=100 eps=0)
+    [PASS] 弹 id 已分配(非 0)
+    [PASS] 起点在学生中心之外(不生成在学生体内)
+    [PASS] 配置版本 == 5 (got=5 want=5)
+    [PASS] 默认发射间隔 == 78 (got=78 want=78)
+    [PASS] 默认弹速 == 260 (got=260 want=260 eps=9.99999997e-007)
+    [PASS] 默认弹半径 == 5 (got=5 want=5 eps=9.99999997e-007)
+    [PASS] 默认弹寿命 == 240 (got=240 want=240)
+    [PASS] 默认伤害 == 1 (got=1 want=1)
+  -> 9 弹属性: PASS (24 子项, 0 失败)
+
+== 10 pool_clear_plan(pool,1) 后学生弹仍在 ==
+    [PASS] 学生弹发射成功
+    [PASS] Boss 弹(plan_id = 1)生成成功
+    [PASS] 池内共 2 发弹 (got=2 want=2)
+    [PASS] pool_clear_plan(pool, 0) 返回 0(不清任何弹) (got=0 want=0)
+    [PASS] plan 0 清弹后池内仍是 2 发弹 (got=2 want=2)
+    [PASS] pool_clear_plan(pool, 1) 清除 1 发 (got=1 want=1)
+    [PASS] 清 plan 1 后池内剩 1 发 (got=1 want=1)
+    [PASS] 剩下的正是学生弹 (got=1 want=1)
+    [PASS] Boss 弹已被清除 (got=0 want=0)
+    [PASS] 剩余弹的 faction/plan_id 仍是学生弹
+  -> 10 清计划不误伤: PASS (10 子项, 0 失败)
+
+== 11 非法参数防御且池内弹数不变 ==
+    [PASS] cfg == NULL -> false
+    [PASS] student == NULL -> false
+    [PASS] pool == NULL -> false
+    [PASS] inout_cooldown == NULL -> false
+    [PASS] out_bullet_source == NULL -> false
+    [PASS] 空指针分支不写弹池 (got=0 want=0)
+    [PASS] 空指针分支不改冷却 (got=9 want=9)
+    [PASS] 空指针分支不改 out_bullet_source (got=123 want=123)
+    [PASS] speed == 0 -> false
+    [PASS] speed < 0 -> false
+    [PASS] speed == NaN -> false
+    [PASS] radius < 0 -> false
+    [PASS] radius == NaN -> false
+    [PASS] radius == 0 合法(接口只禁止 < 0)
+    [PASS] radius == 0 的那发正常进池 (got=1 want=1)
+    [PASS] plan 0 清弹返回 0 (got=0 want=0)
+    [PASS] 测试自清理: 池已空 (got=0 want=0)
+    [PASS] lifetime == 0 -> false
+    [PASS] lifetime < 0 -> false
+    [PASS] 非法配置分支不写弹池 (got=0 want=0)
+    [PASS] 非法配置分支不改冷却 (got=9 want=9)
+    [PASS] 非法配置分支不改 out_bullet_source (got=123 want=123)
+    [PASS] 非法配置不计入 overflow(池并未满) (got=0 want=0)
+    [PASS] 小池第 1 发成功
+    [PASS] 第 1 发后冷却被设置 (got=78 want=78)
+    [PASS] 池满时第 2 发返回 false
+    [PASS] 池满失败后池内弹数不变 (got=1 want=1)
+    [PASS] 池满失败被计入 overflow_events (got=1 want=1)
+    [PASS] 池满失败不改冷却 (got=9 want=9)
+    [PASS] 池满失败不改 out_bullet_source (got=123 want=123)
+  -> 11 非法参数: PASS (30 子项, 0 失败)
+
+============================================================
+总计: 137 项子检查, 0 项失败 -> 全部 PASS
+============================================================
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_student_fire" end time: Oct 07 22:19 �й���׼ʱ��
+"test_student_fire" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/11 Testing: test_web_core
+9/11 Test: test_web_core
+Command: "C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native/test_web_core.exe"
+Directory: C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native
+"test_web_core" start time: Oct 07 22:19 �й���׼ʱ��
+Output:
+----------------------------------------------------------
+core regression: 8855 checks, 0 failures
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"test_web_core" end time: Oct 07 22:19 �й���׼ʱ��
+"test_web_core" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/11 Testing: test_endless
+10/11 Test: test_endless
+Command: "C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native/test_endless.exe"
+Directory: C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native
+"test_endless" start time: Oct 07 22:19 �й���׼ʱ��
+Output:
+----------------------------------------------------------
+endless-core: 4694 checks, 0 failures
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_endless" end time: Oct 07 22:19 �й���׼ʱ��
+"test_endless" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/11 Testing: test_field_size
+11/11 Test: test_field_size
+Command: "C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native/test_field_size.exe"
+Directory: C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/native
+"test_field_size" start time: Oct 07 22:19 �й���׼ʱ��
+Output:
+----------------------------------------------------------
+field-size: 1277 checks, 0 failures
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_field_size" end time: Oct 07 22:19 �й���׼ʱ��
+"test_field_size" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 07 22:19 �й���׼ʱ��

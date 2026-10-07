@@ -1,0 +1,2293 @@
+{
+  "method": "Actual offline single HTML and C/Wasm; real keyboard and captured mouse events; clock installed and paused before navigation. Only public inspect() snapshots are read. Lifecycle/capture-loss events are labelled when synthetic. No world/core state, RNG, positions, energy or plans are injected.",
+  "htmlPath": "C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\build\\release\\ustc-danmaku-endless.html",
+  "htmlSha256": "9de27925103b644236b736e635932be215ecd0440d095311657c08673d22680d",
+  "expectedConfigVersion": 6,
+  "expectedAbiVersion": 5,
+  "checks": [
+    {
+      "name": "single HTML has no external script or stylesheet references",
+      "pass": true
+    },
+    {
+      "name": "1440x900: current cfg6 and release-aware public interface load",
+      "pass": true,
+      "detail": {
+        "config": 6
+      }
+    },
+    {
+      "name": "1440x900: new round field matches the available window aspect",
+      "pass": true
+    },
+    {
+      "name": "1440x900: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1440x900: a tap shorter than one tick already queues a release without charging",
+      "pass": true
+    },
+    {
+      "name": "1440x900: instant tap fires once without a minimum hold threshold",
+      "pass": true
+    },
+    {
+      "name": "1440x900: instant tap never repeats",
+      "pass": true
+    },
+    {
+      "name": "1440x900: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1440x900: skill 1 immediately selects without a minimum hold",
+      "pass": true
+    },
+    {
+      "name": "1440x900: skill 1 hold never charges or locks a plan",
+      "pass": true,
+      "detail": {
+        "beforeEnergy": 60,
+        "afterEnergy": 62,
+        "tick": 13
+      }
+    },
+    {
+      "name": "1440x900: skill 1 displays C candidate rays and current origin",
+      "pass": true,
+      "detail": {
+        "aim": {
+          "pattern": 0,
+          "dirX": 0.6000002005689705,
+          "dirY": -0.799999849573233
+        },
+        "ready": true,
+        "rays": 48
+      }
+    },
+    {
+      "name": "1440x900: skill 1 candidate is ready before release",
+      "pass": true,
+      "detail": {
+        "ready": true,
+        "reason": 0,
+        "energy": 62
+      }
+    },
+    {
+      "name": "1440x900: skill 1 keyup clears preview selection without early cost",
+      "pass": true
+    },
+    {
+      "name": "1440x900: skill 1 release accepts exactly once and charges its C cost",
+      "pass": true,
+      "detail": {
+        "before": 62,
+        "after": 37,
+        "cost": 25,
+        "aimDirX": 0.6000002026557922,
+        "aimDirY": -0.7999998331069946
+      }
+    },
+    {
+      "name": "1440x900: skill 1 released warning rays exactly match the C candidate",
+      "pass": true,
+      "detail": {
+        "equal": true,
+        "count": 48,
+        "actualCount": 48,
+        "maxError": 0,
+        "tickShift": 0
+      }
+    },
+    {
+      "name": "1440x900: skill 1 removes pre-aim after release",
+      "pass": true
+    },
+    {
+      "name": "1440x900: skill 1 actual first emission follows the locked rays",
+      "pass": true,
+      "detail": {
+        "firstSpawn": 37,
+        "observedTick": 38,
+        "emitted": 24,
+        "live": 24
+      }
+    },
+    {
+      "name": "1440x900: skill 1 release is consumed once",
+      "pass": true
+    },
+    {
+      "name": "1440x900: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1440x900: skill 2 immediately selects without a minimum hold",
+      "pass": true
+    },
+    {
+      "name": "1440x900: skill 2 hold never charges or locks a plan",
+      "pass": true,
+      "detail": {
+        "beforeEnergy": 60,
+        "afterEnergy": 62,
+        "tick": 13
+      }
+    },
+    {
+      "name": "1440x900: skill 2 displays C candidate rays and current origin",
+      "pass": true,
+      "detail": {
+        "aim": {
+          "pattern": 1,
+          "dirX": 0.6000002005689705,
+          "dirY": -0.799999849573233
+        },
+        "ready": true,
+        "rays": 48
+      }
+    },
+    {
+      "name": "1440x900: skill 2 candidate is ready before release",
+      "pass": true,
+      "detail": {
+        "ready": true,
+        "reason": 0,
+        "energy": 62
+      }
+    },
+    {
+      "name": "1440x900: skill 2 keyup clears preview selection without early cost",
+      "pass": true
+    },
+    {
+      "name": "1440x900: skill 2 release accepts exactly once and charges its C cost",
+      "pass": true,
+      "detail": {
+        "before": 62,
+        "after": 12,
+        "cost": 50,
+        "aimDirX": 0.6000002026557922,
+        "aimDirY": -0.7999998331069946
+      }
+    },
+    {
+      "name": "1440x900: skill 2 released warning rays exactly match the C candidate",
+      "pass": true,
+      "detail": {
+        "equal": true,
+        "count": 48,
+        "actualCount": 48,
+        "maxError": 0,
+        "tickShift": 0
+      }
+    },
+    {
+      "name": "1440x900: skill 2 removes pre-aim after release",
+      "pass": true
+    },
+    {
+      "name": "1440x900: skill 2 actual first emission follows the locked rays",
+      "pass": true,
+      "detail": {
+        "firstSpawn": 73,
+        "observedTick": 74,
+        "emitted": 24,
+        "live": 24
+      }
+    },
+    {
+      "name": "1440x900: skill 2 release is consumed once",
+      "pass": true
+    },
+    {
+      "name": "1440x900: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1440x900: skill 3 immediately selects without a minimum hold",
+      "pass": true
+    },
+    {
+      "name": "1440x900: skill 3 hold never charges or locks a plan",
+      "pass": true,
+      "detail": {
+        "beforeEnergy": 60,
+        "afterEnergy": 62,
+        "tick": 13
+      }
+    },
+    {
+      "name": "1440x900: skill 3 displays C candidate rays and current origin",
+      "pass": true,
+      "detail": {
+        "aim": {
+          "pattern": 2,
+          "dirX": 0.6000002005689705,
+          "dirY": -0.799999849573233
+        },
+        "ready": true,
+        "rays": 27
+      }
+    },
+    {
+      "name": "1440x900: skill 3 candidate is ready before release",
+      "pass": true,
+      "detail": {
+        "ready": true,
+        "reason": 0,
+        "energy": 62
+      }
+    },
+    {
+      "name": "1440x900: skill 3 keyup clears preview selection without early cost",
+      "pass": true
+    },
+    {
+      "name": "1440x900: skill 3 release accepts exactly once and charges its C cost",
+      "pass": true,
+      "detail": {
+        "before": 62,
+        "after": 42,
+        "cost": 20,
+        "aimDirX": 0.6000002026557922,
+        "aimDirY": -0.7999998331069946
+      }
+    },
+    {
+      "name": "1440x900: skill 3 released warning rays exactly match the C candidate",
+      "pass": true,
+      "detail": {
+        "equal": true,
+        "count": 27,
+        "actualCount": 27,
+        "maxError": 0,
+        "tickShift": 0
+      }
+    },
+    {
+      "name": "1440x900: skill 3 removes pre-aim after release",
+      "pass": true
+    },
+    {
+      "name": "1440x900: skill 3 actual first emission follows the locked rays",
+      "pass": true,
+      "detail": {
+        "firstSpawn": 31,
+        "observedTick": 32,
+        "emitted": 9,
+        "live": 9
+      }
+    },
+    {
+      "name": "1440x900: skill 3 release is consumed once",
+      "pass": true
+    },
+    {
+      "name": "1440x900: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1440x900: skill 4 immediately selects without a minimum hold",
+      "pass": true
+    },
+    {
+      "name": "1440x900: skill 4 hold never charges or locks a plan",
+      "pass": true,
+      "detail": {
+        "beforeEnergy": 60,
+        "afterEnergy": 60,
+        "tick": 3
+      }
+    },
+    {
+      "name": "1440x900: skill 4 displays C candidate rays and current origin",
+      "pass": true,
+      "detail": {
+        "aim": {
+          "pattern": 3,
+          "dirX": 0.6000002005689705,
+          "dirY": -0.799999849573233
+        },
+        "ready": false,
+        "rays": 110
+      }
+    },
+    {
+      "name": "1440x900: fourth pre-aim reports insufficient energy without hiding its rays",
+      "pass": true
+    },
+    {
+      "name": "1440x900: cancelled low-energy preview never submits a rejected request",
+      "pass": true
+    },
+    {
+      "name": "1440x900: fourth skill reaches full energy through legal movement and time",
+      "pass": true,
+      "detail": {
+        "tick": 244,
+        "hp": 6
+      }
+    },
+    {
+      "name": "1440x900: skill 4 immediately selects without a minimum hold",
+      "pass": true
+    },
+    {
+      "name": "1440x900: skill 4 hold never charges or locks a plan",
+      "pass": true,
+      "detail": {
+        "beforeEnergy": 100,
+        "afterEnergy": 100,
+        "tick": 256
+      }
+    },
+    {
+      "name": "1440x900: skill 4 displays C candidate rays and current origin",
+      "pass": true,
+      "detail": {
+        "aim": {
+          "pattern": 3,
+          "dirX": 0.6000000878224506,
+          "dirY": -0.7999999341331544
+        },
+        "ready": true,
+        "rays": 110
+      }
+    },
+    {
+      "name": "1440x900: skill 4 candidate is ready before release",
+      "pass": true,
+      "detail": {
+        "ready": true,
+        "reason": 0,
+        "energy": 100
+      }
+    },
+    {
+      "name": "1440x900: skill 4 keyup clears preview selection without early cost",
+      "pass": true
+    },
+    {
+      "name": "1440x900: skill 4 release accepts exactly once and charges its C cost",
+      "pass": true,
+      "detail": {
+        "before": 100,
+        "after": 0,
+        "cost": 100,
+        "aimDirX": 0.6000000834465027,
+        "aimDirY": -0.7999999523162842
+      }
+    },
+    {
+      "name": "1440x900: skill 4 released warning rays exactly match the C candidate",
+      "pass": true,
+      "detail": {
+        "equal": true,
+        "count": 110,
+        "actualCount": 110,
+        "maxError": 0,
+        "tickShift": 0
+      }
+    },
+    {
+      "name": "1440x900: skill 4 removes pre-aim after release",
+      "pass": true
+    },
+    {
+      "name": "1440x900: skill 4 actual first emission follows the locked rays",
+      "pass": true,
+      "detail": {
+        "firstSpawn": 346,
+        "observedTick": 347,
+        "emitted": 22,
+        "live": 22
+      }
+    },
+    {
+      "name": "1440x900: skill 4 release is consumed once",
+      "pass": true
+    },
+    {
+      "name": "1440x900: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1440x900: Space cancels aiming while WASD continues moving",
+      "pass": true,
+      "detail": {
+        "before": {
+          "id": 1,
+          "alive": true,
+          "x": 565.5399780273438,
+          "y": 523.6630249023438,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 59,
+          "faction": 1
+        },
+        "after": {
+          "id": 1,
+          "alive": true,
+          "x": 565.5399780273438,
+          "y": 505.66302490234375,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 55,
+          "faction": 1
+        }
+      }
+    },
+    {
+      "name": "1440x900: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1440x900: newest key owns aiming and old keyup cannot fire",
+      "pass": true
+    },
+    {
+      "name": "1440x900: skill 2 candidate is ready before release",
+      "pass": true,
+      "detail": {
+        "ready": true,
+        "reason": 0,
+        "energy": 60
+      }
+    },
+    {
+      "name": "1440x900: skill 2 keyup clears preview selection without early cost",
+      "pass": true
+    },
+    {
+      "name": "1440x900: skill 2 release accepts exactly once and charges its C cost",
+      "pass": true,
+      "detail": {
+        "before": 60,
+        "after": 10,
+        "cost": 50,
+        "aimDirX": 1,
+        "aimDirY": 2.402912571142224e-7
+      }
+    },
+    {
+      "name": "1440x900: skill 2 released warning rays exactly match the C candidate",
+      "pass": true,
+      "detail": {
+        "equal": true,
+        "count": 48,
+        "actualCount": 48,
+        "maxError": 0,
+        "tickShift": 0
+      }
+    },
+    {
+      "name": "1440x900: skill 2 removes pre-aim after release",
+      "pass": true
+    },
+    {
+      "name": "1440x900: skill 2 actual first emission follows the locked rays",
+      "pass": true,
+      "detail": {
+        "firstSpawn": 62,
+        "observedTick": 63,
+        "emitted": 24,
+        "live": 24
+      }
+    },
+    {
+      "name": "1440x900: skill 2 release is consumed once",
+      "pass": true
+    },
+    {
+      "name": "1440x900: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1440x900: HUD pointerdown selects without firing",
+      "pass": true
+    },
+    {
+      "name": "1440x900: dragging out of HUD retains captured pre-aim",
+      "pass": true
+    },
+    {
+      "name": "1440x900: HUD release outside its button fires exactly once",
+      "pass": true
+    },
+    {
+      "name": "1440x900: lost capture after HUD release cannot queue another shot",
+      "pass": true
+    },
+    {
+      "name": "1440x900: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1440x900: Space cancels held HUD aim and clears pointer capture",
+      "pass": true
+    },
+    {
+      "name": "1440x900: mouseup after Space cancellation cannot fire",
+      "pass": true
+    },
+    {
+      "name": "1440x900: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1440x900: old pointer capture loss and mouseup preserve a newer keyboard aim",
+      "pass": true
+    },
+    {
+      "name": "1440x900: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1440x900: new hold rebases a stationary cursor from the latest moved Boss",
+      "pass": true,
+      "detail": {
+        "beforeBoss": {
+          "id": 1,
+          "alive": true,
+          "x": 565.5399780273438,
+          "y": 523.6630249023438,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 59,
+          "faction": 1
+        },
+        "afterBoss": {
+          "id": 1,
+          "alive": true,
+          "x": 565.5399780273438,
+          "y": 469.66302490234375,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 47,
+          "faction": 1
+        },
+        "aim": {
+          "pattern": 0,
+          "dirX": 0.8574928157578421,
+          "dirY": 0.5144959386853191
+        },
+        "expected": {
+          "dirX": 0.8574929257125443,
+          "dirY": 0.5144957554275266
+        }
+      }
+    },
+    {
+      "name": "1440x900: subsequent Boss movement keeps the rebased held direction fixed",
+      "pass": true
+    },
+    {
+      "name": "1440x900: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1440x900: Boss can cross a stationary pointer without aim rotating or flipping",
+      "pass": true,
+      "detail": {
+        "before": 565.5399780273438,
+        "after": 646.5399780273438,
+        "aim": {
+          "pattern": 0,
+          "dirX": 0.9999999999997402,
+          "dirY": 7.208733587954808e-7
+        }
+      }
+    },
+    {
+      "name": "1440x900: a real mouse move changes held aim using current Boss origin",
+      "pass": true,
+      "detail": {
+        "pattern": 0,
+        "dirX": -2.5054253931016322e-8,
+        "dirY": -0.9999999999999998
+      }
+    },
+    {
+      "name": "1440x900: mid-round resize preserves held direction and the round field",
+      "pass": true,
+      "detail": {
+        "before": {
+          "pattern": 0,
+          "dirX": -2.5054253931016322e-8,
+          "dirY": -0.9999999999999998
+        },
+        "after": {
+          "pattern": 0,
+          "dirX": -2.5054253931016322e-8,
+          "dirY": -0.9999999999999998
+        }
+      }
+    },
+    {
+      "name": "1440x900: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1440x900: pause cancels aim and freezes ticks without delayed release",
+      "pass": true
+    },
+    {
+      "name": "1440x900: resume cannot fire a key released during pause",
+      "pass": true
+    },
+    {
+      "name": "1440x900: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1440x900: blur clears held selection and automatically pauses",
+      "pass": true
+    },
+    {
+      "name": "1440x900: blur resume never submits a late keyup",
+      "pass": true
+    },
+    {
+      "name": "1440x900: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1440x900: restart cancels held keyboard owner and prevents late keyup",
+      "pass": true
+    },
+    {
+      "name": "1440x900: restart cancels HUD capture and prevents late mouseup",
+      "pass": true
+    },
+    {
+      "name": "1024x768: current cfg6 and release-aware public interface load",
+      "pass": true,
+      "detail": {
+        "config": 6
+      }
+    },
+    {
+      "name": "1024x768: new round field matches the available window aspect",
+      "pass": true
+    },
+    {
+      "name": "1024x768: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1024x768: a tap shorter than one tick already queues a release without charging",
+      "pass": true
+    },
+    {
+      "name": "1024x768: instant tap fires once without a minimum hold threshold",
+      "pass": true
+    },
+    {
+      "name": "1024x768: instant tap never repeats",
+      "pass": true
+    },
+    {
+      "name": "1024x768: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1024x768: skill 1 immediately selects without a minimum hold",
+      "pass": true
+    },
+    {
+      "name": "1024x768: skill 1 hold never charges or locks a plan",
+      "pass": true,
+      "detail": {
+        "beforeEnergy": 60,
+        "afterEnergy": 62,
+        "tick": 13
+      }
+    },
+    {
+      "name": "1024x768: skill 1 displays C candidate rays and current origin",
+      "pass": true,
+      "detail": {
+        "aim": {
+          "pattern": 0,
+          "dirX": 0.600000016583172,
+          "dirY": -0.7999999875626208
+        },
+        "ready": true,
+        "rays": 48
+      }
+    },
+    {
+      "name": "1024x768: skill 1 candidate is ready before release",
+      "pass": true,
+      "detail": {
+        "ready": true,
+        "reason": 0,
+        "energy": 62
+      }
+    },
+    {
+      "name": "1024x768: skill 1 keyup clears preview selection without early cost",
+      "pass": true
+    },
+    {
+      "name": "1024x768: skill 1 release accepts exactly once and charges its C cost",
+      "pass": true,
+      "detail": {
+        "before": 62,
+        "after": 37,
+        "cost": 25,
+        "aimDirX": 0.6000000238418579,
+        "aimDirY": -0.800000011920929
+      }
+    },
+    {
+      "name": "1024x768: skill 1 released warning rays exactly match the C candidate",
+      "pass": true,
+      "detail": {
+        "equal": true,
+        "count": 48,
+        "actualCount": 48,
+        "maxError": 0,
+        "tickShift": 0
+      }
+    },
+    {
+      "name": "1024x768: skill 1 removes pre-aim after release",
+      "pass": true
+    },
+    {
+      "name": "1024x768: skill 1 actual first emission follows the locked rays",
+      "pass": true,
+      "detail": {
+        "firstSpawn": 37,
+        "observedTick": 38,
+        "emitted": 24,
+        "live": 24
+      }
+    },
+    {
+      "name": "1024x768: skill 1 release is consumed once",
+      "pass": true
+    },
+    {
+      "name": "1024x768: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1024x768: skill 2 immediately selects without a minimum hold",
+      "pass": true
+    },
+    {
+      "name": "1024x768: skill 2 hold never charges or locks a plan",
+      "pass": true,
+      "detail": {
+        "beforeEnergy": 60,
+        "afterEnergy": 62,
+        "tick": 13
+      }
+    },
+    {
+      "name": "1024x768: skill 2 displays C candidate rays and current origin",
+      "pass": true,
+      "detail": {
+        "aim": {
+          "pattern": 1,
+          "dirX": 0.600000016583172,
+          "dirY": -0.7999999875626208
+        },
+        "ready": true,
+        "rays": 48
+      }
+    },
+    {
+      "name": "1024x768: skill 2 candidate is ready before release",
+      "pass": true,
+      "detail": {
+        "ready": true,
+        "reason": 0,
+        "energy": 62
+      }
+    },
+    {
+      "name": "1024x768: skill 2 keyup clears preview selection without early cost",
+      "pass": true
+    },
+    {
+      "name": "1024x768: skill 2 release accepts exactly once and charges its C cost",
+      "pass": true,
+      "detail": {
+        "before": 62,
+        "after": 12,
+        "cost": 50,
+        "aimDirX": 0.6000000238418579,
+        "aimDirY": -0.800000011920929
+      }
+    },
+    {
+      "name": "1024x768: skill 2 released warning rays exactly match the C candidate",
+      "pass": true,
+      "detail": {
+        "equal": true,
+        "count": 48,
+        "actualCount": 48,
+        "maxError": 0,
+        "tickShift": 0
+      }
+    },
+    {
+      "name": "1024x768: skill 2 removes pre-aim after release",
+      "pass": true
+    },
+    {
+      "name": "1024x768: skill 2 actual first emission follows the locked rays",
+      "pass": true,
+      "detail": {
+        "firstSpawn": 73,
+        "observedTick": 74,
+        "emitted": 24,
+        "live": 24
+      }
+    },
+    {
+      "name": "1024x768: skill 2 release is consumed once",
+      "pass": true
+    },
+    {
+      "name": "1024x768: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1024x768: skill 3 immediately selects without a minimum hold",
+      "pass": true
+    },
+    {
+      "name": "1024x768: skill 3 hold never charges or locks a plan",
+      "pass": true,
+      "detail": {
+        "beforeEnergy": 60,
+        "afterEnergy": 62,
+        "tick": 13
+      }
+    },
+    {
+      "name": "1024x768: skill 3 displays C candidate rays and current origin",
+      "pass": true,
+      "detail": {
+        "aim": {
+          "pattern": 2,
+          "dirX": 0.600000016583172,
+          "dirY": -0.7999999875626208
+        },
+        "ready": true,
+        "rays": 27
+      }
+    },
+    {
+      "name": "1024x768: skill 3 candidate is ready before release",
+      "pass": true,
+      "detail": {
+        "ready": true,
+        "reason": 0,
+        "energy": 62
+      }
+    },
+    {
+      "name": "1024x768: skill 3 keyup clears preview selection without early cost",
+      "pass": true
+    },
+    {
+      "name": "1024x768: skill 3 release accepts exactly once and charges its C cost",
+      "pass": true,
+      "detail": {
+        "before": 62,
+        "after": 42,
+        "cost": 20,
+        "aimDirX": 0.6000000238418579,
+        "aimDirY": -0.800000011920929
+      }
+    },
+    {
+      "name": "1024x768: skill 3 released warning rays exactly match the C candidate",
+      "pass": true,
+      "detail": {
+        "equal": true,
+        "count": 27,
+        "actualCount": 27,
+        "maxError": 0,
+        "tickShift": 0
+      }
+    },
+    {
+      "name": "1024x768: skill 3 removes pre-aim after release",
+      "pass": true
+    },
+    {
+      "name": "1024x768: skill 3 actual first emission follows the locked rays",
+      "pass": true,
+      "detail": {
+        "firstSpawn": 31,
+        "observedTick": 32,
+        "emitted": 9,
+        "live": 9
+      }
+    },
+    {
+      "name": "1024x768: skill 3 release is consumed once",
+      "pass": true
+    },
+    {
+      "name": "1024x768: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1024x768: skill 4 immediately selects without a minimum hold",
+      "pass": true
+    },
+    {
+      "name": "1024x768: skill 4 hold never charges or locks a plan",
+      "pass": true,
+      "detail": {
+        "beforeEnergy": 60,
+        "afterEnergy": 60,
+        "tick": 3
+      }
+    },
+    {
+      "name": "1024x768: skill 4 displays C candidate rays and current origin",
+      "pass": true,
+      "detail": {
+        "aim": {
+          "pattern": 3,
+          "dirX": 0.600000016583172,
+          "dirY": -0.7999999875626208
+        },
+        "ready": false,
+        "rays": 105
+      }
+    },
+    {
+      "name": "1024x768: fourth pre-aim reports insufficient energy without hiding its rays",
+      "pass": true
+    },
+    {
+      "name": "1024x768: cancelled low-energy preview never submits a rejected request",
+      "pass": true
+    },
+    {
+      "name": "1024x768: fourth skill reaches full energy through legal movement and time",
+      "pass": true,
+      "detail": {
+        "tick": 244,
+        "hp": 6
+      }
+    },
+    {
+      "name": "1024x768: skill 4 immediately selects without a minimum hold",
+      "pass": true
+    },
+    {
+      "name": "1024x768: skill 4 hold never charges or locks a plan",
+      "pass": true,
+      "detail": {
+        "beforeEnergy": 100,
+        "afterEnergy": 100,
+        "tick": 256
+      }
+    },
+    {
+      "name": "1024x768: skill 4 displays C candidate rays and current origin",
+      "pass": true,
+      "detail": {
+        "aim": {
+          "pattern": 3,
+          "dirX": 0.5999998450548477,
+          "dirY": -0.8000001162088408
+        },
+        "ready": true,
+        "rays": 105
+      }
+    },
+    {
+      "name": "1024x768: skill 4 candidate is ready before release",
+      "pass": true,
+      "detail": {
+        "ready": true,
+        "reason": 0,
+        "energy": 100
+      }
+    },
+    {
+      "name": "1024x768: skill 4 keyup clears preview selection without early cost",
+      "pass": true
+    },
+    {
+      "name": "1024x768: skill 4 release accepts exactly once and charges its C cost",
+      "pass": true,
+      "detail": {
+        "before": 100,
+        "after": 0,
+        "cost": 100,
+        "aimDirX": 0.5999998450279236,
+        "aimDirY": -0.8000001311302185
+      }
+    },
+    {
+      "name": "1024x768: skill 4 released warning rays exactly match the C candidate",
+      "pass": true,
+      "detail": {
+        "equal": true,
+        "count": 105,
+        "actualCount": 105,
+        "maxError": 0,
+        "tickShift": 0
+      }
+    },
+    {
+      "name": "1024x768: skill 4 removes pre-aim after release",
+      "pass": true
+    },
+    {
+      "name": "1024x768: skill 4 actual first emission follows the locked rays",
+      "pass": true,
+      "detail": {
+        "firstSpawn": 346,
+        "observedTick": 347,
+        "emitted": 21,
+        "live": 21
+      }
+    },
+    {
+      "name": "1024x768: skill 4 release is consumed once",
+      "pass": true
+    },
+    {
+      "name": "1024x768: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1024x768: Space cancels aiming while WASD continues moving",
+      "pass": true,
+      "detail": {
+        "before": {
+          "id": 1,
+          "alive": true,
+          "x": 523.3660888671875,
+          "y": 567.2245483398438,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 59,
+          "faction": 1
+        },
+        "after": {
+          "id": 1,
+          "alive": true,
+          "x": 523.3660888671875,
+          "y": 549.2245483398438,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 55,
+          "faction": 1
+        }
+      }
+    },
+    {
+      "name": "1024x768: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1024x768: newest key owns aiming and old keyup cannot fire",
+      "pass": true
+    },
+    {
+      "name": "1024x768: skill 2 candidate is ready before release",
+      "pass": true,
+      "detail": {
+        "ready": true,
+        "reason": 0,
+        "energy": 60
+      }
+    },
+    {
+      "name": "1024x768: skill 2 keyup clears preview selection without early cost",
+      "pass": true
+    },
+    {
+      "name": "1024x768: skill 2 release accepts exactly once and charges its C cost",
+      "pass": true,
+      "detail": {
+        "before": 60,
+        "after": 10,
+        "cost": 50,
+        "aimDirX": 1,
+        "aimDirY": -1.965261020586695e-7
+      }
+    },
+    {
+      "name": "1024x768: skill 2 released warning rays exactly match the C candidate",
+      "pass": true,
+      "detail": {
+        "equal": true,
+        "count": 48,
+        "actualCount": 48,
+        "maxError": 0,
+        "tickShift": 0
+      }
+    },
+    {
+      "name": "1024x768: skill 2 removes pre-aim after release",
+      "pass": true
+    },
+    {
+      "name": "1024x768: skill 2 actual first emission follows the locked rays",
+      "pass": true,
+      "detail": {
+        "firstSpawn": 62,
+        "observedTick": 63,
+        "emitted": 24,
+        "live": 24
+      }
+    },
+    {
+      "name": "1024x768: skill 2 release is consumed once",
+      "pass": true
+    },
+    {
+      "name": "1024x768: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1024x768: HUD pointerdown selects without firing",
+      "pass": true
+    },
+    {
+      "name": "1024x768: dragging out of HUD retains captured pre-aim",
+      "pass": true
+    },
+    {
+      "name": "1024x768: HUD release outside its button fires exactly once",
+      "pass": true
+    },
+    {
+      "name": "1024x768: lost capture after HUD release cannot queue another shot",
+      "pass": true
+    },
+    {
+      "name": "1024x768: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1024x768: Space cancels held HUD aim and clears pointer capture",
+      "pass": true
+    },
+    {
+      "name": "1024x768: mouseup after Space cancellation cannot fire",
+      "pass": true
+    },
+    {
+      "name": "1024x768: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1024x768: old pointer capture loss and mouseup preserve a newer keyboard aim",
+      "pass": true
+    },
+    {
+      "name": "1024x768: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1024x768: new hold rebases a stationary cursor from the latest moved Boss",
+      "pass": true,
+      "detail": {
+        "beforeBoss": {
+          "id": 1,
+          "alive": true,
+          "x": 523.3660888671875,
+          "y": 567.2245483398438,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 59,
+          "faction": 1
+        },
+        "afterBoss": {
+          "id": 1,
+          "alive": true,
+          "x": 523.3660888671875,
+          "y": 513.2245483398438,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 47,
+          "faction": 1
+        },
+        "aim": {
+          "pattern": 0,
+          "dirX": 0.8574930729539066,
+          "dirY": 0.5144955100251761
+        },
+        "expected": {
+          "dirX": 0.8574929257125443,
+          "dirY": 0.5144957554275266
+        }
+      }
+    },
+    {
+      "name": "1024x768: subsequent Boss movement keeps the rebased held direction fixed",
+      "pass": true
+    },
+    {
+      "name": "1024x768: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1024x768: Boss can cross a stationary pointer without aim rotating or flipping",
+      "pass": true,
+      "detail": {
+        "before": 523.3660888671875,
+        "after": 604.3660888671875,
+        "aim": {
+          "pattern": 0,
+          "dirX": 0.9999999999998264,
+          "dirY": -5.895779137108018e-7
+        }
+      }
+    },
+    {
+      "name": "1024x768: a real mouse move changes held aim using current Boss origin",
+      "pass": true,
+      "detail": {
+        "pattern": 0,
+        "dirX": 9.119582786491106e-8,
+        "dirY": -0.9999999999999961
+      }
+    },
+    {
+      "name": "1024x768: mid-round resize preserves held direction and the round field",
+      "pass": true,
+      "detail": {
+        "before": {
+          "pattern": 0,
+          "dirX": 9.119582786491106e-8,
+          "dirY": -0.9999999999999961
+        },
+        "after": {
+          "pattern": 0,
+          "dirX": 9.119582786491106e-8,
+          "dirY": -0.9999999999999961
+        }
+      }
+    },
+    {
+      "name": "1024x768: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1024x768: pause cancels aim and freezes ticks without delayed release",
+      "pass": true
+    },
+    {
+      "name": "1024x768: resume cannot fire a key released during pause",
+      "pass": true
+    },
+    {
+      "name": "1024x768: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1024x768: blur clears held selection and automatically pauses",
+      "pass": true
+    },
+    {
+      "name": "1024x768: blur resume never submits a late keyup",
+      "pass": true
+    },
+    {
+      "name": "1024x768: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "1024x768: restart cancels held keyboard owner and prevents late keyup",
+      "pass": true
+    },
+    {
+      "name": "1024x768: restart cancels HUD capture and prevents late mouseup",
+      "pass": true
+    },
+    {
+      "name": "390x844: current cfg6 and release-aware public interface load",
+      "pass": true,
+      "detail": {
+        "config": 6
+      }
+    },
+    {
+      "name": "390x844: new round field matches the available window aspect",
+      "pass": true
+    },
+    {
+      "name": "390x844: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "390x844: a tap shorter than one tick already queues a release without charging",
+      "pass": true
+    },
+    {
+      "name": "390x844: instant tap fires once without a minimum hold threshold",
+      "pass": true
+    },
+    {
+      "name": "390x844: instant tap never repeats",
+      "pass": true
+    },
+    {
+      "name": "390x844: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "390x844: skill 1 immediately selects without a minimum hold",
+      "pass": true
+    },
+    {
+      "name": "390x844: skill 1 hold never charges or locks a plan",
+      "pass": true,
+      "detail": {
+        "beforeEnergy": 60,
+        "afterEnergy": 62,
+        "tick": 13
+      }
+    },
+    {
+      "name": "390x844: skill 1 displays C candidate rays and current origin",
+      "pass": true,
+      "detail": {
+        "aim": {
+          "pattern": 0,
+          "dirX": 0.6000000831712592,
+          "dirY": -0.7999999376215489
+        },
+        "ready": true,
+        "rays": 48
+      }
+    },
+    {
+      "name": "390x844: skill 1 candidate is ready before release",
+      "pass": true,
+      "detail": {
+        "ready": true,
+        "reason": 0,
+        "energy": 62
+      }
+    },
+    {
+      "name": "390x844: skill 1 keyup clears preview selection without early cost",
+      "pass": true
+    },
+    {
+      "name": "390x844: skill 1 release accepts exactly once and charges its C cost",
+      "pass": true,
+      "detail": {
+        "before": 62,
+        "after": 37,
+        "cost": 25,
+        "aimDirX": 0.6000000834465027,
+        "aimDirY": -0.7999999523162842
+      }
+    },
+    {
+      "name": "390x844: skill 1 released warning rays exactly match the C candidate",
+      "pass": true,
+      "detail": {
+        "equal": true,
+        "count": 48,
+        "actualCount": 48,
+        "maxError": 0,
+        "tickShift": 0
+      }
+    },
+    {
+      "name": "390x844: skill 1 removes pre-aim after release",
+      "pass": true
+    },
+    {
+      "name": "390x844: skill 1 actual first emission follows the locked rays",
+      "pass": true,
+      "detail": {
+        "firstSpawn": 37,
+        "observedTick": 38,
+        "emitted": 24,
+        "live": 24
+      }
+    },
+    {
+      "name": "390x844: skill 1 release is consumed once",
+      "pass": true
+    },
+    {
+      "name": "390x844: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "390x844: skill 2 immediately selects without a minimum hold",
+      "pass": true
+    },
+    {
+      "name": "390x844: skill 2 hold never charges or locks a plan",
+      "pass": true,
+      "detail": {
+        "beforeEnergy": 60,
+        "afterEnergy": 62,
+        "tick": 13
+      }
+    },
+    {
+      "name": "390x844: skill 2 displays C candidate rays and current origin",
+      "pass": true,
+      "detail": {
+        "aim": {
+          "pattern": 1,
+          "dirX": 0.6000000831712592,
+          "dirY": -0.7999999376215489
+        },
+        "ready": true,
+        "rays": 48
+      }
+    },
+    {
+      "name": "390x844: skill 2 candidate is ready before release",
+      "pass": true,
+      "detail": {
+        "ready": true,
+        "reason": 0,
+        "energy": 62
+      }
+    },
+    {
+      "name": "390x844: skill 2 keyup clears preview selection without early cost",
+      "pass": true
+    },
+    {
+      "name": "390x844: skill 2 release accepts exactly once and charges its C cost",
+      "pass": true,
+      "detail": {
+        "before": 62,
+        "after": 12,
+        "cost": 50,
+        "aimDirX": 0.6000000834465027,
+        "aimDirY": -0.7999999523162842
+      }
+    },
+    {
+      "name": "390x844: skill 2 released warning rays exactly match the C candidate",
+      "pass": true,
+      "detail": {
+        "equal": true,
+        "count": 48,
+        "actualCount": 48,
+        "maxError": 0,
+        "tickShift": 0
+      }
+    },
+    {
+      "name": "390x844: skill 2 removes pre-aim after release",
+      "pass": true
+    },
+    {
+      "name": "390x844: skill 2 actual first emission follows the locked rays",
+      "pass": true,
+      "detail": {
+        "firstSpawn": 73,
+        "observedTick": 74,
+        "emitted": 24,
+        "live": 24
+      }
+    },
+    {
+      "name": "390x844: skill 2 release is consumed once",
+      "pass": true
+    },
+    {
+      "name": "390x844: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "390x844: skill 3 immediately selects without a minimum hold",
+      "pass": true
+    },
+    {
+      "name": "390x844: skill 3 hold never charges or locks a plan",
+      "pass": true,
+      "detail": {
+        "beforeEnergy": 60,
+        "afterEnergy": 62,
+        "tick": 13
+      }
+    },
+    {
+      "name": "390x844: skill 3 displays C candidate rays and current origin",
+      "pass": true,
+      "detail": {
+        "aim": {
+          "pattern": 2,
+          "dirX": 0.6000000831712592,
+          "dirY": -0.7999999376215489
+        },
+        "ready": true,
+        "rays": 27
+      }
+    },
+    {
+      "name": "390x844: skill 3 candidate is ready before release",
+      "pass": true,
+      "detail": {
+        "ready": true,
+        "reason": 0,
+        "energy": 62
+      }
+    },
+    {
+      "name": "390x844: skill 3 keyup clears preview selection without early cost",
+      "pass": true
+    },
+    {
+      "name": "390x844: skill 3 release accepts exactly once and charges its C cost",
+      "pass": true,
+      "detail": {
+        "before": 62,
+        "after": 42,
+        "cost": 20,
+        "aimDirX": 0.6000000834465027,
+        "aimDirY": -0.7999999523162842
+      }
+    },
+    {
+      "name": "390x844: skill 3 released warning rays exactly match the C candidate",
+      "pass": true,
+      "detail": {
+        "equal": true,
+        "count": 27,
+        "actualCount": 27,
+        "maxError": 0,
+        "tickShift": 0
+      }
+    },
+    {
+      "name": "390x844: skill 3 removes pre-aim after release",
+      "pass": true
+    },
+    {
+      "name": "390x844: skill 3 actual first emission follows the locked rays",
+      "pass": true,
+      "detail": {
+        "firstSpawn": 31,
+        "observedTick": 32,
+        "emitted": 9,
+        "live": 9
+      }
+    },
+    {
+      "name": "390x844: skill 3 release is consumed once",
+      "pass": true
+    },
+    {
+      "name": "390x844: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "390x844: skill 4 immediately selects without a minimum hold",
+      "pass": true
+    },
+    {
+      "name": "390x844: skill 4 hold never charges or locks a plan",
+      "pass": true,
+      "detail": {
+        "beforeEnergy": 60,
+        "afterEnergy": 60,
+        "tick": 3
+      }
+    },
+    {
+      "name": "390x844: skill 4 displays C candidate rays and current origin",
+      "pass": true,
+      "detail": {
+        "aim": {
+          "pattern": 3,
+          "dirX": 0.6000000831712592,
+          "dirY": -0.7999999376215489
+        },
+        "ready": false,
+        "rays": 100
+      }
+    },
+    {
+      "name": "390x844: fourth pre-aim reports insufficient energy without hiding its rays",
+      "pass": true
+    },
+    {
+      "name": "390x844: cancelled low-energy preview never submits a rejected request",
+      "pass": true
+    },
+    {
+      "name": "390x844: fourth skill reaches full energy through legal movement and time",
+      "pass": true,
+      "detail": {
+        "tick": 244,
+        "hp": 5
+      }
+    },
+    {
+      "name": "390x844: skill 4 immediately selects without a minimum hold",
+      "pass": true
+    },
+    {
+      "name": "390x844: skill 4 hold never charges or locks a plan",
+      "pass": true,
+      "detail": {
+        "beforeEnergy": 100,
+        "afterEnergy": 100,
+        "tick": 256
+      }
+    },
+    {
+      "name": "390x844: skill 4 displays C candidate rays and current origin",
+      "pass": true,
+      "detail": {
+        "aim": {
+          "pattern": 3,
+          "dirX": 0.5999999675552313,
+          "dirY": -0.8000000243335755
+        },
+        "ready": true,
+        "rays": 100
+      }
+    },
+    {
+      "name": "390x844: skill 4 candidate is ready before release",
+      "pass": true,
+      "detail": {
+        "ready": true,
+        "reason": 0,
+        "energy": 100
+      }
+    },
+    {
+      "name": "390x844: skill 4 keyup clears preview selection without early cost",
+      "pass": true
+    },
+    {
+      "name": "390x844: skill 4 release accepts exactly once and charges its C cost",
+      "pass": true,
+      "detail": {
+        "before": 100,
+        "after": 0,
+        "cost": 100,
+        "aimDirX": 0.5999999642372131,
+        "aimDirY": -0.800000011920929
+      }
+    },
+    {
+      "name": "390x844: skill 4 released warning rays exactly match the C candidate",
+      "pass": true,
+      "detail": {
+        "equal": true,
+        "count": 100,
+        "actualCount": 100,
+        "maxError": 0,
+        "tickShift": 0
+      }
+    },
+    {
+      "name": "390x844: skill 4 removes pre-aim after release",
+      "pass": true
+    },
+    {
+      "name": "390x844: skill 4 actual first emission follows the locked rays",
+      "pass": true,
+      "detail": {
+        "firstSpawn": 346,
+        "observedTick": 347,
+        "emitted": 20,
+        "live": 20
+      }
+    },
+    {
+      "name": "390x844: skill 4 release is consumed once",
+      "pass": true
+    },
+    {
+      "name": "390x844: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "390x844: Space cancels aiming while WASD continues moving",
+      "pass": true,
+      "detail": {
+        "before": {
+          "id": 1,
+          "alive": true,
+          "x": 318.07635498046875,
+          "y": 944.2393798828125,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 59,
+          "faction": 1
+        },
+        "after": {
+          "id": 1,
+          "alive": true,
+          "x": 318.07635498046875,
+          "y": 926.2393798828125,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 55,
+          "faction": 1
+        }
+      }
+    },
+    {
+      "name": "390x844: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "390x844: newest key owns aiming and old keyup cannot fire",
+      "pass": true
+    },
+    {
+      "name": "390x844: skill 2 candidate is ready before release",
+      "pass": true,
+      "detail": {
+        "ready": true,
+        "reason": 0,
+        "energy": 60
+      }
+    },
+    {
+      "name": "390x844: skill 2 keyup clears preview selection without early cost",
+      "pass": true
+    },
+    {
+      "name": "390x844: skill 2 release accepts exactly once and charges its C cost",
+      "pass": true,
+      "detail": {
+        "before": 60,
+        "after": 10,
+        "cost": 50,
+        "aimDirX": 1,
+        "aimDirY": 5.42067937203683e-7
+      }
+    },
+    {
+      "name": "390x844: skill 2 released warning rays exactly match the C candidate",
+      "pass": true,
+      "detail": {
+        "equal": true,
+        "count": 48,
+        "actualCount": 48,
+        "maxError": 0,
+        "tickShift": 0
+      }
+    },
+    {
+      "name": "390x844: skill 2 removes pre-aim after release",
+      "pass": true
+    },
+    {
+      "name": "390x844: skill 2 actual first emission follows the locked rays",
+      "pass": true,
+      "detail": {
+        "firstSpawn": 62,
+        "observedTick": 63,
+        "emitted": 24,
+        "live": 24
+      }
+    },
+    {
+      "name": "390x844: skill 2 release is consumed once",
+      "pass": true
+    },
+    {
+      "name": "390x844: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "390x844: HUD pointerdown selects without firing",
+      "pass": true
+    },
+    {
+      "name": "390x844: dragging out of HUD retains captured pre-aim",
+      "pass": true
+    },
+    {
+      "name": "390x844: HUD release outside its button fires exactly once",
+      "pass": true
+    },
+    {
+      "name": "390x844: lost capture after HUD release cannot queue another shot",
+      "pass": true
+    },
+    {
+      "name": "390x844: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "390x844: Space cancels held HUD aim and clears pointer capture",
+      "pass": true
+    },
+    {
+      "name": "390x844: mouseup after Space cancellation cannot fire",
+      "pass": true
+    },
+    {
+      "name": "390x844: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "390x844: old pointer capture loss and mouseup preserve a newer keyboard aim",
+      "pass": true
+    },
+    {
+      "name": "390x844: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "390x844: new hold rebases a stationary cursor from the latest moved Boss",
+      "pass": true,
+      "detail": {
+        "beforeBoss": {
+          "id": 1,
+          "alive": true,
+          "x": 318.07635498046875,
+          "y": 944.2393798828125,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 59,
+          "faction": 1
+        },
+        "afterBoss": {
+          "id": 1,
+          "alive": true,
+          "x": 318.07635498046875,
+          "y": 890.2393798828125,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 47,
+          "faction": 1
+        },
+        "aim": {
+          "pattern": 0,
+          "dirX": 0.8574927005876458,
+          "dirY": 0.5144961306355045
+        },
+        "expected": {
+          "dirX": 0.8574929257125443,
+          "dirY": 0.5144957554275266
+        }
+      }
+    },
+    {
+      "name": "390x844: subsequent Boss movement keeps the rebased held direction fixed",
+      "pass": true
+    },
+    {
+      "name": "390x844: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "390x844: Boss can cross a stationary pointer without aim rotating or flipping",
+      "pass": true,
+      "detail": {
+        "before": 318.07635498046875,
+        "after": 399.07635498046875,
+        "aim": {
+          "pattern": 0,
+          "dirX": 0.9999999999986777,
+          "dirY": 0.0000016262033880314976
+        }
+      }
+    },
+    {
+      "name": "390x844: a real mouse move changes held aim using current Boss origin",
+      "pass": true,
+      "detail": {
+        "pattern": 0,
+        "dirX": 3.881140057592843e-9,
+        "dirY": -1
+      }
+    },
+    {
+      "name": "390x844: mid-round resize preserves held direction and the round field",
+      "pass": true,
+      "detail": {
+        "before": {
+          "pattern": 0,
+          "dirX": 3.881140057592843e-9,
+          "dirY": -1
+        },
+        "after": {
+          "pattern": 0,
+          "dirX": 3.881140057592843e-9,
+          "dirY": -1
+        }
+      }
+    },
+    {
+      "name": "390x844: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "390x844: pause cancels aim and freezes ticks without delayed release",
+      "pass": true
+    },
+    {
+      "name": "390x844: resume cannot fire a key released during pause",
+      "pass": true
+    },
+    {
+      "name": "390x844: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "390x844: blur clears held selection and automatically pauses",
+      "pass": true
+    },
+    {
+      "name": "390x844: blur resume never submits a late keyup",
+      "pass": true
+    },
+    {
+      "name": "390x844: restart clears selection and public plan counters",
+      "pass": true
+    },
+    {
+      "name": "390x844: restart cancels held keyboard owner and prevents late keyup",
+      "pass": true
+    },
+    {
+      "name": "390x844: restart cancels HUD capture and prevents late mouseup",
+      "pass": true
+    },
+    {
+      "name": "offline browser makes no external HTTP requests",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "all viewport runs have no runtime page errors",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "attacks": [
+    {
+      "viewport": 1440,
+      "pattern": 0,
+      "acceptedTick": 13,
+      "cost": 25,
+      "comparison": {
+        "equal": true,
+        "count": 48,
+        "actualCount": 48,
+        "maxError": 0,
+        "tickShift": 0
+      },
+      "firstSpawn": 37,
+      "firstObservedTick": 38,
+      "bullets": 24
+    },
+    {
+      "viewport": 1440,
+      "pattern": 1,
+      "acceptedTick": 13,
+      "cost": 50,
+      "comparison": {
+        "equal": true,
+        "count": 48,
+        "actualCount": 48,
+        "maxError": 0,
+        "tickShift": 0
+      },
+      "firstSpawn": 73,
+      "firstObservedTick": 74,
+      "bullets": 24
+    },
+    {
+      "viewport": 1440,
+      "pattern": 2,
+      "acceptedTick": 13,
+      "cost": 20,
+      "comparison": {
+        "equal": true,
+        "count": 27,
+        "actualCount": 27,
+        "maxError": 0,
+        "tickShift": 0
+      },
+      "firstSpawn": 31,
+      "firstObservedTick": 32,
+      "bullets": 9
+    },
+    {
+      "viewport": 1440,
+      "pattern": 3,
+      "acceptedTick": 256,
+      "cost": 100,
+      "comparison": {
+        "equal": true,
+        "count": 110,
+        "actualCount": 110,
+        "maxError": 0,
+        "tickShift": 0
+      },
+      "firstSpawn": 346,
+      "firstObservedTick": 347,
+      "bullets": 22
+    },
+    {
+      "viewport": 1440,
+      "pattern": 1,
+      "acceptedTick": 2,
+      "cost": 50,
+      "comparison": {
+        "equal": true,
+        "count": 48,
+        "actualCount": 48,
+        "maxError": 0,
+        "tickShift": 0
+      },
+      "firstSpawn": 62,
+      "firstObservedTick": 63,
+      "bullets": 24
+    },
+    {
+      "viewport": 1024,
+      "pattern": 0,
+      "acceptedTick": 13,
+      "cost": 25,
+      "comparison": {
+        "equal": true,
+        "count": 48,
+        "actualCount": 48,
+        "maxError": 0,
+        "tickShift": 0
+      },
+      "firstSpawn": 37,
+      "firstObservedTick": 38,
+      "bullets": 24
+    },
+    {
+      "viewport": 1024,
+      "pattern": 1,
+      "acceptedTick": 13,
+      "cost": 50,
+      "comparison": {
+        "equal": true,
+        "count": 48,
+        "actualCount": 48,
+        "maxError": 0,
+        "tickShift": 0
+      },
+      "firstSpawn": 73,
+      "firstObservedTick": 74,
+      "bullets": 24
+    },
+    {
+      "viewport": 1024,
+      "pattern": 2,
+      "acceptedTick": 13,
+      "cost": 20,
+      "comparison": {
+        "equal": true,
+        "count": 27,
+        "actualCount": 27,
+        "maxError": 0,
+        "tickShift": 0
+      },
+      "firstSpawn": 31,
+      "firstObservedTick": 32,
+      "bullets": 9
+    },
+    {
+      "viewport": 1024,
+      "pattern": 3,
+      "acceptedTick": 256,
+      "cost": 100,
+      "comparison": {
+        "equal": true,
+        "count": 105,
+        "actualCount": 105,
+        "maxError": 0,
+        "tickShift": 0
+      },
+      "firstSpawn": 346,
+      "firstObservedTick": 347,
+      "bullets": 21
+    },
+    {
+      "viewport": 1024,
+      "pattern": 1,
+      "acceptedTick": 2,
+      "cost": 50,
+      "comparison": {
+        "equal": true,
+        "count": 48,
+        "actualCount": 48,
+        "maxError": 0,
+        "tickShift": 0
+      },
+      "firstSpawn": 62,
+      "firstObservedTick": 63,
+      "bullets": 24
+    },
+    {
+      "viewport": 390,
+      "pattern": 0,
+      "acceptedTick": 13,
+      "cost": 25,
+      "comparison": {
+        "equal": true,
+        "count": 48,
+        "actualCount": 48,
+        "maxError": 0,
+        "tickShift": 0
+      },
+      "firstSpawn": 37,
+      "firstObservedTick": 38,
+      "bullets": 24
+    },
+    {
+      "viewport": 390,
+      "pattern": 1,
+      "acceptedTick": 13,
+      "cost": 50,
+      "comparison": {
+        "equal": true,
+        "count": 48,
+        "actualCount": 48,
+        "maxError": 0,
+        "tickShift": 0
+      },
+      "firstSpawn": 73,
+      "firstObservedTick": 74,
+      "bullets": 24
+    },
+    {
+      "viewport": 390,
+      "pattern": 2,
+      "acceptedTick": 13,
+      "cost": 20,
+      "comparison": {
+        "equal": true,
+        "count": 27,
+        "actualCount": 27,
+        "maxError": 0,
+        "tickShift": 0
+      },
+      "firstSpawn": 31,
+      "firstObservedTick": 32,
+      "bullets": 9
+    },
+    {
+      "viewport": 390,
+      "pattern": 3,
+      "acceptedTick": 256,
+      "cost": 100,
+      "comparison": {
+        "equal": true,
+        "count": 100,
+        "actualCount": 100,
+        "maxError": 0,
+        "tickShift": 0
+      },
+      "firstSpawn": 346,
+      "firstObservedTick": 347,
+      "bullets": 20
+    },
+    {
+      "viewport": 390,
+      "pattern": 1,
+      "acceptedTick": 2,
+      "cost": 50,
+      "comparison": {
+        "equal": true,
+        "count": 48,
+        "actualCount": 48,
+        "maxError": 0,
+        "tickShift": 0
+      },
+      "firstSpawn": 62,
+      "firstObservedTick": 63,
+      "bullets": 24
+    }
+  ],
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 900,
+      "fieldW": 1131.0799560546875,
+      "fieldH": 611.0973510742188
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "fieldW": 1046.732177734375,
+      "fieldH": 660.3408203125
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "fieldW": 636.1527099609375,
+      "fieldH": 1086.531494140625
+    }
+  ],
+  "syntheticEvents": [
+    {
+      "viewport": 1440,
+      "event": "releasePointerCapture",
+      "purpose": "Exercise actual Chrome lostpointercapture after a keyboard owner replaces a real held mouse button; UI capture only, no core mutation."
+    },
+    {
+      "viewport": 1440,
+      "event": "blur",
+      "purpose": "Headless loss-of-focus handler check; no game state mutation."
+    },
+    {
+      "viewport": 1024,
+      "event": "releasePointerCapture",
+      "purpose": "Exercise actual Chrome lostpointercapture after a keyboard owner replaces a real held mouse button; UI capture only, no core mutation."
+    },
+    {
+      "viewport": 1024,
+      "event": "blur",
+      "purpose": "Headless loss-of-focus handler check; no game state mutation."
+    },
+    {
+      "viewport": 390,
+      "event": "releasePointerCapture",
+      "purpose": "Exercise actual Chrome lostpointercapture after a keyboard owner replaces a real held mouse button; UI capture only, no core mutation."
+    },
+    {
+      "viewport": 390,
+      "event": "blur",
+      "purpose": "Headless loss-of-focus handler check; no game state mutation."
+    }
+  ],
+  "errors": [],
+  "externalRequests": [],
+  "passed": true,
+  "browser": "154.0.8037.98",
+  "elapsedSeconds": 34.5295431
+}

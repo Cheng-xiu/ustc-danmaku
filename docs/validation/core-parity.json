@@ -1,0 +1,38 @@
+{
+  "nativeCompiler": "see web-demo-validation.md",
+  "floatAbsoluteTolerance": 0.002,
+  "maxFloatDelta": 0,
+  "ticksCompared": 10803,
+  "cases": [
+    {
+      "seedLo": 20261006,
+      "seedHi": 0,
+      "students": 3,
+      "tick": 885,
+      "status": 2,
+      "accepted": 3,
+      "bossBullets": 178,
+      "studentBullets": 36
+    },
+    {
+      "seedLo": 12345,
+      "seedHi": 0,
+      "students": 1,
+      "tick": 891,
+      "status": 1,
+      "accepted": 3,
+      "bossBullets": 194,
+      "studentBullets": 12
+    },
+    {
+      "seedLo": 2596069104,
+      "seedHi": 305419896,
+      "students": 8,
+      "tick": 1382,
+      "status": 2,
+      "accepted": 4,
+      "bossBullets": 266,
+      "studentBullets": 108
+    }
+  ]
+}

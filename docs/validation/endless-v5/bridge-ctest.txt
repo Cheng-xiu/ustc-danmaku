@@ -1,0 +1,23 @@
+Start testing: Oct 07 22:22 中国标准时间
+----------------------------------------------------------
+1/1 Testing: demo_bridge_probe
+1/1 Test: demo_bridge_probe
+Command: "C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/wasm-native-v5/demo_bridge_probe.exe"
+Directory: C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/wasm-native-v5
+"demo_bridge_probe" start time: Oct 07 22:22 中国标准时间
+Output:
+----------------------------------------------------------
+pattern=0 warnings=48 real_spawn=48 waves=2 late_start=120 OK
+pattern=1 warnings=48 real_spawn=48 waves=2 late_start=120 OK
+pattern=2 warnings=27 real_spawn=27 waves=3 late_start=120 OK
+pattern=3 warnings=80 real_spawn=80 waves=5 late_start=240 OK
+native bridge lifecycle, seed64, 8 students, all warnings vs real waves PASS
+<end of output>
+Test time =   0.35 sec
+----------------------------------------------------------
+Test Passed.
+"demo_bridge_probe" end time: Oct 07 22:22 中国标准时间
+"demo_bridge_probe" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 07 22:22 中国标准时间

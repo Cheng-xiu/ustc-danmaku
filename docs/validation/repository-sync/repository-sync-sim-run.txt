@@ -1,0 +1,16 @@
+HEADER build=s16-sim-1
+HEADER config_version=demo-config-v6
+HEADER bot_policy_version=dodge-v1
+HEADER seed=20261006
+HEADER scenario=default
+HEADER script=wait config=default log=(stdout) replay=(none)
+INFO max_ticks=1 replay_interval=60 effective_tick_limit=1
+TICK 1 TRUNCATED (未完成, 不判胜负)
+TRUNCATED/未完成 tick=1 limit=1 (未分胜负; 不记为胜或负)
+TALLY tick=1 accepts=0 rejects=0 reject_no_energy=0 reject_busy=0 reject_no_target=0 reject_no_request=0
+TALLY boss_hits=0 student_hits=0 students_down=0 boss_down=0 boss_bullets=0 student_bullets=3 events_dropped=0
+TALLY pattern=0(桃李苑·绿色圆圈好辣) requests=0
+TALLY pattern=1(选课系统·课表华容道) requests=0
+TALLY pattern=2(一教金矿·绩点淘金) requests=0
+TALLY pattern=3(期末总评·绩点淋浴) requests=0
+RESULT status=TRUNCATED tick=1 accepts=0 rejects=0 boss_hits=0 student_hits=0

@@ -1,0 +1,1 @@
+错误: --config 目前只接受 'default' (运行配置 demo-config-v6), 收到 'obsolete'

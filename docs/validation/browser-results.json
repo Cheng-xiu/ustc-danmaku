@@ -1,0 +1,4698 @@
+{
+  "browser": "154.0.8037.93",
+  "checks": [
+    {
+      "name": "menu loads real C/Wasm",
+      "pass": true
+    },
+    {
+      "name": "start advances fixed ticks",
+      "pass": true,
+      "detail": {
+        "phase": "playing",
+        "snapshot": {
+          "tick": 4,
+          "status": 0,
+          "configVersion": 2,
+          "energy": 60,
+          "energyMax": 100,
+          "attackState": 0,
+          "pattern": 0,
+          "target": 0,
+          "startTick": 0,
+          "windup": 0,
+          "active": 0,
+          "planId": "0",
+          "seed": "20261006",
+          "accepted": 0,
+          "rejected": 0,
+          "bossHits": 0,
+          "studentHits": 0,
+          "bossBullets": 0,
+          "studentBullets": 3,
+          "overflow": 0,
+          "fieldW": 960,
+          "fieldH": 720,
+          "markedTarget": 102,
+          "costs": [
+            30,
+            35,
+            15,
+            60
+          ],
+          "available": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "eventDropped": 0,
+          "actors": [
+            {
+              "id": 1,
+              "alive": true,
+              "x": 480,
+              "y": 602,
+              "radius": 22,
+              "hp": 6,
+              "hpMax": 6,
+              "invuln": 56,
+              "faction": 1
+            },
+            {
+              "id": 100,
+              "alive": true,
+              "x": 200,
+              "y": 300,
+              "radius": 20,
+              "hp": 3,
+              "hpMax": 3,
+              "invuln": 0,
+              "faction": 2
+            },
+            {
+              "id": 101,
+              "alive": true,
+              "x": 760,
+              "y": 310,
+              "radius": 20,
+              "hp": 3,
+              "hpMax": 3,
+              "invuln": 0,
+              "faction": 2
+            },
+            {
+              "id": 102,
+              "alive": true,
+              "x": 487.071044921875,
+              "y": 437.071044921875,
+              "radius": 20,
+              "hp": 3,
+              "hpMax": 3,
+              "invuln": 0,
+              "faction": 2
+            }
+          ],
+          "bullets": [
+            {
+              "id": "1048576",
+              "faction": 2,
+              "pattern": 0,
+              "x": 228.0998077392578,
+              "y": 331.66241455078125,
+              "vx": 172.58151245117188,
+              "vy": 194.46238708496094,
+              "radius": 5,
+              "source": 100
+            },
+            {
+              "id": "1099513724928",
+              "faction": 2,
+              "pattern": 0,
+              "x": 731.7752075195312,
+              "y": 334.0511779785156,
+              "vx": -173.3485565185547,
+              "vy": 193.7789306640625,
+              "radius": 5,
+              "source": 101
+            },
+            {
+              "id": "2199026401280",
+              "faction": 2,
+              "pattern": 0,
+              "x": 481.3605041503906,
+              "y": 474.09912109375,
+              "vx": -2.501448154449463,
+              "vy": 259.98797607421875,
+              "radius": 5,
+              "source": 102
+            }
+          ],
+          "warnings": [],
+          "events": []
+        },
+        "samples": [
+          {
+            "interval": 0,
+            "frame": 1,
+            "core": 0,
+            "decode": 0,
+            "render": 1,
+            "ticks": 0
+          },
+          {
+            "interval": 16,
+            "frame": 0,
+            "core": 0,
+            "decode": 0,
+            "render": 0,
+            "ticks": 0
+          },
+          {
+            "interval": 16,
+            "frame": 2,
+            "core": 1,
+            "decode": 0,
+            "render": 0,
+            "ticks": 1
+          },
+          {
+            "interval": 16,
+            "frame": 1,
+            "core": 0,
+            "decode": 1,
+            "render": 0,
+            "ticks": 1
+          },
+          {
+            "interval": 16,
+            "frame": 0,
+            "core": 0,
+            "decode": 0,
+            "render": 0,
+            "ticks": 1
+          },
+          {
+            "interval": 16,
+            "frame": 1,
+            "core": 0,
+            "decode": 0,
+            "render": 1,
+            "ticks": 1
+          }
+        ],
+        "reason": ""
+      }
+    },
+    {
+      "name": "pattern 0 accepted",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "name": "pattern 0 published warning",
+      "pass": true
+    },
+    {
+      "name": "pattern 0 does not spawn during windup",
+      "pass": true
+    },
+    {
+      "name": "pattern 0 held key single edge",
+      "pass": true
+    },
+    {
+      "name": "pattern 0 emits real bullets",
+      "pass": true,
+      "detail": 14
+    },
+    {
+      "name": "pattern 1 accepted",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "name": "pattern 1 published warning",
+      "pass": true
+    },
+    {
+      "name": "pattern 1 does not spawn during windup",
+      "pass": true
+    },
+    {
+      "name": "pattern 1 held key single edge",
+      "pass": true
+    },
+    {
+      "name": "pattern 1 emits real bullets",
+      "pass": true,
+      "detail": 24
+    },
+    {
+      "name": "pattern 2 accepted",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "name": "pattern 2 published warning",
+      "pass": true
+    },
+    {
+      "name": "pattern 2 does not spawn during windup",
+      "pass": true
+    },
+    {
+      "name": "pattern 2 held key single edge",
+      "pass": true
+    },
+    {
+      "name": "pattern 2 emits real bullets",
+      "pass": true,
+      "detail": 36
+    },
+    {
+      "name": "pattern 3 accepted",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "name": "pattern 3 published warning",
+      "pass": true
+    },
+    {
+      "name": "pattern 3 does not spawn during windup",
+      "pass": true
+    },
+    {
+      "name": "pattern 3 held key single edge",
+      "pass": true
+    },
+    {
+      "name": "pattern 3 emits real bullets",
+      "pass": true,
+      "detail": 16
+    },
+    {
+      "name": "busy request refuses once, no second accepted attack",
+      "pass": true
+    },
+    {
+      "name": "busy refusal does not charge energy",
+      "pass": true
+    },
+    {
+      "name": "pause freezes tick and energy",
+      "pass": true
+    },
+    {
+      "name": "resume does not catch up paused time",
+      "pass": true
+    },
+    {
+      "name": "default shower fully regains its cost during attack",
+      "pass": true,
+      "detail": {
+        "energy": 65
+      }
+    },
+    {
+      "name": "scaled pointer moves toward logical target",
+      "pass": true,
+      "detail": {
+        "id": 1,
+        "alive": true,
+        "x": 547.2667846679688,
+        "y": 614.3942260742188,
+        "radius": 22,
+        "hp": 6,
+        "hpMax": 6,
+        "invuln": 44,
+        "faction": 1
+      }
+    },
+    {
+      "name": "pointer leaving arena stops movement",
+      "pass": true
+    },
+    {
+      "name": "keyboard fallback moves Boss",
+      "pass": true
+    },
+    {
+      "name": "focus loss visibly pauses",
+      "pass": true
+    },
+    {
+      "name": "right click pauses",
+      "pass": true
+    },
+    {
+      "name": "restart resets HP, counters and plan",
+      "pass": true
+    },
+    {
+      "name": "persisted pagehide handler pauses and keeps core",
+      "pass": true
+    },
+    {
+      "name": "persisted pageshow handler resumes RAF after explicit continue",
+      "pass": true
+    },
+    {
+      "name": "real student fire reaches Boss defeat",
+      "pass": true,
+      "detail": {
+        "tick": 470,
+        "status": 2,
+        "configVersion": 2,
+        "energy": 100,
+        "energyMax": 100,
+        "attackState": 0,
+        "pattern": 0,
+        "target": 0,
+        "startTick": 0,
+        "windup": 0,
+        "active": 0,
+        "planId": "0",
+        "seed": "20261006",
+        "accepted": 0,
+        "rejected": 0,
+        "bossHits": 6,
+        "studentHits": 0,
+        "bossBullets": 0,
+        "studentBullets": 21,
+        "overflow": 0,
+        "fieldW": 960,
+        "fieldH": 720,
+        "markedTarget": 102,
+        "costs": [
+          30,
+          35,
+          15,
+          60
+        ],
+        "available": [
+          false,
+          false,
+          false,
+          false
+        ],
+        "eventDropped": 0,
+        "actors": [
+          {
+            "id": 1,
+            "alive": false,
+            "x": 480,
+            "y": 620,
+            "radius": 22,
+            "hp": 0,
+            "hpMax": 6,
+            "invuln": 35,
+            "faction": 1
+          },
+          {
+            "id": 100,
+            "alive": true,
+            "x": 196.4644775390625,
+            "y": 332.6776123046875,
+            "radius": 20,
+            "hp": 3,
+            "hpMax": 3,
+            "invuln": 0,
+            "faction": 2
+          },
+          {
+            "id": 101,
+            "alive": true,
+            "x": 734.3934326171875,
+            "y": 289.3934326171875,
+            "radius": 20,
+            "hp": 3,
+            "hpMax": 3,
+            "invuln": 0,
+            "faction": 2
+          },
+          {
+            "id": 102,
+            "alive": true,
+            "x": 457.928955078125,
+            "y": 437.071044921875,
+            "radius": 20,
+            "hp": 3,
+            "hpMax": 3,
+            "invuln": 0,
+            "faction": 2
+          }
+        ],
+        "bullets": [
+          {
+            "id": "19923412",
+            "faction": 2,
+            "pattern": 0,
+            "x": 221.8787384033203,
+            "y": 358.4096374511719,
+            "vx": 182.61651611328125,
+            "vy": 185.07081604003906,
+            "radius": 5,
+            "source": 100
+          },
+          {
+            "id": "1099532599764",
+            "faction": 2,
+            "pattern": 0,
+            "x": 713.8624877929688,
+            "y": 316.0752868652344,
+            "vx": -158.556396484375,
+            "vy": 206.0579376220703,
+            "radius": 5,
+            "source": 101
+          },
+          {
+            "id": "2199040033158",
+            "faction": 2,
+            "pattern": 0,
+            "x": 453.65924072265625,
+            "y": 588.1555786132812,
+            "vx": 165.7181396484375,
+            "vy": 200.3434600830078,
+            "radius": 5,
+            "source": 100
+          },
+          {
+            "id": "4398068531668",
+            "faction": 2,
+            "pattern": 0,
+            "x": 460.553466796875,
+            "y": 472.21771240234375,
+            "vx": 33.92070007324219,
+            "vy": 257.77777099609375,
+            "radius": 5,
+            "source": 102
+          }
+        ],
+        "warnings": [],
+        "events": [
+          {
+            "type": 7,
+            "tick": 469,
+            "source": 101,
+            "target": 1,
+            "pattern": 0,
+            "reject": 0,
+            "amount": 1,
+            "x": 497.26019287109375,
+            "y": 600.9608154296875
+          },
+          {
+            "type": 8,
+            "tick": 469,
+            "source": 101,
+            "target": 1,
+            "pattern": 0,
+            "reject": 0,
+            "amount": 0,
+            "x": 480,
+            "y": 620
+          },
+          {
+            "type": 11,
+            "tick": 469,
+            "source": 1,
+            "target": 0,
+            "pattern": 0,
+            "reject": 0,
+            "amount": 2,
+            "x": 480,
+            "y": 620
+          }
+        ]
+      }
+    },
+    {
+      "name": "terminal tick freezes",
+      "pass": true
+    },
+    {
+      "name": "browser has no uncaught runtime errors",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "800 bullet render fixture completed",
+      "pass": true,
+      "detail": {
+        "fixture": "800 sprites, render only, no gameplay core stress",
+        "frames": 300,
+        "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "dpr": 1,
+        "logicResolution": "960x720",
+        "intervalMedianMs": 6.099999999999909,
+        "intervalP95Ms": 6.100000000000136,
+        "cpuMedianMs": 0.699999988079071,
+        "cpuP95Ms": 0.800000011920929,
+        "maxIntervalMs": 6.2999999999999545
+      }
+    }
+  ],
+  "attacks": [
+    {
+      "pattern": 0,
+      "warningCount": 42,
+      "bossBullets": 14,
+      "energyAfterAccept": 30
+    },
+    {
+      "pattern": 1,
+      "warningCount": 72,
+      "bossBullets": 24,
+      "energyAfterAccept": 25
+    },
+    {
+      "pattern": 2,
+      "warningCount": 36,
+      "bossBullets": 36,
+      "energyAfterAccept": 45
+    },
+    {
+      "pattern": 3,
+      "warningCount": 80,
+      "bossBullets": 16,
+      "energyAfterAccept": 0
+    }
+  ],
+  "errors": [],
+  "normalSamples": [
+    {
+      "interval": 0,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.4000000059604645,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.4000000059604645,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999994,
+      "frame": 9.300000011920929,
+      "core": 1,
+      "decode": 0.5,
+      "render": 6.200000017881393,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999994,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0,
+      "render": 0.5,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999994,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.000000000000028,
+      "frame": 1,
+      "core": 0.10000002384185791,
+      "decode": 0.19999998807907104,
+      "render": 0.3999999761581421,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999966,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.699999988079071,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999966,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.29999998211860657,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.3999999761581421,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.699999988079071,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.29999998211860657,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999966,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.7000000178813934,
+      "core": 0,
+      "decode": 0.20000001788139343,
+      "render": 0.30000001192092896,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.3999999761581421,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999966,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.5,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.699999988079071,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.29999998211860657,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.199999999999989,
+      "frame": 0.699999988079071,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.29999998211860657,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0,
+      "render": 0.4000000059604645,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999966,
+      "frame": 0.7000000178813934,
+      "core": 0,
+      "decode": 0.10000002384185791,
+      "render": 0.30000001192092896,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.5999999940395355,
+      "core": 0.09999999403953552,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999966,
+      "frame": 0.5999999940395355,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999966,
+      "frame": 0.6000000238418579,
+      "core": 0,
+      "decode": 0.20000001788139343,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.30000001192092896,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999966,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.199999999999989,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.7000000178813934,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 1
+    },
+    {
+      "interval": 5.900000000000034,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.199999999999989,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 5.900000000000091,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.199999999999932,
+      "frame": 0.7000000178813934,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.30000001192092896,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.6000000238418579,
+      "core": 0.10000002384185791,
+      "decode": 0.09999999403953552,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.30000001192092896,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.7000000178813934,
+      "core": 0,
+      "decode": 0.20000001788139343,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.3999999761581421,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.3999999761581421,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.29999998211860657,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.10000002384185791,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.3999999761581421,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.5,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.7999999821186066,
+      "core": 0.09999999403953552,
+      "decode": 0,
+      "render": 0.4000000059604645,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.699999988079071,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.3999999761581421,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.5,
+      "core": 0.10000002384185791,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.5999999940395355,
+      "core": 0.09999999403953552,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.199999999999932,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 5.899999999999977,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.2000000000000455,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.199999999999932,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.20000001788139343,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.10000002384185791,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.10000002384185791,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.5,
+      "core": 0.09999999403953552,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.10000002384185791,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.10000002384185791,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000023,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.30000001192092896,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.20000001788139343,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.4000000059604645,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0.09999999403953552,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.10000002384185791,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.699999988079071,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.10000002384185791,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.8999999761581421,
+      "core": 0,
+      "decode": 0.29999998211860657,
+      "render": 0.29999998211860657,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.29999998211860657,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.5999999940395355,
+      "core": 0.09999999403953552,
+      "decode": 0.10000002384185791,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.3999999761581421,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.6000000238418579,
+      "core": 0,
+      "decode": 0.10000002384185791,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 5.899999999999864,
+      "frame": 0.5999999940395355,
+      "core": 0.09999999403953552,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0.09999999403953552,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.10000002384185791,
+      "core": 0,
+      "decode": 0,
+      "render": 0.10000002384185791,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.10000002384185791,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.4000000059604645,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.699999988079071,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.29999998211860657,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.10000002384185791,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.9000000059604645,
+      "core": 0.09999999403953552,
+      "decode": 0,
+      "render": 0.5,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.10000002384185791,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.6000000238418579,
+      "core": 0.10000002384185791,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.2000000000000455,
+      "frame": 2.300000011920929,
+      "core": 0.09999999403953552,
+      "decode": 0.20000001788139343,
+      "render": 1.5,
+      "ticks": 1
+    },
+    {
+      "interval": 5.899999999999864,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.7000000178813934,
+      "core": 0.10000002384185791,
+      "decode": 0.19999998807907104,
+      "render": 0.30000001192092896,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.699999988079071,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.7999999821186066,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.29999998211860657,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5999999940395355,
+      "core": 0.09999999403953552,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.3999999761581421,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.2000000000000455,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.6000000238418579,
+      "core": 0.10000002384185791,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.6000000238418579,
+      "core": 0.10000002384185791,
+      "decode": 0.09999999403953552,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.3999999761581421,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0.10000002384185791,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0.20000001788139343,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5999999940395355,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.7000000178813934,
+      "core": 0,
+      "decode": 0.20000001788139343,
+      "render": 0.30000001192092896,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.30000001192092896,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0.10000002384185791,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.800000011920929,
+      "core": 0.20000001788139343,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.10000002384185791,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.3999999761581421,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0.10000002384185791,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.3999999761581421,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.7999999821186066,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.29999998211860657,
+      "ticks": 1
+    },
+    {
+      "interval": 6.2000000000000455,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.6000000238418579,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.6000000238418579,
+      "core": 0,
+      "decode": 0.20000001788139343,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.5999999940395355,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.699999988079071,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.2000000000000455,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.6000000238418579,
+      "core": 0,
+      "decode": 0.10000002384185791,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.699999988079071,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.10000002384185791,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.3999999761581421,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.699999988079071,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000136,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.9000000059604645,
+      "core": 0.10000002384185791,
+      "decode": 0.09999999403953552,
+      "render": 0.29999998211860657,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.699999988079071,
+      "core": 0.09999999403953552,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000364,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0.09999999403953552,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.6000000238418579,
+      "core": 0.10000002384185791,
+      "decode": 0.09999999403953552,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.8999999761581421,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.3999999761581421,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000364,
+      "frame": 0.5,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.10000002384185791,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.7000000178813934,
+      "core": 0,
+      "decode": 0.20000001788139343,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.199999999999818,
+      "frame": 0.5999999940395355,
+      "core": 0.09999999403953552,
+      "decode": 0.19999998807907104,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000364,
+      "frame": 0.5999999940395355,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.10000002384185791,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000364,
+      "frame": 0.6000000238418579,
+      "core": 0,
+      "decode": 0.10000002384185791,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0.09999999403953552,
+      "decode": 0.10000002384185791,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.20000001788139343,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000364,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.199999999999818,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000364,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.6000000238418579,
+      "core": 0,
+      "decode": 0.20000001788139343,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.699999988079071,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.29999998211860657,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.200000000000273,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.10000002384185791,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.4000000059604645,
+      "ticks": 1
+    },
+    {
+      "interval": 5.900000000000091,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.199999999999818,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.10000002384185791,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000364,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.20000001788139343,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.10000002384185791,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.30000001192092896,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.4000000059604645,
+      "ticks": 0
+    },
+    {
+      "interval": 6.200000000000273,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 5.900000000000091,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.199999999999818,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.10000002384185791,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.200000000000273,
+      "frame": 0.5999999940395355,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.7000000178813934,
+      "core": 0.10000002384185791,
+      "decode": 0.09999999403953552,
+      "render": 0.30000001192092896,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000364,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0.10000002384185791,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.200000000000273,
+      "frame": 0.7000000178813934,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 5.900000000000091,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0.10000002384185791,
+      "decode": 0.09999999403953552,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000364,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 5.900000000000091,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.10000002384185791,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.10000002384185791,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.3999999761581421,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.4000000059604645,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.200000000000273,
+      "frame": 0.7000000178813934,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.6000000238418579,
+      "core": 0,
+      "decode": 0.10000002384185791,
+      "render": 0.30000001192092896,
+      "ticks": 1
+    },
+    {
+      "interval": 6.199999999999818,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.3999999761581421,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6.200000000000273,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.29999998211860657,
+      "render": 0.10000002384185791,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000364,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.10000002384185791,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6.199999999999818,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.10000002384185791,
+      "ticks": 1
+    },
+    {
+      "interval": 5.900000000000091,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.200000000000273,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0.10000002384185791,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.199999999999818,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.6000000238418579,
+      "core": 0.10000002384185791,
+      "decode": 0.09999999403953552,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.200000000000273,
+      "frame": 0.5,
+      "core": 0.09999999403953552,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.30000001192092896,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.7000000178813934,
+      "core": 0,
+      "decode": 0.20000001788139343,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.100000000000364,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000364,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.699999988079071,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.29999998211860657,
+      "ticks": 1
+    },
+    {
+      "interval": 6.300000000000182,
+      "frame": 0.3999999761581421,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 5.900000000000091,
+      "frame": 0.7000000178813934,
+      "core": 0.10000002384185791,
+      "decode": 0.09999999403953552,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.199999999999818,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.10000002384185791,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.200000000000273,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.09999999403953552,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.6000000238418579,
+      "core": 0,
+      "decode": 0.10000002384185791,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.3999999761581421,
+      "core": 0,
+      "decode": 0,
+      "render": 0.29999998211860657,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000364,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.5,
+      "core": 0.09999999403953552,
+      "decode": 0.09999999403953552,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 1.0999999940395355,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.800000011920929,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.29999998211860657,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000364,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0.09999999403953552,
+      "decode": 0.10000002384185791,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.30000001192092896,
+      "core": 0,
+      "decode": 0,
+      "render": 0.30000001192092896,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.6000000238418579,
+      "core": 0,
+      "decode": 0.20000001788139343,
+      "render": 0.20000001788139343,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.5999999940395355,
+      "core": 0,
+      "decode": 0.19999998807907104,
+      "render": 0.19999998807907104,
+      "ticks": 1
+    },
+    {
+      "interval": 6,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6.100000000000364,
+      "frame": 0.5,
+      "core": 0,
+      "decode": 0.09999999403953552,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6.099999999999909,
+      "frame": 0.10000002384185791,
+      "core": 0,
+      "decode": 0,
+      "render": 0.10000002384185791,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.20000001788139343,
+      "core": 0,
+      "decode": 0,
+      "render": 0.20000001788139343,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.4000000059604645,
+      "core": 0,
+      "decode": 0.10000002384185791,
+      "render": 0.09999999403953552,
+      "ticks": 1
+    },
+    {
+      "interval": 6.199999999999818,
+      "frame": 0.19999998807907104,
+      "core": 0,
+      "decode": 0,
+      "render": 0.09999999403953552,
+      "ticks": 0
+    },
+    {
+      "interval": 6,
+      "frame": 0.3999999761581421,
+      "core": 0,
+      "decode": 0,
+      "render": 0.19999998807907104,
+      "ticks": 0
+    }
+  ],
+  "stress": {
+    "fixture": "800 sprites, render only, no gameplay core stress",
+    "frames": 300,
+    "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+    "dpr": 1,
+    "logicResolution": "960x720",
+    "intervalMedianMs": 6.099999999999909,
+    "intervalP95Ms": 6.100000000000136,
+    "cpuMedianMs": 0.699999988079071,
+    "cpuP95Ms": 0.800000011920929,
+    "maxIntervalMs": 6.2999999999999545
+  }
+}

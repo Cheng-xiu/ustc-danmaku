@@ -1,32 +1,50 @@
 # 科大弹幕录：绩点保卫战
 
-计算机程序设计 C* 课程项目。计划使用 C99 或 C11 与 EasyX，在 Windows 上实现弹幕游戏及离线 AI 训练器。
+玩家控制 Boss，主动选择四招，对抗会躲弹和反击的脚本学生。当前为无尽网页 Demo，配置 v6、ABI v5；实现使用 PixiJS + TypeScript + 共享 C/Wasm 核心。
 
-## 当前规划
+## 直接试玩
 
-主玩法调整为：**玩家操作 Boss，用摇杆移动、主动选择招式；AI 学生躲弹并反击。** 通过共享能量及不同用途的小招、大招，让玩家权衡立即进攻与留能量等待机会。
+[在线试玩：GitHub Pages](https://cheng-xiu.github.io/ustc-danmaku/)。网站发布与更新方式见 [Pages 指南](docs/github-pages.md)。
 
-- [Boss 模式：基本玩法与实施建议](docs/boss-mode-plan.md)：当前核心规则、实施顺序、检查依据及相对原方案的变化。
-- [机器学习辅助平衡：实施建议](docs/ai-balance-plan.md)：离线 AI 寻找可疑强招、开发者调整、重新训练与真人验证的执行流程。
+下载仓库的 [单文件 HTML](demo/ustc-danmaku.html)，用 Chrome 或 Edge 双击打开即可。JavaScript、Wasm、官方科大圆形校徽和许可证都已内嵌；试玩不需要安装 Node、编译器或启动服务器。
 
-以上规划记录用户后续明确的修改，相关玩法以其为准。具体数值和未定关键规则需在实现或试玩前明确，不能当作已经完成的成果。
+界面铺满窗口，顶部显示能量和共享 CD，开始前展示四招介绍。鼠标移到顶部栏仍控制方向；WASD / 方向键优先；按住 1–4 或技能按钮预瞄，松开释放，Space 取消；Esc / 右键暂停；R 重开。初始 3 名学生，每清一波预告 2 秒并增加 1 名，最多 8 名后持续刷新。只有 Boss 死亡结束，没有胜利终点。
 
-## 完整原始规范
+四招分别为前向宽弧双波（25）、分列弹墙（50）、定向窄扇三连（20）、全场扫描雨（100）。GPA = 4.30 × 累计击倒数 /（累计击倒数 + 20），越往后增长越慢，显示向下保留两位；时间、受伤和波次不参与计分。
 
-[最终项目规划与交付规范 v3.1（Markdown）](docs/project-spec-v3.1.md) 保留原方案全文，是理解原始规则和技术约束的依据；它描述的学生主视角、固定选招窗口等已调整内容，须结合当前 Boss 规划阅读。
+- [运行与构建指南](docs/web-demo-guide.md)
+- [当前权威规则与试验参数](docs/demo-rules.md)
+- [本轮瞄准实测与玩法建议](docs/validation/aim-v6.md)
+- [工程验证](docs/web-demo-validation.md)
+- [真人试玩模板](docs/web-demo-playtest.md)
+- [官方校徽来源](docs/ustc-emblem-source.md)
+- [最新版仓库同步说明](docs/repository-sync.md)
 
-`docs` 使用 Markdown，完整保留原规范的章节、表格、公式、命令和示意图，不以精简版本替代。
+![当前预瞄实际画面](docs/assets/aim-v6-1440.png)
 
-[PDF 原文件](references/project-spec-v3.1.pdf)：`科大弹幕录_最终交付文档_v3.1.pdf`（2026-10-05，共 23 页）。原始字节保留供核对；若转写与原 PDF 不一致，以原 PDF 为准。
+## 修改与复现
 
-后续工作先阅读完整规范和当前规划；未被调整的内容仍以原 PDF 为依据，转写有疑问时核对原 PDF。文档未规定或不清楚的关键问题向项目用户确认。
+项目采用 monorepo：网页在 `apps/web/`，原生仿真在 `apps/sim/`，原 Windows 图形入口在 `apps/desktop/`；共享 C/AI 核心在 `packages/core/`，Wasm 桥接在 `packages/wasm/`。目录职责、旧路径映射与构建约定见 [monorepo 指南](docs/monorepo.md)。
 
-## 当前状态
+需要 Node 22.12+、npm 10+；Wasm 使用固定 Emscripten 6.0.11。始终从仓库根目录安装和运行：
 
-仓库包含完整原始规范及当前实施规划，尚未包含游戏、训练器或模型实现。本次更新不代表 Boss 模式、训练流程或平衡结果已经实现和验收。
+```powershell
+npm.cmd ci
+npm.cmd run setup:wasm
+npm.cmd run build
+npm.cmd test
+```
 
-游戏与无图形测试／训练器仍规划共用纯 C 逻辑核心。先完成基本玩法，随后用离线 AI 辅助平衡；新能量玩法的状态、动作和模型需重新定义，不能直接套用原情境老虎机及快照。
+`npm run build` 顺序构建 Wasm、网页和单文件，输出 `build/release/ustc-danmaku-endless.html`；`npm test` 从构建开始执行原生、输入、Native/Wasm 对照和真实浏览器检查。开发时运行 `npm.cmd run build:wasm` 后执行 `npm.cmd run dev`。详细工具要求见 [运行指南](docs/web-demo-guide.md)。
 
-## 协作
+根 `package-lock.json` 是唯一 npm 锁文件；`packages/core/sources.txt` 是共享核心 16 个 C/AI 源文件的唯一清单。原生与 Wasm 都读取该清单，不复制物理实现。[迁移复验](docs/monorepo-validation.md) 已通过根构建、原生、输入、Native/Wasm 对照及最终单文件浏览器检查；已有 v6 报告保留当时的路径和修订身份。
 
-自动化开发代理应遵循 [AGENTS.md](AGENTS.md)。
+## 规划与依据
+
+[Boss 玩法](docs/boss-mode-plan.md)、[网页规划](docs/web-demo-plan.md)、[离线 AI 平衡规划](docs/ai-balance-plan.md) 记录当前方向。游戏学生尚未训练；未来可通过更高迭代版本增加难度，本轮先增加数量。
+
+[外部母代理提示词](docs/web-demo-agent-prompt.md) 保留指定母代理 deepseek账号/deepseek-flash、子/孙代理 a6api/deepseek-v4.1-flash 及禁止孙代理继续递归的约定。本轮实际由 Codex 与其子代理执行，不声称使用上述外部模型。
+
+[完整原规范 Markdown](docs/project-spec-v3.1.md) 与 [原 PDF](references/project-spec-v3.1.pdf) 保留原始内容。用户后续的 Boss、无尽、GPA 等决定覆盖旧学生视角与有限胜局设计。开发者遵守 [AGENTS.md](AGENTS.md)。
+
+提供本地 HTML、仓库源码与 GitHub Pages 试玩入口。自动化脚本和浏览器检查支持继续试玩，不替代真人体验或全部设备的性能验证。

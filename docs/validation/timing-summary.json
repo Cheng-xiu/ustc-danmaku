@@ -1,0 +1,43 @@
+{
+  "frames": 515,
+  "metrics": {
+    "interval": {
+      "median": 6.099999999999909,
+      "p95": 6.199999999999818,
+      "max": 6.300000000000182
+    },
+    "frame": {
+      "median": 0.4000000059604645,
+      "p95": 0.699999988079071,
+      "max": 9.300000011920929
+    },
+    "core": {
+      "median": 0,
+      "p95": 0.09999999403953552,
+      "max": 1
+    },
+    "decode": {
+      "median": 0,
+      "p95": 0.19999998807907104,
+      "max": 0.5
+    },
+    "render": {
+      "median": 0.19999998807907104,
+      "p95": 0.30000001192092896,
+      "max": 6.200000017881393
+    }
+  },
+  "stress": {
+    "fixture": "800 sprites, render only, no gameplay core stress",
+    "frames": 300,
+    "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+    "dpr": 1,
+    "logicResolution": "960x720",
+    "intervalMedianMs": 6.099999999999909,
+    "intervalP95Ms": 6.100000000000136,
+    "cpuMedianMs": 0.699999988079071,
+    "cpuP95Ms": 0.800000011920929,
+    "maxIntervalMs": 6.2999999999999545
+  },
+  "logicTicks": 186
+}

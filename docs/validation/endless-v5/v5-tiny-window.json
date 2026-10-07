@@ -1,0 +1,34 @@
+{
+  "method": "Offline real viewport resize and R key input; QA only reads public snapshots.",
+  "htmlSha256": "7c71994fa81c9007b9e13a1f736bf2db69286f04d5deb8799feba1a50d98542c",
+  "checks": [
+    {
+      "name": "normal round starts",
+      "pass": true
+    },
+    {
+      "name": "tiny viewport R rejects size with usable paused previous match",
+      "pass": true,
+      "detail": {
+        "phase": "paused",
+        "reason": "窗口空间不足，请调整窗口大小后重试。",
+        "tick": 2
+      }
+    },
+    {
+      "name": "restoring viewport then R starts a clean playable round",
+      "pass": true,
+      "detail": {
+        "phase": "playing",
+        "tick": 0
+      }
+    },
+    {
+      "name": "invalid size path has no uncaught browser exception",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "passed": true
+}

@@ -22,3 +22,11 @@ tmp/
 *.bak
 __pycache__/
 *.pyc
+
+# Agent work areas (per-task build/log/temp dirs, not part of the deliverable)
+work/
+node_modules/
+apps/web/node_modules/
+apps/web/dist/
+apps/web/public/wasm/
+test-results/
