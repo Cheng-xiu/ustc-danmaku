@@ -23,7 +23,7 @@ node scripts/publish-pages.mjs
 ## 核对上线
 
 - 等待 Pages 构建与部署成功，打开上述地址；首次发布可能需要几分钟。
-- 确认菜单可开始、显示圆形校徽和三个学生，1–4 出招、暂停与重开正常，控制台没有运行异常或失败的游戏资源请求。
+- 确认菜单可开始、显示圆形校徽和三个学生，按住1–4预瞄、松开释放和Space取消、暂停与重开正常，控制台没有运行异常或失败的游戏资源请求。
 - 在线 HTML 的 SHA256 应与已提交的 `demo/ustc-danmaku.html` 和 `deployment.json` 一致。试玩页不传输玩家数据，也没有服务器端存档。
 
 后续机器学习训练继续使用原生 C 核心；网站只是现有游戏的浏览器入口。本次托管不改变玩法或设备支持范围。
@@ -47,3 +47,12 @@ node scripts/publish-pages.mjs
 实际Chrome154在1440×900、1024×768、390×844在线检查34/34通过：各自核对响应字节、核心与费用、菜单说明、开始与顶栏/战场比例、鼠标移入HUD继续朝方向移动、键盘覆盖、环弹扣能/CD/实际发弹、暂停冻结及重开。运行异常、资源失败和HTTP错误均0。完整四招、清波与120tick出生预告的离线结果见[当前工程报告](web-demo-validation.md)，网站发布同一份已测字节。
 
 线上复跑命令为`node tests/web/pages-smoke.mjs`。需要Chrome及正常网络；本机必须代理时可临时传PAGES_QA_PROXY，不把本机代理或令牌保存到仓库。证据保存在[validation/github-pages-v5](validation/github-pages-v5/)，首次v4上线证据仍独立保留。
+
+
+## v6 手动预瞄上线记录
+
+2026-10-07 的[v6构建与部署](https://github.com/Cheng-xiu/ustc-danmaku/actions/runs/37643843241)成功。来源提交 `a9818f64d797ba081296aea8d11dc2404fd2a8ce`，发布提交 `071f4698e326e9e7c5257fd7d8b18af99e548156`；后续验证文档提交不改变游戏字节或部署来源身份。
+
+HTML 1168141字节，SHA256 `9de27925103b644236b736e635932be215ecd0440d095311657c08673d22680d`，与最终离线文件和包含的Wasm/JPG逐字一致。三尺寸真实Chrome在线52/52检查通过，核对HTTPS200、完整响应hash、当前cfg6/ABI5、菜单/布局/移动、长按预瞄无扣费、Space取消、释放方向与C候选/锁定弹道、实际首发、暂停和重开；运行错误、失败资源、HTTP错误均0。来源证据见[validation/github-pages-v6](validation/github-pages-v6/)，复跑 `node tests/web/pages-smoke.mjs`。
+
+在线和离线均按住1–4或技能按钮预瞄、松开释放、Space取消；新hold从当前角色指向鼠标，持有移动不会自动转向。完整离线四招/无尽回放见[工程验证](web-demo-validation.md)。同一游戏字节只发布一次，随后更新文档不重新部署。
