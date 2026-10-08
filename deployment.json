@@ -1,7 +1,7 @@
 {
   "repository": "Cheng-xiu/ustc-danmaku",
   "publisher": "scripts/publish-pages.mjs",
-  "source_commit": "b7026be77a69865a6580d8a7d0dbd146357caef3",
-  "html_sha256": "9de27925103b644236b736e635932be215ecd0440d095311657c08673d22680d",
-  "html_bytes": 1168141
+  "source_commit": "c14352e60b17ada532914610acd2d0777e2a5e88",
+  "html_sha256": "c931f75e78a1dce721df74c52f8abab2ef0d14f766b619db0b473e7c17da0f00",
+  "html_bytes": 1198748
 }
