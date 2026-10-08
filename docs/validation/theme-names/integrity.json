@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-08",
+  "baselineCommit": "54cc5e091331e218022af3b5778c55f875f10a37",
+  "change": "Restore original USTC skill names; gameplay unchanged",
+  "desktop": {
+    "passed": true,
+    "checks": 282,
+    "attacks": 15
+  },
+  "mobile": {
+    "passed": true,
+    "profiles": 8,
+    "checks": 326,
+    "errors": 0,
+    "failedRequests": 0
+  },
+  "wasm": {
+    "bytes": 62152,
+    "sha256": "9dbd096c2eac3792de2c22b5af54725591fd99502f6239b16a41257a13c21b93"
+  },
+  "protectedDiffEmpty": true,
+  "files": [
+    {
+      "path": "demo/ustc-danmaku.html",
+      "bytes": 1199008,
+      "sha256": "aa6cd1051e8f2f41fe6e383f0bca47db1646efbbcf72ca0cad08660f8467dae0"
+    },
+    {
+      "path": "docs/assets/theme-names-mobile-portrait.png",
+      "bytes": 849733,
+      "sha256": "1c3dabbc8a9c0d5a6b8371dbba4a888430d1e78f782fb124db9066a67a8fb97f"
+    },
+    {
+      "path": "docs/assets/theme-names-mobile-landscape.png",
+      "bytes": 931464,
+      "sha256": "f963ae2325869e257983370475b39421978d294182c0e332feeec242ddc04683"
+    }
+  ]
+}

@@ -10,7 +10,8 @@ export type TouchControlCallbacks = {
 
 type JoystickHold = { id: number; x: number; y: number; radius: number };
 type SkillHold = { id: number; owner: string; pattern: number | null; cancelled: boolean };
-const skillNames = ['环震', '封路', '速攻', '弹雨'];
+const skillNames = ['桃李苑', '课表', '金矿', '淋浴'];
+const skillTitles = ['桃李苑·绿色圆圈好辣', '选课系统·课表华容道', '一教金矿·绩点淘金', '期末总评·绩点淋浴'];
 const skillColors = ['green', 'purple', 'gold', 'blue'];
 const previewReasons: Record<number, string> = {
   0: '调整站位', 1: '能量不足', 2: '共享 CD', 3: '等待学生', 4: '尚未选择', 5: '调整方向',
@@ -68,6 +69,7 @@ export class TouchControls {
       sector.dataset.touchSkill = String(pattern);
       sector.dataset.pattern = String(pattern);
       sector.setAttribute('role', 'option');
+      sector.title = skillTitles[pattern];
       sector.innerHTML = `<span class="demo-touch-skill-name"><b>${pattern + 1}</b> ${name}</span><span class="demo-touch-skill-cost">—</span><span class="demo-touch-skill-status">就绪</span>`;
       this.wheel.append(sector);
       this.sectors.push(sector);
@@ -300,7 +302,7 @@ export class TouchControls {
       button.setAttribute('aria-selected', String(aiming));
       button.querySelector('.demo-touch-skill-status')!.textContent = visibleStatus;
       button.querySelector('.demo-touch-skill-cost')!.textContent = cost === undefined ? '—' : `${cost} 能量`;
-      button.setAttribute('aria-label', `${pattern + 1} ${skillNames[pattern]}，${cost ?? '—'} 能量，${visibleStatus}。按住预瞄，松手释放，上滑取消。`);
+      button.setAttribute('aria-label', `${pattern + 1} ${skillTitles[pattern]}，${cost ?? '—'} 能量，${visibleStatus}。按住预瞄，松手释放，上滑取消。`);
     });
     this.trigger.disabled = !this.interactive || !snapshot;
     const selected = selection?.pattern;

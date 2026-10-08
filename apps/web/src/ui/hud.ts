@@ -10,11 +10,12 @@ const formatTime = (tick: number) => {
   return `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`;
 };
 const patterns = [
-  { name: '绿色圆圈好辣', short: '环震', source: '桃李苑', purpose: '近中距宽弧', color: 'green', description: '按住后确定朝向，松开释放两波前向宽弧。靠近敌人寻找进攻机会，范围以场内预瞄为准。' },
-  { name: '课表华容道', short: '封路', source: '选课系统', purpose: '分列封路', color: 'purple', description: '沿所选方向压下分列弹墙，封住两带、留出一带。适合持续封锁路线，压制分散敌人。' },
-  { name: '绩点淘金', short: '速攻', source: '一教金矿', purpose: '单目标速攻', color: 'gold', description: '从角色位置向所选方向打出窄扇三连。消耗低，适合追击与收尾；距任一学生不足 120 时无法释放。' },
-  { name: '绩点淋浴', short: '弹雨', source: '期末总评', purpose: '满能量全场弹雨', color: 'blue', description: '攒满能量后沿所选方向释放大范围弹雨，保留公开的扫描缝隙。适合学生较多时集中压制。' },
+  { name: '绿色圆圈好辣', short: '桃李苑', source: '桃李苑', purpose: '近中距宽弧', color: 'green', description: '按住后确定朝向，松开释放两波前向宽弧。靠近敌人寻找进攻机会，范围以场内预瞄为准。' },
+  { name: '课表华容道', short: '课表', source: '选课系统', purpose: '分列封路', color: 'purple', description: '沿所选方向压下分列弹墙，封住两带、留出一带。适合持续封锁路线，压制分散敌人。' },
+  { name: '绩点淘金', short: '金矿', source: '一教金矿', purpose: '单目标速攻', color: 'gold', description: '从角色位置向所选方向打出窄扇三连。消耗低，适合追击与收尾；距任一学生不足 120 时无法释放。' },
+  { name: '绩点淋浴', short: '淋浴', source: '期末总评', purpose: '满能量全场弹雨', color: 'blue', description: '攒满能量后沿所选方向释放大范围弹雨，保留公开的扫描缝隙。适合学生较多时集中压制。' },
 ];
+const patternTitle = (index: number): string => patterns[index] ? `${patterns[index].source}·${patterns[index].name}` : '技能';
 
 export class HUD {
   private callbacks: HUDCallbacks;
@@ -221,7 +222,7 @@ export class HUD {
         3: '当前没有存活学生', 4: '没有出招请求', 5: '瞄准方向无效',
       };
       const readiness = preview ? preview.valid ? '可释放' : `松手会拒绝：${reasons[preview.reason] ?? '当前无法释放'}` : '正在更新方向';
-      message = `按住预瞄 · 松开释放 · ${this.touchMode ? '回中撤选' : '空格取消'} · ${patterns[selection.pattern]?.name ?? '技能'} · ${readiness}`;
+      message = `按住预瞄 · 松开释放 · ${this.touchMode ? '回中撤选' : '空格取消'} · ${patternTitle(selection.pattern)} · ${readiness}`;
       kind = preview?.valid === false ? 'aim-rejected' : 'aiming';
     }
     this.ui('notice').textContent = message;
@@ -297,11 +298,11 @@ export class HUD {
           : snapshot.available[index] ? '就绪' : '站位';
         button.querySelector('.demo-skill-status')!.textContent = status;
         button.dataset.baseStatus = status;
-        button.title = `${index + 1} · ${patterns[index].name}，消耗 ${snapshot.costs[index]} 能量；${status}。${this.touchMode ? '转盘滑动选招，松开释放，回中撤选。' : '按住预瞄，松开释放，空格取消。'}`;
+        button.title = `${index + 1} · ${patternTitle(index)}，消耗 ${snapshot.costs[index]} 能量；${status}。${this.touchMode ? '转盘滑动选招，松开释放，回中撤选。' : '按住预瞄，松开释放，空格取消。'}`;
         button.setAttribute('aria-label', button.title);
         this.overlay.querySelector<HTMLElement>(`[data-guide-cost="${index}"]`)!.textContent = `${snapshot.costs[index]} 能量`;
       });
-      const attackName = patterns[snapshot.pattern]?.name ?? '攻击';
+      const attackName = patternTitle(snapshot.pattern);
       const elapsed = Math.max(0, snapshot.tick - snapshot.startTick);
       const total = snapshot.attackState === 1 ? snapshot.windup : snapshot.active;
       const localElapsed = snapshot.attackState === 1 ? elapsed : Math.max(0, elapsed - snapshot.windup);
@@ -339,7 +340,7 @@ export class HUD {
         if (key !== this.lastEvent) {
           this.lastEvent = key;
           this.noticeUntil = snapshot.tick + 150;
-          const name = patterns[relevant.pattern]?.name ?? '出招';
+          const name = patternTitle(relevant.pattern);
           if (relevant.type === 2) {
             const reasons: Record<number, string> = { 0: '出生几何不安全，移动后重试', 1: '能量不足，稍等蓄能', 2: '这一招尚未结束', 3: '没有存活目标', 4: '没有出招请求' };
             this.notice = `${name}：${reasons[relevant.reject] ?? '请求被拒绝'}。`;
