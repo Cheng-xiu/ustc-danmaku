@@ -1,0 +1,73 @@
+{
+  "coveragePassed": true,
+  "singleAllProfileRunPassed": false,
+  "method": "Published HTTPS artifact checked across a seven-profile run interrupted by a connection reset and a successful focused run for the eighth profile. This is coverage across runs, not a fabricated successful full run. Original transport failures are retained verbatim.",
+  "url": "https://cheng-xiu.github.io/ustc-danmaku/",
+  "sourceCommitTested": "c14352e60b17ada532914610acd2d0777e2a5e88",
+  "htmlSha256": "c931f75e78a1dce721df74c52f8abab2ef0d14f766b619db0b473e7c17da0f00",
+  "htmlBytes": 1198748,
+  "profileChecks": 340,
+  "profiles": [
+    {
+      "name": "iPhone portrait",
+      "checks": 90,
+      "passed": true,
+      "evidence": "pages-seven-profiles.json"
+    },
+    {
+      "name": "iPhone landscape",
+      "checks": 90,
+      "passed": true,
+      "evidence": "pages-seven-profiles.json"
+    },
+    {
+      "name": "Android portrait",
+      "checks": 90,
+      "passed": true,
+      "evidence": "pages-seven-profiles.json"
+    },
+    {
+      "name": "iPhone compact",
+      "checks": 16,
+      "passed": true,
+      "evidence": "pages-seven-profiles.json"
+    },
+    {
+      "name": "iPad desktop UA",
+      "checks": 16,
+      "passed": true,
+      "evidence": "pages-seven-profiles.json"
+    },
+    {
+      "name": "desktop",
+      "checks": 11,
+      "passed": true,
+      "evidence": "pages-seven-profiles.json"
+    },
+    {
+      "name": "narrow desktop",
+      "checks": 11,
+      "passed": true,
+      "evidence": "pages-seven-profiles.json"
+    },
+    {
+      "name": "Windows primary coarse touch",
+      "checks": 16,
+      "passed": true,
+      "evidence": "pages-windows-profile.json"
+    }
+  ],
+  "transportFailures": [
+    {
+      "evidence": "pages-load-timeout.json",
+      "completedProfiles": 3,
+      "failure": "page.goto: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"https://cheng-xiu.github.io/ustc-danmaku/?qa=1\", waiting until \"load\"\u001b[22m\n"
+    },
+    {
+      "evidence": "pages-seven-profiles.json",
+      "completedProfiles": 7,
+      "failure": "page.goto: net::ERR_CONNECTION_RESET at https://cheng-xiu.github.io/ustc-danmaku/?qa=1\nCall log:\n\u001b[2m  - navigating to \"https://cheng-xiu.github.io/ustc-danmaku/?qa=1\", waiting until \"load\"\u001b[22m\n"
+    }
+  ],
+  "limitations": "Chromium emulation and native CDP touch; no physical iOS/Android human playtest or device performance claim."
+}

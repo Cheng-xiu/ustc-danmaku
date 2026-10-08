@@ -35,6 +35,12 @@ const profiles = [
   // Windows touchscreen laptop negative is separately covered by the pure probe.
   { name: 'Windows primary coarse touch', width: 1280, height: 800, platform: 'Win32', touch: true, mode: 'touch' },
 ];
+const requestedNames = process.argv[4]?.split(',').map(name => name.trim());
+if (requestedNames && !online) throw Error('A profile filter is supported only for a focused published-page check.');
+if (requestedNames?.some(name => !profiles.some(profile => profile.name === name))) throw Error('Unknown mobile browser profile.');
+const runProfiles = requestedNames ? profiles.filter(profile => requestedNames.includes(profile.name)) : profiles;
+report.requestedProfiles = runProfiles.map(profile => profile.name);
+const focusedOutput = requestedNames ? `mobile-pages-${runProfiles.map(profile => profile.name.replaceAll(' ', '-').toLowerCase()).join('-')}-smoke.json` : 'mobile-pages-smoke.json';
 const near = (a, b, tolerance = .001) => Number.isFinite(a) && Number.isFinite(b) && Math.abs(a - b) <= tolerance;
 const directionSame = (a, b) => !!a && !!b && near(a.dirX, b.dirX, 1e-6) && near(a.dirY, b.dirY, 1e-6);
 const distance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
@@ -52,7 +58,7 @@ try {
   if (online && process.env.PAGES_QA_PROXY) launch.proxy = { server: process.env.PAGES_QA_PROXY };
   browser = await chromium.launch(launch);
   report.browser = await browser.version();
-  for (const profile of profiles) {
+  for (const profile of runProfiles) {
     budget();
     const context = await browser.newContext({ viewport: { width: profile.width, height: profile.height },
       hasTouch: profile.touch, isMobile: profile.touch, deviceScaleFactor: profile.dpr ?? 1, offline: !online,
@@ -564,7 +570,7 @@ try {
       await page.screenshot({ path: screenshotPath('rotated') });
     } finally { closing = true; await context.close(); }
   }
-  if (online) check('each profile requested only its expected main document', report.documentRequests.length === profiles.length,
+  if (online) check('each profile requested only its expected main document', report.documentRequests.length === runProfiles.length,
   report.documentRequests);
   check('all profiles have zero runtime errors and external/failed/error-status requests', report.errors.length === 0
     && report.externalRequests.length === 0 && report.failedRequests.length === 0 && report.httpErrors.length === 0,
@@ -573,7 +579,7 @@ try {
 } catch (error) { report.failure = error instanceof Error ? error.message : String(error); process.exitCode = 1; }
 finally {
   await browser?.close();
-  writeFileSync(path.join(output, online ? 'mobile-pages-smoke.json' : 'mobile-browser-smoke.json'), JSON.stringify(report, null, 2));
+  writeFileSync(path.join(output, online ? focusedOutput : 'mobile-browser-smoke.json'), JSON.stringify(report, null, 2));
   console.log(JSON.stringify({ deliveryType: report.deliveryType, checks: report.checks.length, passed: report.passed, profiles: report.profiles.length,
     errors: report.errors.length, externalRequests: report.externalRequests.length, failedRequests: report.failedRequests.length,
     httpErrors: report.httpErrors.length,

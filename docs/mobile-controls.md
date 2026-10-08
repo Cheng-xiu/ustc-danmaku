@@ -65,6 +65,8 @@ npm.cmd run test:mobile:browser
 | 手机输入探针 | 35场景、585断言通过 | [mobile-input-probe-results.json](validation/mobile-wheel/mobile-input-probe-results.json) |
 | 键鼠输入探针 | 54场景、431断言通过 | [aim-input-probe-results.json](validation/mobile-wheel/aim-input-probe-results.json) |
 | 最终离线转盘、多指与检测 | 8种设备模拟、326/326，0脚本错误/外部请求/失败请求 | [mobile-browser-smoke.json](validation/mobile-wheel/mobile-browser-smoke.json) |
+| 已发布HTTPS分批检查 | 8种设备、340项设备检查通过，每档HTTP200与响应哈希一致 | [pages-coverage.json](validation/mobile-wheel/pages-coverage.json) |
+| 增加线上单档入口后的默认离线回归 | 8档326/326，0错误/额外请求/失败请求 | [final-default-mobile-browser.json](validation/mobile-wheel/final-default-mobile-browser.json)、[日志](validation/mobile-wheel/final-default-mobile-browser.log) |
 | 同文件键鼠浏览器回归 | 282/282、15次实际发招 | [v6-aim-browser-smoke.json](validation/mobile-wheel/v6-aim-browser-smoke.json) |
 | 同文件无尽回放 | 18/18，真实清波、预告和下一波出生 | [v6-browser-endless.json](validation/mobile-wheel/v6-browser-endless.json) |
 | Native/Wasm对照 | 10场景、36,010快照，最大浮点差3.814697×10⁻⁶ | [core-parity.json](validation/mobile-wheel/core-parity.json) |
@@ -77,7 +79,11 @@ npm.cmd run test:mobile:browser
 
 ```powershell
 node tests/web/mobile-browser-smoke.mjs demo/ustc-danmaku.html https://cheng-xiu.github.io/ustc-danmaku/
+# 出现导航问题时，可单独补验指定设备；结果另存，不覆盖整批记录：
+node tests/web/mobile-browser-smoke.mjs demo/ustc-danmaku.html https://cheng-xiu.github.io/ustc-danmaku/ "Windows primary coarse touch"
 ```
+
+本轮HTTPS整批运行先在第4档加载超过30秒，重试后前7档全部完成，第8档遇到 `ERR_CONNECTION_RESET`；随后第8档独立检查19/19通过。上述340项是分批覆盖的设备检查，不能写成一次整批无网络失败。原始 [首次导航超时](validation/mobile-wheel/pages-load-timeout.json)、[前7档与连接重置](validation/mobile-wheel/pages-seven-profiles.json)、[第8档补验](validation/mobile-wheel/pages-windows-profile.json) 均保留，已完成各档没有脚本错误或额外资源请求。[发布身份核验](validation/mobile-wheel/pages-integrity.json) 对应游戏提交 `c14352e60b17ada532914610acd2d0777e2a5e88`；后续只增加验证说明和补验脚本入口，游戏HTML字节不变。
 
 以下截图来自本轮最终文件的Chromium模拟。横屏展示按住转盘预瞄，竖屏用于检查触区和顶栏布局。
 

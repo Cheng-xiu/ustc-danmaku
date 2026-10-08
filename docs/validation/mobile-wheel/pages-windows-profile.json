@@ -1,0 +1,532 @@
+{
+  "deliveryType": "https",
+  "url": "https://cheng-xiu.github.io/ustc-danmaku/?qa=1",
+  "method": "Published HTTPS final radial-skill-wheel page; each main document response must be HTTP 200 and match the local artifact SHA-256. Actual Chromium DOM/C/Wasm, native CDP Input.dispatchTouchEvent multitouch and real keyboard/mouse events. Passive DOM pointermove observation only synchronizes native event delivery; no RAF/core tick is advanced to deliver a drag. Device profiles emulate UA, platform, viewport and touch capability; no core, energy, RNG, position or plan injection. Controlled RAF clock is not an FPS or human-hand-feel measurement. iPhone profiles run Chromium, not physical iOS Safari.",
+  "htmlPath": "C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\demo\\ustc-danmaku.html",
+  "htmlSha256": "c931f75e78a1dce721df74c52f8abab2ef0d14f766b619db0b473e7c17da0f00",
+  "configVersion": 6,
+  "abiVersion": 5,
+  "profiles": [
+    {
+      "name": "Windows primary coarse touch",
+      "emulation": {
+        "name": "Windows primary coarse touch",
+        "width": 1280,
+        "height": 800,
+        "platform": "Win32",
+        "touch": true,
+        "mode": "touch"
+      },
+      "signals": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "platform": "Win32",
+        "maxTouchPoints": 5,
+        "coarsePointer": true,
+        "noHover": true,
+        "userAgentMobile": false,
+        "innerWidth": 1280,
+        "innerHeight": 800,
+        "devicePixelRatio": 1
+      },
+      "controlMode": {
+        "mode": "touch",
+        "detectedMode": "touch",
+        "reason": "primary-coarse-touch-without-hover",
+        "automatic": true
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "single HTML has no external script or stylesheet",
+      "pass": true
+    },
+    {
+      "name": "Windows primary coarse touch: published expected HTTPS document returns 200",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "responseURL": "https://cheng-xiu.github.io/ustc-danmaku/?qa=1",
+        "actualURL": "https://cheng-xiu.github.io/ustc-danmaku/?qa=1"
+      }
+    },
+    {
+      "name": "Windows primary coarse touch: published body matches local artifact byte for byte",
+      "pass": true,
+      "detail": {
+        "expected": "c931f75e78a1dce721df74c52f8abab2ef0d14f766b619db0b473e7c17da0f00",
+        "actual": "c931f75e78a1dce721df74c52f8abab2ef0d14f766b619db0b473e7c17da0f00"
+      }
+    },
+    {
+      "name": "Windows primary coarse touch: automatic device/input mode matches exposed capability",
+      "pass": true,
+      "detail": {
+        "name": "Windows primary coarse touch",
+        "emulation": {
+          "name": "Windows primary coarse touch",
+          "width": 1280,
+          "height": 800,
+          "platform": "Win32",
+          "touch": true,
+          "mode": "touch"
+        },
+        "signals": {
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+          "platform": "Win32",
+          "maxTouchPoints": 5,
+          "coarsePointer": true,
+          "noHover": true,
+          "userAgentMobile": false,
+          "innerWidth": 1280,
+          "innerHeight": 800,
+          "devicePixelRatio": 1
+        },
+        "controlMode": {
+          "mode": "touch",
+          "detectedMode": "touch",
+          "reason": "primary-coarse-touch-without-hover",
+          "automatic": true
+        }
+      }
+    },
+    {
+      "name": "Windows primary coarse touch: browser exposes requested viewport and device pixel ratio",
+      "pass": true,
+      "detail": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "platform": "Win32",
+        "maxTouchPoints": 5,
+        "coarsePointer": true,
+        "noHover": true,
+        "userAgentMobile": false,
+        "innerWidth": 1280,
+        "innerHeight": 800,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "name": "Windows primary coarse touch: current C game and four skill introductions load",
+      "pass": true
+    },
+    {
+      "name": "Windows primary coarse touch: pre-game overlay exposes an accessible mode switch",
+      "pass": true
+    },
+    {
+      "name": "Windows primary coarse touch: menu mode switch overrides detection without starting a round",
+      "pass": true
+    },
+    {
+      "name": "Windows primary coarse touch: second menu activation returns to detected mode exactly once",
+      "pass": true
+    },
+    {
+      "name": "Windows primary coarse touch: native touch tap starts actual game and shows controls",
+      "pass": true
+    },
+    {
+      "name": "Windows primary coarse touch: wheel opens at central contact before layout sampling",
+      "pass": true
+    },
+    {
+      "name": "Windows primary coarse touch: battlefield fills below HUD without horizontal overflow",
+      "pass": true,
+      "detail": {
+        "arena": {
+          "x": 0,
+          "y": 141.390625,
+          "width": 1280,
+          "height": 658.609375,
+          "right": 1280,
+          "bottom": 800
+        },
+        "hud": {
+          "x": 0,
+          "y": 0,
+          "width": 1280,
+          "height": 141.390625,
+          "right": 1280,
+          "bottom": 141.390625
+        },
+        "joystick": {
+          "x": 0,
+          "y": 560,
+          "width": 340,
+          "height": 240,
+          "right": 340,
+          "bottom": 800
+        },
+        "wheel": {
+          "x": 1090,
+          "y": 561,
+          "width": 180,
+          "height": 180,
+          "right": 1270,
+          "bottom": 741
+        },
+        "sectors": [
+          {
+            "pattern": 0,
+            "x": 1158,
+            "y": 568,
+            "width": 44,
+            "height": 37.796875,
+            "right": 1202,
+            "bottom": 605.796875
+          },
+          {
+            "pattern": 1,
+            "x": 1221,
+            "y": 632.1015625,
+            "width": 44,
+            "height": 37.796875,
+            "right": 1265,
+            "bottom": 669.8984375
+          },
+          {
+            "pattern": 2,
+            "x": 1158,
+            "y": 696.203125,
+            "width": 44,
+            "height": 37.796875,
+            "right": 1202,
+            "bottom": 734
+          },
+          {
+            "pattern": 3,
+            "x": 1095,
+            "y": 632.1015625,
+            "width": 44,
+            "height": 37.796875,
+            "right": 1139,
+            "bottom": 669.8984375
+          }
+        ],
+        "controls": [
+          {
+            "selector": "[data-touch=\"wheel-trigger\"]",
+            "x": 1148,
+            "y": 619,
+            "width": 64,
+            "height": 64,
+            "right": 1212,
+            "bottom": 683
+          },
+          {
+            "selector": "[data-touch=\"cancel\"]",
+            "x": 1090,
+            "y": 746,
+            "width": 180,
+            "height": 44,
+            "right": 1270,
+            "bottom": 790
+          },
+          {
+            "selector": "[data-ui=\"pause\"]",
+            "x": 1177.65625,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 1222.328125,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"restart\"]",
+            "x": 1227.328125,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 1272,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"controls-toggle\"]",
+            "x": 1128,
+            "y": 7.5,
+            "width": 44.65625,
+            "height": 44,
+            "right": 1172.65625,
+            "bottom": 51.5
+          }
+        ],
+        "width": 1280,
+        "height": 800,
+        "scrollWidth": 1280
+      }
+    },
+    {
+      "name": "Windows primary coarse touch: touch buttons are at least 44px and remain within viewport",
+      "pass": true,
+      "detail": [
+        {
+          "selector": "[data-touch=\"wheel-trigger\"]",
+          "x": 1148,
+          "y": 619,
+          "width": 64,
+          "height": 64,
+          "right": 1212,
+          "bottom": 683
+        },
+        {
+          "selector": "[data-touch=\"cancel\"]",
+          "x": 1090,
+          "y": 746,
+          "width": 180,
+          "height": 44,
+          "right": 1270,
+          "bottom": 790
+        },
+        {
+          "selector": "[data-ui=\"pause\"]",
+          "x": 1177.65625,
+          "y": 7.5,
+          "width": 44.671875,
+          "height": 44,
+          "right": 1222.328125,
+          "bottom": 51.5
+        },
+        {
+          "selector": "[data-ui=\"restart\"]",
+          "x": 1227.328125,
+          "y": 7.5,
+          "width": 44.671875,
+          "height": 44,
+          "right": 1272,
+          "bottom": 51.5
+        },
+        {
+          "selector": "[data-ui=\"controls-toggle\"]",
+          "x": 1128,
+          "y": 7.5,
+          "width": 44.65625,
+          "height": 44,
+          "right": 1172.65625,
+          "bottom": 51.5
+        }
+      ]
+    },
+    {
+      "name": "Windows primary coarse touch: wheel central activation target is at least 64px",
+      "pass": true,
+      "detail": {
+        "selector": "[data-touch=\"wheel-trigger\"]",
+        "x": 1148,
+        "y": 619,
+        "width": 64,
+        "height": 64,
+        "right": 1212,
+        "bottom": 683
+      }
+    },
+    {
+      "name": "Windows primary coarse touch: left joystick and right wheel occupy separate safe touch areas",
+      "pass": true,
+      "detail": {
+        "arena": {
+          "x": 0,
+          "y": 141.390625,
+          "width": 1280,
+          "height": 658.609375,
+          "right": 1280,
+          "bottom": 800
+        },
+        "hud": {
+          "x": 0,
+          "y": 0,
+          "width": 1280,
+          "height": 141.390625,
+          "right": 1280,
+          "bottom": 141.390625
+        },
+        "joystick": {
+          "x": 0,
+          "y": 560,
+          "width": 340,
+          "height": 240,
+          "right": 340,
+          "bottom": 800
+        },
+        "wheel": {
+          "x": 1090,
+          "y": 561,
+          "width": 180,
+          "height": 180,
+          "right": 1270,
+          "bottom": 741
+        },
+        "sectors": [
+          {
+            "pattern": 0,
+            "x": 1158,
+            "y": 568,
+            "width": 44,
+            "height": 37.796875,
+            "right": 1202,
+            "bottom": 605.796875
+          },
+          {
+            "pattern": 1,
+            "x": 1221,
+            "y": 632.1015625,
+            "width": 44,
+            "height": 37.796875,
+            "right": 1265,
+            "bottom": 669.8984375
+          },
+          {
+            "pattern": 2,
+            "x": 1158,
+            "y": 696.203125,
+            "width": 44,
+            "height": 37.796875,
+            "right": 1202,
+            "bottom": 734
+          },
+          {
+            "pattern": 3,
+            "x": 1095,
+            "y": 632.1015625,
+            "width": 44,
+            "height": 37.796875,
+            "right": 1139,
+            "bottom": 669.8984375
+          }
+        ],
+        "controls": [
+          {
+            "selector": "[data-touch=\"wheel-trigger\"]",
+            "x": 1148,
+            "y": 619,
+            "width": 64,
+            "height": 64,
+            "right": 1212,
+            "bottom": 683
+          },
+          {
+            "selector": "[data-touch=\"cancel\"]",
+            "x": 1090,
+            "y": 746,
+            "width": 180,
+            "height": 44,
+            "right": 1270,
+            "bottom": 790
+          },
+          {
+            "selector": "[data-ui=\"pause\"]",
+            "x": 1177.65625,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 1222.328125,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"restart\"]",
+            "x": 1227.328125,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 1272,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"controls-toggle\"]",
+            "x": 1128,
+            "y": 7.5,
+            "width": 44.65625,
+            "height": 44,
+            "right": 1172.65625,
+            "bottom": 51.5
+          }
+        ],
+        "width": 1280,
+        "height": 800,
+        "scrollWidth": 1280
+      }
+    },
+    {
+      "name": "Windows primary coarse touch: four display sectors remain within the safe viewport without overlap",
+      "pass": true,
+      "detail": [
+        {
+          "pattern": 0,
+          "x": 1158,
+          "y": 568,
+          "width": 44,
+          "height": 37.796875,
+          "right": 1202,
+          "bottom": 605.796875
+        },
+        {
+          "pattern": 1,
+          "x": 1221,
+          "y": 632.1015625,
+          "width": 44,
+          "height": 37.796875,
+          "right": 1265,
+          "bottom": 669.8984375
+        },
+        {
+          "pattern": 2,
+          "x": 1158,
+          "y": 696.203125,
+          "width": 44,
+          "height": 37.796875,
+          "right": 1202,
+          "bottom": 734
+        },
+        {
+          "pattern": 3,
+          "x": 1095,
+          "y": 632.1015625,
+          "width": 44,
+          "height": 37.796875,
+          "right": 1139,
+          "bottom": 669.8984375
+        }
+      ]
+    },
+    {
+      "name": "Windows primary coarse touch: layout-opening neutral release preserves zero attack counters",
+      "pass": true
+    },
+    {
+      "name": "each profile requested only its expected main document",
+      "pass": true,
+      "detail": [
+        {
+          "profile": "Windows primary coarse touch",
+          "url": "https://cheng-xiu.github.io/ustc-danmaku/?qa=1",
+          "type": "document"
+        }
+      ]
+    },
+    {
+      "name": "all profiles have zero runtime errors and external/failed/error-status requests",
+      "pass": true,
+      "detail": {
+        "errors": [],
+        "externalRequests": [],
+        "failedRequests": [],
+        "httpErrors": []
+      }
+    }
+  ],
+  "errors": [],
+  "documentRequests": [
+    {
+      "profile": "Windows primary coarse touch",
+      "url": "https://cheng-xiu.github.io/ustc-danmaku/?qa=1",
+      "type": "document"
+    }
+  ],
+  "externalRequests": [],
+  "failedRequests": [],
+  "httpErrors": [],
+  "passed": true,
+  "requestedProfiles": [
+    "Windows primary coarse touch"
+  ],
+  "browser": "154.0.8037.98"
+}

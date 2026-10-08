@@ -1,0 +1,14 @@
+
+> ustc-danmaku-monorepo@0.6.0 test:mobile:browser
+> node tests/web/mobile-browser-smoke.mjs build/release/ustc-danmaku-endless.html
+
+{
+  "deliveryType": "offline-file",
+  "checks": 326,
+  "passed": true,
+  "profiles": 8,
+  "errors": 0,
+  "externalRequests": 0,
+  "failedRequests": 0,
+  "httpErrors": 0
+}
