@@ -60,3 +60,5 @@ HTML 1168141字节，SHA256 `9de27925103b644236b736e635932be215ecd0440d095311657
 ## 最新主线对应关系
 
 2026-10-08 按用户要求统一最新版入口，源码和说明使用 monorepo 主线，Pages 仍为 cfg6/ABI5。发布时在已同步的 `main` 上运行脚本，把 `deployment.json` 的来源更新到实际主线提交；相同 HTML 的内容哈希保持不变。线上当前身份始终以 [deployment.json](https://cheng-xiu.github.io/ustc-danmaku/deployment.json) 为准，[本轮同步说明](repository-sync.md)登记源码与线上核对结果，之前的 v4/v5/v6 发布证据保留原身份。
+
+2026-10-08 新增手机输入修订：同一页面自动显示左摇杆与右选招转盘，菜单/顶栏可手动切换。构建、触摸验收及最终文件身份见[手机操作与验证](mobile-controls.md)。更新后仍以公开 `deployment.json` 核对主线来源和HTML；cfg6/ABI5保持，手机UI修订的HTML哈希单独登记，不改写前述版本原始证据。

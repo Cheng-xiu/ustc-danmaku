@@ -1,0 +1,43 @@
+.demo-touch-controls { position:absolute; inset:0; z-index:4; pointer-events:none; color:#e8f3ff; font-family:Inter,"Microsoft YaHei",system-ui,sans-serif; user-select:none; -webkit-user-select:none; -webkit-touch-callout:none; }
+.demo-touch-controls[hidden] { display:none; }
+.demo-touch-controls * { box-sizing:border-box; }
+.demo-joystick-zone { position:absolute; left:env(safe-area-inset-left,0px); bottom:env(safe-area-inset-bottom,0px); width:min(46%,340px); height:clamp(148px,38%,240px); pointer-events:auto; touch-action:none; }
+.demo-joystick-base { --joystick-radius:52px; position:absolute; left:50%; top:54%; width:calc(var(--joystick-radius) * 2 + 16px); height:calc(var(--joystick-radius) * 2 + 16px); margin-left:calc(-1 * var(--joystick-radius) - 8px); margin-top:calc(-1 * var(--joystick-radius) - 8px); border:2px solid #bbd5ee55; border-radius:50%; background:radial-gradient(circle,#a5cbea0e 58%,#94c8eb18 59%,#94c8eb12 100%); box-shadow:inset 0 0 0 8px #0b19241c,0 2px 15px #0002; opacity:.68; transition:opacity .12s; }
+.demo-joystick-base.active { opacity:1; border-color:#b4e5ffbd; background:radial-gradient(circle,#92c4e527 58%,#94c8eb37 59%,#94c8eb20 100%); }
+.demo-joystick-cross { position:absolute; inset:12px; border-radius:50%; }
+.demo-joystick-cross::before,.demo-joystick-cross::after { content:""; position:absolute; left:50%; top:50%; background:#bdddfc35; transform:translate(-50%,-50%); }
+.demo-joystick-cross::before { width:100%; height:1px; }.demo-joystick-cross::after { width:1px; height:100%; }
+.demo-joystick-knob { position:absolute; left:50%; top:50%; width:36px; height:36px; margin:-18px 0 0 -18px; border:2px solid #d5eeffab; border-radius:50%; background:#6688a899; box-shadow:0 3px 12px #0005,inset 0 1px 7px #dbedff25; will-change:transform; }
+.demo-joystick-base.active .demo-joystick-knob { background:#92bbdcca; border-color:#e4f5ff; }
+.demo-joystick-caption { position:absolute; left:0; right:0; bottom:8px; text-align:center; font-size:10px; color:#b5d5ebaf; text-shadow:0 1px 4px #001; pointer-events:none; }
+.demo-touch-actions { position:absolute; right:max(10px,env(safe-area-inset-right,0px)); bottom:max(10px,env(safe-area-inset-bottom,0px)); width:min(180px,46vw); display:flex; flex-direction:column; gap:5px; pointer-events:none; }
+.demo-touch-wheel { position:relative; width:100%; aspect-ratio:1; border:1px solid #8ba9c388; border-radius:50%; overflow:hidden; pointer-events:auto; touch-action:none; background:conic-gradient(from -45deg,#243c29df 0deg 90deg,#302847df 90deg 180deg,#453b25df 180deg 270deg,#213a4bdf 270deg 360deg); box-shadow:0 2px 13px #0006,inset 0 0 0 4px #9acfff0b; -webkit-tap-highlight-color:transparent; }
+.demo-touch-wheel::before { content:""; position:absolute; inset:0; border-radius:50%; background:conic-gradient(from -45deg,var(--selection-color,#bcd5e759) 0deg 90deg,transparent 90deg 360deg); transform:rotate(var(--sector-angle,0deg)); opacity:0; pointer-events:none; }
+.demo-touch-wheel:not([data-selection="-1"])::before { opacity:1; }
+.demo-touch-wheel::after { content:""; position:absolute; inset:0; border-radius:50%; background:linear-gradient(45deg,transparent 49.5%,#bad8ed44 49.5% 50.5%,transparent 50.5%),linear-gradient(-45deg,transparent 49.5%,#bad8ed44 49.5% 50.5%,transparent 50.5%); pointer-events:none; }
+.demo-touch-wheel[data-open="true"] { border-color:#d0eaffcc; box-shadow:0 0 0 2px #a9d5f022,0 3px 20px #0005; }
+.demo-touch-wheel.aim-blocked { border-color:#f3ad87; }.demo-touch-wheel.cancelled { border-color:#ffa291; filter:saturate(.6); }
+.demo-touch-wheel-trigger { position:absolute; left:50%; top:50%; z-index:3; width:64px; height:64px; transform:translate(-50%,-50%); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:2px; border:2px solid #aacbe3b0; border-radius:50%; background:#163044f2; color:#e1f0fb; font:inherit; pointer-events:none; touch-action:none; }
+.demo-touch-wheel-trigger strong { font-size:11px; font-weight:700; }.demo-touch-wheel-trigger>span { font-size:8px; color:#b8cfdf; }
+.demo-touch-wheel[data-open="true"] .demo-touch-wheel-trigger { border-color:#d4f0ff; background:#2b4f63f5; }
+.demo-touch-wheel.aim-blocked .demo-touch-wheel-trigger { background:#503b42f3; }.demo-touch-wheel.cancelled .demo-touch-wheel-trigger { background:#634037f3; }
+.demo-touch-sector { position:absolute; z-index:2; width:44px; display:flex; flex-direction:column; align-items:center; gap:2px; pointer-events:none; color:#d8e8f3; text-shadow:0 1px 3px #0009; }
+.demo-touch-sector[data-pattern="0"] { left:50%; top:6px; transform:translateX(-50%); }
+.demo-touch-sector[data-pattern="1"] { right:4px; top:50%; transform:translateY(-50%); }
+.demo-touch-sector[data-pattern="2"] { left:50%; bottom:6px; transform:translateX(-50%); }
+.demo-touch-sector[data-pattern="3"] { left:4px; top:50%; transform:translateY(-50%); }
+.demo-touch-skill-name { font-size:11px; font-weight:700; white-space:nowrap; }.demo-touch-skill-name b { color:var(--skill-color); }
+.demo-touch-skill-status { font-size:8px; line-height:1.1; color:#c1d5e7; white-space:nowrap; }.demo-touch-skill-cost { font:8px Consolas,"Microsoft YaHei",monospace; color:var(--skill-color); white-space:nowrap; }
+.demo-touch-sector.unavailable .demo-touch-skill-status { color:#f0bd91; }.demo-touch-sector.aiming { color:#fff; text-shadow:0 0 5px var(--skill-color),0 1px 3px #000; }
+.demo-touch-sector.aiming .demo-touch-skill-status { color:#fff; }.demo-touch-sector.aim-blocked .demo-touch-skill-status { color:#ffd0b0; }
+.demo-touch-cancel-zone { height:30px; display:flex; align-items:center; justify-content:center; border:1px dashed #e3a99555; border-radius:8px; color:#d9b5a887; font-size:11px; background:#15253944; pointer-events:none; }
+.demo-touch-cancel-zone.visible { color:#ffd6c6; border-color:#f0b89eb3; background:#512e3b9e; }.demo-touch-cancel-zone.cancelled { border-style:solid; color:#fff0e6; background:#a84e42bb; }
+.demo-touch-cancel { width:100%; min-height:44px; border:1px solid #ad96886b; border-radius:8px; background:#23364bd4; color:#dfc6ba; padding:5px; font:11px "Microsoft YaHei",system-ui,sans-serif; pointer-events:auto; touch-action:none; -webkit-tap-highlight-color:transparent; }
+.demo-touch-cancel:disabled { color:#8b9caf; background:#14283ac9; border-color:#647d9144; }
+.demo-touch-hint { position:absolute; right:0; bottom:-2px; transform:translateY(100%); color:#a9c7d5; font-size:8px; line-height:1; white-space:nowrap; pointer-events:none; }
+@media(max-height:500px) and (min-width:540px) {
+  .demo-touch-actions { width:180px; gap:4px; bottom:max(10px,env(safe-area-inset-bottom,0px)); }
+  .demo-touch-cancel-zone { height:24px; font-size:10px; }
+  .demo-joystick-zone { width:min(40%,320px); height:clamp(140px,65%,180px); }
+}
+@media(max-width:360px) { .demo-touch-actions { right:max(8px,env(safe-area-inset-right,0px)); } .demo-touch-sector { gap:1px; }.demo-touch-skill-name { font-size:10px; }.demo-touch-skill-status { font-size:7px; }.demo-joystick-zone { width:46%; } }

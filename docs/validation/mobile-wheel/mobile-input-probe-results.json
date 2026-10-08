@@ -1,0 +1,185 @@
+{
+  "method": "EventTarget fixture executes current BrowserInput TypeScript; validates axis/aim/edge ownership and device isolation, without changing or mocking game rules.",
+  "sourcePath": "C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\apps\\web\\src\\input\\browserInput.ts",
+  "sourceSha256": "530a6a50bd3400b84cb6199dfe5ff30148abed3425be4b683f6b0ca62d12553a",
+  "cases": 35,
+  "assertions": 585,
+  "passed": true,
+  "checks": [
+    {
+      "name": "touch mode starts stationary with upward default aim",
+      "pass": true,
+      "assertions": 14
+    },
+    {
+      "name": "partial joystick deflection keeps analog movement magnitude",
+      "pass": true,
+      "assertions": 8
+    },
+    {
+      "name": "diagonal deflection clamps to unit speed without distorting direction",
+      "pass": true,
+      "assertions": 8
+    },
+    {
+      "name": "out of range finite axes preserve ratio and clamp magnitude",
+      "pass": true,
+      "assertions": 8
+    },
+    {
+      "name": "enormous finite axes cannot overflow normalization",
+      "pass": true,
+      "assertions": 8
+    },
+    {
+      "name": "invalid axes immediately stop and preserve the last valid facing",
+      "pass": true,
+      "assertions": 38
+    },
+    {
+      "name": "recentring stops at the next tick without rotating a held aim",
+      "pass": true,
+      "assertions": 14
+    },
+    {
+      "name": "last nonzero direction survives recentering for the next selection",
+      "pass": true,
+      "assertions": 3
+    },
+    {
+      "name": "real joystick axis changes update an existing preview",
+      "pass": true,
+      "assertions": 14
+    },
+    {
+      "name": "Boss motion and repeated axes do not rebase mobile aiming",
+      "pass": true,
+      "assertions": 97
+    },
+    {
+      "name": "every screen pointer type is ignored while touch mode is active",
+      "pass": true,
+      "assertions": 34
+    },
+    {
+      "name": "right finger motion cannot move the Boss when the left stick is centred",
+      "pass": true,
+      "assertions": 16
+    },
+    {
+      "name": "touch release is copied before later axis or screen pointer changes",
+      "pass": true,
+      "assertions": 6
+    },
+    {
+      "name": "holding and releasing mobile skill remains one edge without auto fire",
+      "pass": true,
+      "assertions": 126
+    },
+    {
+      "name": "mobile latest owner wins and old pointer release is ignored",
+      "pass": true,
+      "assertions": 11
+    },
+    {
+      "name": "old pointer cancellation preserves a replaced mobile owner",
+      "pass": true,
+      "assertions": 9
+    },
+    {
+      "name": "matching pointer cancellation cancels its mobile release packet",
+      "pass": true,
+      "assertions": 2
+    },
+    {
+      "name": "mobile cancel preserves movement while discarding held or pending skills",
+      "pass": true,
+      "assertions": 6
+    },
+    {
+      "name": "Space cancels mobile aim and retains analog movement",
+      "pass": true,
+      "assertions": 6
+    },
+    {
+      "name": "keyboard movement temporarily overrides joystick and releases back to analog",
+      "pass": true,
+      "assertions": 15
+    },
+    {
+      "name": "currently held keyboard direction supplies new aim before joystick fallback",
+      "pass": true,
+      "assertions": 9
+    },
+    {
+      "name": "keyboard remains a remembered facing fallback when no joystick direction exists",
+      "pass": true,
+      "assertions": 9
+    },
+    {
+      "name": "keyboard movement does not rotate an existing touch aim by itself",
+      "pass": true,
+      "assertions": 11
+    },
+    {
+      "name": "switching into touch mode clears held keys, mouse and released skill edges",
+      "pass": true,
+      "assertions": 14
+    },
+    {
+      "name": "repeated touch mode assignment does not interrupt a gesture",
+      "pass": true,
+      "assertions": 8
+    },
+    {
+      "name": "switching back to mouse cancels mobile state and requires a fresh mouse event",
+      "pass": true,
+      "assertions": 14
+    },
+    {
+      "name": "clear resets joystick and facing while preserving mobile mode",
+      "pass": true,
+      "assertions": 13
+    },
+    {
+      "name": "window blur clears mobile movement, preview and delayed release",
+      "pass": true,
+      "assertions": 9
+    },
+    {
+      "name": "restart clears joystick and pending releases before callback",
+      "pass": true,
+      "assertions": 10
+    },
+    {
+      "name": "pause clears mobile input before invoking the existing pause callback",
+      "pass": true,
+      "assertions": 7
+    },
+    {
+      "name": "nonplaying phase prevents mobile selection and later release",
+      "pass": true,
+      "assertions": 5
+    },
+    {
+      "name": "desktop ignores touch and pen contacts without losing the real mouse target",
+      "pass": true,
+      "assertions": 10
+    },
+    {
+      "name": "desktop accepts empty synthetic pointerType and ignores inactive joystick updates",
+      "pass": true,
+      "assertions": 14
+    },
+    {
+      "name": "getSelection stays defensive for mobile previews",
+      "pass": true,
+      "assertions": 3
+    },
+    {
+      "name": "dispose detaches pointer and keyboard listeners and clears axes",
+      "pass": true,
+      "assertions": 6
+    }
+  ]
+}

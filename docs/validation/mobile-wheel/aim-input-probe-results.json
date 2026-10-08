@@ -1,0 +1,280 @@
+{
+  "method": "DOM EventTarget fixture runs transpiled current BrowserInput source; no core/world mutation, no rendered browser claims.",
+  "sourcePath": "C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\apps\\web\\src\\input\\browserInput.ts",
+  "sourceSha256": "530a6a50bd3400b84cb6199dfe5ff30148abed3425be4b683f6b0ca62d12553a",
+  "cases": 54,
+  "assertions": 431,
+  "passed": true,
+  "checks": [
+    {
+      "name": "keydown immediately selects without firing",
+      "pass": true,
+      "assertions": 4
+    },
+    {
+      "name": "instant key press and release emits one copied packet",
+      "pass": true,
+      "assertions": 7
+    },
+    {
+      "name": "holding through many ticks never autofires",
+      "pass": true,
+      "assertions": 125
+    },
+    {
+      "name": "repeat events cannot replace a newer skill",
+      "pass": true,
+      "assertions": 7
+    },
+    {
+      "name": "latest key selection wins and old keyup is ignored",
+      "pass": true,
+      "assertions": 7
+    },
+    {
+      "name": "Digit and Numpad have distinct owners",
+      "pass": true,
+      "assertions": 7
+    },
+    {
+      "name": "Space cancels held selection and suppresses its keyup",
+      "pass": true,
+      "assertions": 4
+    },
+    {
+      "name": "Space cancels a release before the next tick",
+      "pass": true,
+      "assertions": 2
+    },
+    {
+      "name": "Space cancellation preserves WASD motion",
+      "pass": true,
+      "assertions": 4
+    },
+    {
+      "name": "clear prevents delayed key and pointer release",
+      "pass": true,
+      "assertions": 2
+    },
+    {
+      "name": "Escape clears input before invoking pause",
+      "pass": true,
+      "assertions": 5
+    },
+    {
+      "name": "R clears current and released attacks before restart",
+      "pass": true,
+      "assertions": 4
+    },
+    {
+      "name": "window blur cancels held input and pending releases",
+      "pass": true,
+      "assertions": 3
+    },
+    {
+      "name": "canvas pointercancel cancels its matching pointer owner",
+      "pass": true,
+      "assertions": 4
+    },
+    {
+      "name": "old canvas pointercancel leaves new keyboard selection intact",
+      "pass": true,
+      "assertions": 7
+    },
+    {
+      "name": "right click clears and invokes pause",
+      "pass": true,
+      "assertions": 5
+    },
+    {
+      "name": "non-playing phase blocks keyboard and HUD selection",
+      "pass": true,
+      "assertions": 3
+    },
+    {
+      "name": "phase changes before release suppress firing",
+      "pass": true,
+      "assertions": 3
+    },
+    {
+      "name": "Boss crossing pointer never turns a held aim",
+      "pass": true,
+      "assertions": 24
+    },
+    {
+      "name": "same client coordinates after Boss motion never turn aim",
+      "pass": true,
+      "assertions": 5
+    },
+    {
+      "name": "resize reprojects movement target without turning aim",
+      "pass": true,
+      "assertions": 10
+    },
+    {
+      "name": "actual screen pointer change updates aim from latest Boss",
+      "pass": true,
+      "assertions": 6
+    },
+    {
+      "name": "pointer movement inside twelve pixel dead zone preserves aim",
+      "pass": true,
+      "assertions": 6
+    },
+    {
+      "name": "keyboard direction is fallback without a pointer",
+      "pass": true,
+      "assertions": 6
+    },
+    {
+      "name": "diagonal keyboard fallback is normalized",
+      "pass": true,
+      "assertions": 4
+    },
+    {
+      "name": "last nonzero keyboard direction survives keyup",
+      "pass": true,
+      "assertions": 4
+    },
+    {
+      "name": "keyboard motion does not rotate an already held aim",
+      "pass": true,
+      "assertions": 6
+    },
+    {
+      "name": "valid mouse facing takes precedence over keyboard fallback",
+      "pass": true,
+      "assertions": 4
+    },
+    {
+      "name": "getSelection returns a defensive copy",
+      "pass": true,
+      "assertions": 6
+    },
+    {
+      "name": "wrong owner release neither clears nor fires selection",
+      "pass": true,
+      "assertions": 7
+    },
+    {
+      "name": "HUD pointer begin and end produce one release edge",
+      "pass": true,
+      "assertions": 8
+    },
+    {
+      "name": "old pointer capture loss cannot cancel a new keyboard owner",
+      "pass": true,
+      "assertions": 7
+    },
+    {
+      "name": "old pointer cancellation preserves a new keyboard release packet",
+      "pass": true,
+      "assertions": 4
+    },
+    {
+      "name": "matching owner cancellation clears only its pending packet",
+      "pass": true,
+      "assertions": 7
+    },
+    {
+      "name": "cancelling current owner preserves another owner pending packet",
+      "pass": true,
+      "assertions": 5
+    },
+    {
+      "name": "unscoped cancellation clears all owners and legacy edges",
+      "pass": true,
+      "assertions": 3
+    },
+    {
+      "name": "legacy requestAttack mask remains single-consumption compatible",
+      "pass": true,
+      "assertions": 4
+    },
+    {
+      "name": "scoped cancel does not erase an unrelated legacy edge",
+      "pass": true,
+      "assertions": 3
+    },
+    {
+      "name": "legacy projection respects resized canvas and clear stays invalid",
+      "pass": true,
+      "assertions": 6
+    },
+    {
+      "name": "page pointerout retains observable pointer position and facing",
+      "pass": true,
+      "assertions": 8
+    },
+    {
+      "name": "keyboard overrides pointer movement without altering mouse aim",
+      "pass": true,
+      "assertions": 8
+    },
+    {
+      "name": "editable controls ignore skill and Space keydown",
+      "pass": true,
+      "assertions": 5
+    },
+    {
+      "name": "Space prevents native button activation",
+      "pass": true,
+      "assertions": 3
+    },
+    {
+      "name": "invalid patterns and owners cannot replace a valid selection",
+      "pass": true,
+      "assertions": 5
+    },
+    {
+      "name": "two taps before a tick do not queue or combine aimed attacks",
+      "pass": true,
+      "assertions": 6
+    },
+    {
+      "name": "released packet retains direction when pointer subsequently moves",
+      "pass": true,
+      "assertions": 4
+    },
+    {
+      "name": "Boss fallback supplied by consume supports old callbacks",
+      "pass": true,
+      "assertions": 4
+    },
+    {
+      "name": "zero sized canvas invalidates pointer without cancelling keyboard aim",
+      "pass": true,
+      "assertions": 8
+    },
+    {
+      "name": "new hold rebases stationary pointer from the current Boss",
+      "pass": true,
+      "assertions": 9
+    },
+    {
+      "name": "replacement hold rebases facing but earlier hold remains stable",
+      "pass": true,
+      "assertions": 10
+    },
+    {
+      "name": "new hold projects stationary screen pointer through resized transform",
+      "pass": true,
+      "assertions": 6
+    },
+    {
+      "name": "new hold inside dead zone preserves last valid mouse direction",
+      "pass": true,
+      "assertions": 6
+    },
+    {
+      "name": "HUD new hold rebases from latest Boss without pointer events",
+      "pass": true,
+      "assertions": 6
+    },
+    {
+      "name": "legacy Boss fallback rebases a new hold from the latest consumed Boss",
+      "pass": true,
+      "assertions": 5
+    }
+  ]
+}

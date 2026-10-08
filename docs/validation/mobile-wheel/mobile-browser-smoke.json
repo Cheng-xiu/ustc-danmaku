@@ -1,0 +1,5599 @@
+{
+  "deliveryType": "offline-file",
+  "url": "file:///C:/Users/jhsly/Documents/Codex/2026-10-06/cheng-xiu-ustc-danmaku-https-github-12/work/ustc-danmaku-web-demo/build/release/ustc-danmaku-endless.html?qa=1",
+  "method": "Offline final radial-skill-wheel HTML. Actual Chromium DOM/C/Wasm, native CDP Input.dispatchTouchEvent multitouch and real keyboard/mouse events. Passive DOM pointermove observation only synchronizes native event delivery; no RAF/core tick is advanced to deliver a drag. Device profiles emulate UA, platform, viewport and touch capability; no core, energy, RNG, position or plan injection. Controlled RAF clock is not an FPS or human-hand-feel measurement. iPhone profiles run Chromium, not physical iOS Safari.",
+  "htmlPath": "C:\\Users\\jhsly\\Documents\\Codex\\2026-10-06\\cheng-xiu-ustc-danmaku-https-github-12\\work\\ustc-danmaku-web-demo\\build\\release\\ustc-danmaku-endless.html",
+  "htmlSha256": "c931f75e78a1dce721df74c52f8abab2ef0d14f766b619db0b473e7c17da0f00",
+  "configVersion": 6,
+  "abiVersion": 5,
+  "profiles": [
+    {
+      "name": "iPhone portrait",
+      "emulation": {
+        "name": "iPhone portrait",
+        "width": 390,
+        "height": 844,
+        "dpr": 3,
+        "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1",
+        "platform": "iPhone",
+        "touch": true,
+        "mode": "touch",
+        "full": true
+      },
+      "signals": {
+        "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1",
+        "platform": "iPhone",
+        "maxTouchPoints": 5,
+        "coarsePointer": true,
+        "noHover": true,
+        "userAgentMobile": false,
+        "innerWidth": 390,
+        "innerHeight": 844,
+        "devicePixelRatio": 3
+      },
+      "controlMode": {
+        "mode": "touch",
+        "detectedMode": "touch",
+        "reason": "phone-user-agent-with-touch",
+        "automatic": true
+      },
+      "movement": {
+        "gentle": {
+          "strength": 0.38,
+          "value": {
+            "x": 0.17069127860926384,
+            "y": 0,
+            "radius": 44.84765625
+          },
+          "delta": 7.68096923828125,
+          "origin": {
+            "id": 1,
+            "alive": true,
+            "x": 309.70428466796875,
+            "y": 970.2220458984375,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 59,
+            "faction": 1
+          },
+          "actor": {
+            "id": 1,
+            "alive": true,
+            "x": 317.38525390625,
+            "y": 970.2220458984375,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 49,
+            "faction": 1
+          }
+        },
+        "full": {
+          "strength": 1,
+          "value": {
+            "x": 1,
+            "y": 0,
+            "radius": 44.84765625
+          },
+          "delta": 45,
+          "origin": {
+            "id": 1,
+            "alive": true,
+            "x": 309.70428466796875,
+            "y": 970.2220458984375,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 59,
+            "faction": 1
+          },
+          "actor": {
+            "id": 1,
+            "alive": true,
+            "x": 354.70428466796875,
+            "y": 970.2220458984375,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 49,
+            "faction": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "iPhone landscape",
+      "emulation": {
+        "name": "iPhone landscape",
+        "width": 844,
+        "height": 390,
+        "dpr": 3,
+        "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1",
+        "platform": "iPhone",
+        "touch": true,
+        "mode": "touch",
+        "full": true
+      },
+      "signals": {
+        "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1",
+        "platform": "iPhone",
+        "maxTouchPoints": 5,
+        "coarsePointer": true,
+        "noHover": true,
+        "userAgentMobile": false,
+        "innerWidth": 844,
+        "innerHeight": 390,
+        "devicePixelRatio": 3
+      },
+      "controlMode": {
+        "mode": "touch",
+        "detectedMode": "touch",
+        "reason": "phone-user-agent-with-touch",
+        "automatic": true
+      },
+      "movement": {
+        "gentle": {
+          "strength": 0.38,
+          "value": {
+            "x": 0.17069123634795932,
+            "y": 0,
+            "radius": 52
+          },
+          "delta": 7.6812744140625,
+          "origin": {
+            "id": 1,
+            "alive": true,
+            "x": 689.2454223632812,
+            "y": 426.638916015625,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 59,
+            "faction": 1
+          },
+          "actor": {
+            "id": 1,
+            "alive": true,
+            "x": 696.9266967773438,
+            "y": 426.638916015625,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 49,
+            "faction": 1
+          }
+        },
+        "full": {
+          "strength": 1,
+          "value": {
+            "x": 1,
+            "y": 0,
+            "radius": 52
+          },
+          "delta": 45,
+          "origin": {
+            "id": 1,
+            "alive": true,
+            "x": 689.2454223632812,
+            "y": 426.638916015625,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 59,
+            "faction": 1
+          },
+          "actor": {
+            "id": 1,
+            "alive": true,
+            "x": 734.2454223632812,
+            "y": 426.638916015625,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 49,
+            "faction": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "Android portrait",
+      "emulation": {
+        "name": "Android portrait",
+        "width": 412,
+        "height": 915,
+        "dpr": 2.625,
+        "userAgent": "Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36",
+        "platform": "Linux armv8l",
+        "touch": true,
+        "mode": "touch",
+        "full": true
+      },
+      "signals": {
+        "userAgent": "Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36",
+        "platform": "Linux armv8l",
+        "maxTouchPoints": 5,
+        "coarsePointer": true,
+        "noHover": true,
+        "userAgentMobile": false,
+        "innerWidth": 412,
+        "innerHeight": 915,
+        "devicePixelRatio": 2.625
+      },
+      "controlMode": {
+        "mode": "touch",
+        "detectedMode": "touch",
+        "reason": "phone-user-agent-with-touch",
+        "automatic": true
+      },
+      "movement": {
+        "gentle": {
+          "strength": 0.38,
+          "value": {
+            "x": 0.1706913001185978,
+            "y": 0,
+            "radius": 47.37890625
+          },
+          "delta": 7.68096923828125,
+          "origin": {
+            "id": 1,
+            "alive": true,
+            "x": 303.36090087890625,
+            "y": 990.863525390625,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 59,
+            "faction": 1
+          },
+          "actor": {
+            "id": 1,
+            "alive": true,
+            "x": 311.0418701171875,
+            "y": 990.863525390625,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 49,
+            "faction": 1
+          }
+        },
+        "full": {
+          "strength": 1,
+          "value": {
+            "x": 1,
+            "y": 0,
+            "radius": 47.37890625
+          },
+          "delta": 45,
+          "origin": {
+            "id": 1,
+            "alive": true,
+            "x": 303.36090087890625,
+            "y": 990.863525390625,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 59,
+            "faction": 1
+          },
+          "actor": {
+            "id": 1,
+            "alive": true,
+            "x": 348.36090087890625,
+            "y": 990.863525390625,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 49,
+            "faction": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "iPhone compact",
+      "emulation": {
+        "name": "iPhone compact",
+        "width": 320,
+        "height": 568,
+        "dpr": 2,
+        "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1",
+        "platform": "iPhone",
+        "touch": true,
+        "mode": "touch"
+      },
+      "signals": {
+        "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1",
+        "platform": "iPhone",
+        "maxTouchPoints": 5,
+        "coarsePointer": true,
+        "noHover": true,
+        "userAgentMobile": false,
+        "innerWidth": 320,
+        "innerHeight": 568,
+        "devicePixelRatio": 2
+      },
+      "controlMode": {
+        "mode": "touch",
+        "detectedMode": "touch",
+        "reason": "phone-user-agent-with-touch",
+        "automatic": true
+      }
+    },
+    {
+      "name": "iPad desktop UA",
+      "emulation": {
+        "name": "iPad desktop UA",
+        "width": 1024,
+        "height": 768,
+        "dpr": 2,
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15",
+        "platform": "MacIntel",
+        "touch": true,
+        "mode": "touch"
+      },
+      "signals": {
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15",
+        "platform": "MacIntel",
+        "maxTouchPoints": 5,
+        "coarsePointer": true,
+        "noHover": true,
+        "userAgentMobile": false,
+        "innerWidth": 1024,
+        "innerHeight": 768,
+        "devicePixelRatio": 2
+      },
+      "controlMode": {
+        "mode": "touch",
+        "detectedMode": "touch",
+        "reason": "ipad-with-touch-including-desktop-user-agent",
+        "automatic": true
+      }
+    },
+    {
+      "name": "desktop",
+      "emulation": {
+        "name": "desktop",
+        "width": 1440,
+        "height": 900,
+        "touch": false,
+        "mode": "desktop"
+      },
+      "signals": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "platform": "Win32",
+        "maxTouchPoints": 0,
+        "coarsePointer": false,
+        "noHover": false,
+        "userAgentMobile": false,
+        "innerWidth": 1440,
+        "innerHeight": 900,
+        "devicePixelRatio": 1
+      },
+      "controlMode": {
+        "mode": "desktop",
+        "detectedMode": "desktop",
+        "reason": "no-touch-capability",
+        "automatic": true
+      }
+    },
+    {
+      "name": "narrow desktop",
+      "emulation": {
+        "name": "narrow desktop",
+        "width": 390,
+        "height": 844,
+        "touch": false,
+        "mode": "desktop"
+      },
+      "signals": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "platform": "Win32",
+        "maxTouchPoints": 0,
+        "coarsePointer": false,
+        "noHover": false,
+        "userAgentMobile": false,
+        "innerWidth": 390,
+        "innerHeight": 844,
+        "devicePixelRatio": 1
+      },
+      "controlMode": {
+        "mode": "desktop",
+        "detectedMode": "desktop",
+        "reason": "no-touch-capability",
+        "automatic": true
+      }
+    },
+    {
+      "name": "Windows primary coarse touch",
+      "emulation": {
+        "name": "Windows primary coarse touch",
+        "width": 1280,
+        "height": 800,
+        "platform": "Win32",
+        "touch": true,
+        "mode": "touch"
+      },
+      "signals": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "platform": "Win32",
+        "maxTouchPoints": 5,
+        "coarsePointer": true,
+        "noHover": true,
+        "userAgentMobile": false,
+        "innerWidth": 1280,
+        "innerHeight": 800,
+        "devicePixelRatio": 1
+      },
+      "controlMode": {
+        "mode": "touch",
+        "detectedMode": "touch",
+        "reason": "primary-coarse-touch-without-hover",
+        "automatic": true
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "single HTML has no external script or stylesheet",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: automatic device/input mode matches exposed capability",
+      "pass": true,
+      "detail": {
+        "name": "iPhone portrait",
+        "emulation": {
+          "name": "iPhone portrait",
+          "width": 390,
+          "height": 844,
+          "dpr": 3,
+          "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1",
+          "platform": "iPhone",
+          "touch": true,
+          "mode": "touch",
+          "full": true
+        },
+        "signals": {
+          "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1",
+          "platform": "iPhone",
+          "maxTouchPoints": 5,
+          "coarsePointer": true,
+          "noHover": true,
+          "userAgentMobile": false,
+          "innerWidth": 390,
+          "innerHeight": 844,
+          "devicePixelRatio": 3
+        },
+        "controlMode": {
+          "mode": "touch",
+          "detectedMode": "touch",
+          "reason": "phone-user-agent-with-touch",
+          "automatic": true
+        },
+        "movement": {
+          "gentle": {
+            "strength": 0.38,
+            "value": {
+              "x": 0.17069127860926384,
+              "y": 0,
+              "radius": 44.84765625
+            },
+            "delta": 7.68096923828125,
+            "origin": {
+              "id": 1,
+              "alive": true,
+              "x": 309.70428466796875,
+              "y": 970.2220458984375,
+              "radius": 22,
+              "hp": 6,
+              "hpMax": 6,
+              "invuln": 59,
+              "faction": 1
+            },
+            "actor": {
+              "id": 1,
+              "alive": true,
+              "x": 317.38525390625,
+              "y": 970.2220458984375,
+              "radius": 22,
+              "hp": 6,
+              "hpMax": 6,
+              "invuln": 49,
+              "faction": 1
+            }
+          },
+          "full": {
+            "strength": 1,
+            "value": {
+              "x": 1,
+              "y": 0,
+              "radius": 44.84765625
+            },
+            "delta": 45,
+            "origin": {
+              "id": 1,
+              "alive": true,
+              "x": 309.70428466796875,
+              "y": 970.2220458984375,
+              "radius": 22,
+              "hp": 6,
+              "hpMax": 6,
+              "invuln": 59,
+              "faction": 1
+            },
+            "actor": {
+              "id": 1,
+              "alive": true,
+              "x": 354.70428466796875,
+              "y": 970.2220458984375,
+              "radius": 22,
+              "hp": 6,
+              "hpMax": 6,
+              "invuln": 49,
+              "faction": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "iPhone portrait: browser exposes requested viewport and device pixel ratio",
+      "pass": true,
+      "detail": {
+        "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1",
+        "platform": "iPhone",
+        "maxTouchPoints": 5,
+        "coarsePointer": true,
+        "noHover": true,
+        "userAgentMobile": false,
+        "innerWidth": 390,
+        "innerHeight": 844,
+        "devicePixelRatio": 3
+      }
+    },
+    {
+      "name": "iPhone portrait: current C game and four skill introductions load",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: pre-game overlay exposes an accessible mode switch",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: menu mode switch overrides detection without starting a round",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: second menu activation returns to detected mode exactly once",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: native touch tap starts actual game and shows controls",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: wheel opens at central contact before layout sampling",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: battlefield fills below HUD without horizontal overflow",
+      "pass": true,
+      "detail": {
+        "arena": {
+          "x": 0,
+          "y": 141.390625,
+          "width": 390,
+          "height": 702.609375,
+          "right": 390,
+          "bottom": 844
+        },
+        "hud": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 141.390625,
+          "right": 390,
+          "bottom": 141.390625
+        },
+        "joystick": {
+          "x": 0,
+          "y": 604,
+          "width": 179.390625,
+          "height": 240,
+          "right": 179.390625,
+          "bottom": 844
+        },
+        "wheel": {
+          "x": 200.609375,
+          "y": 605.609375,
+          "width": 179.390625,
+          "height": 179.390625,
+          "right": 380,
+          "bottom": 785
+        },
+        "sectors": [
+          {
+            "pattern": 0,
+            "x": 268.296875,
+            "y": 612.609375,
+            "width": 44,
+            "height": 37.796875,
+            "right": 312.296875,
+            "bottom": 650.40625
+          },
+          {
+            "pattern": 1,
+            "x": 331,
+            "y": 676.3984375,
+            "width": 44,
+            "height": 37.796875,
+            "right": 375,
+            "bottom": 714.1953125
+          },
+          {
+            "pattern": 2,
+            "x": 268.296875,
+            "y": 740.203125,
+            "width": 44,
+            "height": 37.796875,
+            "right": 312.296875,
+            "bottom": 778
+          },
+          {
+            "pattern": 3,
+            "x": 205.609375,
+            "y": 676.3984375,
+            "width": 44,
+            "height": 37.796875,
+            "right": 249.609375,
+            "bottom": 714.1953125
+          }
+        ],
+        "controls": [
+          {
+            "selector": "[data-touch=\"wheel-trigger\"]",
+            "x": 258.296875,
+            "y": 663.296875,
+            "width": 64,
+            "height": 64,
+            "right": 322.296875,
+            "bottom": 727.296875
+          },
+          {
+            "selector": "[data-touch=\"cancel\"]",
+            "x": 200.609375,
+            "y": 790,
+            "width": 179.390625,
+            "height": 44,
+            "right": 380,
+            "bottom": 834
+          },
+          {
+            "selector": "[data-ui=\"pause\"]",
+            "x": 287.65625,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 332.328125,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"restart\"]",
+            "x": 337.328125,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 382,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"controls-toggle\"]",
+            "x": 238,
+            "y": 7.5,
+            "width": 44.65625,
+            "height": 44,
+            "right": 282.65625,
+            "bottom": 51.5
+          }
+        ],
+        "width": 390,
+        "height": 844,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "iPhone portrait: touch buttons are at least 44px and remain within viewport",
+      "pass": true,
+      "detail": [
+        {
+          "selector": "[data-touch=\"wheel-trigger\"]",
+          "x": 258.296875,
+          "y": 663.296875,
+          "width": 64,
+          "height": 64,
+          "right": 322.296875,
+          "bottom": 727.296875
+        },
+        {
+          "selector": "[data-touch=\"cancel\"]",
+          "x": 200.609375,
+          "y": 790,
+          "width": 179.390625,
+          "height": 44,
+          "right": 380,
+          "bottom": 834
+        },
+        {
+          "selector": "[data-ui=\"pause\"]",
+          "x": 287.65625,
+          "y": 7.5,
+          "width": 44.671875,
+          "height": 44,
+          "right": 332.328125,
+          "bottom": 51.5
+        },
+        {
+          "selector": "[data-ui=\"restart\"]",
+          "x": 337.328125,
+          "y": 7.5,
+          "width": 44.671875,
+          "height": 44,
+          "right": 382,
+          "bottom": 51.5
+        },
+        {
+          "selector": "[data-ui=\"controls-toggle\"]",
+          "x": 238,
+          "y": 7.5,
+          "width": 44.65625,
+          "height": 44,
+          "right": 282.65625,
+          "bottom": 51.5
+        }
+      ]
+    },
+    {
+      "name": "iPhone portrait: wheel central activation target is at least 64px",
+      "pass": true,
+      "detail": {
+        "selector": "[data-touch=\"wheel-trigger\"]",
+        "x": 258.296875,
+        "y": 663.296875,
+        "width": 64,
+        "height": 64,
+        "right": 322.296875,
+        "bottom": 727.296875
+      }
+    },
+    {
+      "name": "iPhone portrait: left joystick and right wheel occupy separate safe touch areas",
+      "pass": true,
+      "detail": {
+        "arena": {
+          "x": 0,
+          "y": 141.390625,
+          "width": 390,
+          "height": 702.609375,
+          "right": 390,
+          "bottom": 844
+        },
+        "hud": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 141.390625,
+          "right": 390,
+          "bottom": 141.390625
+        },
+        "joystick": {
+          "x": 0,
+          "y": 604,
+          "width": 179.390625,
+          "height": 240,
+          "right": 179.390625,
+          "bottom": 844
+        },
+        "wheel": {
+          "x": 200.609375,
+          "y": 605.609375,
+          "width": 179.390625,
+          "height": 179.390625,
+          "right": 380,
+          "bottom": 785
+        },
+        "sectors": [
+          {
+            "pattern": 0,
+            "x": 268.296875,
+            "y": 612.609375,
+            "width": 44,
+            "height": 37.796875,
+            "right": 312.296875,
+            "bottom": 650.40625
+          },
+          {
+            "pattern": 1,
+            "x": 331,
+            "y": 676.3984375,
+            "width": 44,
+            "height": 37.796875,
+            "right": 375,
+            "bottom": 714.1953125
+          },
+          {
+            "pattern": 2,
+            "x": 268.296875,
+            "y": 740.203125,
+            "width": 44,
+            "height": 37.796875,
+            "right": 312.296875,
+            "bottom": 778
+          },
+          {
+            "pattern": 3,
+            "x": 205.609375,
+            "y": 676.3984375,
+            "width": 44,
+            "height": 37.796875,
+            "right": 249.609375,
+            "bottom": 714.1953125
+          }
+        ],
+        "controls": [
+          {
+            "selector": "[data-touch=\"wheel-trigger\"]",
+            "x": 258.296875,
+            "y": 663.296875,
+            "width": 64,
+            "height": 64,
+            "right": 322.296875,
+            "bottom": 727.296875
+          },
+          {
+            "selector": "[data-touch=\"cancel\"]",
+            "x": 200.609375,
+            "y": 790,
+            "width": 179.390625,
+            "height": 44,
+            "right": 380,
+            "bottom": 834
+          },
+          {
+            "selector": "[data-ui=\"pause\"]",
+            "x": 287.65625,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 332.328125,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"restart\"]",
+            "x": 337.328125,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 382,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"controls-toggle\"]",
+            "x": 238,
+            "y": 7.5,
+            "width": 44.65625,
+            "height": 44,
+            "right": 282.65625,
+            "bottom": 51.5
+          }
+        ],
+        "width": 390,
+        "height": 844,
+        "scrollWidth": 390
+      }
+    },
+    {
+      "name": "iPhone portrait: four display sectors remain within the safe viewport without overlap",
+      "pass": true,
+      "detail": [
+        {
+          "pattern": 0,
+          "x": 268.296875,
+          "y": 612.609375,
+          "width": 44,
+          "height": 37.796875,
+          "right": 312.296875,
+          "bottom": 650.40625
+        },
+        {
+          "pattern": 1,
+          "x": 331,
+          "y": 676.3984375,
+          "width": 44,
+          "height": 37.796875,
+          "right": 375,
+          "bottom": 714.1953125
+        },
+        {
+          "pattern": 2,
+          "x": 268.296875,
+          "y": 740.203125,
+          "width": 44,
+          "height": 37.796875,
+          "right": 312.296875,
+          "bottom": 778
+        },
+        {
+          "pattern": 3,
+          "x": 205.609375,
+          "y": 676.3984375,
+          "width": 44,
+          "height": 37.796875,
+          "right": 249.609375,
+          "bottom": 714.1953125
+        }
+      ]
+    },
+    {
+      "name": "iPhone portrait: layout-opening neutral release preserves zero attack counters",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: floating joystick top-left contact stays neutral",
+      "pass": true,
+      "detail": {
+        "point": {
+          "x": 5,
+          "y": 609
+        },
+        "firstAxis": {
+          "x": 0,
+          "y": 0,
+          "radius": 44.84765625
+        },
+        "before": {
+          "id": 1,
+          "alive": true,
+          "x": 309.70428466796875,
+          "y": 970.2220458984375,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 59,
+          "faction": 1
+        },
+        "after": {
+          "id": 1,
+          "alive": true,
+          "x": 309.70428466796875,
+          "y": 970.2220458984375,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 56,
+          "faction": 1
+        }
+      }
+    },
+    {
+      "name": "iPhone portrait: floating joystick bottom-left contact stays neutral",
+      "pass": true,
+      "detail": {
+        "point": {
+          "x": 5,
+          "y": 839
+        },
+        "firstAxis": {
+          "x": 0,
+          "y": 0,
+          "radius": 44.84765625
+        },
+        "before": {
+          "id": 1,
+          "alive": true,
+          "x": 309.70428466796875,
+          "y": 970.2220458984375,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 59,
+          "faction": 1
+        },
+        "after": {
+          "id": 1,
+          "alive": true,
+          "x": 309.70428466796875,
+          "y": 970.2220458984375,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 56,
+          "faction": 1
+        }
+      }
+    },
+    {
+      "name": "iPhone portrait: floating joystick top-right contact stays neutral",
+      "pass": true,
+      "detail": {
+        "point": {
+          "x": 174.390625,
+          "y": 609
+        },
+        "firstAxis": {
+          "x": 0,
+          "y": 0,
+          "radius": 44.84765625
+        },
+        "before": {
+          "id": 1,
+          "alive": true,
+          "x": 309.70428466796875,
+          "y": 970.2220458984375,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 59,
+          "faction": 1
+        },
+        "after": {
+          "id": 1,
+          "alive": true,
+          "x": 309.70428466796875,
+          "y": 970.2220458984375,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 56,
+          "faction": 1
+        }
+      }
+    },
+    {
+      "name": "iPhone portrait: floating joystick bottom-right contact stays neutral",
+      "pass": true,
+      "detail": {
+        "point": {
+          "x": 174.390625,
+          "y": 839
+        },
+        "firstAxis": {
+          "x": 0,
+          "y": 0,
+          "radius": 44.84765625
+        },
+        "before": {
+          "id": 1,
+          "alive": true,
+          "x": 309.70428466796875,
+          "y": 970.2220458984375,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 59,
+          "faction": 1
+        },
+        "after": {
+          "id": 1,
+          "alive": true,
+          "x": 309.70428466796875,
+          "y": 970.2220458984375,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 56,
+          "faction": 1
+        }
+      }
+    },
+    {
+      "name": "iPhone portrait: small deadzone motion stays still without jitter",
+      "pass": true,
+      "detail": {
+        "x": 0,
+        "y": 0,
+        "radius": 44.84765625
+      }
+    },
+    {
+      "name": "iPhone portrait: partial stick offers slow control and full stick accelerates",
+      "pass": true,
+      "detail": {
+        "gentle": {
+          "strength": 0.38,
+          "value": {
+            "x": 0.17069127860926384,
+            "y": 0,
+            "radius": 44.84765625
+          },
+          "delta": 7.68096923828125,
+          "origin": {
+            "id": 1,
+            "alive": true,
+            "x": 309.70428466796875,
+            "y": 970.2220458984375,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 59,
+            "faction": 1
+          },
+          "actor": {
+            "id": 1,
+            "alive": true,
+            "x": 317.38525390625,
+            "y": 970.2220458984375,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 49,
+            "faction": 1
+          }
+        },
+        "full": {
+          "strength": 1,
+          "value": {
+            "x": 1,
+            "y": 0,
+            "radius": 44.84765625
+          },
+          "delta": 45,
+          "origin": {
+            "id": 1,
+            "alive": true,
+            "x": 309.70428466796875,
+            "y": 970.2220458984375,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 59,
+            "faction": 1
+          },
+          "actor": {
+            "id": 1,
+            "alive": true,
+            "x": 354.70428466796875,
+            "y": 970.2220458984375,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 49,
+            "faction": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "iPhone portrait: lifting left thumb immediately stops movement",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: diagonal stick is normalized and does not move faster",
+      "pass": true,
+      "detail": {
+        "x": 0.7071067811865475,
+        "y": 0.7071067811865475,
+        "radius": 44.84765625
+      }
+    },
+    {
+      "name": "iPhone portrait: central contact opens wheel without selecting or pausing world",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: inner wheel deadzone permits thumb jitter without selecting",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: 18-to-20px neutral hysteresis does not invent a selection",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: crossing wheel select threshold chooses right skill preview",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: radial hysteresis retains selected skill until inner deadzone",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: returning to center cancels selection but keeps wheel available",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: neutral wheel release never sends an attack",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: ordinary central tap opens without firing an unintended skill",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: wheel drag to sector 1 changes preview without submitting",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: wheel drag to sector 2 changes preview without submitting",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: wheel drag to sector 3 changes preview without submitting",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: wheel drag to sector 4 changes preview without submitting",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: wheel drag to sector 1 changes preview without submitting",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: angular hysteresis keeps top selection near quadrant boundary",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: clear angular crossing selects right sector",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: small boundary reversal retains right sector without chatter",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: clear boundary reversal returns to top sector",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: center can cancel then accept another sector in the same gesture",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: multi-sector gesture releases only final skill and charges once",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: zero-RAF Space then stale sector move/up cannot recreate cancelled skill",
+      "pass": true,
+      "detail": {
+        "tickBefore": 1,
+        "tickAfter": 1,
+        "aim": null,
+        "axis": {
+          "x": 0.17069127860926384,
+          "y": 0,
+          "radius": 44.84765625
+        }
+      }
+    },
+    {
+      "name": "iPhone portrait: zero-RAF wheel cancellation preserves movement and never submits later",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: zero-RAF keyboard hold immediately replaces wheel owner",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: zero-RAF old wheel move/up cannot seize or release newer keyboard owner",
+      "pass": true,
+      "detail": {
+        "tickBefore": 1,
+        "tickAfter": 1,
+        "aim": {
+          "pattern": 1,
+          "dirX": 1,
+          "dirY": 0
+        }
+      }
+    },
+    {
+      "name": "iPhone portrait: new key owner release remains a zero-tick packet until consumed",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: only newer key owner releases once after stale wheel gesture",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: skill 1 touch hold immediately selects without charging",
+      "pass": true,
+      "detail": {
+        "immediateAim": {
+          "pattern": 0,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "aim": {
+          "pattern": 0,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "valid": true,
+        "reason": 0,
+        "beforeEnergy": 60,
+        "immediateEnergy": 60,
+        "heldEnergy": 61,
+        "immediateAccepted": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "wheel": {
+          "open": true,
+          "selection": 0
+        },
+        "axis": {
+          "x": 0,
+          "y": -0.1706914405501361,
+          "radius": 44.84765625
+        }
+      }
+    },
+    {
+      "name": "iPhone portrait: skill 1 right-thumb drift cannot rotate or stop left stick",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: skill 1 Space cancels release but preserves stick",
+      "pass": true,
+      "detail": {
+        "aim": null,
+        "accepted": 0,
+        "rejected": 0,
+        "axis": {
+          "x": 0,
+          "y": -0.1706914405501361,
+          "radius": 44.84765625
+        },
+        "phase": "playing"
+      }
+    },
+    {
+      "name": "iPhone portrait: skill 2 touch hold immediately selects without charging",
+      "pass": true,
+      "detail": {
+        "immediateAim": {
+          "pattern": 1,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "aim": {
+          "pattern": 1,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "valid": true,
+        "reason": 0,
+        "beforeEnergy": 60,
+        "immediateEnergy": 60,
+        "heldEnergy": 61,
+        "immediateAccepted": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "wheel": {
+          "open": true,
+          "selection": 1
+        },
+        "axis": {
+          "x": 0,
+          "y": -0.1706914405501361,
+          "radius": 44.84765625
+        }
+      }
+    },
+    {
+      "name": "iPhone portrait: skill 2 right-thumb drift cannot rotate or stop left stick",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: skill 2 Space cancels release but preserves stick",
+      "pass": true,
+      "detail": {
+        "aim": null,
+        "accepted": 0,
+        "rejected": 0,
+        "axis": {
+          "x": 0,
+          "y": -0.1706914405501361,
+          "radius": 44.84765625
+        },
+        "phase": "playing"
+      }
+    },
+    {
+      "name": "iPhone portrait: skill 3 touch hold immediately selects without charging",
+      "pass": true,
+      "detail": {
+        "immediateAim": {
+          "pattern": 2,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "aim": {
+          "pattern": 2,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "valid": true,
+        "reason": 0,
+        "beforeEnergy": 60,
+        "immediateEnergy": 60,
+        "heldEnergy": 61,
+        "immediateAccepted": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "wheel": {
+          "open": true,
+          "selection": 2
+        },
+        "axis": {
+          "x": 0,
+          "y": -0.1706914405501361,
+          "radius": 44.84765625
+        }
+      }
+    },
+    {
+      "name": "iPhone portrait: skill 3 right-thumb drift cannot rotate or stop left stick",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: skill 3 Space cancels release but preserves stick",
+      "pass": true,
+      "detail": {
+        "aim": null,
+        "accepted": 0,
+        "rejected": 0,
+        "axis": {
+          "x": 0,
+          "y": -0.1706914405501361,
+          "radius": 44.84765625
+        },
+        "phase": "playing"
+      }
+    },
+    {
+      "name": "iPhone portrait: skill 4 touch hold immediately selects without charging",
+      "pass": true,
+      "detail": {
+        "immediateAim": {
+          "pattern": 3,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "aim": {
+          "pattern": 3,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "valid": false,
+        "reason": 1,
+        "beforeEnergy": 60,
+        "immediateEnergy": 60,
+        "heldEnergy": 61,
+        "immediateAccepted": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "wheel": {
+          "open": true,
+          "selection": 3
+        },
+        "axis": {
+          "x": 0,
+          "y": -0.1706914405501361,
+          "radius": 44.84765625
+        }
+      }
+    },
+    {
+      "name": "iPhone portrait: 100-energy skill visibly reports resource refusal during hold",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: skill 4 right-thumb drift cannot rotate or stop left stick",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: skill 4 Space cancels release but preserves stick",
+      "pass": true,
+      "detail": {
+        "aim": null,
+        "accepted": 0,
+        "rejected": 0,
+        "axis": {
+          "x": 0,
+          "y": -0.1706914405501361,
+          "radius": 44.84765625
+        },
+        "phase": "playing"
+      }
+    },
+    {
+      "name": "iPhone portrait: left stick drives stable rightward pre-aim while Boss moves",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: unchanged stick direction does not drift from Boss motion",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: actual left-thumb change rotates held skill to movement direction",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: recentering stops motion and keeps chosen skill direction",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: right release queues once without deducting at zero tick",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: right release accepts exactly once and spends only skill cost",
+      "pass": true,
+      "detail": {
+        "energyBefore": 63,
+        "energyAfter": 38,
+        "direction": [
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "name": "iPhone portrait: accepted C warnings preserve preview geometry and direction",
+      "pass": true,
+      "detail": {
+        "origin": {
+          "id": 1,
+          "alive": true,
+          "x": 321.99383544921875,
+          "y": 968.685791015625,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 38,
+          "faction": 1
+        },
+        "warningCount": 48
+      }
+    },
+    {
+      "name": "iPhone portrait: holding or releasing other thumb never duplicates attack",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: wheel can preview busy skill with shared-CD refusal visible",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: busy wheel release rejects once without energy charge or queued attack",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: native right-thumb upward slide cancels while left thumb moves",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: returning cancelled finger to sector then lifting cannot fire",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: native explicit cancel button suppresses later skill release",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: second right finger replaces selection with latest skill",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: replaced skill finger cannot release newer owner",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: new skill owner releases its own selection once",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: native touchCancel clears both owners without delayed firing",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: touch pause clears aim and freezes actual core",
+      "pass": true,
+      "detail": {
+        "phase": "paused",
+        "aim": null,
+        "tick": 3,
+        "frozenTick": 3,
+        "energy": 60,
+        "frozenEnergy": 60
+      }
+    },
+    {
+      "name": "iPhone portrait: non-primary touch resume cannot catch up or resume stale thumb state",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: physical releases after pause/resume cannot deliver cancelled skill",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: single-finger pause does not double-toggle through compatibility click",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: single-finger resume advances only one phase transition",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: touch restart clears captured thumb input before stale releases",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: real phone tap manually switches to desktop controls",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: another phone tap restores touch controls",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: orientation change preserves round physics and clears active thumbs",
+      "pass": true
+    },
+    {
+      "name": "iPhone portrait: rotated canvas fills new arena while original round aspect remains",
+      "pass": true,
+      "detail": {
+        "canvas": {
+          "x": 0,
+          "y": 83,
+          "width": 844,
+          "height": 307
+        },
+        "arena": {
+          "x": 0,
+          "y": 83,
+          "width": 844,
+          "height": 307
+        },
+        "field": [
+          619.4085693359375,
+          1115.9031982421875
+        ]
+      }
+    },
+    {
+      "name": "iPhone portrait: restart after orientation change refits field to new arena",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: automatic device/input mode matches exposed capability",
+      "pass": true,
+      "detail": {
+        "name": "iPhone landscape",
+        "emulation": {
+          "name": "iPhone landscape",
+          "width": 844,
+          "height": 390,
+          "dpr": 3,
+          "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1",
+          "platform": "iPhone",
+          "touch": true,
+          "mode": "touch",
+          "full": true
+        },
+        "signals": {
+          "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1",
+          "platform": "iPhone",
+          "maxTouchPoints": 5,
+          "coarsePointer": true,
+          "noHover": true,
+          "userAgentMobile": false,
+          "innerWidth": 844,
+          "innerHeight": 390,
+          "devicePixelRatio": 3
+        },
+        "controlMode": {
+          "mode": "touch",
+          "detectedMode": "touch",
+          "reason": "phone-user-agent-with-touch",
+          "automatic": true
+        },
+        "movement": {
+          "gentle": {
+            "strength": 0.38,
+            "value": {
+              "x": 0.17069123634795932,
+              "y": 0,
+              "radius": 52
+            },
+            "delta": 7.6812744140625,
+            "origin": {
+              "id": 1,
+              "alive": true,
+              "x": 689.2454223632812,
+              "y": 426.638916015625,
+              "radius": 22,
+              "hp": 6,
+              "hpMax": 6,
+              "invuln": 59,
+              "faction": 1
+            },
+            "actor": {
+              "id": 1,
+              "alive": true,
+              "x": 696.9266967773438,
+              "y": 426.638916015625,
+              "radius": 22,
+              "hp": 6,
+              "hpMax": 6,
+              "invuln": 49,
+              "faction": 1
+            }
+          },
+          "full": {
+            "strength": 1,
+            "value": {
+              "x": 1,
+              "y": 0,
+              "radius": 52
+            },
+            "delta": 45,
+            "origin": {
+              "id": 1,
+              "alive": true,
+              "x": 689.2454223632812,
+              "y": 426.638916015625,
+              "radius": 22,
+              "hp": 6,
+              "hpMax": 6,
+              "invuln": 59,
+              "faction": 1
+            },
+            "actor": {
+              "id": 1,
+              "alive": true,
+              "x": 734.2454223632812,
+              "y": 426.638916015625,
+              "radius": 22,
+              "hp": 6,
+              "hpMax": 6,
+              "invuln": 49,
+              "faction": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "iPhone landscape: browser exposes requested viewport and device pixel ratio",
+      "pass": true,
+      "detail": {
+        "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1",
+        "platform": "iPhone",
+        "maxTouchPoints": 5,
+        "coarsePointer": true,
+        "noHover": true,
+        "userAgentMobile": false,
+        "innerWidth": 844,
+        "innerHeight": 390,
+        "devicePixelRatio": 3
+      }
+    },
+    {
+      "name": "iPhone landscape: current C game and four skill introductions load",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: pre-game overlay exposes an accessible mode switch",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: menu mode switch overrides detection without starting a round",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: second menu activation returns to detected mode exactly once",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: native touch tap starts actual game and shows controls",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: wheel opens at central contact before layout sampling",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: battlefield fills below HUD without horizontal overflow",
+      "pass": true,
+      "detail": {
+        "arena": {
+          "x": 0,
+          "y": 83,
+          "width": 844,
+          "height": 307,
+          "right": 844,
+          "bottom": 390
+        },
+        "hud": {
+          "x": 0,
+          "y": 0,
+          "width": 844,
+          "height": 83,
+          "right": 844,
+          "bottom": 83
+        },
+        "joystick": {
+          "x": 0,
+          "y": 210,
+          "width": 320,
+          "height": 180,
+          "right": 320,
+          "bottom": 390
+        },
+        "wheel": {
+          "x": 654,
+          "y": 152,
+          "width": 180,
+          "height": 180,
+          "right": 834,
+          "bottom": 332
+        },
+        "sectors": [
+          {
+            "pattern": 0,
+            "x": 722,
+            "y": 159,
+            "width": 44,
+            "height": 37.796875,
+            "right": 766,
+            "bottom": 196.796875
+          },
+          {
+            "pattern": 1,
+            "x": 785,
+            "y": 223.1015625,
+            "width": 44,
+            "height": 37.796875,
+            "right": 829,
+            "bottom": 260.8984375
+          },
+          {
+            "pattern": 2,
+            "x": 722,
+            "y": 287.203125,
+            "width": 44,
+            "height": 37.796875,
+            "right": 766,
+            "bottom": 325
+          },
+          {
+            "pattern": 3,
+            "x": 659,
+            "y": 223.1015625,
+            "width": 44,
+            "height": 37.796875,
+            "right": 703,
+            "bottom": 260.8984375
+          }
+        ],
+        "controls": [
+          {
+            "selector": "[data-touch=\"wheel-trigger\"]",
+            "x": 712,
+            "y": 210,
+            "width": 64,
+            "height": 64,
+            "right": 776,
+            "bottom": 274
+          },
+          {
+            "selector": "[data-touch=\"cancel\"]",
+            "x": 654,
+            "y": 336,
+            "width": 180,
+            "height": 44,
+            "right": 834,
+            "bottom": 380
+          },
+          {
+            "selector": "[data-ui=\"pause\"]",
+            "x": 741.65625,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 786.328125,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"restart\"]",
+            "x": 791.328125,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 836,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"controls-toggle\"]",
+            "x": 692,
+            "y": 7.5,
+            "width": 44.65625,
+            "height": 44,
+            "right": 736.65625,
+            "bottom": 51.5
+          }
+        ],
+        "width": 844,
+        "height": 390,
+        "scrollWidth": 844
+      }
+    },
+    {
+      "name": "iPhone landscape: touch buttons are at least 44px and remain within viewport",
+      "pass": true,
+      "detail": [
+        {
+          "selector": "[data-touch=\"wheel-trigger\"]",
+          "x": 712,
+          "y": 210,
+          "width": 64,
+          "height": 64,
+          "right": 776,
+          "bottom": 274
+        },
+        {
+          "selector": "[data-touch=\"cancel\"]",
+          "x": 654,
+          "y": 336,
+          "width": 180,
+          "height": 44,
+          "right": 834,
+          "bottom": 380
+        },
+        {
+          "selector": "[data-ui=\"pause\"]",
+          "x": 741.65625,
+          "y": 7.5,
+          "width": 44.671875,
+          "height": 44,
+          "right": 786.328125,
+          "bottom": 51.5
+        },
+        {
+          "selector": "[data-ui=\"restart\"]",
+          "x": 791.328125,
+          "y": 7.5,
+          "width": 44.671875,
+          "height": 44,
+          "right": 836,
+          "bottom": 51.5
+        },
+        {
+          "selector": "[data-ui=\"controls-toggle\"]",
+          "x": 692,
+          "y": 7.5,
+          "width": 44.65625,
+          "height": 44,
+          "right": 736.65625,
+          "bottom": 51.5
+        }
+      ]
+    },
+    {
+      "name": "iPhone landscape: wheel central activation target is at least 64px",
+      "pass": true,
+      "detail": {
+        "selector": "[data-touch=\"wheel-trigger\"]",
+        "x": 712,
+        "y": 210,
+        "width": 64,
+        "height": 64,
+        "right": 776,
+        "bottom": 274
+      }
+    },
+    {
+      "name": "iPhone landscape: left joystick and right wheel occupy separate safe touch areas",
+      "pass": true,
+      "detail": {
+        "arena": {
+          "x": 0,
+          "y": 83,
+          "width": 844,
+          "height": 307,
+          "right": 844,
+          "bottom": 390
+        },
+        "hud": {
+          "x": 0,
+          "y": 0,
+          "width": 844,
+          "height": 83,
+          "right": 844,
+          "bottom": 83
+        },
+        "joystick": {
+          "x": 0,
+          "y": 210,
+          "width": 320,
+          "height": 180,
+          "right": 320,
+          "bottom": 390
+        },
+        "wheel": {
+          "x": 654,
+          "y": 152,
+          "width": 180,
+          "height": 180,
+          "right": 834,
+          "bottom": 332
+        },
+        "sectors": [
+          {
+            "pattern": 0,
+            "x": 722,
+            "y": 159,
+            "width": 44,
+            "height": 37.796875,
+            "right": 766,
+            "bottom": 196.796875
+          },
+          {
+            "pattern": 1,
+            "x": 785,
+            "y": 223.1015625,
+            "width": 44,
+            "height": 37.796875,
+            "right": 829,
+            "bottom": 260.8984375
+          },
+          {
+            "pattern": 2,
+            "x": 722,
+            "y": 287.203125,
+            "width": 44,
+            "height": 37.796875,
+            "right": 766,
+            "bottom": 325
+          },
+          {
+            "pattern": 3,
+            "x": 659,
+            "y": 223.1015625,
+            "width": 44,
+            "height": 37.796875,
+            "right": 703,
+            "bottom": 260.8984375
+          }
+        ],
+        "controls": [
+          {
+            "selector": "[data-touch=\"wheel-trigger\"]",
+            "x": 712,
+            "y": 210,
+            "width": 64,
+            "height": 64,
+            "right": 776,
+            "bottom": 274
+          },
+          {
+            "selector": "[data-touch=\"cancel\"]",
+            "x": 654,
+            "y": 336,
+            "width": 180,
+            "height": 44,
+            "right": 834,
+            "bottom": 380
+          },
+          {
+            "selector": "[data-ui=\"pause\"]",
+            "x": 741.65625,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 786.328125,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"restart\"]",
+            "x": 791.328125,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 836,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"controls-toggle\"]",
+            "x": 692,
+            "y": 7.5,
+            "width": 44.65625,
+            "height": 44,
+            "right": 736.65625,
+            "bottom": 51.5
+          }
+        ],
+        "width": 844,
+        "height": 390,
+        "scrollWidth": 844
+      }
+    },
+    {
+      "name": "iPhone landscape: four display sectors remain within the safe viewport without overlap",
+      "pass": true,
+      "detail": [
+        {
+          "pattern": 0,
+          "x": 722,
+          "y": 159,
+          "width": 44,
+          "height": 37.796875,
+          "right": 766,
+          "bottom": 196.796875
+        },
+        {
+          "pattern": 1,
+          "x": 785,
+          "y": 223.1015625,
+          "width": 44,
+          "height": 37.796875,
+          "right": 829,
+          "bottom": 260.8984375
+        },
+        {
+          "pattern": 2,
+          "x": 722,
+          "y": 287.203125,
+          "width": 44,
+          "height": 37.796875,
+          "right": 766,
+          "bottom": 325
+        },
+        {
+          "pattern": 3,
+          "x": 659,
+          "y": 223.1015625,
+          "width": 44,
+          "height": 37.796875,
+          "right": 703,
+          "bottom": 260.8984375
+        }
+      ]
+    },
+    {
+      "name": "iPhone landscape: layout-opening neutral release preserves zero attack counters",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: floating joystick top-left contact stays neutral",
+      "pass": true,
+      "detail": {
+        "point": {
+          "x": 5,
+          "y": 215
+        },
+        "firstAxis": {
+          "x": 0,
+          "y": 0,
+          "radius": 52
+        },
+        "before": {
+          "id": 1,
+          "alive": true,
+          "x": 689.2454223632812,
+          "y": 426.638916015625,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 59,
+          "faction": 1
+        },
+        "after": {
+          "id": 1,
+          "alive": true,
+          "x": 689.2454223632812,
+          "y": 426.638916015625,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 56,
+          "faction": 1
+        }
+      }
+    },
+    {
+      "name": "iPhone landscape: floating joystick bottom-left contact stays neutral",
+      "pass": true,
+      "detail": {
+        "point": {
+          "x": 5,
+          "y": 385
+        },
+        "firstAxis": {
+          "x": 0,
+          "y": 0,
+          "radius": 52
+        },
+        "before": {
+          "id": 1,
+          "alive": true,
+          "x": 689.2454223632812,
+          "y": 426.638916015625,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 59,
+          "faction": 1
+        },
+        "after": {
+          "id": 1,
+          "alive": true,
+          "x": 689.2454223632812,
+          "y": 426.638916015625,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 56,
+          "faction": 1
+        }
+      }
+    },
+    {
+      "name": "iPhone landscape: floating joystick top-right contact stays neutral",
+      "pass": true,
+      "detail": {
+        "point": {
+          "x": 315,
+          "y": 215
+        },
+        "firstAxis": {
+          "x": 0,
+          "y": 0,
+          "radius": 52
+        },
+        "before": {
+          "id": 1,
+          "alive": true,
+          "x": 689.2454223632812,
+          "y": 426.638916015625,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 59,
+          "faction": 1
+        },
+        "after": {
+          "id": 1,
+          "alive": true,
+          "x": 689.2454223632812,
+          "y": 426.638916015625,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 56,
+          "faction": 1
+        }
+      }
+    },
+    {
+      "name": "iPhone landscape: floating joystick bottom-right contact stays neutral",
+      "pass": true,
+      "detail": {
+        "point": {
+          "x": 315,
+          "y": 385
+        },
+        "firstAxis": {
+          "x": 0,
+          "y": 0,
+          "radius": 52
+        },
+        "before": {
+          "id": 1,
+          "alive": true,
+          "x": 689.2454223632812,
+          "y": 426.638916015625,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 59,
+          "faction": 1
+        },
+        "after": {
+          "id": 1,
+          "alive": true,
+          "x": 689.2454223632812,
+          "y": 426.638916015625,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 56,
+          "faction": 1
+        }
+      }
+    },
+    {
+      "name": "iPhone landscape: small deadzone motion stays still without jitter",
+      "pass": true,
+      "detail": {
+        "x": 0,
+        "y": 0,
+        "radius": 52
+      }
+    },
+    {
+      "name": "iPhone landscape: partial stick offers slow control and full stick accelerates",
+      "pass": true,
+      "detail": {
+        "gentle": {
+          "strength": 0.38,
+          "value": {
+            "x": 0.17069123634795932,
+            "y": 0,
+            "radius": 52
+          },
+          "delta": 7.6812744140625,
+          "origin": {
+            "id": 1,
+            "alive": true,
+            "x": 689.2454223632812,
+            "y": 426.638916015625,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 59,
+            "faction": 1
+          },
+          "actor": {
+            "id": 1,
+            "alive": true,
+            "x": 696.9266967773438,
+            "y": 426.638916015625,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 49,
+            "faction": 1
+          }
+        },
+        "full": {
+          "strength": 1,
+          "value": {
+            "x": 1,
+            "y": 0,
+            "radius": 52
+          },
+          "delta": 45,
+          "origin": {
+            "id": 1,
+            "alive": true,
+            "x": 689.2454223632812,
+            "y": 426.638916015625,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 59,
+            "faction": 1
+          },
+          "actor": {
+            "id": 1,
+            "alive": true,
+            "x": 734.2454223632812,
+            "y": 426.638916015625,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 49,
+            "faction": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "iPhone landscape: lifting left thumb immediately stops movement",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: diagonal stick is normalized and does not move faster",
+      "pass": true,
+      "detail": {
+        "x": 0.7071067811865475,
+        "y": 0.7071067811865475,
+        "radius": 52
+      }
+    },
+    {
+      "name": "iPhone landscape: central contact opens wheel without selecting or pausing world",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: inner wheel deadzone permits thumb jitter without selecting",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: 18-to-20px neutral hysteresis does not invent a selection",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: crossing wheel select threshold chooses right skill preview",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: radial hysteresis retains selected skill until inner deadzone",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: returning to center cancels selection but keeps wheel available",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: neutral wheel release never sends an attack",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: ordinary central tap opens without firing an unintended skill",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: wheel drag to sector 1 changes preview without submitting",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: wheel drag to sector 2 changes preview without submitting",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: wheel drag to sector 3 changes preview without submitting",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: wheel drag to sector 4 changes preview without submitting",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: wheel drag to sector 1 changes preview without submitting",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: angular hysteresis keeps top selection near quadrant boundary",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: clear angular crossing selects right sector",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: small boundary reversal retains right sector without chatter",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: clear boundary reversal returns to top sector",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: center can cancel then accept another sector in the same gesture",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: multi-sector gesture releases only final skill and charges once",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: zero-RAF Space then stale sector move/up cannot recreate cancelled skill",
+      "pass": true,
+      "detail": {
+        "tickBefore": 1,
+        "tickAfter": 1,
+        "aim": null,
+        "axis": {
+          "x": 0.17069123634795932,
+          "y": 0,
+          "radius": 52
+        }
+      }
+    },
+    {
+      "name": "iPhone landscape: zero-RAF wheel cancellation preserves movement and never submits later",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: zero-RAF keyboard hold immediately replaces wheel owner",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: zero-RAF old wheel move/up cannot seize or release newer keyboard owner",
+      "pass": true,
+      "detail": {
+        "tickBefore": 1,
+        "tickAfter": 1,
+        "aim": {
+          "pattern": 1,
+          "dirX": 1,
+          "dirY": 0
+        }
+      }
+    },
+    {
+      "name": "iPhone landscape: new key owner release remains a zero-tick packet until consumed",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: only newer key owner releases once after stale wheel gesture",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: skill 1 touch hold immediately selects without charging",
+      "pass": true,
+      "detail": {
+        "immediateAim": {
+          "pattern": 0,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "aim": {
+          "pattern": 0,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "valid": true,
+        "reason": 0,
+        "beforeEnergy": 60,
+        "immediateEnergy": 60,
+        "heldEnergy": 61,
+        "immediateAccepted": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "wheel": {
+          "open": true,
+          "selection": 0
+        },
+        "axis": {
+          "x": 0,
+          "y": -0.17069151568137428,
+          "radius": 52
+        }
+      }
+    },
+    {
+      "name": "iPhone landscape: skill 1 right-thumb drift cannot rotate or stop left stick",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: skill 1 Space cancels release but preserves stick",
+      "pass": true,
+      "detail": {
+        "aim": null,
+        "accepted": 0,
+        "rejected": 0,
+        "axis": {
+          "x": 0,
+          "y": -0.17069151568137428,
+          "radius": 52
+        },
+        "phase": "playing"
+      }
+    },
+    {
+      "name": "iPhone landscape: skill 2 touch hold immediately selects without charging",
+      "pass": true,
+      "detail": {
+        "immediateAim": {
+          "pattern": 1,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "aim": {
+          "pattern": 1,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "valid": true,
+        "reason": 0,
+        "beforeEnergy": 60,
+        "immediateEnergy": 60,
+        "heldEnergy": 61,
+        "immediateAccepted": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "wheel": {
+          "open": true,
+          "selection": 1
+        },
+        "axis": {
+          "x": 0,
+          "y": -0.17069151568137428,
+          "radius": 52
+        }
+      }
+    },
+    {
+      "name": "iPhone landscape: skill 2 right-thumb drift cannot rotate or stop left stick",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: skill 2 Space cancels release but preserves stick",
+      "pass": true,
+      "detail": {
+        "aim": null,
+        "accepted": 0,
+        "rejected": 0,
+        "axis": {
+          "x": 0,
+          "y": -0.17069151568137428,
+          "radius": 52
+        },
+        "phase": "playing"
+      }
+    },
+    {
+      "name": "iPhone landscape: skill 3 touch hold immediately selects without charging",
+      "pass": true,
+      "detail": {
+        "immediateAim": {
+          "pattern": 2,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "aim": {
+          "pattern": 2,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "valid": false,
+        "reason": 0,
+        "beforeEnergy": 60,
+        "immediateEnergy": 60,
+        "heldEnergy": 61,
+        "immediateAccepted": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "wheel": {
+          "open": true,
+          "selection": 2
+        },
+        "axis": {
+          "x": 0,
+          "y": -0.17069151568137428,
+          "radius": 52
+        }
+      }
+    },
+    {
+      "name": "iPhone landscape: skill 3 right-thumb drift cannot rotate or stop left stick",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: skill 3 Space cancels release but preserves stick",
+      "pass": true,
+      "detail": {
+        "aim": null,
+        "accepted": 0,
+        "rejected": 0,
+        "axis": {
+          "x": 0,
+          "y": -0.17069151568137428,
+          "radius": 52
+        },
+        "phase": "playing"
+      }
+    },
+    {
+      "name": "iPhone landscape: skill 4 touch hold immediately selects without charging",
+      "pass": true,
+      "detail": {
+        "immediateAim": {
+          "pattern": 3,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "aim": {
+          "pattern": 3,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "valid": false,
+        "reason": 1,
+        "beforeEnergy": 60,
+        "immediateEnergy": 60,
+        "heldEnergy": 61,
+        "immediateAccepted": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "wheel": {
+          "open": true,
+          "selection": 3
+        },
+        "axis": {
+          "x": 0,
+          "y": -0.17069151568137428,
+          "radius": 52
+        }
+      }
+    },
+    {
+      "name": "iPhone landscape: 100-energy skill visibly reports resource refusal during hold",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: skill 4 right-thumb drift cannot rotate or stop left stick",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: skill 4 Space cancels release but preserves stick",
+      "pass": true,
+      "detail": {
+        "aim": null,
+        "accepted": 0,
+        "rejected": 0,
+        "axis": {
+          "x": 0,
+          "y": -0.17069151568137428,
+          "radius": 52
+        },
+        "phase": "playing"
+      }
+    },
+    {
+      "name": "iPhone landscape: left stick drives stable rightward pre-aim while Boss moves",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: unchanged stick direction does not drift from Boss motion",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: actual left-thumb change rotates held skill to movement direction",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: recentering stops motion and keeps chosen skill direction",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: right release queues once without deducting at zero tick",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: right release accepts exactly once and spends only skill cost",
+      "pass": true,
+      "detail": {
+        "energyBefore": 63,
+        "energyAfter": 38,
+        "direction": [
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "name": "iPhone landscape: accepted C warnings preserve preview geometry and direction",
+      "pass": true,
+      "detail": {
+        "origin": {
+          "id": 1,
+          "alive": true,
+          "x": 701.5354614257812,
+          "y": 425.10272216796875,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 38,
+          "faction": 1
+        },
+        "warningCount": 48
+      }
+    },
+    {
+      "name": "iPhone landscape: holding or releasing other thumb never duplicates attack",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: wheel can preview busy skill with shared-CD refusal visible",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: busy wheel release rejects once without energy charge or queued attack",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: native right-thumb upward slide cancels while left thumb moves",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: returning cancelled finger to sector then lifting cannot fire",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: native explicit cancel button suppresses later skill release",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: second right finger replaces selection with latest skill",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: replaced skill finger cannot release newer owner",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: new skill owner releases its own selection once",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: native touchCancel clears both owners without delayed firing",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: touch pause clears aim and freezes actual core",
+      "pass": true,
+      "detail": {
+        "phase": "paused",
+        "aim": null,
+        "tick": 3,
+        "frozenTick": 3,
+        "energy": 60,
+        "frozenEnergy": 60
+      }
+    },
+    {
+      "name": "iPhone landscape: non-primary touch resume cannot catch up or resume stale thumb state",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: physical releases after pause/resume cannot deliver cancelled skill",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: single-finger pause does not double-toggle through compatibility click",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: single-finger resume advances only one phase transition",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: touch restart clears captured thumb input before stale releases",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: real phone tap manually switches to desktop controls",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: another phone tap restores touch controls",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: orientation change preserves round physics and clears active thumbs",
+      "pass": true
+    },
+    {
+      "name": "iPhone landscape: rotated canvas fills new arena while original round aspect remains",
+      "pass": true,
+      "detail": {
+        "canvas": {
+          "x": 0,
+          "y": 141.390625,
+          "width": 390,
+          "height": 702
+        },
+        "arena": {
+          "x": 0,
+          "y": 141.390625,
+          "width": 390,
+          "height": 702.609375
+        },
+        "field": [
+          1378.4908447265625,
+          501.41790771484375
+        ]
+      }
+    },
+    {
+      "name": "iPhone landscape: restart after orientation change refits field to new arena",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: automatic device/input mode matches exposed capability",
+      "pass": true,
+      "detail": {
+        "name": "Android portrait",
+        "emulation": {
+          "name": "Android portrait",
+          "width": 412,
+          "height": 915,
+          "dpr": 2.625,
+          "userAgent": "Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36",
+          "platform": "Linux armv8l",
+          "touch": true,
+          "mode": "touch",
+          "full": true
+        },
+        "signals": {
+          "userAgent": "Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36",
+          "platform": "Linux armv8l",
+          "maxTouchPoints": 5,
+          "coarsePointer": true,
+          "noHover": true,
+          "userAgentMobile": false,
+          "innerWidth": 412,
+          "innerHeight": 915,
+          "devicePixelRatio": 2.625
+        },
+        "controlMode": {
+          "mode": "touch",
+          "detectedMode": "touch",
+          "reason": "phone-user-agent-with-touch",
+          "automatic": true
+        },
+        "movement": {
+          "gentle": {
+            "strength": 0.38,
+            "value": {
+              "x": 0.1706913001185978,
+              "y": 0,
+              "radius": 47.37890625
+            },
+            "delta": 7.68096923828125,
+            "origin": {
+              "id": 1,
+              "alive": true,
+              "x": 303.36090087890625,
+              "y": 990.863525390625,
+              "radius": 22,
+              "hp": 6,
+              "hpMax": 6,
+              "invuln": 59,
+              "faction": 1
+            },
+            "actor": {
+              "id": 1,
+              "alive": true,
+              "x": 311.0418701171875,
+              "y": 990.863525390625,
+              "radius": 22,
+              "hp": 6,
+              "hpMax": 6,
+              "invuln": 49,
+              "faction": 1
+            }
+          },
+          "full": {
+            "strength": 1,
+            "value": {
+              "x": 1,
+              "y": 0,
+              "radius": 47.37890625
+            },
+            "delta": 45,
+            "origin": {
+              "id": 1,
+              "alive": true,
+              "x": 303.36090087890625,
+              "y": 990.863525390625,
+              "radius": 22,
+              "hp": 6,
+              "hpMax": 6,
+              "invuln": 59,
+              "faction": 1
+            },
+            "actor": {
+              "id": 1,
+              "alive": true,
+              "x": 348.36090087890625,
+              "y": 990.863525390625,
+              "radius": 22,
+              "hp": 6,
+              "hpMax": 6,
+              "invuln": 49,
+              "faction": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Android portrait: browser exposes requested viewport and device pixel ratio",
+      "pass": true,
+      "detail": {
+        "userAgent": "Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36",
+        "platform": "Linux armv8l",
+        "maxTouchPoints": 5,
+        "coarsePointer": true,
+        "noHover": true,
+        "userAgentMobile": false,
+        "innerWidth": 412,
+        "innerHeight": 915,
+        "devicePixelRatio": 2.625
+      }
+    },
+    {
+      "name": "Android portrait: current C game and four skill introductions load",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: pre-game overlay exposes an accessible mode switch",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: menu mode switch overrides detection without starting a round",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: second menu activation returns to detected mode exactly once",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: native touch tap starts actual game and shows controls",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: wheel opens at central contact before layout sampling",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: battlefield fills below HUD without horizontal overflow",
+      "pass": true,
+      "detail": {
+        "arena": {
+          "x": 0,
+          "y": 141.390625,
+          "width": 412,
+          "height": 773.609375,
+          "right": 412,
+          "bottom": 915
+        },
+        "hud": {
+          "x": 0,
+          "y": 0,
+          "width": 412,
+          "height": 141.390625,
+          "right": 412,
+          "bottom": 141.390625
+        },
+        "joystick": {
+          "x": 0,
+          "y": 675,
+          "width": 189.515625,
+          "height": 240,
+          "right": 189.515625,
+          "bottom": 915
+        },
+        "wheel": {
+          "x": 222,
+          "y": 676,
+          "width": 180,
+          "height": 180,
+          "right": 402,
+          "bottom": 856
+        },
+        "sectors": [
+          {
+            "pattern": 0,
+            "x": 290,
+            "y": 683,
+            "width": 44,
+            "height": 37.796875,
+            "right": 334,
+            "bottom": 720.796875
+          },
+          {
+            "pattern": 1,
+            "x": 353,
+            "y": 747.1015625,
+            "width": 44,
+            "height": 37.796875,
+            "right": 397,
+            "bottom": 784.8984375
+          },
+          {
+            "pattern": 2,
+            "x": 290,
+            "y": 811.203125,
+            "width": 44,
+            "height": 37.796875,
+            "right": 334,
+            "bottom": 849
+          },
+          {
+            "pattern": 3,
+            "x": 227,
+            "y": 747.1015625,
+            "width": 44,
+            "height": 37.796875,
+            "right": 271,
+            "bottom": 784.8984375
+          }
+        ],
+        "controls": [
+          {
+            "selector": "[data-touch=\"wheel-trigger\"]",
+            "x": 280,
+            "y": 734,
+            "width": 64,
+            "height": 64,
+            "right": 344,
+            "bottom": 798
+          },
+          {
+            "selector": "[data-touch=\"cancel\"]",
+            "x": 222,
+            "y": 861,
+            "width": 180,
+            "height": 44,
+            "right": 402,
+            "bottom": 905
+          },
+          {
+            "selector": "[data-ui=\"pause\"]",
+            "x": 309.65625,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 354.328125,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"restart\"]",
+            "x": 359.328125,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 404,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"controls-toggle\"]",
+            "x": 260,
+            "y": 7.5,
+            "width": 44.65625,
+            "height": 44,
+            "right": 304.65625,
+            "bottom": 51.5
+          }
+        ],
+        "width": 412,
+        "height": 915,
+        "scrollWidth": 412
+      }
+    },
+    {
+      "name": "Android portrait: touch buttons are at least 44px and remain within viewport",
+      "pass": true,
+      "detail": [
+        {
+          "selector": "[data-touch=\"wheel-trigger\"]",
+          "x": 280,
+          "y": 734,
+          "width": 64,
+          "height": 64,
+          "right": 344,
+          "bottom": 798
+        },
+        {
+          "selector": "[data-touch=\"cancel\"]",
+          "x": 222,
+          "y": 861,
+          "width": 180,
+          "height": 44,
+          "right": 402,
+          "bottom": 905
+        },
+        {
+          "selector": "[data-ui=\"pause\"]",
+          "x": 309.65625,
+          "y": 7.5,
+          "width": 44.671875,
+          "height": 44,
+          "right": 354.328125,
+          "bottom": 51.5
+        },
+        {
+          "selector": "[data-ui=\"restart\"]",
+          "x": 359.328125,
+          "y": 7.5,
+          "width": 44.671875,
+          "height": 44,
+          "right": 404,
+          "bottom": 51.5
+        },
+        {
+          "selector": "[data-ui=\"controls-toggle\"]",
+          "x": 260,
+          "y": 7.5,
+          "width": 44.65625,
+          "height": 44,
+          "right": 304.65625,
+          "bottom": 51.5
+        }
+      ]
+    },
+    {
+      "name": "Android portrait: wheel central activation target is at least 64px",
+      "pass": true,
+      "detail": {
+        "selector": "[data-touch=\"wheel-trigger\"]",
+        "x": 280,
+        "y": 734,
+        "width": 64,
+        "height": 64,
+        "right": 344,
+        "bottom": 798
+      }
+    },
+    {
+      "name": "Android portrait: left joystick and right wheel occupy separate safe touch areas",
+      "pass": true,
+      "detail": {
+        "arena": {
+          "x": 0,
+          "y": 141.390625,
+          "width": 412,
+          "height": 773.609375,
+          "right": 412,
+          "bottom": 915
+        },
+        "hud": {
+          "x": 0,
+          "y": 0,
+          "width": 412,
+          "height": 141.390625,
+          "right": 412,
+          "bottom": 141.390625
+        },
+        "joystick": {
+          "x": 0,
+          "y": 675,
+          "width": 189.515625,
+          "height": 240,
+          "right": 189.515625,
+          "bottom": 915
+        },
+        "wheel": {
+          "x": 222,
+          "y": 676,
+          "width": 180,
+          "height": 180,
+          "right": 402,
+          "bottom": 856
+        },
+        "sectors": [
+          {
+            "pattern": 0,
+            "x": 290,
+            "y": 683,
+            "width": 44,
+            "height": 37.796875,
+            "right": 334,
+            "bottom": 720.796875
+          },
+          {
+            "pattern": 1,
+            "x": 353,
+            "y": 747.1015625,
+            "width": 44,
+            "height": 37.796875,
+            "right": 397,
+            "bottom": 784.8984375
+          },
+          {
+            "pattern": 2,
+            "x": 290,
+            "y": 811.203125,
+            "width": 44,
+            "height": 37.796875,
+            "right": 334,
+            "bottom": 849
+          },
+          {
+            "pattern": 3,
+            "x": 227,
+            "y": 747.1015625,
+            "width": 44,
+            "height": 37.796875,
+            "right": 271,
+            "bottom": 784.8984375
+          }
+        ],
+        "controls": [
+          {
+            "selector": "[data-touch=\"wheel-trigger\"]",
+            "x": 280,
+            "y": 734,
+            "width": 64,
+            "height": 64,
+            "right": 344,
+            "bottom": 798
+          },
+          {
+            "selector": "[data-touch=\"cancel\"]",
+            "x": 222,
+            "y": 861,
+            "width": 180,
+            "height": 44,
+            "right": 402,
+            "bottom": 905
+          },
+          {
+            "selector": "[data-ui=\"pause\"]",
+            "x": 309.65625,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 354.328125,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"restart\"]",
+            "x": 359.328125,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 404,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"controls-toggle\"]",
+            "x": 260,
+            "y": 7.5,
+            "width": 44.65625,
+            "height": 44,
+            "right": 304.65625,
+            "bottom": 51.5
+          }
+        ],
+        "width": 412,
+        "height": 915,
+        "scrollWidth": 412
+      }
+    },
+    {
+      "name": "Android portrait: four display sectors remain within the safe viewport without overlap",
+      "pass": true,
+      "detail": [
+        {
+          "pattern": 0,
+          "x": 290,
+          "y": 683,
+          "width": 44,
+          "height": 37.796875,
+          "right": 334,
+          "bottom": 720.796875
+        },
+        {
+          "pattern": 1,
+          "x": 353,
+          "y": 747.1015625,
+          "width": 44,
+          "height": 37.796875,
+          "right": 397,
+          "bottom": 784.8984375
+        },
+        {
+          "pattern": 2,
+          "x": 290,
+          "y": 811.203125,
+          "width": 44,
+          "height": 37.796875,
+          "right": 334,
+          "bottom": 849
+        },
+        {
+          "pattern": 3,
+          "x": 227,
+          "y": 747.1015625,
+          "width": 44,
+          "height": 37.796875,
+          "right": 271,
+          "bottom": 784.8984375
+        }
+      ]
+    },
+    {
+      "name": "Android portrait: layout-opening neutral release preserves zero attack counters",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: floating joystick top-left contact stays neutral",
+      "pass": true,
+      "detail": {
+        "point": {
+          "x": 5,
+          "y": 680
+        },
+        "firstAxis": {
+          "x": 0,
+          "y": 0,
+          "radius": 47.37890625
+        },
+        "before": {
+          "id": 1,
+          "alive": true,
+          "x": 303.36090087890625,
+          "y": 990.863525390625,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 59,
+          "faction": 1
+        },
+        "after": {
+          "id": 1,
+          "alive": true,
+          "x": 303.36090087890625,
+          "y": 990.863525390625,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 56,
+          "faction": 1
+        }
+      }
+    },
+    {
+      "name": "Android portrait: floating joystick bottom-left contact stays neutral",
+      "pass": true,
+      "detail": {
+        "point": {
+          "x": 5,
+          "y": 910
+        },
+        "firstAxis": {
+          "x": 0,
+          "y": 0,
+          "radius": 47.37890625
+        },
+        "before": {
+          "id": 1,
+          "alive": true,
+          "x": 303.36090087890625,
+          "y": 990.863525390625,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 59,
+          "faction": 1
+        },
+        "after": {
+          "id": 1,
+          "alive": true,
+          "x": 303.36090087890625,
+          "y": 990.863525390625,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 56,
+          "faction": 1
+        }
+      }
+    },
+    {
+      "name": "Android portrait: floating joystick top-right contact stays neutral",
+      "pass": true,
+      "detail": {
+        "point": {
+          "x": 184.515625,
+          "y": 680
+        },
+        "firstAxis": {
+          "x": 0,
+          "y": 0,
+          "radius": 47.37890625
+        },
+        "before": {
+          "id": 1,
+          "alive": true,
+          "x": 303.36090087890625,
+          "y": 990.863525390625,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 59,
+          "faction": 1
+        },
+        "after": {
+          "id": 1,
+          "alive": true,
+          "x": 303.36090087890625,
+          "y": 990.863525390625,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 56,
+          "faction": 1
+        }
+      }
+    },
+    {
+      "name": "Android portrait: floating joystick bottom-right contact stays neutral",
+      "pass": true,
+      "detail": {
+        "point": {
+          "x": 184.515625,
+          "y": 910
+        },
+        "firstAxis": {
+          "x": 0,
+          "y": 0,
+          "radius": 47.37890625
+        },
+        "before": {
+          "id": 1,
+          "alive": true,
+          "x": 303.36090087890625,
+          "y": 990.863525390625,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 59,
+          "faction": 1
+        },
+        "after": {
+          "id": 1,
+          "alive": true,
+          "x": 303.36090087890625,
+          "y": 990.863525390625,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 56,
+          "faction": 1
+        }
+      }
+    },
+    {
+      "name": "Android portrait: small deadzone motion stays still without jitter",
+      "pass": true,
+      "detail": {
+        "x": 0,
+        "y": 0,
+        "radius": 47.37890625
+      }
+    },
+    {
+      "name": "Android portrait: partial stick offers slow control and full stick accelerates",
+      "pass": true,
+      "detail": {
+        "gentle": {
+          "strength": 0.38,
+          "value": {
+            "x": 0.1706913001185978,
+            "y": 0,
+            "radius": 47.37890625
+          },
+          "delta": 7.68096923828125,
+          "origin": {
+            "id": 1,
+            "alive": true,
+            "x": 303.36090087890625,
+            "y": 990.863525390625,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 59,
+            "faction": 1
+          },
+          "actor": {
+            "id": 1,
+            "alive": true,
+            "x": 311.0418701171875,
+            "y": 990.863525390625,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 49,
+            "faction": 1
+          }
+        },
+        "full": {
+          "strength": 1,
+          "value": {
+            "x": 1,
+            "y": 0,
+            "radius": 47.37890625
+          },
+          "delta": 45,
+          "origin": {
+            "id": 1,
+            "alive": true,
+            "x": 303.36090087890625,
+            "y": 990.863525390625,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 59,
+            "faction": 1
+          },
+          "actor": {
+            "id": 1,
+            "alive": true,
+            "x": 348.36090087890625,
+            "y": 990.863525390625,
+            "radius": 22,
+            "hp": 6,
+            "hpMax": 6,
+            "invuln": 49,
+            "faction": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "Android portrait: lifting left thumb immediately stops movement",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: diagonal stick is normalized and does not move faster",
+      "pass": true,
+      "detail": {
+        "x": 0.7071067811865475,
+        "y": 0.7071067811865475,
+        "radius": 47.37890625
+      }
+    },
+    {
+      "name": "Android portrait: central contact opens wheel without selecting or pausing world",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: inner wheel deadzone permits thumb jitter without selecting",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: 18-to-20px neutral hysteresis does not invent a selection",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: crossing wheel select threshold chooses right skill preview",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: radial hysteresis retains selected skill until inner deadzone",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: returning to center cancels selection but keeps wheel available",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: neutral wheel release never sends an attack",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: ordinary central tap opens without firing an unintended skill",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: wheel drag to sector 1 changes preview without submitting",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: wheel drag to sector 2 changes preview without submitting",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: wheel drag to sector 3 changes preview without submitting",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: wheel drag to sector 4 changes preview without submitting",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: wheel drag to sector 1 changes preview without submitting",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: angular hysteresis keeps top selection near quadrant boundary",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: clear angular crossing selects right sector",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: small boundary reversal retains right sector without chatter",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: clear boundary reversal returns to top sector",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: center can cancel then accept another sector in the same gesture",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: multi-sector gesture releases only final skill and charges once",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: zero-RAF Space then stale sector move/up cannot recreate cancelled skill",
+      "pass": true,
+      "detail": {
+        "tickBefore": 1,
+        "tickAfter": 1,
+        "aim": null,
+        "axis": {
+          "x": 0.1706913001185978,
+          "y": 0,
+          "radius": 47.37890625
+        }
+      }
+    },
+    {
+      "name": "Android portrait: zero-RAF wheel cancellation preserves movement and never submits later",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: zero-RAF keyboard hold immediately replaces wheel owner",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: zero-RAF old wheel move/up cannot seize or release newer keyboard owner",
+      "pass": true,
+      "detail": {
+        "tickBefore": 1,
+        "tickAfter": 1,
+        "aim": {
+          "pattern": 1,
+          "dirX": 1,
+          "dirY": 0
+        }
+      }
+    },
+    {
+      "name": "Android portrait: new key owner release remains a zero-tick packet until consumed",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: only newer key owner releases once after stale wheel gesture",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: skill 1 touch hold immediately selects without charging",
+      "pass": true,
+      "detail": {
+        "immediateAim": {
+          "pattern": 0,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "aim": {
+          "pattern": 0,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "valid": true,
+        "reason": 0,
+        "beforeEnergy": 60,
+        "immediateEnergy": 60,
+        "heldEnergy": 61,
+        "immediateAccepted": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "wheel": {
+          "open": true,
+          "selection": 0
+        },
+        "axis": {
+          "x": 0,
+          "y": -0.1706909935405724,
+          "radius": 47.37890625
+        }
+      }
+    },
+    {
+      "name": "Android portrait: skill 1 right-thumb drift cannot rotate or stop left stick",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: skill 1 Space cancels release but preserves stick",
+      "pass": true,
+      "detail": {
+        "aim": null,
+        "accepted": 0,
+        "rejected": 0,
+        "axis": {
+          "x": 0,
+          "y": -0.1706909935405724,
+          "radius": 47.37890625
+        },
+        "phase": "playing"
+      }
+    },
+    {
+      "name": "Android portrait: skill 2 touch hold immediately selects without charging",
+      "pass": true,
+      "detail": {
+        "immediateAim": {
+          "pattern": 1,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "aim": {
+          "pattern": 1,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "valid": true,
+        "reason": 0,
+        "beforeEnergy": 60,
+        "immediateEnergy": 60,
+        "heldEnergy": 61,
+        "immediateAccepted": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "wheel": {
+          "open": true,
+          "selection": 1
+        },
+        "axis": {
+          "x": 0,
+          "y": -0.1706909935405724,
+          "radius": 47.37890625
+        }
+      }
+    },
+    {
+      "name": "Android portrait: skill 2 right-thumb drift cannot rotate or stop left stick",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: skill 2 Space cancels release but preserves stick",
+      "pass": true,
+      "detail": {
+        "aim": null,
+        "accepted": 0,
+        "rejected": 0,
+        "axis": {
+          "x": 0,
+          "y": -0.1706909935405724,
+          "radius": 47.37890625
+        },
+        "phase": "playing"
+      }
+    },
+    {
+      "name": "Android portrait: skill 3 touch hold immediately selects without charging",
+      "pass": true,
+      "detail": {
+        "immediateAim": {
+          "pattern": 2,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "aim": {
+          "pattern": 2,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "valid": true,
+        "reason": 0,
+        "beforeEnergy": 60,
+        "immediateEnergy": 60,
+        "heldEnergy": 61,
+        "immediateAccepted": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "wheel": {
+          "open": true,
+          "selection": 2
+        },
+        "axis": {
+          "x": 0,
+          "y": -0.1706909935405724,
+          "radius": 47.37890625
+        }
+      }
+    },
+    {
+      "name": "Android portrait: skill 3 right-thumb drift cannot rotate or stop left stick",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: skill 3 Space cancels release but preserves stick",
+      "pass": true,
+      "detail": {
+        "aim": null,
+        "accepted": 0,
+        "rejected": 0,
+        "axis": {
+          "x": 0,
+          "y": -0.1706909935405724,
+          "radius": 47.37890625
+        },
+        "phase": "playing"
+      }
+    },
+    {
+      "name": "Android portrait: skill 4 touch hold immediately selects without charging",
+      "pass": true,
+      "detail": {
+        "immediateAim": {
+          "pattern": 3,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "aim": {
+          "pattern": 3,
+          "dirX": 0,
+          "dirY": -1
+        },
+        "valid": false,
+        "reason": 1,
+        "beforeEnergy": 60,
+        "immediateEnergy": 60,
+        "heldEnergy": 61,
+        "immediateAccepted": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "wheel": {
+          "open": true,
+          "selection": 3
+        },
+        "axis": {
+          "x": 0,
+          "y": -0.1706909935405724,
+          "radius": 47.37890625
+        }
+      }
+    },
+    {
+      "name": "Android portrait: 100-energy skill visibly reports resource refusal during hold",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: skill 4 right-thumb drift cannot rotate or stop left stick",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: skill 4 Space cancels release but preserves stick",
+      "pass": true,
+      "detail": {
+        "aim": null,
+        "accepted": 0,
+        "rejected": 0,
+        "axis": {
+          "x": 0,
+          "y": -0.1706909935405724,
+          "radius": 47.37890625
+        },
+        "phase": "playing"
+      }
+    },
+    {
+      "name": "Android portrait: left stick drives stable rightward pre-aim while Boss moves",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: unchanged stick direction does not drift from Boss motion",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: actual left-thumb change rotates held skill to movement direction",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: recentering stops motion and keeps chosen skill direction",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: right release queues once without deducting at zero tick",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: right release accepts exactly once and spends only skill cost",
+      "pass": true,
+      "detail": {
+        "energyBefore": 63,
+        "energyAfter": 38,
+        "direction": [
+          0,
+          -1
+        ]
+      }
+    },
+    {
+      "name": "Android portrait: accepted C warnings preserve preview geometry and direction",
+      "pass": true,
+      "detail": {
+        "origin": {
+          "id": 1,
+          "alive": true,
+          "x": 315.65045166015625,
+          "y": 989.3272705078125,
+          "radius": 22,
+          "hp": 6,
+          "hpMax": 6,
+          "invuln": 38,
+          "faction": 1
+        },
+        "warningCount": 48
+      }
+    },
+    {
+      "name": "Android portrait: holding or releasing other thumb never duplicates attack",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: wheel can preview busy skill with shared-CD refusal visible",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: busy wheel release rejects once without energy charge or queued attack",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: native right-thumb upward slide cancels while left thumb moves",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: returning cancelled finger to sector then lifting cannot fire",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: native explicit cancel button suppresses later skill release",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: second right finger replaces selection with latest skill",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: replaced skill finger cannot release newer owner",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: new skill owner releases its own selection once",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: native touchCancel clears both owners without delayed firing",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: touch pause clears aim and freezes actual core",
+      "pass": true,
+      "detail": {
+        "phase": "paused",
+        "aim": null,
+        "tick": 3,
+        "frozenTick": 3,
+        "energy": 60,
+        "frozenEnergy": 60
+      }
+    },
+    {
+      "name": "Android portrait: non-primary touch resume cannot catch up or resume stale thumb state",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: physical releases after pause/resume cannot deliver cancelled skill",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: single-finger pause does not double-toggle through compatibility click",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: single-finger resume advances only one phase transition",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: touch restart clears captured thumb input before stale releases",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: real phone tap manually switches to desktop controls",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: another phone tap restores touch controls",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: orientation change preserves round physics and clears active thumbs",
+      "pass": true
+    },
+    {
+      "name": "Android portrait: rotated canvas fills new arena while original round aspect remains",
+      "pass": true,
+      "detail": {
+        "canvas": {
+          "x": 0,
+          "y": 83,
+          "width": 915,
+          "height": 329
+        },
+        "arena": {
+          "x": 0,
+          "y": 83,
+          "width": 915,
+          "height": 329
+        },
+        "field": [
+          606.7218017578125,
+          1139.237060546875
+        ]
+      }
+    },
+    {
+      "name": "Android portrait: restart after orientation change refits field to new arena",
+      "pass": true
+    },
+    {
+      "name": "iPhone compact: automatic device/input mode matches exposed capability",
+      "pass": true,
+      "detail": {
+        "name": "iPhone compact",
+        "emulation": {
+          "name": "iPhone compact",
+          "width": 320,
+          "height": 568,
+          "dpr": 2,
+          "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1",
+          "platform": "iPhone",
+          "touch": true,
+          "mode": "touch"
+        },
+        "signals": {
+          "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1",
+          "platform": "iPhone",
+          "maxTouchPoints": 5,
+          "coarsePointer": true,
+          "noHover": true,
+          "userAgentMobile": false,
+          "innerWidth": 320,
+          "innerHeight": 568,
+          "devicePixelRatio": 2
+        },
+        "controlMode": {
+          "mode": "touch",
+          "detectedMode": "touch",
+          "reason": "phone-user-agent-with-touch",
+          "automatic": true
+        }
+      }
+    },
+    {
+      "name": "iPhone compact: browser exposes requested viewport and device pixel ratio",
+      "pass": true,
+      "detail": {
+        "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1",
+        "platform": "iPhone",
+        "maxTouchPoints": 5,
+        "coarsePointer": true,
+        "noHover": true,
+        "userAgentMobile": false,
+        "innerWidth": 320,
+        "innerHeight": 568,
+        "devicePixelRatio": 2
+      }
+    },
+    {
+      "name": "iPhone compact: current C game and four skill introductions load",
+      "pass": true
+    },
+    {
+      "name": "iPhone compact: pre-game overlay exposes an accessible mode switch",
+      "pass": true
+    },
+    {
+      "name": "iPhone compact: menu mode switch overrides detection without starting a round",
+      "pass": true
+    },
+    {
+      "name": "iPhone compact: second menu activation returns to detected mode exactly once",
+      "pass": true
+    },
+    {
+      "name": "iPhone compact: native touch tap starts actual game and shows controls",
+      "pass": true
+    },
+    {
+      "name": "iPhone compact: wheel opens at central contact before layout sampling",
+      "pass": true
+    },
+    {
+      "name": "iPhone compact: battlefield fills below HUD without horizontal overflow",
+      "pass": true,
+      "detail": {
+        "arena": {
+          "x": 0,
+          "y": 141.390625,
+          "width": 320,
+          "height": 426.609375,
+          "right": 320,
+          "bottom": 568
+        },
+        "hud": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 141.390625,
+          "right": 320,
+          "bottom": 141.390625
+        },
+        "joystick": {
+          "x": 0,
+          "y": 405.890625,
+          "width": 147.1875,
+          "height": 162.109375,
+          "right": 147.1875,
+          "bottom": 568
+        },
+        "wheel": {
+          "x": 164.8125,
+          "y": 361.8125,
+          "width": 147.1875,
+          "height": 147.1875,
+          "right": 312,
+          "bottom": 509
+        },
+        "sectors": [
+          {
+            "pattern": 0,
+            "x": 216.40625,
+            "y": 368.8125,
+            "width": 44,
+            "height": 33.6875,
+            "right": 260.40625,
+            "bottom": 402.5
+          },
+          {
+            "pattern": 1,
+            "x": 263,
+            "y": 418.5625,
+            "width": 44,
+            "height": 33.6875,
+            "right": 307,
+            "bottom": 452.25
+          },
+          {
+            "pattern": 2,
+            "x": 216.40625,
+            "y": 468.3125,
+            "width": 44,
+            "height": 33.6875,
+            "right": 260.40625,
+            "bottom": 502
+          },
+          {
+            "pattern": 3,
+            "x": 169.8125,
+            "y": 418.5625,
+            "width": 44,
+            "height": 33.6875,
+            "right": 213.8125,
+            "bottom": 452.25
+          }
+        ],
+        "controls": [
+          {
+            "selector": "[data-touch=\"wheel-trigger\"]",
+            "x": 206.40625,
+            "y": 403.40625,
+            "width": 64,
+            "height": 64,
+            "right": 270.40625,
+            "bottom": 467.40625
+          },
+          {
+            "selector": "[data-touch=\"cancel\"]",
+            "x": 164.8125,
+            "y": 514,
+            "width": 147.1875,
+            "height": 44,
+            "right": 312,
+            "bottom": 558
+          },
+          {
+            "selector": "[data-ui=\"pause\"]",
+            "x": 217.65625,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 262.328125,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"restart\"]",
+            "x": 267.328125,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 312,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"controls-toggle\"]",
+            "x": 168,
+            "y": 7.5,
+            "width": 44.65625,
+            "height": 44,
+            "right": 212.65625,
+            "bottom": 51.5
+          }
+        ],
+        "width": 320,
+        "height": 568,
+        "scrollWidth": 320
+      }
+    },
+    {
+      "name": "iPhone compact: touch buttons are at least 44px and remain within viewport",
+      "pass": true,
+      "detail": [
+        {
+          "selector": "[data-touch=\"wheel-trigger\"]",
+          "x": 206.40625,
+          "y": 403.40625,
+          "width": 64,
+          "height": 64,
+          "right": 270.40625,
+          "bottom": 467.40625
+        },
+        {
+          "selector": "[data-touch=\"cancel\"]",
+          "x": 164.8125,
+          "y": 514,
+          "width": 147.1875,
+          "height": 44,
+          "right": 312,
+          "bottom": 558
+        },
+        {
+          "selector": "[data-ui=\"pause\"]",
+          "x": 217.65625,
+          "y": 7.5,
+          "width": 44.671875,
+          "height": 44,
+          "right": 262.328125,
+          "bottom": 51.5
+        },
+        {
+          "selector": "[data-ui=\"restart\"]",
+          "x": 267.328125,
+          "y": 7.5,
+          "width": 44.671875,
+          "height": 44,
+          "right": 312,
+          "bottom": 51.5
+        },
+        {
+          "selector": "[data-ui=\"controls-toggle\"]",
+          "x": 168,
+          "y": 7.5,
+          "width": 44.65625,
+          "height": 44,
+          "right": 212.65625,
+          "bottom": 51.5
+        }
+      ]
+    },
+    {
+      "name": "iPhone compact: wheel central activation target is at least 64px",
+      "pass": true,
+      "detail": {
+        "selector": "[data-touch=\"wheel-trigger\"]",
+        "x": 206.40625,
+        "y": 403.40625,
+        "width": 64,
+        "height": 64,
+        "right": 270.40625,
+        "bottom": 467.40625
+      }
+    },
+    {
+      "name": "iPhone compact: left joystick and right wheel occupy separate safe touch areas",
+      "pass": true,
+      "detail": {
+        "arena": {
+          "x": 0,
+          "y": 141.390625,
+          "width": 320,
+          "height": 426.609375,
+          "right": 320,
+          "bottom": 568
+        },
+        "hud": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 141.390625,
+          "right": 320,
+          "bottom": 141.390625
+        },
+        "joystick": {
+          "x": 0,
+          "y": 405.890625,
+          "width": 147.1875,
+          "height": 162.109375,
+          "right": 147.1875,
+          "bottom": 568
+        },
+        "wheel": {
+          "x": 164.8125,
+          "y": 361.8125,
+          "width": 147.1875,
+          "height": 147.1875,
+          "right": 312,
+          "bottom": 509
+        },
+        "sectors": [
+          {
+            "pattern": 0,
+            "x": 216.40625,
+            "y": 368.8125,
+            "width": 44,
+            "height": 33.6875,
+            "right": 260.40625,
+            "bottom": 402.5
+          },
+          {
+            "pattern": 1,
+            "x": 263,
+            "y": 418.5625,
+            "width": 44,
+            "height": 33.6875,
+            "right": 307,
+            "bottom": 452.25
+          },
+          {
+            "pattern": 2,
+            "x": 216.40625,
+            "y": 468.3125,
+            "width": 44,
+            "height": 33.6875,
+            "right": 260.40625,
+            "bottom": 502
+          },
+          {
+            "pattern": 3,
+            "x": 169.8125,
+            "y": 418.5625,
+            "width": 44,
+            "height": 33.6875,
+            "right": 213.8125,
+            "bottom": 452.25
+          }
+        ],
+        "controls": [
+          {
+            "selector": "[data-touch=\"wheel-trigger\"]",
+            "x": 206.40625,
+            "y": 403.40625,
+            "width": 64,
+            "height": 64,
+            "right": 270.40625,
+            "bottom": 467.40625
+          },
+          {
+            "selector": "[data-touch=\"cancel\"]",
+            "x": 164.8125,
+            "y": 514,
+            "width": 147.1875,
+            "height": 44,
+            "right": 312,
+            "bottom": 558
+          },
+          {
+            "selector": "[data-ui=\"pause\"]",
+            "x": 217.65625,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 262.328125,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"restart\"]",
+            "x": 267.328125,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 312,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"controls-toggle\"]",
+            "x": 168,
+            "y": 7.5,
+            "width": 44.65625,
+            "height": 44,
+            "right": 212.65625,
+            "bottom": 51.5
+          }
+        ],
+        "width": 320,
+        "height": 568,
+        "scrollWidth": 320
+      }
+    },
+    {
+      "name": "iPhone compact: four display sectors remain within the safe viewport without overlap",
+      "pass": true,
+      "detail": [
+        {
+          "pattern": 0,
+          "x": 216.40625,
+          "y": 368.8125,
+          "width": 44,
+          "height": 33.6875,
+          "right": 260.40625,
+          "bottom": 402.5
+        },
+        {
+          "pattern": 1,
+          "x": 263,
+          "y": 418.5625,
+          "width": 44,
+          "height": 33.6875,
+          "right": 307,
+          "bottom": 452.25
+        },
+        {
+          "pattern": 2,
+          "x": 216.40625,
+          "y": 468.3125,
+          "width": 44,
+          "height": 33.6875,
+          "right": 260.40625,
+          "bottom": 502
+        },
+        {
+          "pattern": 3,
+          "x": 169.8125,
+          "y": 418.5625,
+          "width": 44,
+          "height": 33.6875,
+          "right": 213.8125,
+          "bottom": 452.25
+        }
+      ]
+    },
+    {
+      "name": "iPhone compact: layout-opening neutral release preserves zero attack counters",
+      "pass": true
+    },
+    {
+      "name": "iPad desktop UA: automatic device/input mode matches exposed capability",
+      "pass": true,
+      "detail": {
+        "name": "iPad desktop UA",
+        "emulation": {
+          "name": "iPad desktop UA",
+          "width": 1024,
+          "height": 768,
+          "dpr": 2,
+          "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15",
+          "platform": "MacIntel",
+          "touch": true,
+          "mode": "touch"
+        },
+        "signals": {
+          "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15",
+          "platform": "MacIntel",
+          "maxTouchPoints": 5,
+          "coarsePointer": true,
+          "noHover": true,
+          "userAgentMobile": false,
+          "innerWidth": 1024,
+          "innerHeight": 768,
+          "devicePixelRatio": 2
+        },
+        "controlMode": {
+          "mode": "touch",
+          "detectedMode": "touch",
+          "reason": "ipad-with-touch-including-desktop-user-agent",
+          "automatic": true
+        }
+      }
+    },
+    {
+      "name": "iPad desktop UA: browser exposes requested viewport and device pixel ratio",
+      "pass": true,
+      "detail": {
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15",
+        "platform": "MacIntel",
+        "maxTouchPoints": 5,
+        "coarsePointer": true,
+        "noHover": true,
+        "userAgentMobile": false,
+        "innerWidth": 1024,
+        "innerHeight": 768,
+        "devicePixelRatio": 2
+      }
+    },
+    {
+      "name": "iPad desktop UA: current C game and four skill introductions load",
+      "pass": true
+    },
+    {
+      "name": "iPad desktop UA: pre-game overlay exposes an accessible mode switch",
+      "pass": true
+    },
+    {
+      "name": "iPad desktop UA: menu mode switch overrides detection without starting a round",
+      "pass": true
+    },
+    {
+      "name": "iPad desktop UA: second menu activation returns to detected mode exactly once",
+      "pass": true
+    },
+    {
+      "name": "iPad desktop UA: native touch tap starts actual game and shows controls",
+      "pass": true
+    },
+    {
+      "name": "iPad desktop UA: wheel opens at central contact before layout sampling",
+      "pass": true
+    },
+    {
+      "name": "iPad desktop UA: battlefield fills below HUD without horizontal overflow",
+      "pass": true,
+      "detail": {
+        "arena": {
+          "x": 0,
+          "y": 141.390625,
+          "width": 1024,
+          "height": 626.609375,
+          "right": 1024,
+          "bottom": 768
+        },
+        "hud": {
+          "x": 0,
+          "y": 0,
+          "width": 1024,
+          "height": 141.390625,
+          "right": 1024,
+          "bottom": 141.390625
+        },
+        "joystick": {
+          "x": 0,
+          "y": 529.890625,
+          "width": 340,
+          "height": 238.109375,
+          "right": 340,
+          "bottom": 768
+        },
+        "wheel": {
+          "x": 834,
+          "y": 529,
+          "width": 180,
+          "height": 180,
+          "right": 1014,
+          "bottom": 709
+        },
+        "sectors": [
+          {
+            "pattern": 0,
+            "x": 902,
+            "y": 536,
+            "width": 44,
+            "height": 37.796875,
+            "right": 946,
+            "bottom": 573.796875
+          },
+          {
+            "pattern": 1,
+            "x": 965,
+            "y": 600.1015625,
+            "width": 44,
+            "height": 37.796875,
+            "right": 1009,
+            "bottom": 637.8984375
+          },
+          {
+            "pattern": 2,
+            "x": 902,
+            "y": 664.203125,
+            "width": 44,
+            "height": 37.796875,
+            "right": 946,
+            "bottom": 702
+          },
+          {
+            "pattern": 3,
+            "x": 839,
+            "y": 600.1015625,
+            "width": 44,
+            "height": 37.796875,
+            "right": 883,
+            "bottom": 637.8984375
+          }
+        ],
+        "controls": [
+          {
+            "selector": "[data-touch=\"wheel-trigger\"]",
+            "x": 892,
+            "y": 587,
+            "width": 64,
+            "height": 64,
+            "right": 956,
+            "bottom": 651
+          },
+          {
+            "selector": "[data-touch=\"cancel\"]",
+            "x": 834,
+            "y": 714,
+            "width": 180,
+            "height": 44,
+            "right": 1014,
+            "bottom": 758
+          },
+          {
+            "selector": "[data-ui=\"pause\"]",
+            "x": 921.65625,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 966.328125,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"restart\"]",
+            "x": 971.328125,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 1016,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"controls-toggle\"]",
+            "x": 872,
+            "y": 7.5,
+            "width": 44.65625,
+            "height": 44,
+            "right": 916.65625,
+            "bottom": 51.5
+          }
+        ],
+        "width": 1024,
+        "height": 768,
+        "scrollWidth": 1024
+      }
+    },
+    {
+      "name": "iPad desktop UA: touch buttons are at least 44px and remain within viewport",
+      "pass": true,
+      "detail": [
+        {
+          "selector": "[data-touch=\"wheel-trigger\"]",
+          "x": 892,
+          "y": 587,
+          "width": 64,
+          "height": 64,
+          "right": 956,
+          "bottom": 651
+        },
+        {
+          "selector": "[data-touch=\"cancel\"]",
+          "x": 834,
+          "y": 714,
+          "width": 180,
+          "height": 44,
+          "right": 1014,
+          "bottom": 758
+        },
+        {
+          "selector": "[data-ui=\"pause\"]",
+          "x": 921.65625,
+          "y": 7.5,
+          "width": 44.671875,
+          "height": 44,
+          "right": 966.328125,
+          "bottom": 51.5
+        },
+        {
+          "selector": "[data-ui=\"restart\"]",
+          "x": 971.328125,
+          "y": 7.5,
+          "width": 44.671875,
+          "height": 44,
+          "right": 1016,
+          "bottom": 51.5
+        },
+        {
+          "selector": "[data-ui=\"controls-toggle\"]",
+          "x": 872,
+          "y": 7.5,
+          "width": 44.65625,
+          "height": 44,
+          "right": 916.65625,
+          "bottom": 51.5
+        }
+      ]
+    },
+    {
+      "name": "iPad desktop UA: wheel central activation target is at least 64px",
+      "pass": true,
+      "detail": {
+        "selector": "[data-touch=\"wheel-trigger\"]",
+        "x": 892,
+        "y": 587,
+        "width": 64,
+        "height": 64,
+        "right": 956,
+        "bottom": 651
+      }
+    },
+    {
+      "name": "iPad desktop UA: left joystick and right wheel occupy separate safe touch areas",
+      "pass": true,
+      "detail": {
+        "arena": {
+          "x": 0,
+          "y": 141.390625,
+          "width": 1024,
+          "height": 626.609375,
+          "right": 1024,
+          "bottom": 768
+        },
+        "hud": {
+          "x": 0,
+          "y": 0,
+          "width": 1024,
+          "height": 141.390625,
+          "right": 1024,
+          "bottom": 141.390625
+        },
+        "joystick": {
+          "x": 0,
+          "y": 529.890625,
+          "width": 340,
+          "height": 238.109375,
+          "right": 340,
+          "bottom": 768
+        },
+        "wheel": {
+          "x": 834,
+          "y": 529,
+          "width": 180,
+          "height": 180,
+          "right": 1014,
+          "bottom": 709
+        },
+        "sectors": [
+          {
+            "pattern": 0,
+            "x": 902,
+            "y": 536,
+            "width": 44,
+            "height": 37.796875,
+            "right": 946,
+            "bottom": 573.796875
+          },
+          {
+            "pattern": 1,
+            "x": 965,
+            "y": 600.1015625,
+            "width": 44,
+            "height": 37.796875,
+            "right": 1009,
+            "bottom": 637.8984375
+          },
+          {
+            "pattern": 2,
+            "x": 902,
+            "y": 664.203125,
+            "width": 44,
+            "height": 37.796875,
+            "right": 946,
+            "bottom": 702
+          },
+          {
+            "pattern": 3,
+            "x": 839,
+            "y": 600.1015625,
+            "width": 44,
+            "height": 37.796875,
+            "right": 883,
+            "bottom": 637.8984375
+          }
+        ],
+        "controls": [
+          {
+            "selector": "[data-touch=\"wheel-trigger\"]",
+            "x": 892,
+            "y": 587,
+            "width": 64,
+            "height": 64,
+            "right": 956,
+            "bottom": 651
+          },
+          {
+            "selector": "[data-touch=\"cancel\"]",
+            "x": 834,
+            "y": 714,
+            "width": 180,
+            "height": 44,
+            "right": 1014,
+            "bottom": 758
+          },
+          {
+            "selector": "[data-ui=\"pause\"]",
+            "x": 921.65625,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 966.328125,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"restart\"]",
+            "x": 971.328125,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 1016,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"controls-toggle\"]",
+            "x": 872,
+            "y": 7.5,
+            "width": 44.65625,
+            "height": 44,
+            "right": 916.65625,
+            "bottom": 51.5
+          }
+        ],
+        "width": 1024,
+        "height": 768,
+        "scrollWidth": 1024
+      }
+    },
+    {
+      "name": "iPad desktop UA: four display sectors remain within the safe viewport without overlap",
+      "pass": true,
+      "detail": [
+        {
+          "pattern": 0,
+          "x": 902,
+          "y": 536,
+          "width": 44,
+          "height": 37.796875,
+          "right": 946,
+          "bottom": 573.796875
+        },
+        {
+          "pattern": 1,
+          "x": 965,
+          "y": 600.1015625,
+          "width": 44,
+          "height": 37.796875,
+          "right": 1009,
+          "bottom": 637.8984375
+        },
+        {
+          "pattern": 2,
+          "x": 902,
+          "y": 664.203125,
+          "width": 44,
+          "height": 37.796875,
+          "right": 946,
+          "bottom": 702
+        },
+        {
+          "pattern": 3,
+          "x": 839,
+          "y": 600.1015625,
+          "width": 44,
+          "height": 37.796875,
+          "right": 883,
+          "bottom": 637.8984375
+        }
+      ]
+    },
+    {
+      "name": "iPad desktop UA: layout-opening neutral release preserves zero attack counters",
+      "pass": true
+    },
+    {
+      "name": "desktop: automatic device/input mode matches exposed capability",
+      "pass": true,
+      "detail": {
+        "name": "desktop",
+        "emulation": {
+          "name": "desktop",
+          "width": 1440,
+          "height": 900,
+          "touch": false,
+          "mode": "desktop"
+        },
+        "signals": {
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+          "platform": "Win32",
+          "maxTouchPoints": 0,
+          "coarsePointer": false,
+          "noHover": false,
+          "userAgentMobile": false,
+          "innerWidth": 1440,
+          "innerHeight": 900,
+          "devicePixelRatio": 1
+        },
+        "controlMode": {
+          "mode": "desktop",
+          "detectedMode": "desktop",
+          "reason": "no-touch-capability",
+          "automatic": true
+        }
+      }
+    },
+    {
+      "name": "desktop: browser exposes requested viewport and device pixel ratio",
+      "pass": true,
+      "detail": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "platform": "Win32",
+        "maxTouchPoints": 0,
+        "coarsePointer": false,
+        "noHover": false,
+        "userAgentMobile": false,
+        "innerWidth": 1440,
+        "innerHeight": 900,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "name": "desktop: current C game and four skill introductions load",
+      "pass": true
+    },
+    {
+      "name": "desktop: pre-game overlay exposes an accessible mode switch",
+      "pass": true
+    },
+    {
+      "name": "desktop: menu mode switch overrides detection without starting a round",
+      "pass": true
+    },
+    {
+      "name": "desktop: second menu activation returns to detected mode exactly once",
+      "pass": true
+    },
+    {
+      "name": "desktop: desktop including narrow window does not show touch controls",
+      "pass": true
+    },
+    {
+      "name": "desktop: real desktop click can manually enable touch mode",
+      "pass": true
+    },
+    {
+      "name": "desktop: manual mode returns to desktop",
+      "pass": true
+    },
+    {
+      "name": "narrow desktop: automatic device/input mode matches exposed capability",
+      "pass": true,
+      "detail": {
+        "name": "narrow desktop",
+        "emulation": {
+          "name": "narrow desktop",
+          "width": 390,
+          "height": 844,
+          "touch": false,
+          "mode": "desktop"
+        },
+        "signals": {
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+          "platform": "Win32",
+          "maxTouchPoints": 0,
+          "coarsePointer": false,
+          "noHover": false,
+          "userAgentMobile": false,
+          "innerWidth": 390,
+          "innerHeight": 844,
+          "devicePixelRatio": 1
+        },
+        "controlMode": {
+          "mode": "desktop",
+          "detectedMode": "desktop",
+          "reason": "no-touch-capability",
+          "automatic": true
+        }
+      }
+    },
+    {
+      "name": "narrow desktop: browser exposes requested viewport and device pixel ratio",
+      "pass": true,
+      "detail": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "platform": "Win32",
+        "maxTouchPoints": 0,
+        "coarsePointer": false,
+        "noHover": false,
+        "userAgentMobile": false,
+        "innerWidth": 390,
+        "innerHeight": 844,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "name": "narrow desktop: current C game and four skill introductions load",
+      "pass": true
+    },
+    {
+      "name": "narrow desktop: pre-game overlay exposes an accessible mode switch",
+      "pass": true
+    },
+    {
+      "name": "narrow desktop: menu mode switch overrides detection without starting a round",
+      "pass": true
+    },
+    {
+      "name": "narrow desktop: second menu activation returns to detected mode exactly once",
+      "pass": true
+    },
+    {
+      "name": "narrow desktop: desktop including narrow window does not show touch controls",
+      "pass": true
+    },
+    {
+      "name": "narrow desktop: real desktop click can manually enable touch mode",
+      "pass": true
+    },
+    {
+      "name": "narrow desktop: manual mode returns to desktop",
+      "pass": true
+    },
+    {
+      "name": "Windows primary coarse touch: automatic device/input mode matches exposed capability",
+      "pass": true,
+      "detail": {
+        "name": "Windows primary coarse touch",
+        "emulation": {
+          "name": "Windows primary coarse touch",
+          "width": 1280,
+          "height": 800,
+          "platform": "Win32",
+          "touch": true,
+          "mode": "touch"
+        },
+        "signals": {
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+          "platform": "Win32",
+          "maxTouchPoints": 5,
+          "coarsePointer": true,
+          "noHover": true,
+          "userAgentMobile": false,
+          "innerWidth": 1280,
+          "innerHeight": 800,
+          "devicePixelRatio": 1
+        },
+        "controlMode": {
+          "mode": "touch",
+          "detectedMode": "touch",
+          "reason": "primary-coarse-touch-without-hover",
+          "automatic": true
+        }
+      }
+    },
+    {
+      "name": "Windows primary coarse touch: browser exposes requested viewport and device pixel ratio",
+      "pass": true,
+      "detail": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "platform": "Win32",
+        "maxTouchPoints": 5,
+        "coarsePointer": true,
+        "noHover": true,
+        "userAgentMobile": false,
+        "innerWidth": 1280,
+        "innerHeight": 800,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "name": "Windows primary coarse touch: current C game and four skill introductions load",
+      "pass": true
+    },
+    {
+      "name": "Windows primary coarse touch: pre-game overlay exposes an accessible mode switch",
+      "pass": true
+    },
+    {
+      "name": "Windows primary coarse touch: menu mode switch overrides detection without starting a round",
+      "pass": true
+    },
+    {
+      "name": "Windows primary coarse touch: second menu activation returns to detected mode exactly once",
+      "pass": true
+    },
+    {
+      "name": "Windows primary coarse touch: native touch tap starts actual game and shows controls",
+      "pass": true
+    },
+    {
+      "name": "Windows primary coarse touch: wheel opens at central contact before layout sampling",
+      "pass": true
+    },
+    {
+      "name": "Windows primary coarse touch: battlefield fills below HUD without horizontal overflow",
+      "pass": true,
+      "detail": {
+        "arena": {
+          "x": 0,
+          "y": 141.390625,
+          "width": 1280,
+          "height": 658.609375,
+          "right": 1280,
+          "bottom": 800
+        },
+        "hud": {
+          "x": 0,
+          "y": 0,
+          "width": 1280,
+          "height": 141.390625,
+          "right": 1280,
+          "bottom": 141.390625
+        },
+        "joystick": {
+          "x": 0,
+          "y": 560,
+          "width": 340,
+          "height": 240,
+          "right": 340,
+          "bottom": 800
+        },
+        "wheel": {
+          "x": 1090,
+          "y": 561,
+          "width": 180,
+          "height": 180,
+          "right": 1270,
+          "bottom": 741
+        },
+        "sectors": [
+          {
+            "pattern": 0,
+            "x": 1158,
+            "y": 568,
+            "width": 44,
+            "height": 37.796875,
+            "right": 1202,
+            "bottom": 605.796875
+          },
+          {
+            "pattern": 1,
+            "x": 1221,
+            "y": 632.1015625,
+            "width": 44,
+            "height": 37.796875,
+            "right": 1265,
+            "bottom": 669.8984375
+          },
+          {
+            "pattern": 2,
+            "x": 1158,
+            "y": 696.203125,
+            "width": 44,
+            "height": 37.796875,
+            "right": 1202,
+            "bottom": 734
+          },
+          {
+            "pattern": 3,
+            "x": 1095,
+            "y": 632.1015625,
+            "width": 44,
+            "height": 37.796875,
+            "right": 1139,
+            "bottom": 669.8984375
+          }
+        ],
+        "controls": [
+          {
+            "selector": "[data-touch=\"wheel-trigger\"]",
+            "x": 1148,
+            "y": 619,
+            "width": 64,
+            "height": 64,
+            "right": 1212,
+            "bottom": 683
+          },
+          {
+            "selector": "[data-touch=\"cancel\"]",
+            "x": 1090,
+            "y": 746,
+            "width": 180,
+            "height": 44,
+            "right": 1270,
+            "bottom": 790
+          },
+          {
+            "selector": "[data-ui=\"pause\"]",
+            "x": 1177.65625,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 1222.328125,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"restart\"]",
+            "x": 1227.328125,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 1272,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"controls-toggle\"]",
+            "x": 1128,
+            "y": 7.5,
+            "width": 44.65625,
+            "height": 44,
+            "right": 1172.65625,
+            "bottom": 51.5
+          }
+        ],
+        "width": 1280,
+        "height": 800,
+        "scrollWidth": 1280
+      }
+    },
+    {
+      "name": "Windows primary coarse touch: touch buttons are at least 44px and remain within viewport",
+      "pass": true,
+      "detail": [
+        {
+          "selector": "[data-touch=\"wheel-trigger\"]",
+          "x": 1148,
+          "y": 619,
+          "width": 64,
+          "height": 64,
+          "right": 1212,
+          "bottom": 683
+        },
+        {
+          "selector": "[data-touch=\"cancel\"]",
+          "x": 1090,
+          "y": 746,
+          "width": 180,
+          "height": 44,
+          "right": 1270,
+          "bottom": 790
+        },
+        {
+          "selector": "[data-ui=\"pause\"]",
+          "x": 1177.65625,
+          "y": 7.5,
+          "width": 44.671875,
+          "height": 44,
+          "right": 1222.328125,
+          "bottom": 51.5
+        },
+        {
+          "selector": "[data-ui=\"restart\"]",
+          "x": 1227.328125,
+          "y": 7.5,
+          "width": 44.671875,
+          "height": 44,
+          "right": 1272,
+          "bottom": 51.5
+        },
+        {
+          "selector": "[data-ui=\"controls-toggle\"]",
+          "x": 1128,
+          "y": 7.5,
+          "width": 44.65625,
+          "height": 44,
+          "right": 1172.65625,
+          "bottom": 51.5
+        }
+      ]
+    },
+    {
+      "name": "Windows primary coarse touch: wheel central activation target is at least 64px",
+      "pass": true,
+      "detail": {
+        "selector": "[data-touch=\"wheel-trigger\"]",
+        "x": 1148,
+        "y": 619,
+        "width": 64,
+        "height": 64,
+        "right": 1212,
+        "bottom": 683
+      }
+    },
+    {
+      "name": "Windows primary coarse touch: left joystick and right wheel occupy separate safe touch areas",
+      "pass": true,
+      "detail": {
+        "arena": {
+          "x": 0,
+          "y": 141.390625,
+          "width": 1280,
+          "height": 658.609375,
+          "right": 1280,
+          "bottom": 800
+        },
+        "hud": {
+          "x": 0,
+          "y": 0,
+          "width": 1280,
+          "height": 141.390625,
+          "right": 1280,
+          "bottom": 141.390625
+        },
+        "joystick": {
+          "x": 0,
+          "y": 560,
+          "width": 340,
+          "height": 240,
+          "right": 340,
+          "bottom": 800
+        },
+        "wheel": {
+          "x": 1090,
+          "y": 561,
+          "width": 180,
+          "height": 180,
+          "right": 1270,
+          "bottom": 741
+        },
+        "sectors": [
+          {
+            "pattern": 0,
+            "x": 1158,
+            "y": 568,
+            "width": 44,
+            "height": 37.796875,
+            "right": 1202,
+            "bottom": 605.796875
+          },
+          {
+            "pattern": 1,
+            "x": 1221,
+            "y": 632.1015625,
+            "width": 44,
+            "height": 37.796875,
+            "right": 1265,
+            "bottom": 669.8984375
+          },
+          {
+            "pattern": 2,
+            "x": 1158,
+            "y": 696.203125,
+            "width": 44,
+            "height": 37.796875,
+            "right": 1202,
+            "bottom": 734
+          },
+          {
+            "pattern": 3,
+            "x": 1095,
+            "y": 632.1015625,
+            "width": 44,
+            "height": 37.796875,
+            "right": 1139,
+            "bottom": 669.8984375
+          }
+        ],
+        "controls": [
+          {
+            "selector": "[data-touch=\"wheel-trigger\"]",
+            "x": 1148,
+            "y": 619,
+            "width": 64,
+            "height": 64,
+            "right": 1212,
+            "bottom": 683
+          },
+          {
+            "selector": "[data-touch=\"cancel\"]",
+            "x": 1090,
+            "y": 746,
+            "width": 180,
+            "height": 44,
+            "right": 1270,
+            "bottom": 790
+          },
+          {
+            "selector": "[data-ui=\"pause\"]",
+            "x": 1177.65625,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 1222.328125,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"restart\"]",
+            "x": 1227.328125,
+            "y": 7.5,
+            "width": 44.671875,
+            "height": 44,
+            "right": 1272,
+            "bottom": 51.5
+          },
+          {
+            "selector": "[data-ui=\"controls-toggle\"]",
+            "x": 1128,
+            "y": 7.5,
+            "width": 44.65625,
+            "height": 44,
+            "right": 1172.65625,
+            "bottom": 51.5
+          }
+        ],
+        "width": 1280,
+        "height": 800,
+        "scrollWidth": 1280
+      }
+    },
+    {
+      "name": "Windows primary coarse touch: four display sectors remain within the safe viewport without overlap",
+      "pass": true,
+      "detail": [
+        {
+          "pattern": 0,
+          "x": 1158,
+          "y": 568,
+          "width": 44,
+          "height": 37.796875,
+          "right": 1202,
+          "bottom": 605.796875
+        },
+        {
+          "pattern": 1,
+          "x": 1221,
+          "y": 632.1015625,
+          "width": 44,
+          "height": 37.796875,
+          "right": 1265,
+          "bottom": 669.8984375
+        },
+        {
+          "pattern": 2,
+          "x": 1158,
+          "y": 696.203125,
+          "width": 44,
+          "height": 37.796875,
+          "right": 1202,
+          "bottom": 734
+        },
+        {
+          "pattern": 3,
+          "x": 1095,
+          "y": 632.1015625,
+          "width": 44,
+          "height": 37.796875,
+          "right": 1139,
+          "bottom": 669.8984375
+        }
+      ]
+    },
+    {
+      "name": "Windows primary coarse touch: layout-opening neutral release preserves zero attack counters",
+      "pass": true
+    },
+    {
+      "name": "all profiles have zero runtime errors and external/failed/error-status requests",
+      "pass": true,
+      "detail": {
+        "errors": [],
+        "externalRequests": [],
+        "failedRequests": [],
+        "httpErrors": []
+      }
+    }
+  ],
+  "errors": [],
+  "documentRequests": [],
+  "externalRequests": [],
+  "failedRequests": [],
+  "httpErrors": [],
+  "passed": true,
+  "browser": "154.0.8037.98"
+}

@@ -1,0 +1,110 @@
+{
+  "passed": true,
+  "baselineCommit": "b7026be77a69865a6580d8a7d0dbd146357caef3",
+  "configVersion": 6,
+  "abiVersion": 5,
+  "html": {
+    "path": "demo/ustc-danmaku.html",
+    "bytes": 1198748,
+    "sha256": "c931f75e78a1dce721df74c52f8abab2ef0d14f766b619db0b473e7c17da0f00"
+  },
+  "wasm": {
+    "bytes": 62152,
+    "sha256": "9dbd096c2eac3792de2c22b5af54725591fd99502f6239b16a41257a13c21b93"
+  },
+  "originalPdfSha256": "1668d0d3d62a8fa991f6822b85d101925ef434bb8c139370abcace2f6b3b4f7a",
+  "protectedBaselineFiles": 165,
+  "localLinks": 129,
+  "rootTest": {
+    "command": "npm.cmd test",
+    "exitCode": 0,
+    "log": "docs/validation/mobile-wheel/root-test.log",
+    "nativeTests": 13
+  },
+  "parity": {
+    "cases": 10,
+    "ticksCompared": 36010,
+    "maxFloatDelta": 0.000003814697265625
+  },
+  "browsers": [
+    {
+      "name": "mobile-browser-smoke.json",
+      "checks": 326,
+      "htmlSha256": "c931f75e78a1dce721df74c52f8abab2ef0d14f766b619db0b473e7c17da0f00",
+      "passed": true
+    },
+    {
+      "name": "v6-aim-browser-smoke.json",
+      "checks": 282,
+      "htmlSha256": "c931f75e78a1dce721df74c52f8abab2ef0d14f766b619db0b473e7c17da0f00",
+      "passed": true
+    },
+    {
+      "name": "v6-browser-endless.json",
+      "checks": 18,
+      "htmlSha256": "c931f75e78a1dce721df74c52f8abab2ef0d14f766b619db0b473e7c17da0f00",
+      "passed": true
+    }
+  ],
+  "sourceProbes": [
+    {
+      "name": "control-mode-probe.json",
+      "cases": 18,
+      "sourceSha256": "06b22500bea51f2111fbdb59f6326d8422a69f6d35da81b6c1f6e45dc3d3aae4",
+      "passed": true
+    },
+    {
+      "name": "mobile-input-probe-results.json",
+      "cases": 35,
+      "assertions": 585,
+      "sourceSha256": "530a6a50bd3400b84cb6199dfe5ff30148abed3425be4b683f6b0ca62d12553a",
+      "passed": true
+    },
+    {
+      "name": "aim-input-probe-results.json",
+      "cases": 54,
+      "assertions": 431,
+      "sourceSha256": "530a6a50bd3400b84cb6199dfe5ff30148abed3425be4b683f6b0ca62d12553a",
+      "passed": true
+    }
+  ],
+  "sourceFiles": [
+    {
+      "path": "apps/web/index.html",
+      "sha256": "2f03f84499303287b8263d426980b0e2a21a454db808a8cd8e4deb3e74588d2b"
+    },
+    {
+      "path": "apps/web/src/main.ts",
+      "sha256": "2a88d736510e791e572df366f44c65a4a8feccba884fe022cc773bd53c9e4db1"
+    },
+    {
+      "path": "apps/web/src/style.css",
+      "sha256": "4ed74819f2f22debef5025174bec9be35d6c921a882e306fab681133a95b6d3e"
+    },
+    {
+      "path": "apps/web/src/input/browserInput.ts",
+      "sha256": "530a6a50bd3400b84cb6199dfe5ff30148abed3425be4b683f6b0ca62d12553a"
+    },
+    {
+      "path": "apps/web/src/input/controlMode.ts",
+      "sha256": "06b22500bea51f2111fbdb59f6326d8422a69f6d35da81b6c1f6e45dc3d3aae4"
+    },
+    {
+      "path": "apps/web/src/ui/hud.ts",
+      "sha256": "59d4345f3bb8d2a1b5a6aee281e2fd057592cbdd527a6a7a6c5d86cd3b55ceec"
+    },
+    {
+      "path": "apps/web/src/ui/hud.css",
+      "sha256": "d755195e00277d95e9f24ee2c617965867b50bd37e07afdb2f9618e59f71df0c"
+    },
+    {
+      "path": "apps/web/src/ui/touchControls.ts",
+      "sha256": "12feb35260c633e7af9ac1830d7af8c0d0998f68a067e0b7d99c930806e93afd"
+    },
+    {
+      "path": "apps/web/src/ui/touchControls.css",
+      "sha256": "d3cad52eb50a4817e1c66a0db160cf1e94efa143bcc3f804d202bd9f13f8a268"
+    }
+  ],
+  "limitations": "Chromium device emulation and native CDP multitouch; no physical iOS Safari/Android performance measurement or human hand-feel claim."
+}

@@ -1,0 +1,298 @@
+{
+  "method": "Pure public input-capability signal fixtures; no claimed physical-device or browser execution.",
+  "sourceSha256": "06b22500bea51f2111fbdb59f6326d8422a69f6d35da81b6c1f6e45dc3d3aae4",
+  "checks": [
+    {
+      "name": "iPhone with actual touch",
+      "signals": {
+        "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X)",
+        "platform": "iPhone",
+        "maxTouchPoints": 5,
+        "coarsePointer": true,
+        "noHover": true
+      },
+      "expected": "touch",
+      "actual": {
+        "mode": "touch",
+        "reason": "phone-user-agent-with-touch"
+      },
+      "pass": true
+    },
+    {
+      "name": "iPhone with paired fine pointer",
+      "signals": {
+        "userAgent": "iPhone",
+        "platform": "Win32",
+        "maxTouchPoints": 5,
+        "coarsePointer": false,
+        "noHover": false
+      },
+      "expected": "touch",
+      "actual": {
+        "mode": "touch",
+        "reason": "phone-user-agent-with-touch"
+      },
+      "pass": true
+    },
+    {
+      "name": "Android phone",
+      "signals": {
+        "userAgent": "Mozilla/5.0 (Linux; Android 15) Mobile",
+        "platform": "Win32",
+        "maxTouchPoints": 5,
+        "coarsePointer": true,
+        "noHover": true
+      },
+      "expected": "touch",
+      "actual": {
+        "mode": "touch",
+        "reason": "phone-user-agent-with-touch"
+      },
+      "pass": true
+    },
+    {
+      "name": "iPad desktop Safari UA",
+      "signals": {
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) Version/18.0 Safari/605.1.15",
+        "platform": "MacIntel",
+        "maxTouchPoints": 5,
+        "coarsePointer": true,
+        "noHover": true
+      },
+      "expected": "touch",
+      "actual": {
+        "mode": "touch",
+        "reason": "ipad-with-touch-including-desktop-user-agent"
+      },
+      "pass": true
+    },
+    {
+      "name": "iPad desktop UA with paired pointer",
+      "signals": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        "platform": "MacIntel",
+        "maxTouchPoints": 5,
+        "coarsePointer": false,
+        "noHover": false
+      },
+      "expected": "touch",
+      "actual": {
+        "mode": "touch",
+        "reason": "ipad-with-touch-including-desktop-user-agent"
+      },
+      "pass": true
+    },
+    {
+      "name": "iPad native UA",
+      "signals": {
+        "userAgent": "Mozilla/5.0 (iPad; CPU OS 18_0)",
+        "platform": "iPad",
+        "maxTouchPoints": 5,
+        "coarsePointer": false,
+        "noHover": false
+      },
+      "expected": "touch",
+      "actual": {
+        "mode": "touch",
+        "reason": "ipad-with-touch-including-desktop-user-agent"
+      },
+      "pass": true
+    },
+    {
+      "name": "Android tablet",
+      "signals": {
+        "userAgent": "Mozilla/5.0 (Linux; Android 15) Safari",
+        "platform": "Win32",
+        "maxTouchPoints": 5,
+        "coarsePointer": true,
+        "noHover": true
+      },
+      "expected": "touch",
+      "actual": {
+        "mode": "touch",
+        "reason": "android-tablet-with-coarse-touch"
+      },
+      "pass": true
+    },
+    {
+      "name": "UA-CH mobile with actual touch",
+      "signals": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        "platform": "Win32",
+        "maxTouchPoints": 5,
+        "coarsePointer": false,
+        "noHover": false,
+        "userAgentMobile": true
+      },
+      "expected": "touch",
+      "actual": {
+        "mode": "touch",
+        "reason": "ua-client-hints-mobile-with-touch"
+      },
+      "pass": true
+    },
+    {
+      "name": "desktop",
+      "signals": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        "platform": "Win32",
+        "maxTouchPoints": 0,
+        "coarsePointer": false,
+        "noHover": false
+      },
+      "expected": "desktop",
+      "actual": {
+        "mode": "desktop",
+        "reason": "no-touch-capability"
+      },
+      "pass": true
+    },
+    {
+      "name": "narrow desktop still uses input capabilities",
+      "signals": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        "platform": "Win32",
+        "maxTouchPoints": 0,
+        "coarsePointer": false,
+        "noHover": false
+      },
+      "expected": "desktop",
+      "actual": {
+        "mode": "desktop",
+        "reason": "no-touch-capability"
+      },
+      "pass": true
+    },
+    {
+      "name": "Windows touchscreen laptop with primary fine pointer",
+      "signals": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        "platform": "Win32",
+        "maxTouchPoints": 10,
+        "coarsePointer": false,
+        "noHover": false
+      },
+      "expected": "desktop",
+      "actual": {
+        "mode": "desktop",
+        "reason": "primary-desktop-pointer"
+      },
+      "pass": true
+    },
+    {
+      "name": "Chromebook touchscreen with fine pointer",
+      "signals": {
+        "userAgent": "CrOS x86_64",
+        "platform": "Linux x86_64",
+        "maxTouchPoints": 10,
+        "coarsePointer": false,
+        "noHover": false
+      },
+      "expected": "desktop",
+      "actual": {
+        "mode": "desktop",
+        "reason": "primary-desktop-pointer"
+      },
+      "pass": true
+    },
+    {
+      "name": "phone UA without touchscreen",
+      "signals": {
+        "userAgent": "iPhone",
+        "platform": "Win32",
+        "maxTouchPoints": 0,
+        "coarsePointer": true,
+        "noHover": true
+      },
+      "expected": "desktop",
+      "actual": {
+        "mode": "desktop",
+        "reason": "no-touch-capability"
+      },
+      "pass": true
+    },
+    {
+      "name": "UA-CH mobile without touchscreen",
+      "signals": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        "platform": "Win32",
+        "maxTouchPoints": 0,
+        "coarsePointer": true,
+        "noHover": true,
+        "userAgentMobile": true
+      },
+      "expected": "desktop",
+      "actual": {
+        "mode": "desktop",
+        "reason": "no-touch-capability"
+      },
+      "pass": true
+    },
+    {
+      "name": "Mac desktop",
+      "signals": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        "platform": "MacIntel",
+        "maxTouchPoints": 0,
+        "coarsePointer": false,
+        "noHover": false
+      },
+      "expected": "desktop",
+      "actual": {
+        "mode": "desktop",
+        "reason": "no-touch-capability"
+      },
+      "pass": true
+    },
+    {
+      "name": "Windows tablet with primary coarse non-hover pointer",
+      "signals": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        "platform": "Win32",
+        "maxTouchPoints": 5,
+        "coarsePointer": true,
+        "noHover": true
+      },
+      "expected": "touch",
+      "actual": {
+        "mode": "touch",
+        "reason": "primary-coarse-touch-without-hover"
+      },
+      "pass": true
+    },
+    {
+      "name": "coarse hover-capable desktop device does not force touch",
+      "signals": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        "platform": "Win32",
+        "maxTouchPoints": 5,
+        "coarsePointer": true,
+        "noHover": false
+      },
+      "expected": "desktop",
+      "actual": {
+        "mode": "desktop",
+        "reason": "primary-desktop-pointer"
+      },
+      "pass": true
+    },
+    {
+      "name": "non-finite touch points do not enable touch",
+      "signals": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        "platform": "Win32",
+        "maxTouchPoints": null,
+        "coarsePointer": false,
+        "noHover": false,
+        "userAgentMobile": true
+      },
+      "expected": "desktop",
+      "actual": {
+        "mode": "desktop",
+        "reason": "no-touch-capability"
+      },
+      "pass": true
+    }
+  ],
+  "passed": true
+}

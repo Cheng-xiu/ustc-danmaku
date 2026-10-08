@@ -10,6 +10,10 @@ export class BrowserInput {
   private pendingRelease: (AimSelection & { owner: string }) | null = null;
   private pointerFacing: { x: number; y: number } | null = null;
   private keyboardFacing: { x: number; y: number } | null = null;
+  private touchMode = false;
+  private joystickX = 0;
+  private joystickY = 0;
+  private joystickFacing: { x: number; y: number } | null = null;
   private lastBoss: { x: number; y: number } | undefined;
   private pointerValid = false;
   private pointerPositionKnown = false;
@@ -36,7 +40,7 @@ export class BrowserInput {
     });
     this.listen(canvas, 'pointerdown', (event) => {
       const pointer = event as PointerEvent;
-      if (pointer.button === 0) {
+      if (this.acceptsMousePointer(pointer) && pointer.button === 0) {
         canvas.focus({ preventScroll: true });
         this.updatePointer(pointer);
       }
@@ -56,7 +60,14 @@ export class BrowserInput {
     this.disposers.push(() => target.removeEventListener(type, listener));
   }
 
+  private acceptsMousePointer(event: PointerEvent): boolean {
+    // Real touch/pen contacts must never become the desktop movement target.
+    // Empty pointerType keeps older synthetic fixtures and mouse callers valid.
+    return !this.touchMode && (!event.pointerType || event.pointerType === 'mouse');
+  }
+
   private updatePointer(event: PointerEvent): void {
+    if (!this.acceptsMousePointer(event)) return;
     const moved = !this.pointerPositionKnown || event.clientX !== this.pointerClientX || event.clientY !== this.pointerClientY;
     this.pointerClientX = event.clientX;
     this.pointerClientY = event.clientY;
@@ -87,6 +98,36 @@ export class BrowserInput {
     this.pointerX = point?.x ?? (this.pointerClientX - bounds.left) * 960 / bounds.width;
     this.pointerY = point?.y ?? (this.pointerClientY - bounds.top) * 720 / bounds.height;
     this.pointerValid = Number.isFinite(this.pointerX) && Number.isFinite(this.pointerY);
+  }
+
+  /** Device changes cancel every uncommitted edge; repeated assignment is safe. */
+  setTouchMode(enabled: boolean): void {
+    if (this.touchMode === enabled) return;
+    this.clear();
+    this.touchMode = enabled;
+  }
+
+  /** UI applies the radial dead zone/response curve; this guards the axis packet. */
+  setJoystick(x: number, y: number): void {
+    if (!this.touchMode) return;
+    if (!Number.isFinite(x) || !Number.isFinite(y)) { x = 0; y = 0; }
+    // Scale before hypot so even enormous finite inputs cannot overflow it.
+    const largest = Math.max(Math.abs(x), Math.abs(y));
+    if (largest > 1) { x /= largest; y /= largest; }
+    const length = Math.hypot(x, y);
+    if (length > 1) { x /= length; y /= length; }
+    const changed = x !== this.joystickX || y !== this.joystickY;
+    this.joystickX = x;
+    this.joystickY = y;
+    if (!changed || length === 0) return;
+    const magnitude = Math.hypot(x, y);
+    this.joystickFacing = { x: x / magnitude, y: y / magnitude };
+    // Returning to centre stops movement while retaining the held aim. Right
+    // hand events and Boss motion cannot alter this axis-derived direction.
+    if (this.selection) {
+      this.selection.dirX = this.joystickFacing.x;
+      this.selection.dirY = this.joystickFacing.y;
+    }
   }
 
   private keyDown(event: KeyboardEvent): void {
@@ -134,7 +175,7 @@ export class BrowserInput {
     this.rememberKeyboardFacing();
     // A new hold starts from the current Boss-to-mouse direction. Only this
     // boundary may rebase a stationary cursor; Boss motion during a hold cannot.
-    if (this.pointerPositionKnown && this.pointerValid) {
+    if (!this.touchMode && this.pointerPositionKnown && this.pointerValid) {
       this.projectPointer();
       const boss = this.callbacks.getBoss?.() ?? this.lastBoss;
       if (boss && this.pointerValid) {
@@ -143,7 +184,10 @@ export class BrowserInput {
         if (Number.isFinite(distance) && distance > 12) this.pointerFacing = { x: dx / distance, y: dy / distance };
       }
     }
-    const facing = this.pointerValid && this.pointerFacing ? this.pointerFacing : this.keyboardFacing ?? { x: 0, y: -1 };
+    const keyboard = this.keyboardMovement();
+    const facing = this.touchMode
+      ? keyboard.length > 0 ? { x: keyboard.moveX, y: keyboard.moveY } : this.joystickFacing ?? this.keyboardFacing ?? { x: 0, y: -1 }
+      : this.pointerValid && this.pointerFacing ? this.pointerFacing : this.keyboardFacing ?? { x: 0, y: -1 };
     // Latest press wins; a release from the replaced owner cannot fire this selection.
     this.selection = { pattern, owner, dirX: facing.x, dirY: facing.y };
   }
@@ -179,12 +223,14 @@ export class BrowserInput {
     if (boss && Number.isFinite(boss.x) && Number.isFinite(boss.y)) this.lastBoss = { x: boss.x, y: boss.y };
     // Resize can change the world projection without any new pointer event.
     // A cleared/cancelled pointer stays invalid until another pointer event.
-    if (this.pointerValid) this.projectPointer();
+    if (!this.touchMode && this.pointerValid) this.projectPointer();
     const { moveX, moveY, length } = this.keyboardMovement();
     this.rememberKeyboardFacing();
     const release = this.pendingRelease;
     const input: TickInput = {
-      moveX, moveY, pointerValid: length === 0 && this.pointerValid && (!boss || Math.hypot(this.pointerX - boss.x, this.pointerY - boss.y) > 12),
+      moveX: this.touchMode && length === 0 ? this.joystickX : moveX,
+      moveY: this.touchMode && length === 0 ? this.joystickY : moveY,
+      pointerValid: !this.touchMode && length === 0 && this.pointerValid && (!boss || Math.hypot(this.pointerX - boss.x, this.pointerY - boss.y) > 12),
       pointerX: this.pointerX, pointerY: this.pointerY, attacks: release ? 1 << release.pattern : this.pendingAttacks,
       aimValid: release !== null, aimX: release?.dirX ?? 0, aimY: release?.dirY ?? 0,
     };
@@ -200,6 +246,9 @@ export class BrowserInput {
     this.pointerPositionKnown = false;
     this.pointerFacing = null;
     this.keyboardFacing = null;
+    this.joystickX = 0;
+    this.joystickY = 0;
+    this.joystickFacing = null;
     this.lastBoss = undefined;
   }
 

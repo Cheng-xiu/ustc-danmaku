@@ -1,14 +1,19 @@
 import './style.css';
 import { loadCore } from './wasm/client';
 import { BrowserInput } from './input/browserInput';
+import { detectControlMode, type ControlMode } from './input/controlMode';
 import { FixedStepClock } from './runtime/gameLoop';
 import { GameScene } from './render/scene';
 import { HUD } from './ui/hud';
+import { TouchControls } from './ui/touchControls';
 import type { CoreClient, Phase, Snapshot, GameEvent, AimPreview } from './types';
 
 const arena = document.querySelector<HTMLElement>('#arena')!;
 const loading = document.querySelector<HTMLElement>('#load-status')!;
 const hud = new HUD(document.querySelector<HTMLElement>('#hud')!);
+const detectedControls = detectControlMode();
+let controlMode: ControlMode = detectedControls.mode;
+let automaticControls = true;
 let phase: Phase = 'menu';
 let reason = '';
 let reasonUntil = 0;
@@ -17,6 +22,7 @@ let aimPreview: AimPreview | null = null;
 let core: CoreClient;
 let scene: GameScene;
 let input: BrowserInput;
+let touchControls: TouchControls;
 const clock = new FixedStepClock();
 let lastTime = 0;
 let raf = 0;
@@ -47,10 +53,23 @@ function changePhase(next: Phase, message = '') {
   // Establish the baseline using the next RAF timestamp, from the same clock domain.
   lastTime = 0;
   input?.clear();
+  touchControls?.reset();
   aimPreview = null;
   scene?.drawAim(null);
   hud.renderAim(null, null);
   hud.render(snapshot, phase, reason);
+  touchControls?.render(snapshot, phase, null, null);
+}
+function setControlMode(mode: ControlMode, automatic = false) {
+  controlMode = mode;
+  automaticControls = automatic;
+  input?.setTouchMode(mode === 'touch');
+  touchControls?.setEnabled(mode === 'touch');
+  hud.setTouchMode(mode === 'touch');
+  // Changing controls cancels outstanding gestures and edges, keeping the
+  // current round and accepted C attack intact. Resize is display-only.
+  changePhase(phase);
+  resize();
 }
 function restart() {
   if (disposed) return;
@@ -131,6 +150,7 @@ function frame(now: number) {
     aimPreview = selection ? core.preview(selection.pattern, selection.dirX, selection.dirY) : null;
     scene.drawAim(aimPreview);
     hud.renderAim(selection, aimPreview);
+    touchControls.render(snapshot, phase, selection, aimPreview);
     const renderStart = performance.now();
     scene.render();
     const renderMs = performance.now() - renderStart;
@@ -149,19 +169,30 @@ async function boot() {
   [core, scene] = await Promise.all([loadCore(), GameScene.create(arena)]);
   input = new BrowserInput(scene.canvas, { pause: () => pause(), restart,
     isPlaying: () => phase === 'playing', getBoss: () => snapshot?.actors[0] }, (x, y) => scene.screenToWorld(x, y));
+  touchControls = new TouchControls(arena, {
+    joystick: (x, y) => input.setJoystick(x, y),
+    beginAim: (pattern, owner) => input.beginSelection(pattern, owner),
+    endAim: owner => input.endSelection(owner),
+    cancelAim: owner => input.cancelSelection(owner),
+  });
   hud.setCallbacks({ start, pause: () => pause(), restart,
     beginAim: (pattern, owner) => input.beginSelection(pattern, owner),
     endAim: owner => input.endSelection(owner),
-    cancelAim: owner => input.cancelSelection(owner) });
+    cancelAim: owner => input.cancelSelection(owner),
+    toggleControls: () => setControlMode(controlMode === 'touch' ? 'desktop' : 'touch') });
+  setControlMode(controlMode, true);
   snapshot = core.reset(20261006, 0, 3);
   loading.hidden = true;
   hud.render(snapshot, phase);
+  touchControls.render(snapshot, phase, null, null);
   scene.draw(snapshot);
   resize();
   raf = requestAnimationFrame(frame);
   // QA only reads the public display snapshot and timings. It cannot alter core state.
   if (new URLSearchParams(location.search).has('qa')) {
-    Object.assign(window, { __demo: { inspect: () => ({ phase, snapshot, samples: [...samples], reason, aim: input.getSelection(), preview: aimPreview }) } });
+    Object.assign(window, { __demo: { inspect: () => ({ phase, snapshot, samples: [...samples], reason,
+      aim: input.getSelection(), preview: aimPreview,
+      controlMode: { mode: controlMode, detectedMode: detectedControls.mode, reason: detectedControls.reason, automatic: automaticControls } }) } });
   }
   document.addEventListener('visibilitychange', () => {
     if (document.hidden && phase === 'playing') changePhase('paused', '页面已隐藏，战斗自动暂停。请点击继续。');
@@ -175,11 +206,12 @@ async function boot() {
     if (event.persisted) {
       if (phase === 'playing') changePhase('paused', '返回页面后，请点击继续对局。');
       input.clear();
-    } else { disposed = true; input.dispose(); core.dispose(); hud.dispose(); scene.destroy(); }
+      touchControls.reset();
+    } else { disposed = true; input.dispose(); touchControls.dispose(); core.dispose(); hud.dispose(); scene.destroy(); }
   });
   window.addEventListener('pageshow', (event: PageTransitionEvent) => {
     if (event.persisted) {
-      clock.reset(); lastTime = 0; input.clear();
+      clock.reset(); lastTime = 0; input.clear(); touchControls.reset();
       if (phase === 'playing') changePhase('paused', '返回页面后，请点击继续对局。');
       if (!raf) raf = requestAnimationFrame(frame);
     }

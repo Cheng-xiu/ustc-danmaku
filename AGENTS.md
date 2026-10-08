@@ -10,6 +10,7 @@
 - 2026-10-07 用户确认全窗口布局：顶部为能量、共享 CD 与操作栏，其余为战场；四招介绍放在开始菜单。新局按当前战场比例采用等面积场地，游戏中改变窗口比例则本局等比显示，重开再铺满。鼠标在顶部栏仍按方向移动，离开浏览器可观察范围保留最后位置，窗口失焦自动暂停；键盘移动优先。四招改为双环、分列墙、窄扇三连、扫描雨，费用 25/50/20/100，数值对照见 `docs/web-balance-findings-v5.md`。
 - 2026-10-07 用户要求按住 1–4/顶部技能按钮预瞄、松手发射、Space 取消；新一次预瞄初始方向从当前 Boss 指向鼠标，持有期间仅真实鼠标移动更新方向，Boss 移动/松手/resize 不自动转向。四招手动形状为前向160°宽弧、可转向分列墙、Boss 原点40°窄扇三连、可转向扫描雨。按住不扣费、不暂停世界；松手由 C 原子检查，几何/能量/CD 拒绝不补发。细节与同版证据见 docs/validation/aim-v6.md，v5 数值实验仅是历史对照。
 - 用户已要求 GitHub Pages 试玩站，发布方式与更新命令记录在 `docs/github-pages.md`。使用 `gh-pages` 根目录托管已提交且验证过的单文件，公开网址为 `https://cheng-xiu.github.io/ustc-danmaku/`；发布不改变玩法。
+- 2026-10-08 用户要求手机自动切换左侧虚拟摇杆，随后把右侧四按钮改为单个选招转盘。触屏模式使用浮动摇杆、径向死区与幅度调速，轴方向同时用于移动及预瞄；松杆停步并保留最近朝向，右指位置不能当作鼠标目标。按住转盘滑向四招预瞄、松开释放，中心未选时不发招；回中可撤选、再滑重新选，上滑至取消区或点击取消永久撤销该手势。取消保留摇杆移动，暂停/重开/失焦/旋转清手势。自动识别结合触屏能力、手机/iPad信号与主指针类型，不仅按窗口宽度判断；菜单和顶部允许手动切换。C配置仍v6/ABI5，相关说明和本轮证据见 `docs/mobile-controls.md`，不得用浏览器模拟声称已在实体手机真人试玩。
 - 首次承担项目任务时通读完整 PDF 和上述当前规划；网页任务同时阅读桥接、时钟、输入和任务所有权约定。修改玩法、物理、计分、AI 或交付要求前，核对相关章节及其相互约定。
 - README、聊天摘要、精简版 PDF 和 demo 图仅作索引或说明，不能替代完整规范。原规范中的 demo 图是设计示意，不能当作已运行或实测证据；已提供的 Windows Demo 源码及运行记录另按实际修订核对。
 
@@ -19,7 +20,7 @@
 - 根 `package.json` 是 npm workspace 和用户命令入口；当前唯一 JavaScript workspace 为 `apps/web`，名为 `@ustc-danmaku/web`。`apps/sim`、`apps/desktop` 和 C 包由 CMake 管理，不为它们制造空 npm 包。
 - 只在仓库根运行 `npm ci`，使用唯一根 `package-lock.json` 和根 `node_modules/`。依赖或脚本变更由母代理统一处理，不在 `apps/web` 另建锁文件、不另行安装，不引入未授权的 Turbo/Nx 等调度层。
 - `packages/core/sources.txt` 是 16 个共享 C/AI 源文件的唯一权威清单；相对路径以 `packages/core/` 为根。CMake 与 PowerShell 构建/打包脚本读取它，禁止另放一套完整清单，禁止让 Web 与仿真使用不同核心实现。
-- 根构建命令为 `npm run build`（Wasm → Web → 单文件）和 `npm run build:native`；根 `npm test` 执行构建、原生测试、输入、Native/Wasm 对照、浏览器与无尽回放。分步入口见 `docs/monorepo.md`，脚本行为与本轮实际日志为最终依据。
+- 根构建命令为 `npm run build`（Wasm → Web → 单文件）和 `npm run build:native`；根 `npm test` 执行构建、原生测试、输入、Native/Wasm 对照、浏览器、无尽回放及手机识别/输入/多指交互。分步入口见 `docs/monorepo.md`，脚本行为与本轮实际日志为最终依据。
 - `demo/ustc-danmaku.html` 是已提交交付物，常规构建生成 `build/release/ustc-danmaku-endless.html`；验收后才同步提交交付物并按 `scripts/publish-pages.mjs` 发布。配置 v6、ABI v5 及玩法不因目录迁移升级。
 - `docs/archive/`、旧版本验证报告、原始 JSON/日志和 `references/` 保留原路径与字节，不因迁移批量改写；日常指南使用新目录，历史路径按映射表解释。原 PDF 不改。迁移本身不代表完成机器学习环境、训练或自动 CI。
 

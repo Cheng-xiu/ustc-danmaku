@@ -6,8 +6,9 @@
 
 - [monorepo.md](monorepo.md)：`apps/` 与 `packages/` 职责、唯一根 npm 锁、16 文件共享 C 清单、统一构建及旧路径映射。
 - [monorepo-validation.md](monorepo-validation.md)：目录迁移后的根入口、13 项原生测试、输入、36,010 快照对照、282 项离线交互和启动/打包实测。
-- [repository-sync.md](repository-sync.md)：本轮源码、主线和 Pages 的最新同步状态，以其中实际提交、部署和验证记录为准。
+- [repository-sync.md](repository-sync.md)：手机适配前的 monorepo 主线同步记录；当前触控交付与验证见手机报告。
 - [web-demo-guide.md](web-demo-guide.md)：试玩、构建与部署。
+- [mobile-controls.md](mobile-controls.md)：手机自动识别、浮动摇杆、右侧选招转盘与多指浏览器验证。
 - [demo-rules.md](demo-rules.md)：当前唯一规则与集中参数。
 - [validation/aim-v6.md](validation/aim-v6.md)、[web-demo-validation.md](web-demo-validation.md)：v6 手动方向、释放事务、最终 HTML 与真实浏览器证据，保留所测修订身份。
 - [web-playability-findings.md](web-playability-findings.md)：当前无尽循环的游戏性评估与建议。

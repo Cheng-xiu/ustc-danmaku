@@ -62,7 +62,8 @@ npm.cmd test
 | `npm run test:browser` | 最终构建单文件的真实浏览器检查 | 构建单文件、Chrome |
 | `npm run test:endless` | 最终构建单文件的手动清波/下一波回放 | 构建单文件、Chrome |
 | `npm run test:monorepo` | 开发/预览/仓库/试玩包 HTTP 启动，端口透传与真实发招 | 完整构建、Chrome；每次创建新包目录 |
-| `npm test` | 完整构建 → 原生 → 输入 → 对照 → 浏览器 → 无尽 | 完整工具链 |
+| `npm run test:mobile` | 设备识别、手机输入与最终 HTML 多指浏览器交互 | Chrome、已构建单文件 |
+| `npm test` | 完整构建 → 原生 → 输入 → 对照 → 浏览器 → 无尽 → 手机 | 完整工具链 |
 | `npm run package:web -- -OutputRoot build/release-v6` | 可选静态包与 ZIP | 完成构建及验收，选择不存在的包路径 |
 | `npm run package:source -- -OutDir build/release-monorepo-source` | 源码与已有原生产物、逐文件哈希 | 选择不存在的输出路径；已有二进制记录为未核验来源 |
 

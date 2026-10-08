@@ -10,15 +10,18 @@
 
 界面铺满窗口，顶部显示能量和共享 CD，开始前展示四招介绍。鼠标移到顶部栏仍控制方向；WASD / 方向键优先；按住 1–4 或技能按钮预瞄，松开释放，Space 取消；Esc / 右键暂停；R 重开。初始 3 名学生，每清一波预告 2 秒并增加 1 名，最多 8 名后持续刷新。只有 Boss 死亡结束，没有胜利终点。
 
+手机自动显示触屏布局：左侧浮动摇杆移动并瞄准，轻推慢移、推远快移，松杆停步并保留朝向；按住右侧技能转盘，滑向四招之一预瞄，松开发射。回中撤选，上滑至取消区或按取消键撤销。顶部保留能量、共享CD、暂停和重开，菜单也可手动切换触屏/键鼠。手机与键鼠使用同一游戏核心，详见[手机操作与验证](docs/mobile-controls.md)。
+
 四招分别为前向宽弧双波（25）、分列弹墙（50）、定向窄扇三连（20）、全场扫描雨（100）。GPA = 4.30 × 累计击倒数 /（累计击倒数 + 20），越往后增长越慢，显示向下保留两位；时间、受伤和波次不参与计分。
 
 - [运行与构建指南](docs/web-demo-guide.md)
+- [手机操作、自动识别与实测](docs/mobile-controls.md)
 - [当前权威规则与试验参数](docs/demo-rules.md)
 - [本轮瞄准实测与玩法建议](docs/validation/aim-v6.md)
 - [工程验证](docs/web-demo-validation.md)
 - [真人试玩模板](docs/web-demo-playtest.md)
 - [官方校徽来源](docs/ustc-emblem-source.md)
-- [最新版仓库同步说明](docs/repository-sync.md)
+- [monorepo 主线同步记录](docs/repository-sync.md)
 
 ![当前预瞄实际画面](docs/assets/aim-v6-1440.png)
 

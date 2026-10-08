@@ -2,17 +2,18 @@ import type { AimPreview, AimSelection, Phase, Snapshot } from '../types';
 import './hud.css';
 
 export type HUDCallbacks = { start(): void; pause(): void; restart(): void;
-  beginAim(pattern: number, owner: string): void; endAim(owner: string): void; cancelAim(owner?: string): void };
+  beginAim(pattern: number, owner: string): void; endAim(owner: string): void; cancelAim(owner?: string): void;
+  toggleControls?(): void };
 const noop = () => {};
 const formatTime = (tick: number) => {
   const seconds = Math.floor(tick / 60);
   return `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`;
 };
 const patterns = [
-  { name: '绿色圆圈好辣', short: '环震', source: '桃李苑', purpose: '近中距宽弧', color: 'green', description: '按住后用鼠标确定方向，松开释放两波前向宽弧。靠近敌人寻找进攻机会，范围以场内预瞄为准。' },
-  { name: '课表华容道', short: '封路', source: '选课系统', purpose: '分列封路', color: 'purple', description: '沿鼠标方向压下分列弹墙，封住两带、留出一带。适合持续封锁路线，压制分散敌人。' },
-  { name: '绩点淘金', short: '速攻', source: '一教金矿', purpose: '单目标速攻', color: 'gold', description: '从角色位置向鼠标方向打出窄扇三连。消耗低，适合追击与收尾；距任一学生不足 120 时无法释放。' },
-  { name: '绩点淋浴', short: '弹雨', source: '期末总评', purpose: '满能量全场弹雨', color: 'blue', description: '攒满能量后沿鼠标方向释放大范围弹雨，保留公开的扫描缝隙。适合学生较多时集中压制。' },
+  { name: '绿色圆圈好辣', short: '环震', source: '桃李苑', purpose: '近中距宽弧', color: 'green', description: '按住后确定朝向，松开释放两波前向宽弧。靠近敌人寻找进攻机会，范围以场内预瞄为准。' },
+  { name: '课表华容道', short: '封路', source: '选课系统', purpose: '分列封路', color: 'purple', description: '沿所选方向压下分列弹墙，封住两带、留出一带。适合持续封锁路线，压制分散敌人。' },
+  { name: '绩点淘金', short: '速攻', source: '一教金矿', purpose: '单目标速攻', color: 'gold', description: '从角色位置向所选方向打出窄扇三连。消耗低，适合追击与收尾；距任一学生不足 120 时无法释放。' },
+  { name: '绩点淋浴', short: '弹雨', source: '期末总评', purpose: '满能量全场弹雨', color: 'blue', description: '攒满能量后沿所选方向释放大范围弹雨，保留公开的扫描缝隙。适合学生较多时集中压制。' },
 ];
 
 export class HUD {
@@ -32,6 +33,9 @@ export class HUD {
   private aimSelection: AimSelection | null = null;
   private aimPreview: AimPreview | null = null;
   private pointerHold: { id: number; owner: string; button: HTMLButtonElement } | null = null;
+  private touchMode = false;
+  private readonly actionHolds = new Map<HTMLButtonElement, number>();
+  private readonly pointerActions = new Set<HTMLButtonElement>();
   private readonly lookup = new Map<string, HTMLElement>();
 
   constructor(host: HTMLElement, callbacks?: HUDCallbacks) {
@@ -45,7 +49,7 @@ export class HUD {
       <section class="demo-cd-box" data-ui="cd-box"><div class="demo-meter-label"><span>共享出招 CD</span><strong data-ui="cd-text">就绪</strong></div><div class="demo-attack-track" data-ui="cd-track" role="progressbar" aria-label="当前招式剩余进度" aria-valuemin="0" aria-valuemax="100"><div data-ui="attack-fill"></div></div><div class="demo-attack-state" data-ui="attack-state">就绪 · 可选择下一招</div></section>
       <section class="demo-skills" aria-label="按住 1 到 4 预瞄，松开释放，空格取消"><div data-ui="skills"></div></section>
       <div class="demo-notice" data-ui="notice" role="status" aria-live="polite"></div>
-      <div class="demo-system-buttons"><button type="button" data-ui="pause">暂停 <kbd>Esc</kbd></button><button type="button" data-ui="restart">重开 <kbd>R</kbd></button></div>`;
+      <div class="demo-system-buttons"><button type="button" data-ui="controls-toggle" aria-label="当前键鼠操作，切换到触屏操作">键鼠</button><button type="button" data-ui="pause">暂停 <kbd>Esc</kbd></button><button type="button" data-ui="restart">重开 <kbd>R</kbd></button></div>`;
     host.append(this.panel);
     this.panel.querySelectorAll<HTMLElement>('[data-ui]').forEach((element) => this.lookup.set(element.dataset.ui!, element));
     patterns.forEach((pattern, index) => {
@@ -87,14 +91,23 @@ export class HUD {
       this.ui('student-list').append(row);
       this.students.push(row);
     }
-    this.ui('pause').addEventListener('click', () => this.callbacks.pause());
-    this.ui('restart').addEventListener('click', () => this.callbacks.restart());
+    this.bindAction(this.ui('pause') as HTMLButtonElement, () => this.callbacks.pause());
+    this.bindAction(this.ui('restart') as HTMLButtonElement, () => this.callbacks.restart());
+    this.bindAction(this.ui('controls-toggle') as HTMLButtonElement, () => this.callbacks.toggleControls?.());
     this.overlay = document.createElement('section');
     this.overlay.className = 'demo-status-overlay';
     this.overlay.setAttribute('aria-label', '游戏状态');
     this.overlay.innerHTML = `<div class="demo-status-card"><span class="demo-eyebrow" data-overlay="tag">科大弹幕录 · 无尽 Boss</span><h2 data-overlay="title">四招，撑到最后。</h2><p class="demo-overlay-description" data-overlay="description"></p><div class="demo-overlay-skills" data-overlay="skills">${patterns.map((pattern, index) => `<article class="demo-skill-guide ${pattern.color}"><div><kbd>${index + 1}</kbd><strong>${pattern.purpose}</strong><span data-guide-cost="${index}">— 能量</span></div><h3>${pattern.source} · ${pattern.name}</h3><p>${pattern.description}</p></article>`).join('')}</div><div class="demo-overlay-controls"><span><kbd>鼠标</kbd>移动并瞄准；预瞄中可继续用 WASD 走位</span><span><kbd>WASD / ↑↓←→</kbd>键盘八方向移动，不改变瞄准方向</span><span><kbd>按住 1 — 4</kbd>预瞄，松开释放；也可拖动技能按钮后松手</span><span><kbd>空格</kbd>取消预瞄 <kbd>Esc / 右键</kbd>暂停 <kbd>R</kbd>重开</span></div><dl class="demo-report" data-overlay="report" hidden><div><dt>最终 GPA</dt><dd data-report="gpa">0.00</dd></div><div><dt>存活时间</dt><dd data-report="time">00:00</dd></div><div><dt>到达波次 / 清空波次</dt><dd data-report="waves">1 / 0</dd></div><div><dt>累计击倒 / 累计派出</dt><dd data-report="kills">0 / 3</dd></div></dl><button type="button" class="demo-primary-action" data-overlay="action">开始试玩 <span>→</span></button><p class="demo-overlay-footnote">清波后增加 1 人，最多同时 8 人；生命耗尽时结算，无胜利终点。<br>GPA 只由累计击倒数决定；学生当前使用脚本 AI。</p></div>`;
+    const overlayModeButton = document.createElement('button');
+    overlayModeButton.type = 'button';
+    overlayModeButton.className = 'demo-overlay-mode';
+    overlayModeButton.dataset.overlay = 'controls-toggle';
+    overlayModeButton.textContent = '操作：键鼠';
+    overlayModeButton.setAttribute('aria-label', '当前键鼠操作，切换到触屏操作');
+    this.bindAction(overlayModeButton, () => this.callbacks.toggleControls?.());
+    this.overlay.querySelector('.demo-status-card')!.prepend(overlayModeButton);
     (host.parentElement ?? host).append(this.overlay);
-    this.overlay.querySelector<HTMLButtonElement>('[data-overlay="action"]')!.addEventListener('click', () => {
+    this.bindAction(this.overlay.querySelector<HTMLButtonElement>('[data-overlay="action"]')!, () => {
       if (this.previousPhase === 'menu') this.callbacks.start();
       else if (this.previousPhase === 'paused') this.callbacks.pause();
       else this.callbacks.restart();
@@ -103,6 +116,79 @@ export class HUD {
 
   private ui(name: string): HTMLElement { return this.lookup.get(name)!; }
   setCallbacks(callbacks: HUDCallbacks): void { this.callbacks = callbacks; }
+
+  private bindAction(button: HTMLButtonElement, action: () => void): void {
+    button.addEventListener('pointerdown', event => {
+      this.pointerActions.delete(button);
+      if (!this.touchMode || button.disabled || event.button !== 0 || this.actionHolds.has(button)) return;
+      event.preventDefault();
+      this.actionHolds.set(button, event.pointerId);
+      try { button.setPointerCapture(event.pointerId); }
+      catch { this.actionHolds.delete(button); }
+    });
+    button.addEventListener('pointerup', event => {
+      if (this.actionHolds.get(button) !== event.pointerId) return;
+      event.preventDefault();
+      this.actionHolds.delete(button);
+      if (button.hasPointerCapture(event.pointerId)) {
+        try { button.releasePointerCapture(event.pointerId); } catch { /* Already lost. */ }
+      }
+      const rect = button.getBoundingClientRect();
+      if (button.disabled || event.clientX < rect.left || event.clientX > rect.right
+        || event.clientY < rect.top || event.clientY > rect.bottom) return;
+      // Non-primary fingers do not receive a compatibility click. Activate
+      // here and remember to consume the optional later click from this tap.
+      this.pointerActions.add(button);
+      action();
+    });
+    const cancel = (event: PointerEvent) => {
+      if (this.actionHolds.get(button) === event.pointerId) this.actionHolds.delete(button);
+    };
+    button.addEventListener('pointercancel', cancel);
+    button.addEventListener('lostpointercapture', cancel);
+    button.addEventListener('click', event => {
+      const handled = this.pointerActions.delete(button);
+      if (handled && event.detail !== 0) { event.preventDefault(); return; }
+      action();
+    });
+  }
+
+  private clearActionHolds(): void {
+    const held = [...this.actionHolds];
+    this.actionHolds.clear();
+    for (const [button, id] of held) {
+      if (button.hasPointerCapture(id)) {
+        try { button.releasePointerCapture(id); } catch { /* Already lost. */ }
+      }
+    }
+  }
+
+  setTouchMode(enabled: boolean): void {
+    if (this.touchMode === enabled && this.panel.dataset.touchMode !== undefined) return;
+    this.clearPointerHold(true);
+    this.clearActionHolds();
+    this.touchMode = enabled;
+    this.panel.classList.toggle('touch-mode', enabled);
+    this.overlay.classList.toggle('touch-mode', enabled);
+    this.panel.dataset.touchMode = String(enabled);
+    this.overlay.dataset.touchMode = String(enabled);
+    this.ui('controls-toggle').textContent = enabled ? '触屏' : '键鼠';
+    this.ui('controls-toggle').setAttribute('aria-label', enabled ? '当前触屏操作，切换到键鼠操作' : '当前键鼠操作，切换到触屏操作');
+    this.ui('controls-toggle').setAttribute('aria-pressed', String(enabled));
+    const overlayModeButton = this.overlay.querySelector<HTMLElement>('[data-overlay="controls-toggle"]')!;
+    overlayModeButton.textContent = enabled ? '操作：触屏' : '操作：键鼠';
+    overlayModeButton.setAttribute('aria-label', this.ui('controls-toggle').getAttribute('aria-label')!);
+    overlayModeButton.setAttribute('aria-pressed', String(enabled));
+    this.overlay.querySelector<HTMLElement>('.demo-overlay-controls')!.innerHTML = enabled
+      ? '<span><kbd>左侧摇杆</kbd>拖动移动并改变朝向，轻推慢走，推远全速</span><span><kbd>右侧转盘</kbd>按住中心滑向选招：上 1、右 2、下 3、左 4；松手释放</span><span><kbd>回中撤选</kbd>手指回到转盘中心便不发射，可再滑动重新选招</span><span><kbd>再上滑取消</kbd>滑出转盘到上方取消区；松开摇杆停住并保留朝向</span>'
+      : '<span><kbd>鼠标</kbd>移动并瞄准；预瞄中可继续用 WASD 走位</span><span><kbd>WASD / ↑↓←→</kbd>键盘八方向移动，不改变瞄准方向</span><span><kbd>按住 1 — 4</kbd>预瞄，松开释放；也可拖动技能按钮后松手</span><span><kbd>空格</kbd>取消预瞄 <kbd>Esc / 右键</kbd>暂停 <kbd>R</kbd>重开</span>';
+    if (this.noticeUntil < 0) this.notice = enabled
+      ? '左手摇杆移动/瞄准，按住右转盘滑动选招；松手释放，回中撤选。'
+      : '按住 1—4 或技能按钮预瞄，松开释放；空格取消。';
+    const snapshot = this.previousSnapshot ?? null;
+    this.previousSnapshot = undefined;
+    this.render(snapshot, this.currentPhase, this.previousReason);
+  }
 
   private clearPointerHold(cancel: boolean): void {
     const held = this.pointerHold;
@@ -135,7 +221,7 @@ export class HUD {
         3: '当前没有存活学生', 4: '没有出招请求', 5: '瞄准方向无效',
       };
       const readiness = preview ? preview.valid ? '可释放' : `松手会拒绝：${reasons[preview.reason] ?? '当前无法释放'}` : '正在更新方向';
-      message = `按住预瞄 · 松开释放 · 空格取消 · ${patterns[selection.pattern]?.name ?? '技能'} · ${readiness}`;
+      message = `按住预瞄 · 松开释放 · ${this.touchMode ? '回中撤选' : '空格取消'} · ${patterns[selection.pattern]?.name ?? '技能'} · ${readiness}`;
       kind = preview?.valid === false ? 'aim-rejected' : 'aiming';
     }
     this.ui('notice').textContent = message;
@@ -155,6 +241,7 @@ export class HUD {
 
   render(snapshot: Snapshot | null, phase: Phase, reason = ''): void {
     if (snapshot === this.previousSnapshot && phase === this.previousPhase && reason === this.previousReason) return;
+    if (phase !== this.currentPhase) this.clearActionHolds();
     this.currentPhase = phase;
     if (phase !== 'playing') {
       this.clearPointerHold(true);
@@ -164,12 +251,13 @@ export class HUD {
     const stateText: Record<Phase, string> = { menu: '准备开始', playing: '无尽对局', paused: '已暂停', over: 'Boss 已倒下', error: '加载失败' };
     this.ui('phase').textContent = phase === 'playing' && snapshot?.wavePhase === 1 ? '下一波准备中' : stateText[phase];
     this.ui('phase').dataset.phase = phase;
-    this.ui('pause').textContent = phase === 'paused' ? '继续  Esc' : '暂停  Esc';
+    this.ui('pause').textContent = phase === 'paused' ? this.touchMode ? '继续' : '继续  Esc' : this.touchMode ? '暂停' : '暂停  Esc';
+    this.ui('restart').innerHTML = this.touchMode ? '重开' : '重开 <kbd>R</kbd>';
     (this.ui('pause') as HTMLButtonElement).disabled = phase !== 'playing' && phase !== 'paused';
     (this.ui('restart') as HTMLButtonElement).disabled = phase === 'error';
     if (snapshot) {
       if (snapshot.tick === 0 && (phase !== this.previousPhase || this.previousSnapshot?.tick !== 0)) {
-        this.notice = '按住 1—4 或技能按钮预瞄，松开释放；空格取消。';
+        this.notice = this.touchMode ? '左手摇杆移动/瞄准，按住右转盘滑动选招；松手释放，回中撤选。' : '按住 1—4 或技能按钮预瞄，松开释放；空格取消。';
         this.noticeKind = '';
         this.lastEvent = '';
         this.noticeUntil = -1;
@@ -209,7 +297,7 @@ export class HUD {
           : snapshot.available[index] ? '就绪' : '站位';
         button.querySelector('.demo-skill-status')!.textContent = status;
         button.dataset.baseStatus = status;
-        button.title = `${index + 1} · ${patterns[index].name}，消耗 ${snapshot.costs[index]} 能量；${status}。按住预瞄，松开释放，空格取消。`;
+        button.title = `${index + 1} · ${patterns[index].name}，消耗 ${snapshot.costs[index]} 能量；${status}。${this.touchMode ? '转盘滑动选招，松开释放，回中撤选。' : '按住预瞄，松开释放，空格取消。'}`;
         button.setAttribute('aria-label', button.title);
         this.overlay.querySelector<HTMLElement>(`[data-guide-cost="${index}"]`)!.textContent = `${snapshot.costs[index]} 能量`;
       });
@@ -278,7 +366,7 @@ export class HUD {
         this.ui('attack-state').textContent = '本局已结束 · 重开可再次挑战';
         this.ui('cd-text').textContent = '结束';
         this.ui('energy-caption').textContent = '本局结束 · 生命与能量已冻结';
-        this.notice = `最终 GPA ${(snapshot.gpaHundredths / 100).toFixed(2)}，累计击倒 ${snapshot.kills} 人。按 R 开始新的一局。`;
+        this.notice = `最终 GPA ${(snapshot.gpaHundredths / 100).toFixed(2)}，累计击倒 ${snapshot.kills} 人。${this.touchMode ? '点重开' : '按 R'}开始新的一局。`;
         this.noticeKind = '';
       }
     } else {
@@ -298,7 +386,9 @@ export class HUD {
     report.hidden = phase !== 'over';
     if (phase === 'menu') {
       tag.textContent = '科大弹幕录 · 无尽 Boss'; title.textContent = '四招，撑到最后。';
-      description.textContent = '你操控校徽 Boss，躲开学生反击。按住 1—4 或技能按钮，用鼠标预瞄，松开释放，空格取消。四招共享能量与出招 CD；击倒学生提升 GPA，逐渐趋近 4.30。第四招需要 100 能量。';
+      description.textContent = this.touchMode
+        ? '你操控校徽 Boss，躲开学生反击。左手摇杆移动并瞄准；右手按住转盘中心，滑向四招选招，松手释放。回中撤选，再向上滑出盘可取消本次操作。松开摇杆停住并保留朝向。四招共享能量与出招 CD；击倒学生提升 GPA，逐渐趋近 4.30。第四招需要 100 能量。'
+        : '你操控校徽 Boss，躲开学生反击。按住 1—4 或技能按钮，用鼠标预瞄，松开释放，空格取消。四招共享能量与出招 CD；击倒学生提升 GPA，逐渐趋近 4.30。第四招需要 100 能量。';
       action.innerHTML = '开始试玩 <span>→</span>';
     } else if (phase === 'paused') {
       tag.textContent = 'PAUSED'; title.textContent = '喘口气，再继续。';
@@ -326,5 +416,5 @@ export class HUD {
     this.previousReason = reason;
   }
 
-  dispose(): void { this.clearPointerHold(true); this.panel.remove(); this.overlay.remove(); }
+  dispose(): void { this.clearPointerHold(true); this.clearActionHolds(); this.panel.remove(); this.overlay.remove(); }
 }

@@ -23,6 +23,8 @@
 
 ## 二、阅读与既有授权
 
+2026-10-08 用户增加手机适配并指定右侧选招转盘；增量任务须先读 `docs/mobile-controls.md`。手机自动识别结合touch能力、手机/iPad信号与主指针，窄桌面窗口不自动触屏；菜单/顶部手动切换。左侧浮动摇杆用现有move轴控制移动幅度和朝向，右侧按住转盘滑向上1/右2/下3/左4预瞄，松手释放当前选择；中心未选不发招、回中撤选可再滑，上滑取消区/取消键永久撤销手势。换扇区不发旧招，右指位置不得进入鼠标投影；松杆停步且方向保留，系统阶段切换清全部手势。手机不修改C配置、ABI、AI或计分；真实多指浏览器检查与实体手机/真人体验须分别报告。
+
 先核实 Git 远端、分支和未提交修改，再读：
 
 1. 适用的 `AGENTS.md`；完整 `references/project-spec-v3.1.pdf`，可配合 `docs/project-spec-v3.1.md` 检索。已经完成过阅读可复用，疑问处核对原 PDF。
@@ -69,7 +71,7 @@
 
 - 记录选定源码基线、配置版本、已有失败、工具链和可复跑命令。必要修复独立记录，不把“历史报告通过”当成当前检查。
 - 冻结依赖/锁文件、同一16文件纯C清单、demo_reset_sized/demo_step_aim/demo_preview等ABI5导出；记录初始化、尺寸、拒绝和buffer有效期。显示可以投影已公布波次及玩家候选rays，不导出隐藏RNG或AI不该知道的未来；AI观察另定。
-- 冻结根 workspace 与命令：Node 22.12+/npm 10+，只在根运行 `npm ci`，不在 `apps/web` 另建锁或另行安装。`npm run build` 顺序构建 Wasm→Web→单文件 `build/release/ustc-danmaku-endless.html`；`npm test` 顺序构建、原生、输入、Native/Wasm 对照、浏览器与无尽。CMake/PowerShell 读取 `packages/core/sources.txt`；仅沿用现有 npm/CMake，不引入 Turbo/Nx 或臆造 ML 应用、自动 CI。
+- 冻结根 workspace 与命令：Node 22.12+/npm 10+，只在根运行 `npm ci`，不在 `apps/web` 另建锁或另行安装。`npm run build` 顺序构建 Wasm→Web→单文件 `build/release/ustc-danmaku-endless.html`；`npm test` 顺序构建、原生、输入、Native/Wasm 对照、浏览器、无尽和手机多指交互。CMake/PowerShell 读取 `packages/core/sources.txt`；仅沿用现有 npm/CMake，不引入 Turbo/Nx 或臆造 ML 应用、自动 CI。
 - 迁移或修改构建/打包入口后，另跑根 `npm run test:monorepo` 检查真实开发、预览、仓库及下载包 HTTP 入口；源码打包使用 `npm run package:source`。各检查结果关联当前输出和受测修订，不覆盖历史报告。
 - 复用 `packages/wasm/bridge_probe.c` 与当前正式 ABI v5 导出，让 W01 独立验证现有核心/桥接。生命周期、快照、公开预警及预瞄均在 `packages/wasm/demo_bridge.c`，加载和严格解码均在 `apps/web/src/wasm/client.ts`，分别由同一写入者维护。性能入口是 `apps/web/bench.html` 与 `apps/web/src/bench.ts`。接口改变后更新导出并重跑探针，探针不能代替玩法验收。
 - 公共桥接头、TS 共有类型、预警字段和任务卡由你维护。已有 `WorldView` 含 C 指针，必须有明确批量快照，不猜偏移和对齐。
