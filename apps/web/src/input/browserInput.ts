@@ -224,13 +224,15 @@ export class BrowserInput {
     // Resize can change the world projection without any new pointer event.
     // A cleared/cancelled pointer stays invalid until another pointer event.
     if (!this.touchMode && this.pointerValid) this.projectPointer();
-    const { moveX, moveY, length } = this.keyboardMovement();
-    this.rememberKeyboardFacing();
+       const keyboard = this.keyboardMovement();
+    const { moveX, moveY } = keyboard;
     const release = this.pendingRelease;
     const input: TickInput = {
-      moveX: this.touchMode && length === 0 ? this.joystickX : moveX,
-      moveY: this.touchMode && length === 0 ? this.joystickY : moveY,
-      pointerValid: !this.touchMode && length === 0 && this.pointerValid && (!boss || Math.hypot(this.pointerX - boss.x, this.pointerY - boss.y) > 12),
+      // 键盘始终驱动移动（含触屏未拨摇杆时回退键盘）。
+      // 桌面端鼠标不再参与移动：pointerValid 恒为 false。
+      moveX: this.touchMode && keyboard.length === 0 ? this.joystickX : moveX,
+      moveY: this.touchMode && keyboard.length === 0 ? this.joystickY : moveY,
+      pointerValid: false,
       pointerX: this.pointerX, pointerY: this.pointerY, attacks: release ? 1 << release.pattern : this.pendingAttacks,
       aimValid: release !== null, aimX: release?.dirX ?? 0, aimY: release?.dirY ?? 0,
     };
