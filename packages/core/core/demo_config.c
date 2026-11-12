@@ -121,7 +121,7 @@ bool demo_config_init(DemoConfig *cfg) {
     cfg->boss_hp = 6;
     cfg->boss_hurt_invuln_ticks = 36; /* 0.6 s: demo 手感, 记录为试验值 */
     cfg->boss_speed = 270.0f;         /* 复现移动速度 */
-    cfg->pointer_to_position = true;  /* 指针到位置(鼠标摇杆, florr 风格) */
+    cfg->pointer_to_position = false;  /* 指针到位置(鼠标摇杆, florr 风格) */
     cfg->pointer_deadzone = 12.0f;
     cfg->pointer_saturate = 60.0f;
 
