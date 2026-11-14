@@ -1,6 +1,8 @@
 import { Container, Graphics, Text } from 'pixi.js';
 import type { AimPreview, WarningRay } from '../types';
 import { PATTERN_COLORS } from './warnings';
+/** Length of the short direction segments shown for each preview ray (px). */
+const AIM_SEGMENT_LENGTH = 240;
 
 /** A faint display of C's candidate rays. It never constructs an attack plan. */
 export class AimPreviewLayer extends Container {
@@ -32,13 +34,13 @@ export class AimPreviewLayer extends Container {
     // Only public first-wave paths are shown. Wide translucent strokes express
     // each ray's actual radius; gaps stay empty rather than filling a hull.
     for (const ray of rays) {
-      const segment = clipRay(ray, preview.fieldW, preview.fieldH);
+      const segment = directionalSegment(ray, AIM_SEGMENT_LENGTH);
       if (!segment) continue;
       this.paths.moveTo(segment[0], segment[1]).lineTo(segment[2], segment[3])
         .stroke({ width: Math.max(2, ray.radius * 2), color, alpha: preview.valid ? .06 : .035 });
     }
     for (const ray of rays) {
-      const segment = clipRay(ray, preview.fieldW, preview.fieldH);
+      const segment = directionalSegment(ray, AIM_SEGMENT_LENGTH);
       if (segment) this.paths.moveTo(segment[0], segment[1]).lineTo(segment[2], segment[3]);
     }
     this.paths.stroke({ width: 1, color, alpha: preview.valid ? .30 : .16 });
@@ -103,4 +105,11 @@ function clipRay(ray: Pick<WarningRay, 'x' | 'y' | 'vx' | 'vy'>, width: number, 
   }
   if (far < near || !Number.isFinite(far)) return null;
   return [ray.x + ray.vx * near, ray.y + ray.vy * near, ray.x + ray.vx * far, ray.y + ray.vy * far];
+}
+/** A short direction segment from a ray's origin along its velocity, capped at `length` px. */
+function directionalSegment(ray: Pick<WarningRay, 'x' | 'y' | 'vx' | 'vy'>, length: number): [number, number, number, number] | null {
+  const len = Math.hypot(ray.vx, ray.vy);
+  if (!(len > 1e-8)) return null;
+  const ux = ray.vx / len, uy = ray.vy / len;
+  return [ray.x, ray.y, ray.x + ux * length, ray.y + uy * length];
 }

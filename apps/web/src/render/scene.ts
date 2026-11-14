@@ -25,6 +25,8 @@ export class GameScene {
   private readonly spawnMarkers = new Graphics();
   private readonly spawnLabel = new Text({ text: '', style: { fontFamily: 'Microsoft YaHei, Arial, sans-serif', fontSize: 14, fill: 0xb7deef, fontWeight: '600' } });
   private readonly hitEffects = new Graphics();
+  private readonly aimHighlight = new Graphics();
+  private currentPreview: AimPreview | null = null;
   private readonly attackLabel = new Text({ text: '', style: { fontFamily: 'Microsoft YaHei, Arial, sans-serif', fontSize: 12, fill: 0xc2d4e4, fontWeight: '500' } });
   private readonly targetLabel = new Text({ text: '', style: { fontFamily: 'Microsoft YaHei, Arial, sans-serif', fontSize: 9, fill: 0xd9ae75 } });
   private readonly projectiles: ProjectileLayer;
@@ -55,7 +57,7 @@ export class GameScene {
     const studentBullet = this.makeBulletTexture(0xff7698, 4);
     this.projectiles = new ProjectileLayer(bulletTextures, studentBullet);
     this.makeBackground();
-    app.stage.addChild(this.aimPreview, this.warnings, this.spawnMarkers, this.projectiles, this.actorLayer, this.targets, this.hitEffects);
+        app.stage.addChild(this.aimPreview, this.warnings, this.spawnMarkers, this.projectiles, this.actorLayer, this.targets, this.aimHighlight, this.hitEffects);
     this.attackLabel.anchor.set(0.5, 0);
     this.attackLabel.position.set(480, 34);
     this.targetLabel.anchor.set(0.5, 0);
@@ -154,7 +156,8 @@ export class GameScene {
     }
     this.lastTick = snapshot.tick;
     this.warnings.update(snapshot);
-    this.projectiles.update(snapshot.bullets);
+    this.drawAimHighlight(snapshot);
+    this.projectiles.update(snapshot.bullets);   
     for (const actor of snapshot.actors) this.drawActor(actor, snapshot.tick);
     const currentIds = new Set(snapshot.actors.map((actor) => actor.id));
     for (const [id, display] of this.actorDisplays) {
@@ -180,9 +183,35 @@ export class GameScene {
     this.attackLabel.style.fill = PATTERN_COLORS[snapshot.pattern] ?? 0xc2d4e4;
   }
 
-  /** C provides candidate geometry; this layer only displays it before release. */
-  drawAim(preview: AimPreview | null): void { this.aimPreview.update(preview); }
 
+  /** C provides candidate geometry; this layer only displays it before release. */
+  drawAim(preview: AimPreview | null): void { this.currentPreview = preview; this.aimPreview.update(preview); }
+
+  /** Scheme A: highlight students near the aimed direction so the player sees whom the current hold is facing. */
+  private drawAimHighlight(snapshot: Snapshot): void {
+    this.aimHighlight.clear();
+    const preview = this.currentPreview;
+    if (!preview || !preview.valid) return;
+    const { originX, originY, dirX, dirY, pattern } = preview;
+    const len = Math.hypot(dirX, dirY);
+    if (!(len > 1e-6)) return;
+    const ux = dirX / len, uy = dirY / len;
+    const color = PATTERN_COLORS[pattern] ?? 0xa6d2ef;
+    const cosAngle = Math.cos((18 * Math.PI) / 180);
+    const maxDist = 420;
+    for (const actor of snapshot.actors) {
+      if (!actor.alive || actor.faction === 1) continue; // skip the boss
+      const dx = actor.x - originX, dy = actor.y - originY;
+      const d = Math.hypot(dx, dy);
+      if (d < 1e-3 || d > maxDist) continue;
+      const dot = (dx * ux + dy * uy) / d;
+      if (dot < cosAngle) continue;
+      const r = actor.radius + 6;
+      const pulse = (snapshot.tick % 40) / 40;
+      this.aimHighlight.circle(actor.x, actor.y, r).stroke({ color, width: 2, alpha: 0.5 + 0.4 * (1 - pulse) });
+      this.aimHighlight.circle(actor.x, actor.y, 3).fill({ color, alpha: 0.9 });
+    }
+  }
   private drawActor(actor: Actor, tick: number): void {
     let display = this.actorDisplays.get(actor.id);
     const boss = actor.faction === 1;
@@ -269,6 +298,8 @@ export class GameScene {
   reset(): void {
     this.hits = [];
     this.lastTick = -1;
+    this.currentPreview = null;
+    this.aimHighlight.clear();
     this.warnings.reset();
     this.aimPreview.reset();
     this.warnings.visible = false;
